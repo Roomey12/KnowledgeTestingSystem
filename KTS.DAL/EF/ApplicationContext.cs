@@ -1,6 +1,7 @@
 ﻿using KTS.DAL.Configuration;
 using KTS.DAL.Entities;
 using KTS.DAL.Repositories;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -9,9 +10,8 @@ using System.Text;
 
 namespace KTS.DAL.EF
 {
-    public class ApplicationContext : DbContext
+    public class ApplicationContext : IdentityDbContext<User>
     {
-        public DbSet<User> Users { get; set; }
         public DbSet<Test> Tests { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
@@ -20,7 +20,7 @@ namespace KTS.DAL.EF
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
 
         public ApplicationContext()
@@ -33,21 +33,21 @@ namespace KTS.DAL.EF
             Test test1 = new Test(1, "ООП", 5, "Простой тест по Объектно-Ориентированому Программированию.", new DateTime(2020, 03, 20, 0, 10, 0));
             Test test2 = new Test(2, "C# Легкий", 3, "Простой тест по языку программирования C#.", new DateTime(2020, 03, 20, 0, 5, 0));
 
-            Question t1q1 = new Question(1, "Какими бывают отношения между классами (укажите все подходящие варианты)?", 1);
-            Question t1q2 = new Question(2, "Метод определения объектов, при котором производные объекты наследуют свойства от своих потомков&", 1);
-            Question t1q3 = new Question(3, "Совокупность объектов, характеризующаяся общностью методов и свойств&", 1);
-            Question t1q4 = new Question(4, "Действие, которое может выполнить объект&", 1);
-            Question t1q5 = new Question(5, "Свойство, при котором объекты содержат описание атрибутов и действий одновременно&", 1);
+            Question t1q1 = new Question(1, "Какими бывают отношения между классами (укажите все подходящие варианты)?", 1, false);
+            Question t1q2 = new Question(2, "Метод определения объектов, при котором производные объекты наследуют свойства от своих потомков?", 1, true);
+            Question t1q3 = new Question(3, "Совокупность объектов, характеризующаяся общностью методов и свойств?", 1, true);
+            Question t1q4 = new Question(4, "Действие, которое может выполнить объект?", 1, true);
+            Question t1q5 = new Question(5, "Свойство, при котором объекты содержат описание атрибутов и действий одновременно?", 1, true);
 
-            Question t2q1 = new Question(6, "Что делает модификатор sealed?", 2);
-            Question t2q2 = new Question(7, "Какой способ вызова исключения является корректным?", 2);
-            Question t2q3 = new Question(8, "Можно ли сделать перегрузку операторов true и false?", 2);
+            Question t2q1 = new Question(6, "Что делает модификатор sealed?", 2, true);
+            Question t2q2 = new Question(7, "Какой способ вызова исключения является корректным?", 2, true);
+            Question t2q3 = new Question(8, "Можно ли сделать перегрузку операторов true и false?", 2, true);
 
             Answer a1t1q1 = new Answer(1, "Агрегация", true, 0.33, 1);
             Answer a2t1q1 = new Answer(2, "Ассоциация", true, 0.33, 1);
-            Answer a3t1q1 = new Answer(3, "Специализация", false, 0, 1);
+            Answer a3t1q1 = new Answer(3, "Специализация", false, -0.5, 1);
             Answer a4t1q1 = new Answer(4, "Наследование", true, 0.34, 1);
-            Answer a5t1q1 = new Answer(5, "Абстракция", false, 0, 1);
+            Answer a5t1q1 = new Answer(5, "Абстракция", false, -0.5, 1);
 
             Answer a1t1q2 = new Answer(6, "Монорфизм", false, 0, 2);
             Answer a2t1q2 = new Answer(7, "Полиморфизм", false, 0, 2);
@@ -81,6 +81,7 @@ namespace KTS.DAL.EF
             modelBuilder.ApplyConfiguration(new TestConfiguration());
             modelBuilder.ApplyConfiguration(new QuestionConfiguration());
             modelBuilder.ApplyConfiguration(new AnswerConfiguration());
+            base.OnModelCreating(modelBuilder);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

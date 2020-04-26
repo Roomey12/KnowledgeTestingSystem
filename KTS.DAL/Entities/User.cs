@@ -1,14 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace KTS.DAL.Entities
 {
-    public class User
+    public class User : IdentityUser
     {
-        public int UserId { get; set; }
-        public string Email { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
+
     }
 }

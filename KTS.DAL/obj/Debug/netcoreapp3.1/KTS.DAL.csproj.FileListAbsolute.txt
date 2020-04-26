@@ -8,3 +8,5 @@ C:\Users\roomey\Desktop\c#\KnowledgeTestingSystem\KTS.DAL\bin\Debug\netcoreapp3.
 C:\Users\roomey\Desktop\c#\KnowledgeTestingSystem\KTS.DAL\bin\Debug\netcoreapp3.1\KTS.DAL.pdb
 C:\Users\roomey\Desktop\c#\KnowledgeTestingSystem\KTS.DAL\obj\Debug\netcoreapp3.1\KTS.DAL.dll
 C:\Users\roomey\Desktop\c#\KnowledgeTestingSystem\KTS.DAL\obj\Debug\netcoreapp3.1\KTS.DAL.pdb
+C:\Users\roomey\Desktop\c#\KnowledgeTestingSystem\KTS.DAL\obj\Debug\netcoreapp3.1\KTS.DAL.genruntimeconfig.cache
+C:\Users\roomey\Desktop\c#\KnowledgeTestingSystem\KTS.DAL\obj\Debug\netcoreapp3.1\KTS.DAL.csproj.CoreCompileInputs.cache

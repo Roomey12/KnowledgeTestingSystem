@@ -1,10 +1,12 @@
-﻿using System;
+﻿using KTS.BLL.DTO;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace KTS.BLL.Interfaces
 {
-    interface IAnswerService
+    public interface IAnswerService
     {
+        AnswerDTO GetAnswerById(int id);
     }
 }

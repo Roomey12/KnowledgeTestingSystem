@@ -9,6 +9,7 @@ namespace KTS.DAL.Entities
     {
         public int QuestionId { get; set; }
         public string Content { get; set; }
+        public bool IsSingle { get; set; }
 
         public int TestId { get; set; }
         public Test Test { get; set; }
@@ -16,11 +17,12 @@ namespace KTS.DAL.Entities
 
         public static List<Question> ExistingQuestions = new List<Question>();
 
-        public Question(int questionId, string content, int testId)
+        public Question(int questionId, string content, int testId, bool isSingle)
         {
             QuestionId = questionId;
             Content = content;
             TestId = testId;
+            IsSingle = isSingle;
             ExistingQuestions.Add(this);
         }
 
