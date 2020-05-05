@@ -68,6 +68,10 @@
               "target": "Package",
               "version": "[2.2.0, )"
             },
+            "Microsoft.Owin": {
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
             "System.Configuration.ConfigurationManager": {
               "target": "Package",
               "version": "[4.7.0, )"

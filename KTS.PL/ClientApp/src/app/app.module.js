@@ -6,24 +6,30 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AppComponent } from './app.component';
-import { TestStartComponent } from './test-start.component';
-import { TestListComponent } from './test-list.component';
+import { AppComponent } from './components/app.component';
+import { TestStartComponent } from './components/test-start.component';
+import { TestListComponent } from './components/test-list.component';
+import { RegistrationComponent } from './components/registration.component';
+import { LoginComponent } from './components/login.component';
+import { Login2Component } from './components/login2.component';
 const appRoutes = [
     { path: '', component: TestListComponent },
     { path: 'teststart/:id', component: TestStartComponent },
+    { path: 'registration', component: RegistrationComponent },
+    { path: 'login', component: LoginComponent },
+    { path: 'login2', component: Login2Component },
     { path: '**', redirectTo: '/' }
 ];
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     NgModule({
-        imports: [BrowserModule, [CommonModule], FormsModule, HttpClientModule, RouterModule.forRoot(appRoutes)],
-        declarations: [AppComponent, TestListComponent, TestStartComponent],
+        imports: [BrowserModule, [CommonModule], FormsModule, HttpClientModule, RouterModule.forRoot(appRoutes), ReactiveFormsModule],
+        declarations: [AppComponent, TestListComponent, TestStartComponent, RegistrationComponent, LoginComponent, Login2Component],
         bootstrap: [AppComponent]
     })
 ], AppModule);

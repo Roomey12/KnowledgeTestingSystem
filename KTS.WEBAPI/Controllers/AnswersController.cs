@@ -14,7 +14,7 @@ namespace KTS.WEBAPI.Controllers
     [ApiController]
     public class AnswersController : ControllerBase
     {
-        private readonly IAnswerService _answerService;
+        private IAnswerService _answerService;
 
         IMapper mapper = new MapperConfiguration(cfg =>
         {
