@@ -1,0 +1,36 @@
+<nav class="navbar navbar-dark bg-dark">
+  <a class="navbar-brand text-white">Knowledge Testing System</a>
+  <ul class="navbar-nav mr-auto">
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/admin-panel">Admin Panel</a>
+    </li>
+  </ul>
+  <button class="btn btn-danger my-2 my-sm-0" (click)="onLogout()">Logout</button>
+</nav>
+  
+<div class="card m-5" style="width:18rem" *ngIf="userDetails">
+  <ul class="list-group">
+    <li class="list-group-item"><strong>Username : </strong>{{userDetails.userName}}</li>
+    <li class="list-group-item"><strong>Email : </strong>{{userDetails.email}}</li>
+  </ul>
+</div>
+
+<h1>Список тестов</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Тест</td>
+            <td>Описание</td>
+            <td>Бал</td>
+            <td>Время</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let t of tests">
+            <td><a routerLink="/teststart/{{t.testId}}" class="nav-link">{{t?.title}}</a></td>
+            <td>{{t?.description}}</td>
+            <td>{{t?.maxScore}}</td>
+            <td>{{t?.maxTime.substring(14)}}</td>
+        </tr>
+    </tbody>
+</table>

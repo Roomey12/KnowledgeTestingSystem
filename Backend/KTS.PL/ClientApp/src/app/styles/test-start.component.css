@@ -1,0 +1,58 @@
+﻿#timer-wrapper {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+    position: fixed;
+    top: 15%;
+    right: 0%;
+    transform: translate(-50%, -50%);
+}
+
+.countdown {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.countdown span {
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 3rem;
+    margin-left: 0.8rem;
+}
+
+.countdown span:first-of-type {
+    margin-left: 0;
+}
+
+.bg-gradient-1 {
+    background: #7f7fd5;
+    background: -webkit-linear-gradient(to right, #7f7fd5, #86a8e7, #91eae4);
+    background: linear-gradient(to right, #7f7fd5, #86a8e7, #91eae4);
+}
+
+.bg-gradient-2 {
+    background: #654ea3;
+    background: -webkit-linear-gradient(to right, #654ea3, #eaafc8);
+    background: linear-gradient(to right, #654ea3, #eaafc8);
+}
+
+.bg-gradient-3 {
+    background: #ff416c;
+    background: -webkit-linear-gradient(to right, #311122, #ff4b2b);
+    background: linear-gradient(to right, #311122, #ff4b2b);
+}
+
+.bg-gradient-4 {
+    background: #007991;
+    background: -webkit-linear-gradient(to right, #007991, #78ffd6);
+    background: linear-gradient(to right, #007991, #78ffd6);
+}
+
+.rounded {
+    border-radius: 1rem !important;
+}
+
+#time {
+    font-size: 28px;
+}
