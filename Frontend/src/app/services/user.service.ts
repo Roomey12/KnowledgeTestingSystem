@@ -49,6 +49,14 @@ export class UserService {
     return this.http.get(this.BaseURI + '/UserProfile');
   }
 
+  getUserTests(){
+    return this.http.get(this.BaseURI + '/UserProfile/usertests');
+  }
+
+  getUserTestsByUserId(id: string){
+    return this.http.get(this.BaseURI + '/UserProfile/usertests/' + id);
+  }
+
   roleMatch(allowedRoles): boolean {
     var isMatch = false;
     var payLoad = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));

@@ -13,12 +13,14 @@ export class HomeComponent implements OnInit {
 
   userDetails;
   tests: Test[];   
+  userTests;
 
-  constructor(private router: Router, private service: UserService, private testService: TestService) { }
+  constructor(private router: Router, private userService: UserService, private testService: TestService) { }
 
   ngOnInit() {
-    this.loadProducts();
-    this.service.getUserProfile().subscribe(
+    this.loadTests();
+    this.loadUserTests();
+    this.userService.getUserProfile().subscribe(
       res => {
         this.userDetails = res;
       },
@@ -29,11 +31,19 @@ export class HomeComponent implements OnInit {
   }
 
     //получаем данные через сервис
-  loadProducts() {
+  loadTests() {
     this.testService.getTests()
         .subscribe((data: Test[]) => {
             this.tests = data;
         });
+  }
+  
+  loadUserTests(){
+    this.userService.getUserTests()
+      .subscribe((data: object[]) =>{
+         this.userTests = data;
+         console.log(data);
+      })
   }
 
   onLogout() {

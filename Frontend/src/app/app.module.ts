@@ -24,6 +24,7 @@ import { AdminService } from './services/admin.service';
 import { UserFormComponent } from './admin-panel/user-form/user-form.component';
 import { UserListComponent } from './admin-panel/user-list/user-list.component';
 import { UserEditComponent } from './admin-panel/user-edit/user-edit.component';
+import { AccountComponent } from './account/account.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { UserEditComponent } from './admin-panel/user-edit/user-edit.component';
     ForbiddenComponent,
     UserFormComponent,
     UserListComponent,
-    UserEditComponent
+    UserEditComponent,
+    AccountComponent
   ],
   imports: [
     BrowserModule,

@@ -69,5 +69,34 @@ namespace KTS.WEBAPI.Controllers
                 throw ex;
             }
         }
+
+        [HttpGet("usertests")]
+        public IActionResult GetAllUserTests()
+        {
+            try
+            {
+                var result = _userTestService.GetAllUserTests();
+                return Ok(result);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpGet("usertests/{id}")]
+        public IActionResult GetAllUserTests(string id)
+        {
+            try
+            {
+                var result = _userTestService.GetUserTestByUserId(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

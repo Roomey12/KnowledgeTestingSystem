@@ -17,7 +17,6 @@ import { UserService } from '../services/user.service';
 export class TestStartComponent implements OnInit, ComponentCanDeactivate {
 
   testInfo: Map<Question, Answer[]>;
-  id: number;
   loaded: boolean = false;
   sum: number = 0;
   timeLeft: number;
@@ -30,13 +29,19 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
   interval;
   userDetails;
 
+  all;
+  observables;
+  minutes;
+  seconds;
+  answers;
+
 
   constructor(private testService: TestService, private service: UserService, private router: Router, activeRoute: ActivatedRoute) {
-    this.id = Number.parseInt(activeRoute.snapshot.params["id"]);
+    this.testId = Number.parseInt(activeRoute.snapshot.params["id"]);
   }
 
   ngOnInit(){
-      if (this.id) {
+      if (this.testId) {
         this.getTest();
         this.loadTestInfoGet();
         this.fillLocalstorageTime();
@@ -53,7 +58,7 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
 
   loadTestInfoGet() {
     let testInfoGet = new Map<string, Answer[]>();
-    this.testService.getTestStart(this.id)
+    this.testService.getTestStart(this.testId)
         .subscribe((data: Map<string, Answer[]>) => {
             testInfoGet = data; this.loaded = true;
             this.fillQuestions(testInfoGet);
@@ -75,54 +80,18 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
   }
 
   onSubmit() {
-    var minutes = this.testMaxTime.getMinutes() * 60000;
-    var seconds = this.testMaxTime.getSeconds() * 1000;
-    var rizn = minutes + seconds - this.timeLeft;
-
-    var minutes1 = Math.floor((rizn % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds1 = Math.floor((rizn % (1000 * 60)) / 1000) + 1;
-     
-    let answers1 = document.getElementsByName("answer");
-    let answers = answers1 as unknown as HTMLInputElement;
-
-    const observables = [];
-    for (let i = 0; i < answers1.length; i++) {
-        if (answers[i].checked) {
-            observables.push(this.testService.getAnswerById(answers[i].value));
-        }
-    }
-    
-    if(observables.length > 0){
-      forkJoin(observables).subscribe((data: Answer[]) => {
-        this.sum = (data || []).reduce((res, ans: Answer) => res + ans["mark"], 0);
-        if(this.sum < 0){
-          this. sum = 0;
-        }
-        var timeResult = new Date();
-        timeResult.setMinutes(minutes1);
-        timeResult.setSeconds(seconds1);
-        this.testResult = new TestResult();
-        this.testResult.Mark = Number(this.sum.toFixed(2));
-        this.testResult.TestId = this.testId;
-        this.testResult.Time = timeResult;
-        this.testResult.UserId = this.userDetails.id;
-        console.log(this.testResult);
-        var result = confirm("Вы уверены что хотите завершить прохождение теста?");
-        if(result == true){
-          this.submitted = true;
-          clearInterval(this.interval);
-          //this.router.navigateByUrl('/home');
-          //this.testService.postTestResult(this.testResult);
-        }
-      });
-    }
-    else{
-      alert("Вы не ответили ни на один вопрос, тест не может быть завершен!");
+    if(!this.submitted){
+      this.endTest1();
+      if(this.observables.length > 0){
+        this.endTest2();
+      }
+      else{
+        alert("Вы не ответили ни на один вопрос, тест не может быть завершен!");
+      }
     }
   }
 
   getTest() {
-    this.testId = Number(window.location.href[window.location.href.length - 1]);
     this.testService.getTestById(this.testId)
         .subscribe((data: Test) => {
             this.testMaxTime = new Date(data["maxTime"]);
@@ -166,7 +135,8 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
         }
         // If the count down is finished, write some text
         if (remaining < 0) {
-            clearInterval(this.interval);
+            this.endTest1();
+            this.endTest2();
             document.getElementById("time").innerHTML = "Время вышло";
         }
 
@@ -177,13 +147,18 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
   @HostListener('window:beforeunload', ['$event']) onBeforeUnload(event) {
     localStorage.setItem(`time_${this.testId}`, this.timeLeft.toString());  
     clearInterval(this.interval);
+    if(this.submitted){
+      localStorage.removeItem(`time_${this.testId}`);
+    }
     return false;
   }
 
   canDeactivate() : boolean | Observable<boolean>{
-    if(this.submitted == false){
-      var result  = confirm("Вы не закончили прохождение теста, вы уверены что хотите покинуть страницу? Введенные данные не сохранятся");
+    if(!this.submitted){
+      var result  = confirm("Вы не закончили прохождение теста, вы уверены что хотите покинуть страницу? В результат теста запишется ваш текущий результат.");
       if(result == true){
+        this.endTest1();
+        this.endTest2();
         localStorage.removeItem(`time_${this.testId}`);
         clearInterval(this.interval);
       }
@@ -201,5 +176,83 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
     if(this.localstorageTime != 0){
       this.localstorageTimeSet = true;
     }
+  }
+
+  endTest1(){
+    var min = this.testMaxTime.getMinutes() * 60000;
+    var sec = this.testMaxTime.getSeconds() * 1000;
+    var rizn = min + sec - this.timeLeft;
+
+    this.minutes = Math.floor((rizn % (1000 * 60 * 60)) / (1000 * 60));
+    this.seconds = Math.floor((rizn % (1000 * 60)) / 1000) + 1;
+     
+    let answers1 = document.getElementsByName("answer");
+    this.answers = answers1 as unknown as HTMLInputElement;
+
+    this.all = [];
+    this.observables = [];
+    for (let i = 0; i < answers1.length; i++) {
+        if (this.answers[i].checked) {
+            this.observables.push(this.testService.getAnswerById(this.answers[i].id));
+        }
+        this.all.push(this.testService.getAnswerById(this.answers[i].id));
+    }
+  }
+
+  endTest2(){
+    if(this.observables.length == 0){
+      this.sum = 0;
+      this.fillTestResult();
+      this.endTest3();
+    }
+    else{
+      forkJoin(this.observables).subscribe((data: Answer[]) => {
+        this.sum = (data || []).reduce((res, ans: Answer) => res + ans["mark"], 0);
+        if(this.sum < 0){
+          this.sum = 0;
+        }
+        this.fillTestResult();
+  
+        if(this.timeLeft > 0){
+          var result = confirm("Вы уверены что хотите завершить прохождение теста?");
+          if(result){
+            this.endTest3();
+          }
+        }
+        else{
+          this.endTest3();
+        }
+      });
+    }
+  }
+
+  endTest3(){
+    forkJoin(this.all).subscribe((data: Answer[]) => {
+      if(window.location.href.toString().includes("teststart")){
+        for(let i = 0; i < data.length; i++){
+          if(data[i]["isCorrect"]){
+            var ans = document.getElementById(this.answers[i].id);
+            console.log(ans);
+            ans.innerHTML = "sas";
+            ans.style.color = '#d00';
+          }
+        }
+      }
+    });
+
+    this.submitted = true;
+    clearInterval(this.interval);
+    //this.testService.postTestResult(this.testResult);
+  }
+
+  fillTestResult(){
+    var timeResult = new Date();
+    timeResult.setMinutes(this.minutes);
+    timeResult.setSeconds(this.seconds);
+    this.testResult = new TestResult();
+    this.testResult.Mark = Number(this.sum.toFixed(2));
+    this.testResult.TestId = this.testId;
+    this.testResult.Time = timeResult;
+    this.testResult.UserId = this.userDetails.id;
   }
 }

@@ -11,6 +11,7 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { UserEditComponent } from './admin-panel/user-edit/user-edit.component';
 import { UserListComponent } from './admin-panel/user-list/user-list.component';
+import { AccountComponent } from './account/account.component';
 
 
 const routes: Routes = [
@@ -31,6 +32,7 @@ const routes: Routes = [
       { path: 'user-list', component: UserListComponent }
     ]
   },
+  { path: 'account', component: AccountComponent },
   { path: 'teststart/:id', component: TestStartComponent, canActivate: [AuthGuard], canDeactivate: [ExitTestStartGuard] },
   { path: '**', redirectTo: '/' }
 ];
