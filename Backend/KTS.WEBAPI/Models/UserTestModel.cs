@@ -7,6 +7,7 @@ namespace KTS.WEBAPI.Models
 {
     public class UserTestModel
     {
+        public int UserTestId { get; set; }
         public string UserId { get; set; }
         public int TestId { get; set; }
         public float Mark { get; set; }

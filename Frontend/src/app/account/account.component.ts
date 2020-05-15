@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserTestService } from '../services/usertest.service';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class AccountComponent implements OnInit {
   userDetails;
   userTests;
 
-  constructor(private router: Router, private userService: UserService) { }
+  constructor(private router: Router, private userTestService: UserTestService, private userService: UserService) { }
 
   ngOnInit() {
     this.userService.getUserProfile().subscribe(
@@ -28,7 +29,7 @@ export class AccountComponent implements OnInit {
   }
 
   loadUserTests(){
-    this.userService.getUserTestsByUserId(this.userDetails["id"])
+    this.userTestService.getUserTestsByUserId(this.userDetails["id"])
       .subscribe((data: object[]) =>{
          this.userTests = data;
          console.log(data);

@@ -36,7 +36,7 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
   answers;
 
 
-  constructor(private testService: TestService, private service: UserService, private router: Router, activeRoute: ActivatedRoute) {
+  constructor(private testService: TestService, private userService: UserService, private router: Router, activeRoute: ActivatedRoute) {
     this.testId = Number.parseInt(activeRoute.snapshot.params["id"]);
   }
 
@@ -45,7 +45,7 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
         this.getTest();
         this.loadTestInfoGet();
         this.fillLocalstorageTime();
-        this.service.getUserProfile().subscribe(
+        this.userService.getUserProfile().subscribe(
           res => {
             this.userDetails = res;
           },

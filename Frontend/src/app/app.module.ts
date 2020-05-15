@@ -6,25 +6,27 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from "ngx-spinner";
 
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UserComponent } from './user/user.component';
 import { RegistrationComponent } from './user/registration/registration.component';
-import { UserService } from './services/user.service';
 import { LoginComponent } from './user/login/login.component';
 import { HomeComponent } from './home/home.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
-import { TestService } from './services/test.service';
 import { TestStartComponent } from './test-start/test-start.component';
 import { ExitTestStartGuard } from './test-start/exit.test-start.guard';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
-import { AdminService } from './services/admin.service';
 import { UserFormComponent } from './admin-panel/user-form/user-form.component';
 import { UserListComponent } from './admin-panel/user-list/user-list.component';
 import { UserEditComponent } from './admin-panel/user-edit/user-edit.component';
 import { AccountComponent } from './account/account.component';
+import { TestService } from './services/test.service';
+import { AuthService } from './services/auth.service';
+import { UserService } from './services/user.service';
+import { UserTestService } from './services/usertest.service';
+
+
 
 @NgModule({
   declarations: [
@@ -55,7 +57,12 @@ import { AccountComponent } from './account/account.component';
     FormsModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [UserService, TestService, AdminService, ExitTestStartGuard, {
+  providers: [
+    UserService,
+    TestService, 
+    AuthService, 
+    UserTestService,
+    ExitTestStartGuard, {
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
     multi: true

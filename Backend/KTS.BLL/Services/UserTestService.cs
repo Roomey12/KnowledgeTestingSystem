@@ -54,9 +54,41 @@ namespace KTS.BLL.Services
             var result = from u in users
                          join t in userTests on u.Id equals t.UserId
                          where u.Id == userId
-                         select new { Username = u.Username, Test = t.Test.Title, Mark = t.Mark, Time = t.Time };
+                         select new { Id = t.UserTestId, Username = u.Username, Test = t.Test.Title, Mark = t.Mark, Time = t.Time };
 
             return result;
+        }
+
+        public UserTestDTO DeleteUserTest(string id)
+        {
+            try
+            {
+                var userTest = mapper.Map<UserTest, UserTestDTO>(Database.UserTests.Find(x => x.UserTestId == Convert.ToInt32(id)).FirstOrDefault());
+                Database.UserTests.Delete(id);
+                Database.Save();
+                return userTest;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public UserTestDTO PutUserTest(UserTestDTO userTestDTO)
+        {
+            try
+            {
+                var userTest = Database.UserTests.Find(x => x.UserTestId == userTestDTO.UserTestId).FirstOrDefault();
+                userTest.Mark = userTestDTO.Mark;
+                userTest.Time = userTestDTO.Time;
+                Database.UserTests.Update(userTest);
+                Database.SaveAsync();
+                return mapper.Map<UserTest, UserTestDTO>(userTest);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

@@ -13,7 +13,7 @@ namespace KTS.WEBAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class QuestionsController : ControllerBase
+    public class QuestionController : ControllerBase
     {
         private readonly IQuestionService _questionService;
 
@@ -22,7 +22,7 @@ namespace KTS.WEBAPI.Controllers
             cfg.CreateMap<QuestionDTO, QuestionModel>();
         }).CreateMapper();
 
-        public QuestionsController(IQuestionService questionService)
+        public QuestionController(IQuestionService questionService)
         {
             _questionService = questionService;
         }

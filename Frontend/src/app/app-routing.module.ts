@@ -26,7 +26,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'forbidden', component: ForbiddenComponent},
   { 
-    path: 'admin-panel', component: AdminPanelComponent, canActivate: [AuthGuard], data: {permittedRoles: ['admin']},
+    path: 'admin-panel', component: AdminPanelComponent, canActivate: [AuthGuard], data: { permittedRoles: ['admin'] },
     children: [
       { path: 'edit/:id', component: UserEditComponent },
       { path: 'user-list', component: UserListComponent }

@@ -13,7 +13,7 @@ namespace KTS.WEBAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TestsController : ControllerBase
+    public class TestController : ControllerBase
     {
         private readonly ITestService _testService;
 
@@ -24,19 +24,19 @@ namespace KTS.WEBAPI.Controllers
             cfg.CreateMap<AnswerDTO, AnswerModel>();
         }).CreateMapper();
 
-        public TestsController(ITestService testService)
+        public TestController(ITestService testService)
         {
             _testService = testService;
         }
 
-        // GET: api/Tests
+        // GET: api/Test
         [HttpGet]
         public IEnumerable<TestModel> GetTests()
         {
             return mapper.Map<IEnumerable<TestDTO>, IEnumerable<TestModel>>(_testService.GetAllTests());
         }
 
-        // GET: api/Tests/5/Questions
+        // GET: api/Test/5/Questions
         [HttpGet("{id}/questions")]
         public IEnumerable<QuestionModel> GetQuestionsByTestId(int id)
         {
@@ -44,7 +44,7 @@ namespace KTS.WEBAPI.Controllers
                 (_testService.GetQuestionsByTestId(id));
         }
 
-        // GET: api/Tests/5/start
+        // GET: api/Test/5/start
         [HttpGet("{id}/start")]
         public IDictionary<string, IEnumerable<AnswerModel>> GetQuestionsAndAnswersByTestId(int id)
         {
@@ -63,7 +63,7 @@ namespace KTS.WEBAPI.Controllers
             return test;
         }
 
-        //GET: api/Tests/5
+        //GET: api/Test/5
         [HttpGet("{id}")]
         public ActionResult<TestModel> GetTest(int id)
         {

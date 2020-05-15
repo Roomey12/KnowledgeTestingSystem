@@ -17,38 +17,38 @@ namespace KTS.WEBAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AdminController : ControllerBase
+    public class UserController : ControllerBase
     {
-        private readonly UserManager<User> _userManager;
         private IUserService _userService;
+        private UserManager<User> _userManager;
 
         IMapper mapper = new MapperConfiguration(cfg =>
         {
             cfg.CreateMap<UserDTO, UserModel>();
             cfg.CreateMap<UserModel, UserDTO>();
+            cfg.CreateMap<UserTestModel, UserTestDTO>();
             cfg.CreateMap<Task<UserDTO>, Task<UserModel>>();
         }).CreateMapper();
 
-        public AdminController(UserManager<User> userManager, IUserService userService)
+        public UserController(UserManager<User> userManager, IUserService userService)
         {
             _userManager = userManager;
             _userService = userService;
         }
 
-        [HttpGet("users")]
-        //[Authorize(Roles = "admin")]
+        [HttpGet]
         public IEnumerable<UserModel> GetAllUsers()
         {
             return mapper.Map<IEnumerable<UserDTO>, IEnumerable<UserModel>>(_userService.GetAllUsers()); 
         }
 
-        [HttpGet("users/{id}")]
+        [HttpGet("{id}")]
         public async Task<UserModel> GetUserById(string id)
         {
             return await mapper.Map<Task<UserDTO>, Task<UserModel>>(_userService.GetUserById(id));
         }
 
-        [HttpDelete("users/{id}")]
+        [HttpDelete("{id}")]
         public IActionResult DeleteUser(string id)
         {
             try
@@ -62,8 +62,8 @@ namespace KTS.WEBAPI.Controllers
             }
         }
 
-        [HttpPut("users")]
-        public IActionResult PostUser(UserModel user)
+        [HttpPut]
+        public IActionResult PutUser(UserModel user)
         {
             try
             {
@@ -74,6 +74,20 @@ namespace KTS.WEBAPI.Controllers
             {
                 throw ex;
             }
+        }
+
+        [HttpGet("profile")]
+        [Authorize]
+        public async Task<object> GetUserProfile()
+        {
+            string userId = User.Claims.First(c => c.Type == "UserID").Value;
+            var user = await _userManager.FindByIdAsync(userId);
+            return new
+            {
+                user.Id,
+                user.Email,
+                user.UserName
+            };
         }
     }
 }

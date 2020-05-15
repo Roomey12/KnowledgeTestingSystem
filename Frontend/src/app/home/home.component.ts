@@ -1,8 +1,9 @@
-import { UserService } from './../services/user.service';
+import { UserTestService } from '../services/usertest.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Test } from '../models/test';
 import { TestService } from '../services/test.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,7 @@ export class HomeComponent implements OnInit {
   tests: Test[];   
   userTests;
 
-  constructor(private router: Router, private userService: UserService, private testService: TestService) { }
+  constructor(private router: Router, private userTestService: UserTestService, private testService: TestService, private userService: UserService) { }
 
   ngOnInit() {
     this.loadTests();
@@ -39,7 +40,7 @@ export class HomeComponent implements OnInit {
   }
   
   loadUserTests(){
-    this.userService.getUserTests()
+    this.userTestService.getUserTests()
       .subscribe((data: object[]) =>{
          this.userTests = data;
          console.log(data);

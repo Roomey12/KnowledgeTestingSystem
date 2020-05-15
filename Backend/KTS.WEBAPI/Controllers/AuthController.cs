@@ -22,12 +22,12 @@ namespace KTS.WEBAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class AuthController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
         private readonly ApplicationSettings _appSettings;
 
-        public UsersController(UserManager<User> userManager, IOptions<ApplicationSettings> appSettings)
+        public AuthController(UserManager<User> userManager, IOptions<ApplicationSettings> appSettings)
         {
             _userManager = userManager;
             _appSettings = appSettings.Value;
@@ -42,7 +42,6 @@ namespace KTS.WEBAPI.Controllers
                 User user = new User { Email = model.Email, UserName = model.UserName };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 await _userManager.AddToRoleAsync(user, model.Role);
-
                 return Ok(result);
             }
             catch(Exception ex)
@@ -52,7 +51,6 @@ namespace KTS.WEBAPI.Controllers
         }
 
         [HttpPost("login")]
-        //POST : /api/ApplicationUser/Login
         public async Task<IActionResult> Login(LoginModel model)
         {
             var user = await _userManager.FindByNameAsync(model.UserName);

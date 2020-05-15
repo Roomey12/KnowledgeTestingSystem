@@ -1,26 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using KTS.BLL.DTO;
 using KTS.BLL.Interfaces;
-using KTS.DAL.Entities;
 using KTS.WEBAPI.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Razor.Language.Intermediate;
 
 namespace KTS.WEBAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserProfileController : ControllerBase
+    public class UserTestController : ControllerBase
     {
-        private UserManager<User> _userManager;
         private IUserTestService _userTestService;
 
         IMapper mapper = new MapperConfiguration(cfg =>
@@ -28,28 +22,12 @@ namespace KTS.WEBAPI.Controllers
             cfg.CreateMap<UserTestModel, UserTestDTO>();
         }).CreateMapper();
 
-        public UserProfileController(UserManager<User> userManager, IUserTestService userTestService)
+        public UserTestController(IUserTestService userTestService)
         {
-            _userManager = userManager;
             _userTestService = userTestService;
         }
 
-        [HttpGet]
-        [Authorize]
-        //GET : /api/UserProfile
-        public async Task<object> GetUserProfile()
-        {
-            string userId = User.Claims.First(c => c.Type == "UserID").Value;
-            var user = await _userManager.FindByIdAsync(userId);
-            return new
-            {
-                user.Id,
-                user.Email,
-                user.UserName
-            };
-        }
-
-        [HttpPost("usertest")]
+        [HttpPost]
         public IActionResult PostUserTest(UserTestModel model)
         {
             try
@@ -70,7 +48,7 @@ namespace KTS.WEBAPI.Controllers
             }
         }
 
-        [HttpGet("usertests")]
+        [HttpGet]
         public IActionResult GetAllUserTests()
         {
             try
@@ -78,14 +56,14 @@ namespace KTS.WEBAPI.Controllers
                 var result = _userTestService.GetAllUserTests();
                 return Ok(result);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
         }
 
-        [HttpGet("usertests/{id}")]
-        public IActionResult GetAllUserTests(string id)
+        [HttpGet("{id}")]
+        public IActionResult GetUserTestByUserId(string id)
         {
             try
             {
@@ -98,5 +76,33 @@ namespace KTS.WEBAPI.Controllers
             }
         }
 
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteUserTest(string id)
+        {
+            try
+            {
+                var result = _userTestService.DeleteUserTest(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPut]
+        public IActionResult PutUserTest(UserTestModel userTest)
+        {
+            try
+            {
+                var result = _userTestService.PutUserTest(mapper.Map<UserTestModel, UserTestDTO>(userTest));
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

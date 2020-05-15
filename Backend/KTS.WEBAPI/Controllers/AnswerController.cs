@@ -12,7 +12,7 @@ namespace KTS.WEBAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AnswersController : ControllerBase
+    public class AnswerController : ControllerBase
     {
         private IAnswerService _answerService;
 
@@ -21,7 +21,7 @@ namespace KTS.WEBAPI.Controllers
             cfg.CreateMap<AnswerDTO, AnswerModel>();
         }).CreateMapper();
 
-        public AnswersController(IAnswerService answerService)
+        public AnswerController(IAnswerService answerService)
         {
             _answerService = answerService;
         }
