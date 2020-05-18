@@ -1,50 +1,42 @@
-<nav class="navbar navbar-dark bg-dark">
-  <a class="navbar-brand text-white">Knowledge Testing System</a>
-  <ul class="navbar-nav mr-auto">
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/admin-panel">Admin Panel</a>
-    </li>
-  </ul>
-  <button class="btn btn-info" routerLink="/account">Личный кабинет</button>
-  <button class="btn btn-danger my-2 my-sm-0" (click)="onLogout()">Logout</button>
-</nav>
-  
-<h1>Список тестов</h1>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <td>Тест</td>
-            <td>Описание</td>
-            <td>Бал</td>
-            <td>Время</td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let t of tests">
-            <td><a routerLink="/teststart/{{t.testId}}" class="nav-link">{{t?.title}}</a></td>
-            <td>{{t?.description}}</td>
-            <td>{{t?.maxScore}}</td>
-            <td>{{t?.maxTime.substring(14)}}</td>
-        </tr>
-    </tbody>
-</table>
-<br>
-<h1>Результаты пользователей</h1>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <td>Пользователь</td>
-            <td>Тест</td>
-            <td>Бал</td>
-            <td>Время</td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let u of userTests">
-            <td>{{u?.username}}</td>
-            <td>{{u?.test}}</td>
-            <td>{{u?.mark}}</td>
-            <td>{{u?.time.substring(14)}}</td>
-        </tr>
-    </tbody>
-</table>
+
+
+<div class="container">
+    <div class="col-lg-6 floating">
+        <h1>Список тестов</h1>
+        <table class="table mtable">
+            <thead>
+                <tr>
+                    <td>Тест</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let t of tests">
+                    <td><a routerLink="/test/{{t.testId}}" class="nav-link tlink">{{t?.title}}</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-lg-6 floating">
+        <h1>Результаты пользователей</h1>
+        <table class="table mtable">
+            <thead>
+                <tr>
+                    <td>Пользователь</td>
+                    <td>Тест</td>
+                    <td>Бал</td>
+                    <td>Время</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let u of userTests">
+                    <td>{{u?.username}}</td>
+                    <td>{{u?.test}}</td>
+                    <td>{{u?.mark}}</td>
+                    <td>{{u?.time.substring(14)}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

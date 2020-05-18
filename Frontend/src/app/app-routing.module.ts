@@ -12,6 +12,7 @@ import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { UserEditComponent } from './admin-panel/user-edit/user-edit.component';
 import { UserListComponent } from './admin-panel/user-list/user-list.component';
 import { AccountComponent } from './account/account.component';
+import { TestFormComponent } from './test-form/test-form.component';
 
 
 const routes: Routes = [
@@ -24,7 +25,7 @@ const routes: Routes = [
     ]
   },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
-  { path: 'forbidden', component: ForbiddenComponent},
+  { path: 'forbidden', component: ForbiddenComponent, canActivate: [AuthGuard]},
   { 
     path: 'admin-panel', component: AdminPanelComponent, canActivate: [AuthGuard], data: { permittedRoles: ['admin'] },
     children: [
@@ -32,8 +33,9 @@ const routes: Routes = [
       { path: 'user-list', component: UserListComponent }
     ]
   },
-  { path: 'account', component: AccountComponent },
+  { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },
   { path: 'teststart/:id', component: TestStartComponent, canActivate: [AuthGuard], canDeactivate: [ExitTestStartGuard] },
+  { path: 'test/:id', component: TestFormComponent, canActivate: [AuthGuard]} ,
   { path: '**', redirectTo: '/' }
 ];
 

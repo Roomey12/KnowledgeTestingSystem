@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from "ngx-spinner";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 export class AppComponent implements OnInit {
   title = 'Knowledge Testing System';
 
-  constructor(private spinner: NgxSpinnerService) {}
+  constructor(private spinner: NgxSpinnerService, private router: Router) {}
  
   ngOnInit() {
     /** spinner starts on init */
@@ -20,5 +21,10 @@ export class AppComponent implements OnInit {
       /** spinner ends after 5 seconds */
       this.spinner.hide();
     }, 500);
+  }
+
+  onLogout() {
+    localStorage.removeItem('token');
+    this.router.navigate(['/user/login']);
   }
 }

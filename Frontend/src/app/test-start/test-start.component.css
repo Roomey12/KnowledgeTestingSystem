@@ -1,3 +1,8 @@
+.correct{
+    background-color: #28a745!important;
+    border-radius: 5px;
+}
+
 #timer-wrapper {
     align-items: center;
     display: flex;
@@ -5,7 +10,7 @@
     justify-content: center;
     margin: 0 auto;
     position: fixed;
-    top: 15%;
+    top: 20%;
     right: 0%;
     transform: translate(-50%, -50%);
 }
@@ -51,8 +56,23 @@
 
 .rounded {
     border-radius: 1rem !important;
+    padding: 1rem;
 }
 
 #time {
     font-size: 28px;
+}
+
+/*Test results css*/
+
+.results{
+    text-align: center;
+    padding: 15px;
+}
+
+#testtitle{
+    padding: 10px;
+    font-family: Palladio L;
+    text-align: center;
+    font-style: serif;
 }

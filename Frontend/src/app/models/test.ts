@@ -1,7 +1,7 @@
 export class Test {
-    TestId: number;
-    Title: string;
-    MaxScore: number;
-    Description: string;
-    MaxTime: Date;
+    testId: number;
+    title: string;
+    maxScore: number;
+    description: string;
+    maxTime: Date;
 }

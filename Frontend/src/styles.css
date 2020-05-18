@@ -1,94 +1,51 @@
-/* body{
-    background-color: #04c582;;
-} */
-
-input.form-control,input.form-control:focus{
-    background-color: #636b7b;
-    color: #fff;
-    border: 1px solid #636b7b;
-
+body{
+    background-image: url(https://bayguzin.ru/demo2014/patterns3/bg1.jpg);
+    background-size: initial;
+    background-repeat: repeat;
 }
 
-input.form-control:focus{
-    box-shadow: none;
+ .place{
+    margin-right: 10px;
 }
 
-button[type=submit].btn{
-    border-radius: 20px;
-    background-color: #04c582;
-    color: #fff;
-}
-
-div.form-group label:not(.text-danger){
-    color: #545d6a;
-    font-weight: 700;
-}
-
-div.form-group.required>label:first-child:after{
-    content:'*';
-    color: #fff;
-    padding-left: 5px;
-}
-
-#toast-container > div {
-    opacity:1;
-}
-
-.wrapper {
-    display: flex;
-    align-items: center;
-    flex-direction: column; 
-    justify-content: center;
+table.mtable {
+    font-family: "Times New Roman", Times, serif;
+/*  border: 2px solid #000000;*/
+    background-color: #EEEEEE;
     width: 100%;
-    padding: 20px;
-  }
-
-  .wrapped-div {
-    -webkit-border-radius: 10px 10px 10px 10px;
-    border-radius: 10px 10px 10px 10px;
-    background: #2e3137;
-    padding: 30px;
-    width: 90%;
-    max-width: 450px;
-    position: relative;
-    padding: 0px;
-    -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
-    box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
-  }
-
-  /* Tabs */
-.tab-header{
+    height: 100%;
     text-align: center;
-}
-
-  .tab-header h2.active {
-    color: #fff;
-    border-bottom: 4px solid #fff;
+    border-collapse: collapse;
   }
-
-  .tab-header h2 {
+  table.mtable td, table.mtable th {
+    border: 1px solid #FFFFFF;
+    padding: 8px 10px;
+  }
+  table.mtable tbody td {
+    font-size: 16px;
+  }
+  table.mtable tr:nth-child(even) {
+    background: #D0E4F5;
+  }
+  table.mtable thead {
+    background: #0D88C9;
+    border-bottom: 5px solid #FFFFFF;
+    color: #FFFFFF;
+  }
+  table.mtable thead th {
+    font-size: 17px;
+    font-weight: bold;
     text-align: center;
-    font-size: 18px;
-    font-weight: 600;
-    display:inline-block;
-    padding: 30px 40px 10px 40px;
-    cursor: pointer;
-    color: #545d6a;
-    border-bottom: 2px solid #545d6a;
+    border-left: 1px solid #FFFFFF;
+  }
+  table.mtable thead th:first-child {
+    border-left: none;
+  }
+  
+  table.mtable tfoot td {
+    font-size: 14px;
   }
 
-  .tab-header h2:focus {
-      outline: none;
+  .floating{
+      float: left;
   }
-
-  form{
-      margin: 0px 16px;
-  }
-
- div.form-group input.invalid{
-    border: 1px solid #dc3545; 
- }
- div.form-group label:first-child{
-    text-transform: uppercase;
-    font-size: 0.9rem;
- }

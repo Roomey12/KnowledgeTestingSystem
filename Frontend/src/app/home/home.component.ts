@@ -8,7 +8,7 @@ import { UserService } from '../services/user.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styles: []
+  styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
 
@@ -31,7 +31,6 @@ export class HomeComponent implements OnInit {
     );
   }
 
-    //получаем данные через сервис
   loadTests() {
     this.testService.getTests()
         .subscribe((data: Test[]) => {
@@ -43,12 +42,6 @@ export class HomeComponent implements OnInit {
     this.userTestService.getUserTests()
       .subscribe((data: object[]) =>{
          this.userTests = data;
-         console.log(data);
       })
-  }
-
-  onLogout() {
-    localStorage.removeItem('token');
-    this.router.navigate(['/user/login']);
   }
 }

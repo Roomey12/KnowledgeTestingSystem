@@ -25,6 +25,7 @@ import { TestService } from './services/test.service';
 import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
 import { UserTestService } from './services/usertest.service';
+import { TestFormComponent } from './test-form/test-form.component';
 
 
 
@@ -42,7 +43,8 @@ import { UserTestService } from './services/usertest.service';
     UserFormComponent,
     UserListComponent,
     UserEditComponent,
-    AccountComponent
+    AccountComponent,
+    TestFormComponent
   ],
   imports: [
     BrowserModule,

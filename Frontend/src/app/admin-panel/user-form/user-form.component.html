@@ -1,8 +1,16 @@
 <div class="form-group">
-    <label>UserName</label>
-    <input type="text" [(ngModel)]="user.Email" class="form-control" />
+    <div class="input-group mb-2">
+        <div class="input-group-prepend">
+            <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
+        </div>
+        <input type="text" class="form-control" [(ngModel)]="user.UserName" placeholder="Alex">
+    </div>
 </div>
 <div class="form-group">
-    <label>Email</label>
-    <input type="text" [(ngModel)]="user.UserName" class="form-control" />
+    <div class="input-group mb-2">
+        <div class="input-group-prepend">
+            <div class="input-group-text"><i class="fa fa-envelope text-info"></i></div>
+        </div>
+        <input type="email" class="form-control" [(ngModel)]="user.Email" placeholder="Email@gmail.com">
+    </div>
 </div>

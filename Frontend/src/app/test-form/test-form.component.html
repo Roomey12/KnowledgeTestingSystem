@@ -1,0 +1,25 @@
+<div *ngIf="loaded">
+    <div class="container">
+        <table class="table mtable" style="margin: 30px;">
+            <thead>
+                <tr>
+                    <td>Тест</td>
+                    <td>Описание</td>
+                    <td>Бал</td>
+                    <td>Время</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{test.title}}</td>
+                    <td>{{test.description}}</td> 
+                    <td>{{test.maxScore}}</td>
+                    <td>{{test.maxTime.getMinutes()}}:{{test.maxTime.getSeconds()}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="text-center">
+            <button class="btn btn-success" routerLink="/teststart/{{test.testId}}"> Начать тестирование </button>
+        </div>
+    </div>
+</div>

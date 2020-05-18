@@ -17,6 +17,7 @@ import { UserService } from '../services/user.service';
 export class TestStartComponent implements OnInit, ComponentCanDeactivate {
 
   testInfo: Map<Question, Answer[]>;
+  testName: string;
   loaded: boolean = false;
   sum: number = 0;
   timeLeft: number;
@@ -34,6 +35,7 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
   minutes;
   seconds;
   answers;
+  answers1;
 
 
   constructor(private testService: TestService, private userService: UserService, private router: Router, activeRoute: ActivatedRoute) {
@@ -94,6 +96,7 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
   getTest() {
     this.testService.getTestById(this.testId)
         .subscribe((data: Test) => {
+            this.testName = data["description"];
             this.testMaxTime = new Date(data["maxTime"]);
             this.timer(data["maxTime"]);
         })
@@ -130,7 +133,7 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
 
         if (remaining < 60000) {
             var element = document.getElementById("countd");
-            element.classList.remove("bg-gradient-2");
+            element.classList.remove("bg-gradient-4");
             element.classList.add("bg-gradient-3");
         }
         // If the count down is finished, write some text
@@ -186,12 +189,12 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
     this.minutes = Math.floor((rizn % (1000 * 60 * 60)) / (1000 * 60));
     this.seconds = Math.floor((rizn % (1000 * 60)) / 1000) + 1;
      
-    let answers1 = document.getElementsByName("answer");
-    this.answers = answers1 as unknown as HTMLInputElement;
+    this.answers1 = document.getElementsByName("answer");
+    this.answers = this.answers1 as unknown as HTMLInputElement;
 
     this.all = [];
     this.observables = [];
-    for (let i = 0; i < answers1.length; i++) {
+    for (let i = 0; i < this.answers1.length; i++) {
         if (this.answers[i].checked) {
             this.observables.push(this.testService.getAnswerById(this.answers[i].id));
         }
@@ -231,15 +234,13 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
       if(window.location.href.toString().includes("teststart")){
         for(let i = 0; i < data.length; i++){
           if(data[i]["isCorrect"]){
-            var ans = document.getElementById(this.answers[i].id);
-            console.log(ans);
-            ans.innerHTML = "sas";
-            ans.style.color = '#d00';
+            document.getElementById(`check_${this.answers[i].id}`).classList.add("correct");
           }
         }
       }
     });
 
+    document.getElementById('subButton').innerHTML = "Результат";
     this.submitted = true;
     clearInterval(this.interval);
     //this.testService.postTestResult(this.testResult);

@@ -1,25 +1,32 @@
-<a routerLink="/admin-panel" class="nav-link">Назад к списку</a> 
 <div *ngIf="loaded">
-    <h2>Изменение данных о пользователе</h2>
-    <user-form [(user)]="user"></user-form>
-    <div class="form-group">
-        <input type="button" value="Сохранить" (click)="save()" class="btn btn-success" />
+    
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6 pb-5">
+                <h2>Изменение данных о пользователе</h2>
+                <user-form [(user)]="user"></user-form>
+                <div class="form-group">
+                    <input type="button" value="Сохранить" (click)="save()" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+        <h1>Пройденные тесты</h1>
+        <table class="table mtable">
+            <thead>
+                <tr>
+                    <td>Тест</td>
+                    <td>Бал</td>
+                    <td>Время</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let u of userTests">
+                    <td>{{u?.test}}</td>
+                    <td>{{u?.mark}}</td>
+                    <td>{{u?.time.substring(14)}}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    <h1>Пройденные тесты</h1>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <td>Тест</td>
-                <td>Бал</td>
-                <td>Время</td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let u of userTests">
-                <td>{{u?.test}}</td>
-                <td>{{u?.mark}}</td>
-                <td>{{u?.time.substring(14)}}</td>
-            </tr>
-        </tbody>
-    </table>
+
 </div>

@@ -1,26 +1,35 @@
-<p>Личный кабинет</p>
-<button routerLink = "/home" >Главная страница</button>
-<div class="card m-5" style="width:18rem" *ngIf="userDetails">
-    <ul class="list-group">
-      <li class="list-group-item"><strong>Username : </strong>{{userDetails.userName}}</li>
-      <li class="list-group-item"><strong>Email : </strong>{{userDetails.email}}</li>
-    </ul>
+ <div class="container">
+    <h2 style="text-align: center; margin: 10px;">Личный кабинет</h2>
+    
+    <div class="col-lg-6 floating">
+        <div class="card bg-light m-3" style="max-width: 18rem;" *ngIf="userDetails">
+            <div class="card-header">User info</div>
+            <div class="card-body">
+                <ul class="list-group">
+                    <li class="list-group-item"><strong>Username : </strong>{{userDetails.userName}}</li>
+                    <li class="list-group-item"><strong>Email : </strong>{{userDetails.email}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 floating">
+        <h3 style="text-align: center;">Пройденные тесты</h3>
+        <table class="table mtable m-3">
+            <thead>
+                <tr>
+                    <td>Тест</td>
+                    <td>Бал</td>
+                    <td>Время</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let u of userTests">
+                    <td>{{u?.test}}</td>
+                    <td>{{u?.mark}}</td>
+                    <td>{{u?.time.substring(14)}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-<br>
-<h1>Пройденные тесты</h1>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <td>Тест</td>
-            <td>Бал</td>
-            <td>Время</td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let u of userTests">
-            <td>{{u?.test}}</td>
-            <td>{{u?.mark}}</td>
-            <td>{{u?.time.substring(14)}}</td>
-        </tr>
-    </tbody>
-</table>
