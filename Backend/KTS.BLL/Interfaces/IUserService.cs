@@ -11,8 +11,8 @@ namespace KTS.BLL.Interfaces
     public interface IUserService : IDisposable
     {
         IEnumerable<UserDTO> GetAllUsers();
-        Task<UserDTO> GetUserById(string id);
-        Task<UserDTO> DeleteUser(string id);
+        UserDTO GetUserById(string id);
+        UserDTO DeleteUser(string id);
         UserDTO PutUser(UserDTO userDTO);
     }
 }

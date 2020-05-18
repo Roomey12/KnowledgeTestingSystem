@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using KTS.BLL.DTO;
+using KTS.BLL.Infrastucture;
 using KTS.BLL.Interfaces;
 using KTS.WEBAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -28,9 +30,23 @@ namespace KTS.WEBAPI.Controllers
 
         // GET: api/Answers/5
         [HttpGet("{id}")]
-        public AnswerModel GetQuestionById(int id)
+        [Authorize]
+        public IActionResult GetQuestionById(int id)
         {
-            return mapper.Map<AnswerDTO, AnswerModel>(_answerService.GetAnswerById(id));
+            AnswerModel answer;
+            try
+            {
+                answer = mapper.Map<AnswerDTO, AnswerModel>(_answerService.GetAnswerById(id));
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return Ok(answer);
         }
     }
 }

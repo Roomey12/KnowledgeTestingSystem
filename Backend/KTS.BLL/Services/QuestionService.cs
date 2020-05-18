@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using KTS.BLL.DTO;
+using KTS.BLL.Infrastucture;
 using KTS.BLL.Interfaces;
 using KTS.DAL.Entities;
 using KTS.DAL.Interfaces;
@@ -27,18 +28,12 @@ namespace KTS.BLL.Services
 
         public QuestionDTO GetQuestionById(int id)
         {
-            return mapper.Map<Question, QuestionDTO>(Database.Questions.Get(id.ToString()));
+            var question =  mapper.Map<Question, QuestionDTO>(Database.Questions.Get(id.ToString()));
+            if (question == null)
+            {
+                throw new NotFoundException("Question were not found", "Id");
+            }
+            return question;
         }
-
-        //public IEnumerable<AnswerDTO> GetAnswersByQuestionId(int id)
-        //{
-        //    return mapper.Map<IEnumerable<Answer>, List<AnswerDTO>>
-        //        (Database.Answers.Find(a => a.QuestionId == id));
-        //}
-        //public IEnumerable<QuestionDTO> GetQuestionsByTestId(int testId)
-        //{
-        //    return mapper.Map<IEnumerable<Question>, List<QuestionDTO>>
-        //        (Database.Questions.Find(q => q.TestId == testId));
-        //}
     }
 }

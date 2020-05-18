@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using KTS.BLL.DTO;
+using KTS.BLL.Infrastucture;
 using KTS.BLL.Interfaces;
 using KTS.DAL.Entities;
 using KTS.DAL.Interfaces;
@@ -26,7 +27,12 @@ namespace KTS.BLL.Services
 
         public AnswerDTO GetAnswerById(int id)
         {
-            return mapper.Map<Answer, AnswerDTO>(Database.Answers.Get(id.ToString()));
+            var answer = mapper.Map<Answer, AnswerDTO>(Database.Answers.Get(id.ToString()));
+            if (answer == null)
+            {
+                throw new NotFoundException("Answer was not found", "Id");
+            }
+            return answer;
         }
     }
 }

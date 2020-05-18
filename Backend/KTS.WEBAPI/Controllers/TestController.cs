@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using KTS.BLL.DTO;
+using KTS.BLL.Infrastucture;
 using KTS.BLL.Interfaces;
 using KTS.BLL.Services;
+using KTS.DAL.Entities;
 using KTS.WEBAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -31,50 +34,88 @@ namespace KTS.WEBAPI.Controllers
 
         // GET: api/Test
         [HttpGet]
-        public IEnumerable<TestModel> GetTests()
+        [Authorize]
+        public IActionResult GetTests()
         {
-            return mapper.Map<IEnumerable<TestDTO>, IEnumerable<TestModel>>(_testService.GetAllTests());
+            IEnumerable<TestModel> tests;
+            try
+            {
+                tests = mapper.Map<IEnumerable<TestDTO>, IEnumerable<TestModel>>(_testService.GetAllTests());
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return Ok(tests);
         }
 
         // GET: api/Test/5/Questions
         [HttpGet("{id}/questions")]
-        public IEnumerable<QuestionModel> GetQuestionsByTestId(int id)
+        [Authorize]
+        public IActionResult GetQuestionsByTestId(int id)
         {
-            return mapper.Map<IEnumerable<QuestionDTO>, IEnumerable<QuestionModel>>
-                (_testService.GetQuestionsByTestId(id));
+            IEnumerable<QuestionModel> questions; 
+            try
+            {
+                questions = mapper.Map<IEnumerable<QuestionDTO>, IEnumerable<QuestionModel>>
+                    (_testService.GetQuestionsByTestId(id));
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return Ok(questions);
         }
 
         // GET: api/Test/5/start
         [HttpGet("{id}/start")]
-        public IDictionary<string, IEnumerable<AnswerModel>> GetQuestionsAndAnswersByTestId(int id)
+        [Authorize]
+        public IActionResult GetQuestionsAndAnswersByTestId(int id)
         {
-            var questions = mapper.Map<IEnumerable<QuestionDTO>, IEnumerable<QuestionModel>>
-                (_testService.GetQuestionsByTestId(id));
-
-            IDictionary<string, IEnumerable<AnswerModel>> test = 
-                new Dictionary<string, IEnumerable<AnswerModel>>();
-
-            foreach(var question in questions)
+            IDictionary<string, IEnumerable<AnswerModel>> result;
+            try
             {
-                var answers = mapper.Map<IEnumerable<AnswerDTO>, IEnumerable<AnswerModel>>
-                    (_testService.GetAnswersByQuestionId(question.QuestionId));
-                test.Add(Convert.ToString(question.QuestionId), answers);
+                result = mapper.Map<IDictionary<string, IEnumerable<AnswerDTO>>, IDictionary<string, IEnumerable<AnswerModel>>>
+                    (_testService.GetQuestionsAndAnswersByTestId(id));
             }
-            return test;
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return Ok(result);
         }
 
         //GET: api/Test/5
         [HttpGet("{id}")]
-        public ActionResult<TestModel> GetTest(int id)
+        [Authorize]
+        public ActionResult GetTest(int id)
         {
-            var test = mapper.Map<TestDTO, TestModel>(_testService.GetTestById(id));
-
-            if (test == null)
+            TestModel test;
+            try
+            {
+                test = mapper.Map<TestDTO, TestModel>(_testService.GetTestById(id));
+            }
+            catch (NotFoundException)
             {
                 return NotFound();
             }
-
-            return test;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return Ok(test);
         }
     }
 }

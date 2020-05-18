@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using KTS.BLL.DTO;
+using KTS.BLL.Infrastucture;
 using KTS.BLL.Interfaces;
 using KTS.DAL.Entities;
 using KTS.DAL.Interfaces;
@@ -23,14 +24,13 @@ namespace KTS.BLL.Services
     public class UserService : IUserService
     {
         private readonly UserManager<User> _userManager;
+        IUnitOfWork Database { get; set; }
 
         IMapper mapper = new MapperConfiguration(cfg =>
         {
             cfg.CreateMap<User, UserDTO>();
             cfg.CreateMap<Task<User>, Task<UserDTO>>();
         }).CreateMapper();
-
-        IUnitOfWork Database { get; set; }
 
         public UserService(IUnitOfWork uow, UserManager<User> userManager)
         {
@@ -40,45 +40,54 @@ namespace KTS.BLL.Services
 
         public IEnumerable<UserDTO> GetAllUsers()
         {
-            return mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(_userManager.Users.ToList());
+            var users =  mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(_userManager.Users.ToList());
+            if (users == null)
+            {
+                throw new NotFoundException("Users were not found");
+            }
+            return users;
         }
 
-        public async Task<UserDTO> GetUserById(string id)
+        public UserDTO GetUserById(string id)
         {
-            return await mapper.Map<Task<User>, Task<UserDTO>>(_userManager.FindByIdAsync(id));
+            var user = mapper.Map<User, UserDTO>(Database.Users.Get(id));
+            if (user == null)
+            {
+                throw new NotFoundException("User was not found", "Id");
+            }
+            return user;
         }
 
-        public Task<UserDTO> DeleteUser(string id)
+        public UserDTO DeleteUser(string id)
         {
-            try
+            var user = mapper.Map<User, UserDTO>(Database.Users.Get(id));
+            if (user == null)
             {
-                Database.Users.Delete(id);
-                Database.SaveAsync();
-                return mapper.Map<Task<User>, Task<UserDTO>>(_userManager.FindByIdAsync(id));
+                throw new NotFoundException("User was not found", "Id");
             }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
+            Database.Users.Delete(id);
+            Database.SaveAsync();
+            return user;
         }
 
         public UserDTO PutUser(UserDTO userDTO)
         {
-            try
+            if(userDTO == null)
             {
-                var user = Database.Users.Find(x => x.Id == userDTO.Id).FirstOrDefault();
-                user.Email = userDTO.Email;
-                user.UserName = userDTO.Username;
-                user.NormalizedEmail = userDTO.Email.ToUpper();
-                user.NormalizedUserName = userDTO.Username.ToUpper();
-                Database.Users.Update(user);
-                Database.SaveAsync();
-                return mapper.Map<User, UserDTO>(user);
+                throw new ValidationException("User can not be null");
             }
-            catch (Exception ex)
+            var user = Database.Users.Find(x => x.Id == userDTO.Id).FirstOrDefault();
+            if (user == null)
             {
-                throw ex;
+                throw new NotFoundException("User was not found", "Id");
             }
+            user.Email = userDTO.Email;
+            user.UserName = userDTO.Username;
+            user.NormalizedEmail = userDTO.Email.ToUpper();
+            user.NormalizedUserName = userDTO.Username.ToUpper();
+            Database.Users.Update(user);
+            Database.SaveAsync();
+            return mapper.Map<User, UserDTO>(user);
         }
 
         public void Dispose()

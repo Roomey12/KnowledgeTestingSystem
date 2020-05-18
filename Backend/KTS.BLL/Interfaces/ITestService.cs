@@ -11,5 +11,6 @@ namespace KTS.BLL.Interfaces
         IEnumerable<QuestionDTO> GetQuestionsByTestId(int id);
         IEnumerable<TestDTO> GetAllTests();
         IEnumerable<AnswerDTO> GetAnswersByQuestionId(int Id);
+        IDictionary<string, IEnumerable<AnswerDTO>> GetQuestionsAndAnswersByTestId(int id);
     }
 }

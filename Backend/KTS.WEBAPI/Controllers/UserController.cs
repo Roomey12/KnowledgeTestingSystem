@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using KTS.BLL.DTO;
+using KTS.BLL.Infrastucture;
 using KTS.BLL.Interfaces;
 using KTS.DAL.Entities;
 using KTS.WEBAPI.Models;
@@ -37,43 +38,88 @@ namespace KTS.WEBAPI.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<UserModel> GetAllUsers()
+        [Authorize(Roles = "admin")]
+        public IActionResult GetAllUsers()
         {
-            return mapper.Map<IEnumerable<UserDTO>, IEnumerable<UserModel>>(_userService.GetAllUsers()); 
+            IEnumerable<UserModel> users;
+            try
+            {
+                users = mapper.Map<IEnumerable<UserDTO>, IEnumerable<UserModel>>(_userService.GetAllUsers());
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return Ok(users);
         }
 
         [HttpGet("{id}")]
-        public async Task<UserModel> GetUserById(string id)
+        [Authorize(Roles = "admin")]
+        public IActionResult GetUserById(string id)
         {
-            return await mapper.Map<Task<UserDTO>, Task<UserModel>>(_userService.GetUserById(id));
+            UserModel user;
+            try
+            {
+                user = mapper.Map<UserDTO, UserModel>(_userService.GetUserById(id));
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return Ok(user);
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteUser(string id)
         {
+            UserModel user;
             try
             {
-                var user = _userService.DeleteUser(id);
-                return Ok(user);
+                user = mapper.Map<UserDTO, UserModel>(_userService.DeleteUser(id));
             }
-            catch(Exception ex)
+            catch(NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
+            return Ok(user);
         }
 
         [HttpPut]
-        public IActionResult PutUser(UserModel user)
+        [Authorize(Roles = "admin")]
+        public IActionResult PutUser(UserModel model)
         {
+            UserModel user;
             try
             {
-                var result = _userService.PutUser(mapper.Map<UserModel, UserDTO>(user));
-                return Ok(result);
+                user = mapper.Map<UserDTO, UserModel>(_userService.PutUser(mapper.Map<UserModel, UserDTO>(model)));
+            }
+            catch(ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
             }
             catch(Exception ex)
             {
                 throw ex;
             }
+            return Ok(user);
+            //return Ok(new { Message = "User edited successfully!" });
         }
 
         [HttpGet("profile")]
