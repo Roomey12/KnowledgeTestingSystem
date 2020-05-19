@@ -37,6 +37,7 @@ namespace KTS.BLL.Services
                 throw new ValidationException("UserTest can not be null", "Id");
             }
             Database.UserTests.Create(mapper.Map<UserTestDTO, UserTest>(userTest));
+            Database.Save();
         }
 
         public object GetAllUserTests()
@@ -76,7 +77,7 @@ namespace KTS.BLL.Services
             return result;
         }
 
-        public UserTestDTO DeleteUserTest(string id)
+        public void DeleteUserTest(string id)
         {
             var userTest = mapper.Map<UserTest, UserTestDTO>(Database.UserTests.Get(id));
             if (userTest == null)
@@ -85,14 +86,23 @@ namespace KTS.BLL.Services
             }
             Database.UserTests.Delete(id);
             Database.Save();
-            return userTest;
         }
 
-        public UserTestDTO PutUserTest(UserTestDTO userTestDTO)
+        public void PutUserTest(UserTestDTO userTestDTO)
         {
             if(userTestDTO == null)
             {
                 throw new ValidationException("UserTest can not be null", "Id");
+            }
+            var user = Database.Users.Get(userTestDTO.UserId.ToString());
+            if (user == null)
+            {
+                throw new ValidationException("User was not found", "Id");
+            }
+            var test = Database.Tests.Get(userTestDTO.TestId.ToString());
+            if (test == null)
+            {
+                throw new ValidationException("Test was not found", "Id");
             }
             var userTest = Database.UserTests.Get(userTestDTO.UserTestId.ToString());
             if (userTest == null)
@@ -103,7 +113,6 @@ namespace KTS.BLL.Services
             userTest.Time = userTestDTO.Time;
             Database.UserTests.Update(userTest);
             Database.SaveAsync();
-            return mapper.Map<UserTest, UserTestDTO>(userTest);
         }
     }
 }

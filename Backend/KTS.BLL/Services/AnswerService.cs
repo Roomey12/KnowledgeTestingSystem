@@ -18,6 +18,7 @@ namespace KTS.BLL.Services
         {
             cfg.CreateMap<Question, QuestionDTO>();
             cfg.CreateMap<Answer, AnswerDTO>();
+            cfg.CreateMap<AnswerDTO, Answer>();
         }).CreateMapper();
 
         public AnswerService(IUnitOfWork uow)
@@ -33,6 +34,56 @@ namespace KTS.BLL.Services
                 throw new NotFoundException("Answer was not found", "Id");
             }
             return answer;
+        }
+
+        public void CreateAnswer(AnswerDTO answer)
+        {
+            if (answer == null)
+            {
+                throw new ValidationException("Answer can not be null", "Id");
+            }
+            var question = Database.Questions.Get(answer.QuestionId.ToString());
+            if (question == null)
+            {
+                throw new ValidationException("Question was not found", "Id");
+            }
+            Database.Answers.Create(mapper.Map<AnswerDTO, Answer>(answer));
+            Database.Save();
+        }
+
+        public void DeleteAnswer(string id)
+        {
+            var answer = Database.Answers.Get(id);
+            if (answer == null)
+            {
+                throw new NotFoundException("Answer was not found", "Id");
+            }
+            Database.Answers.Delete(id);
+            Database.Save();
+        }
+
+        public void PutAnswer(AnswerDTO answerDTO)
+        {
+            if (answerDTO == null)
+            {
+                throw new ValidationException("Answer can not be null");
+            }
+            var answer = Database.Answers.Get(answerDTO.AnswerId.ToString());
+            if (answer == null)
+            {
+                throw new NotFoundException("Answer was not found", "Id");
+            }
+            var question = Database.Questions.Get(answerDTO.QuestionId.ToString());
+            if (question == null)
+            {
+                throw new ValidationException("Question was not found", "Id");
+            }
+            answer.QuestionId = answerDTO.QuestionId;
+            answer.Content = answerDTO.Content;
+            answer.IsCorrect = answerDTO.IsCorrect;
+            answer.Mark = answerDTO.Mark;
+            Database.Answers.Update(answer);
+            Database.Save();
         }
     }
 }

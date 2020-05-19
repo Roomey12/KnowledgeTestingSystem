@@ -11,11 +11,7 @@ namespace KTS.WEBAPI.Models
         public string Content { get; set; }
         public bool IsCorrect { get; set; }
         public double Mark { get; set; }
-
         public int QuestionId { get; set; }
-        public QuestionModel Question { get; set; }
-
-        public static List<AnswerModel> ExistingAnswers = new List<AnswerModel>();
         public AnswerModel(int answerId, string content, bool isCorrect, double mark, int questionId)
         {
             AnswerId = answerId;
@@ -23,9 +19,7 @@ namespace KTS.WEBAPI.Models
             IsCorrect = isCorrect;
             Mark = mark;
             QuestionId = questionId;
-            ExistingAnswers.Add(this);
         }
-
         public AnswerModel() { }
     }
 }

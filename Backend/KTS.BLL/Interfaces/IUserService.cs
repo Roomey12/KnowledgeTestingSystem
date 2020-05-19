@@ -12,7 +12,7 @@ namespace KTS.BLL.Interfaces
     {
         IEnumerable<UserDTO> GetAllUsers();
         UserDTO GetUserById(string id);
-        UserDTO DeleteUser(string id);
-        UserDTO PutUser(UserDTO userDTO);
+        void DeleteUser(string id);
+        void PutUser(UserDTO userDTO);
     }
 }

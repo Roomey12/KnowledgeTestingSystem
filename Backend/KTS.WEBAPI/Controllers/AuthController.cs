@@ -37,17 +37,18 @@ namespace KTS.WEBAPI.Controllers
         public async Task<IActionResult> Register(RegistrationModel model)
         {
             model.Role = "customer";
+            IdentityResult result;
             try
             {
                 User user = new User { Email = model.Email, UserName = model.UserName };
-                var result = await _userManager.CreateAsync(user, model.Password);
+                result = await _userManager.CreateAsync(user, model.Password);
                 await _userManager.AddToRoleAsync(user, model.Role);
-                return Ok(result);
             }
-            catch(Exception ex)
+            catch(Exception)
             {
-                throw ex;
+                return StatusCode(500);
             }
+            return Ok(result);
         }
 
         [HttpPost("login")]

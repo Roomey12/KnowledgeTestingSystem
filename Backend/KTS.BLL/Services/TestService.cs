@@ -6,6 +6,7 @@ using KTS.DAL.Entities;
 using KTS.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace KTS.BLL.Services
@@ -16,6 +17,7 @@ namespace KTS.BLL.Services
 
         IMapper mapper = new MapperConfiguration(cfg =>
         {
+            cfg.CreateMap<TestDTO, Test>();
             cfg.CreateMap<Test, TestDTO>();
             cfg.CreateMap<Question, QuestionDTO>();
             cfg.CreateMap<Answer, AnswerDTO>();
@@ -80,6 +82,45 @@ namespace KTS.BLL.Services
                 throw new NotFoundException("This test does not have questions", "Id");
             }
             return test;
+        }
+
+        public void CreateTest(TestDTO test)
+        {
+            if (test == null)
+            {
+                throw new ValidationException("Test can not be null", "Id");
+            }
+            Database.Tests.Create(mapper.Map<TestDTO, Test>(test));
+            Database.Save();
+        }
+
+        public void DeleteTest(string id)
+        {
+            var test = Database.Tests.Get(id);
+            if(test == null)
+            {
+                throw new NotFoundException("Test was not found", "Id");
+            }
+            Database.Tests.Delete(id);
+            Database.Save();
+        }
+
+        public void PutTest(TestDTO testDTO)
+        {
+            if (testDTO == null)
+            {
+                throw new ValidationException("Test can not be null");
+            }
+            var test = Database.Tests.Get(testDTO.TestId.ToString());
+            if (test == null)
+            {
+                throw new NotFoundException("Test was not found", "Id");
+            }
+            test.Title = testDTO.Title;
+            test.MaxTime = testDTO.MaxTime;
+            test.MaxScore = testDTO.MaxScore;
+            Database.Tests.Update(test);
+            Database.Save();
         }
     }
 }

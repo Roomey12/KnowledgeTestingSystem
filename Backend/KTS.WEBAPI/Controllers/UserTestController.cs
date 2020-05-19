@@ -32,27 +32,19 @@ namespace KTS.WEBAPI.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult PostUserTest(UserTestModel model)
+        public IActionResult PostUserTest(UserTestModel userTest)
         {
-            UserTestModel userTest;
             try
             {
-                userTest = new UserTestModel()
-                {
-                    UserId = model.UserId,
-                    TestId = model.TestId,
-                    Mark = model.Mark,
-                    Time = model.Time
-                };
                 _userTestService.AddUserTest(mapper.Map<UserTestModel, UserTestDTO>(userTest));
             }
             catch(ValidationException ex)
             {
                 return BadRequest(ex.Message);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                return StatusCode(500);
             }
             return Ok(userTest);
         }
@@ -70,9 +62,9 @@ namespace KTS.WEBAPI.Controllers
             {
                 return NotFound();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                return StatusCode(500);
             }
             return Ok(result);
         }
@@ -90,9 +82,9 @@ namespace KTS.WEBAPI.Controllers
             {
                 return NotFound();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                return StatusCode(500);
             }
             return Ok(result);
         }
@@ -102,31 +94,28 @@ namespace KTS.WEBAPI.Controllers
         [Authorize (Roles ="admin")]
         public IActionResult DeleteUserTest(string id)
         {
-            UserTestModel result;
             try
             {
-                result = mapper.Map<UserTestDTO, UserTestModel>(_userTestService.DeleteUserTest(id));
+                _userTestService.DeleteUserTest(id);
             }
             catch (NotFoundException)
             {
                 return NotFound();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                return StatusCode(500);
             }
-            return Ok(result);
+            return Ok(new { Message = "UserTest was successfully deleted!" });
         }
 
         [HttpPut]
         [Authorize(Roles = "admin")]
         public IActionResult PutUserTest(UserTestModel userTest)
         {
-            UserTestModel result;
             try
             {
-                result = mapper.Map<UserTestDTO, UserTestModel>(
-                    _userTestService.PutUserTest(mapper.Map<UserTestModel, UserTestDTO>(userTest)));
+                _userTestService.PutUserTest(mapper.Map<UserTestModel, UserTestDTO>(userTest));
             }
             catch (ValidationException ex)
             {
@@ -136,11 +125,11 @@ namespace KTS.WEBAPI.Controllers
             {
                 return NotFound();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                return StatusCode(500);
             }
-            return Ok(result);
+            return Ok(new { Message = "UserTest was successfully changed!" });
         }
     }
 }

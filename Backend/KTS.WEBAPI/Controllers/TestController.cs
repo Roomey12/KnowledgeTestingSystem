@@ -22,6 +22,7 @@ namespace KTS.WEBAPI.Controllers
 
         IMapper mapper = new MapperConfiguration(cfg =>
         {
+            cfg.CreateMap<TestModel, TestDTO>();
             cfg.CreateMap<TestDTO, TestModel>();
             cfg.CreateMap<QuestionDTO, QuestionModel>();
             cfg.CreateMap<AnswerDTO, AnswerModel>();
@@ -34,7 +35,7 @@ namespace KTS.WEBAPI.Controllers
 
         // GET: api/Test
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public IActionResult GetTests()
         {
             IEnumerable<TestModel> tests;
@@ -46,9 +47,9 @@ namespace KTS.WEBAPI.Controllers
             {
                 return NotFound();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                return StatusCode(500);
             }
             return Ok(tests);
         }
@@ -68,9 +69,9 @@ namespace KTS.WEBAPI.Controllers
             {
                 return NotFound();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                return StatusCode(500);
             }
             return Ok(questions);
         }
@@ -90,9 +91,9 @@ namespace KTS.WEBAPI.Controllers
             {
                 return NotFound();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                return StatusCode(500);
             }
             return Ok(result);
         }
@@ -100,7 +101,7 @@ namespace KTS.WEBAPI.Controllers
         //GET: api/Test/5
         [HttpGet("{id}")]
         [Authorize]
-        public ActionResult GetTest(int id)
+        public IActionResult GetTest(int id)
         {
             TestModel test;
             try
@@ -111,11 +112,69 @@ namespace KTS.WEBAPI.Controllers
             {
                 return NotFound();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                return StatusCode(500);
             }
             return Ok(test);
+        }
+
+        [HttpPost]
+        public IActionResult PostTest(TestModel test)
+        {
+            try
+            {
+                _testService.CreateTest(mapper.Map<TestModel, TestDTO>(test));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok(new { Message = "Test was successfully created!" });
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteTest(string id)
+        {
+            try
+            {
+                _testService.DeleteTest(id);
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok(new { Message = "Test was successfully deleted!" });
+        }
+
+        [HttpPut]
+        public IActionResult PutTest(TestModel test)
+        {
+            try
+            {
+                _testService.PutTest(mapper.Map<TestModel, TestDTO>(test));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok(new { Message = "Test was successfully changed!" });
         }
     }
 }

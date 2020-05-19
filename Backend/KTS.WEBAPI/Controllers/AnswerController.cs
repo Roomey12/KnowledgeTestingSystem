@@ -20,6 +20,7 @@ namespace KTS.WEBAPI.Controllers
 
         IMapper mapper = new MapperConfiguration(cfg =>
         {
+            cfg.CreateMap<AnswerModel, AnswerDTO>();
             cfg.CreateMap<AnswerDTO, AnswerModel>();
         }).CreateMapper();
 
@@ -28,10 +29,10 @@ namespace KTS.WEBAPI.Controllers
             _answerService = answerService;
         }
 
-        // GET: api/Answers/5
+        // GET: api/Answer/5
         [HttpGet("{id}")]
-        [Authorize]
-        public IActionResult GetQuestionById(int id)
+        //[Authorize]
+        public IActionResult GetAnswerById(int id)
         {
             AnswerModel answer;
             try
@@ -42,11 +43,69 @@ namespace KTS.WEBAPI.Controllers
             {
                 return NotFound();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                return StatusCode(500);
             }
             return Ok(answer);
+        }
+
+        [HttpPost]
+        public IActionResult PostAnswer(AnswerModel answer)
+        {
+            try
+            {
+                _answerService.CreateAnswer(mapper.Map<AnswerModel, AnswerDTO>(answer));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok(new { Message = "Answer was successfully created!" });
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteAnswer(string id)
+        {
+            try
+            {
+                _answerService.DeleteAnswer(id);
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok(new { Message = "Answer was successfully deleted!" });
+        }
+
+        [HttpPut]
+        public IActionResult PutAnswer(AnswerModel answer)
+        {
+            try
+            {
+                _answerService.PutAnswer(mapper.Map<AnswerModel, AnswerDTO>(answer));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok(new { Message = "Answer was successfully changed!" });
         }
     }
 }

@@ -58,7 +58,7 @@ namespace KTS.BLL.Services
             return user;
         }
 
-        public UserDTO DeleteUser(string id)
+        public void DeleteUser(string id)
         {
             var user = mapper.Map<User, UserDTO>(Database.Users.Get(id));
             if (user == null)
@@ -67,16 +67,15 @@ namespace KTS.BLL.Services
             }
             Database.Users.Delete(id);
             Database.SaveAsync();
-            return user;
         }
 
-        public UserDTO PutUser(UserDTO userDTO)
+        public void PutUser(UserDTO userDTO)
         {
             if(userDTO == null)
             {
                 throw new ValidationException("User can not be null");
             }
-            var user = Database.Users.Find(x => x.Id == userDTO.Id).FirstOrDefault();
+            var user = Database.Users.Get(userDTO.Id);
             if (user == null)
             {
                 throw new NotFoundException("User was not found", "Id");
@@ -87,7 +86,6 @@ namespace KTS.BLL.Services
             user.NormalizedUserName = userDTO.Username.ToUpper();
             Database.Users.Update(user);
             Database.SaveAsync();
-            return mapper.Map<User, UserDTO>(user);
         }
 
         public void Dispose()

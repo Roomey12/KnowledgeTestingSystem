@@ -50,9 +50,9 @@ namespace KTS.WEBAPI.Controllers
             {
                 return NotFound();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                return StatusCode(500);
             }
             return Ok(users);
         }
@@ -70,9 +70,9 @@ namespace KTS.WEBAPI.Controllers
             {
                 return NotFound();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                return StatusCode(500);
             }
             return Ok(user);
         }
@@ -81,30 +81,28 @@ namespace KTS.WEBAPI.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult DeleteUser(string id)
         {
-            UserModel user;
             try
             {
-                user = mapper.Map<UserDTO, UserModel>(_userService.DeleteUser(id));
+                mapper.Map<UserDTO, UserModel>(_userService.DeleteUser(id));
             }
             catch(NotFoundException)
             {
                 return NotFound();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                return StatusCode(500);
             }
-            return Ok(user);
+            return Ok(new { Message = "User was successfully deleted!" });
         }
 
         [HttpPut]
         [Authorize(Roles = "admin")]
         public IActionResult PutUser(UserModel model)
         {
-            UserModel user;
             try
             {
-                user = mapper.Map<UserDTO, UserModel>(_userService.PutUser(mapper.Map<UserModel, UserDTO>(model)));
+                _userService.PutUser(mapper.Map<UserModel, UserDTO>(model));
             }
             catch(ValidationException ex)
             {
@@ -114,12 +112,11 @@ namespace KTS.WEBAPI.Controllers
             {
                 return NotFound();
             }
-            catch(Exception ex)
+            catch(Exception)
             {
-                throw ex;
+                return StatusCode(500);
             }
-            return Ok(user);
-            //return Ok(new { Message = "User edited successfully!" });
+            return Ok(new { Message = "User was successfully changed!" });
         }
 
         [HttpGet("profile")]

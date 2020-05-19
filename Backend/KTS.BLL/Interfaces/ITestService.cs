@@ -12,5 +12,8 @@ namespace KTS.BLL.Interfaces
         IEnumerable<TestDTO> GetAllTests();
         IEnumerable<AnswerDTO> GetAnswersByQuestionId(int Id);
         IDictionary<string, IEnumerable<AnswerDTO>> GetQuestionsAndAnswersByTestId(int id);
+        void CreateTest(TestDTO test);
+        void DeleteTest(string id);
+        void PutTest(TestDTO testDTO);
     }
 }

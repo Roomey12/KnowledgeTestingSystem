@@ -9,9 +9,9 @@ namespace KTS.BLL.Interfaces
 {
     public interface IQuestionService
     {
-        //IEnumerable<QuestionDTO> GetQuestionsByTestId(int testId);
-        //IEnumerable<AnswerDTO> GetAnswersByQuestionId(int testId);
         QuestionDTO GetQuestionById(int id);
-        //Task<QuestionDTO> GetQuestionByIdAsync(int id);
+        void CreateQuestion(QuestionDTO question);
+        void DeleteQuestion(string id);
+        void PutQuestion(QuestionDTO questionDTO);
     }
 }
