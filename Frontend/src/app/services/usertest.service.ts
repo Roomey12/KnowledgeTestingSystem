@@ -10,16 +10,23 @@ export class UserTestService {//experimental decorations
     constructor(private http: HttpClient) {
     }
 
-    getUserTests(){
+    getAllUserTests(){
         return this.http.get(this.userTestUrl);
     }
 
+    getTopUserTests(count: number){
+        return this.http.get(this.userTestUrl + `top/${count}`);
+    }
+    
     getUserTestsByUserId(id: string){
         return this.http.get(this.userTestUrl + id);
     }
 
     postTestResult(testResult: TestResult){
-        console.log(testResult);
         return this.http.post(this.userTestUrl, testResult);
+    }
+
+    deleteUserTest(id: string){
+        return this.http.delete(this.userTestUrl + id);
     }
 }

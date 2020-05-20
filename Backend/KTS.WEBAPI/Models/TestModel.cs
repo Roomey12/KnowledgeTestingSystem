@@ -9,7 +9,7 @@ namespace KTS.WEBAPI.Models
     {
         public int TestId { get; set; }
         public string Title { get; set; }
-        public double MaxScore { get; set; }
+        public float MaxScore { get; set; }
         public string Description { get; set; }
         public DateTime MaxTime { get; set; }
 

@@ -39,7 +39,6 @@ namespace KTS.BLL.Services
             Database.UserTests.Create(mapper.Map<UserTestDTO, UserTest>(userTest));
             Database.Save();
         }
-
         public object GetAllUserTests()
         {
             var userTests = mapper.Map<IEnumerable<UserTest>, IEnumerable<UserTestDTO>>(Database.UserTests.GetAll());
@@ -55,7 +54,26 @@ namespace KTS.BLL.Services
             var result = from u in users
                          join t in userTests on u.Id equals t.UserId
                          orderby t.Mark descending, t.Time descending
-                         select new { Username = u.Username, Test = t.Test.Title, Mark = t.Mark, Time = t.Time };
+                         select new { t.UserTestId, UserId = u.Id, t.Test.TestId, u.Username, Test = t.Test.Title, t.Mark, t.Time };
+            return result;
+        }
+
+        public object GetTopUserTests(int count)
+        {
+            var userTests = mapper.Map<IEnumerable<UserTest>, IEnumerable<UserTestDTO>>(Database.UserTests.GetAll());
+            if (userTests == null)
+            {
+                throw new NotFoundException("UserTests were not found");
+            }
+            var users = mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(Database.Users.GetAll());
+            if (users == null)
+            {
+                throw new NotFoundException("Users were not found");
+            }
+            var result = (from u in users
+                         join t in userTests on u.Id equals t.UserId
+                         orderby t.Mark descending, t.Time descending
+                         select new { u.Username, Test = t.Test.Title, t.Mark, t.Time }).Take(count);
             return result;
         }
 

@@ -4,11 +4,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Test } from '../models/test';
 
 @Component({
-  selector: 'app-test-form',
-  templateUrl: './test-form.component.html',
+  selector: 'app-test-info',
+  templateUrl: './test-info.component.html',
   styles: []
 })
-export class TestFormComponent implements OnInit {
+export class TestInfoComponent implements OnInit {
 
   test: Test;
   loaded: boolean = false;
@@ -30,7 +30,6 @@ export class TestFormComponent implements OnInit {
           if(this.test != null){
             this.loaded = true;
           }
-          console.log(this.test.maxTime.getMinutes());
         })
   }
 }

@@ -1,11 +1,11 @@
 <div class="container">
-    <h1>Список пользователей</h1>
+    <h1 style="text-align: center">Список пользователей</h1>
     <table class="table mtable">
         <thead>
             <tr>
                 <td>Email</td>
                 <td>UserName</td>
-                <td></td>
+                <td>Операции</td>
             </tr>
         </thead>
         <tbody>
@@ -13,7 +13,7 @@
                 <td>{{u?.email}}</td>
                 <td>{{u?.userName}}</td>
                 <td>
-                    <a routerLink="/admin-panel/edit/{{u.id}}" class="btn btn-sm btn-primary" style="margin-right: 5px;">Изменить</a>
+                    <a routerLink="/admin-panel/user-edit/{{u.id}}" class="btn btn-sm btn-primary" style="margin-right: 5px;">Изменить</a>
                     <button (click)="delete(u.id)" class="btn btn-sm btn-danger">Удалить</button>
                 </td>
             </tr>

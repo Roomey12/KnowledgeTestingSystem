@@ -1,5 +1,4 @@
 <div *ngIf="loaded">
-    
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 col-lg-6 pb-5">
@@ -17,6 +16,7 @@
                     <td>Тест</td>
                     <td>Бал</td>
                     <td>Время</td>
+                    <td>Операции</td>
                 </tr>
             </thead>
             <tbody>
@@ -24,9 +24,12 @@
                     <td>{{u?.test}}</td>
                     <td>{{u?.mark}}</td>
                     <td>{{u?.time.substring(14)}}</td>
+                    <td>
+                        <a class="btn btn-sm btn-primary" style="margin-right: 5px;">Изменить</a>
+                        <button (click)="deleteTestResult(u.id)" class="btn btn-sm btn-danger">Удалить</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
-
 </div>

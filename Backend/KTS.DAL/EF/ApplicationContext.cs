@@ -30,8 +30,8 @@ namespace KTS.DAL.EF
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            Test test1 = new Test(1, "ООП", 5, "Простой тест по Объектно-Ориентированому Программированию.", new DateTime(2020, 03, 20, 0, 3, 0));
-            Test test2 = new Test(2, "C# Легкий", 3, "Простой тест по языку программирования C#.", new DateTime(2020, 03, 20, 0, 2, 30));
+            Test test1 = new Test(1, "ООП", 5, "Простой тест по Объектно-Ориентированому Программированию", new DateTime(2020, 03, 20, 0, 3, 0));
+            Test test2 = new Test(2, "C# Легкий", 3, "Простой тест по языку программирования C#", new DateTime(2020, 03, 20, 0, 2, 30));
 
             Question t1q1 = new Question(1, "Какими бывают отношения между классами (укажите все подходящие варианты)?", 1, false);
             Question t1q2 = new Question(2, "Метод определения объектов, при котором производные объекты наследуют свойства от своих потомков?", 1, true);

@@ -17,15 +17,23 @@ import { TestStartComponent } from './test-start/test-start.component';
 import { ExitTestStartGuard } from './test-start/exit.test-start.guard';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
-import { UserFormComponent } from './admin-panel/user-form/user-form.component';
-import { UserListComponent } from './admin-panel/user-list/user-list.component';
-import { UserEditComponent } from './admin-panel/user-edit/user-edit.component';
+import { UserFormComponent } from './admin-panel/user/user-form/user-form.component';
+import { UserListComponent } from './admin-panel/user/user-list/user-list.component';
+import { UserEditComponent } from './admin-panel/user/user-edit/user-edit.component';
 import { AccountComponent } from './account/account.component';
 import { TestService } from './services/test.service';
 import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
 import { UserTestService } from './services/usertest.service';
-import { TestFormComponent } from './test-form/test-form.component';
+import { TestInfoComponent } from './test-info/test-info.component';
+import { TestListComponent } from './admin-panel/test/test-list/test-list.component';
+import { TestEditComponent } from './admin-panel/test/test-edit/test-edit.component';
+import { TestFormComponent } from './admin-panel/test/test-form/test-form.component';
+import { QuestionService } from './services/question.service';
+import { AnswerService } from './services/answer.service';
+import { TestCreateComponent } from './admin-panel/test/test-create/test-create.component';
+import { UserTestListComponent } from './admin-panel/user-test/user-test-list/user-test-list.component';
+import { UserTestFormComponent } from './admin-panel/user-test/user-test-form/user-test-form.component';
 
 
 
@@ -44,7 +52,13 @@ import { TestFormComponent } from './test-form/test-form.component';
     UserListComponent,
     UserEditComponent,
     AccountComponent,
-    TestFormComponent
+    TestInfoComponent,
+    TestListComponent,
+    TestEditComponent,
+    TestFormComponent,
+    TestCreateComponent,
+    UserTestListComponent,
+    UserTestFormComponent
   ],
   imports: [
     BrowserModule,
@@ -62,6 +76,8 @@ import { TestFormComponent } from './test-form/test-form.component';
   providers: [
     UserService,
     TestService, 
+    QuestionService,
+    AnswerService,
     AuthService, 
     UserTestService,
     ExitTestStartGuard, {

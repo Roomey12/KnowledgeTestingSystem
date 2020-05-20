@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
   }
   
   loadUserTests(){
-    this.userTestService.getUserTests()
+    this.userTestService.getTopUserTests(10)
       .subscribe((data: object[]) =>{
          this.userTests = data;
       })

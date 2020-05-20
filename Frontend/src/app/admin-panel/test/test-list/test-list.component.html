@@ -1,0 +1,27 @@
+<div class="col-lg-6 floating" class="container">
+    <button routerLink= "/admin-panel/test-create" class="btn btn-sm btn-primary">Создать тест</button>
+    <h1 style="text-align: center">Список тестов</h1>
+    <table class="table mtable">
+        <thead>
+            <tr>
+                <td>Тест</td>
+                <td>Описание</td>
+                <td>Бал</td>
+                <td>Время</td>
+                <td>Операции</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let t of tests">
+                <td>{{t?.title}}</td>
+                <td>{{t?.description}}</td>
+                <td>{{t?.maxScore}}</td>
+                <td>{{t?.maxTime.substring(14)}}</td>
+                <td>
+                    <a routerLink="/admin-panel/test-edit/{{t.testId}}" class="btn btn-sm btn-primary" style="margin-right: 5px;">Изменить</a>
+                    <button (click)="delete(t.testId)" class="btn btn-sm btn-danger">Удалить</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

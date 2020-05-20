@@ -45,10 +45,10 @@ export class UserEditComponent implements OnInit {
       })
   }
 
-  // deleteTest(id: string) {
-  //   var result = confirm("Вы уверены что хотите удалить результат теста?");
-  //   if(result == true){
-  //     this.adminService.deleteUserTest(id).subscribe(data => this.loadUserTests());
-  //   }
-  // } 
+  deleteTestResult(id: string) {
+    var result = confirm("Вы уверены что хотите удалить результат теста?");
+    if(result == true){
+      this.userTestService.deleteUserTest(id).subscribe(data => this.loadUserTests());
+    }
+  } 
 }

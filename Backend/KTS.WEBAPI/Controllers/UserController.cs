@@ -83,7 +83,7 @@ namespace KTS.WEBAPI.Controllers
         {
             try
             {
-                mapper.Map<UserDTO, UserModel>(_userService.DeleteUser(id));
+                _userService.DeleteUser(id);
             }
             catch(NotFoundException)
             {

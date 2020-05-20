@@ -31,7 +31,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public IActionResult PostUserTest(UserTestModel userTest)
         {
             try
@@ -57,6 +57,26 @@ namespace KTS.WEBAPI.Controllers
             try
             {
                 result = _userTestService.GetAllUserTests();
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok(result);
+        }
+
+        [HttpGet("top/{count}")]
+        [Authorize]
+        public IActionResult GetTopUserTests(int count)
+        {
+            object result;
+            try
+            {
+                result = _userTestService.GetTopUserTests(count);
             }
             catch (NotFoundException)
             {

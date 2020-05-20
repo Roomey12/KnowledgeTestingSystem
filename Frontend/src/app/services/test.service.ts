@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Test } from '../models/test';
 
 @Injectable()
-export class TestService {//experimental decorations
+export class TestService {
 
     private testUrl = "http://localhost:58733/api/test";
-    private questionUrl = "http://localhost:58733/api/question"
-    private answerUrl = "http://localhost:58733/api/answer";
 
     constructor(private http: HttpClient) {
     }
@@ -23,11 +22,16 @@ export class TestService {//experimental decorations
         return this.http.get(this.testUrl + `/${id}/start`);
     }
 
-    getQuestionById(id: number) {
-        return this.http.get(this.questionUrl + `/${id}`);
+    deleteTest(id: string){
+        return this.http.delete(this.testUrl + `/${id}`);
     }
 
-    getAnswerById(id: number) {
-        return this.http.get(this.answerUrl + `/${id}`);
+    putTest(test: Test){
+        return this.http.put(this.testUrl, test);
+    }
+
+    createTest(test: Test){
+        console.log(test);
+        return this.http.post(this.testUrl, test);
     }
 }

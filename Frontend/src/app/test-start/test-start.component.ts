@@ -8,6 +8,9 @@ import { Answer } from '../models/answer';
 import { forkJoin, Observable } from 'rxjs';
 import { TestResult } from '../models/testResult';
 import { UserService } from '../services/user.service';
+import { QuestionService } from '../services/question.service';
+import { AnswerService } from '../services/answer.service';
+import { UserTestService } from '../services/usertest.service';
 
 @Component({
   selector: 'app-test-start',
@@ -38,7 +41,12 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
   answers1;
 
 
-  constructor(private testService: TestService, private userService: UserService, private router: Router, activeRoute: ActivatedRoute) {
+  constructor(private testService: TestService, 
+              private userService: UserService, 
+              private questionService: QuestionService,
+              private answerService: AnswerService,
+              private userTestService: UserTestService,
+              private router: Router, activeRoute: ActivatedRoute) {
     this.testId = Number.parseInt(activeRoute.snapshot.params["id"]);
   }
 
@@ -70,7 +78,7 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
   fillQuestions(testInfoGet: Map<string, Answer[]>) {
     this.testInfo = new Map<Question, Answer[]>();
     for (let t in testInfoGet) {
-        this.testService.getQuestionById(Number(t))
+        this.questionService.getQuestionById(Number(t))
             .subscribe((data1: Question) => {
                 this.fillTestInfo(testInfoGet, data1);
             })
@@ -196,9 +204,9 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
     this.observables = [];
     for (let i = 0; i < this.answers1.length; i++) {
         if (this.answers[i].checked) {
-            this.observables.push(this.testService.getAnswerById(this.answers[i].id));
+            this.observables.push(this.answerService.getAnswerById(this.answers[i].id));
         }
-        this.all.push(this.testService.getAnswerById(this.answers[i].id));
+        this.all.push(this.answerService.getAnswerById(this.answers[i].id));
     }
   }
 
@@ -243,7 +251,7 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
     document.getElementById('subButton').innerHTML = "Результат";
     this.submitted = true;
     clearInterval(this.interval);
-    //this.testService.postTestResult(this.testResult);
+    this.userTestService.postTestResult(this.testResult).subscribe(data => console.log("Finish"));
   }
 
   fillTestResult(){
