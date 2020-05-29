@@ -2,8 +2,8 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 col-lg-6 pb-5">
-                <h2>Изменение данных о тесте</h2>
-                <test-form [(test)]="test"></test-form>
+                <h2>Изменение данных о результате теста пользователе</h2>
+                <user-test-form-mt [(userTest)]="userTest"></user-test-form-mt>
                 <div class="form-group">
                     <input type="button" value="Сохранить" (click)="save()" class="btn btn-success" />
                 </div>
@@ -13,18 +13,18 @@
         <table class="table mtable">
             <thead>
                 <tr>
+                    <td>Пользователь</td>
                     <td>Тест</td>
-                    <td>Описание</td>
                     <td>Бал</td>
                     <td>Время</td>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>{{test?.title}}</td>
-                    <td>{{test?.description}}</td>
-                    <td>{{test?.maxScore}}</td>
-                    <td>{{test?.maxTime.substring(14)}}</td>
+                    <td>{{userTest?.username}}</td>
+                    <td>{{userTest?.test}}</td>
+                    <td>{{userTest?.mark}}</td>
+                    <td>{{userTest?.time.substring(14)}}</td>
                 </tr>
             </tbody>
         </table>

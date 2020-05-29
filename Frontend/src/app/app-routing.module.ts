@@ -17,6 +17,8 @@ import { TestListComponent } from './admin-panel/test/test-list/test-list.compon
 import { TestEditComponent } from './admin-panel/test/test-edit/test-edit.component';
 import { TestCreateComponent } from './admin-panel/test/test-create/test-create.component';
 import { UserTestListComponent } from './admin-panel/user-test/user-test-list/user-test-list.component';
+import { UserTestEditComponent } from './admin-panel/user-test/user-test-edit/user-test-edit.component';
+import { UserTestCreateComponent } from './admin-panel/user-test/user-test-create/user-test-create.component';
 
 
 const routes: Routes = [
@@ -38,7 +40,9 @@ const routes: Routes = [
       { path: 'test-edit/:id', component: TestEditComponent },
       { path: 'test-list', component: TestListComponent },
       { path: 'test-create', component: TestCreateComponent },
-      { path: 'user-test-list', component: UserTestListComponent }
+      { path: 'user-test-list', component: UserTestListComponent },
+      { path: 'user-test-edit/:id', component: UserTestEditComponent },
+      { path: 'user-test-create', component: UserTestCreateComponent }
     ]
   },
   { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },

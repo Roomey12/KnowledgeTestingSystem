@@ -6,6 +6,7 @@ using KTS.DAL.Entities;
 using KTS.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace KTS.BLL.Services
@@ -42,11 +43,7 @@ namespace KTS.BLL.Services
             {
                 throw new ValidationException("Answer can not be null", "Id");
             }
-            var question = Database.Questions.Get(answer.QuestionId.ToString());
-            if (question == null)
-            {
-                throw new ValidationException("Question was not found", "Id");
-            }
+            answer.QuestionId = Database.Questions.GetAll().Max(x => x.QuestionId);
             Database.Answers.Create(mapper.Map<AnswerDTO, Answer>(answer));
             Database.Save();
         }

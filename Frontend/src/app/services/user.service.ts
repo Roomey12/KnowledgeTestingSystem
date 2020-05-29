@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user';
+import { ChangePassword } from '../models/changePassword';
 
 @Injectable()
 export class UserService {//experimental decorations
@@ -28,5 +29,9 @@ export class UserService {//experimental decorations
     
     getUserProfile() {
         return this.http.get(this.userUrl + 'profile');
+    }
+
+    changePassword(body: ChangePassword){
+        return this.http.post(this.userUrl + 'changePass', body);
     }
 }

@@ -95,6 +95,35 @@ namespace KTS.BLL.Services
             return result;
         }
 
+        public object GetUserTestById(string id)
+        {
+            var userTest = Database.UserTests.Get(id);
+            if (userTest == null)
+            {
+                throw new NotFoundException("UserTest was not found", "Id");
+            }
+            var user = Database.Users.Get(userTest.UserId);
+            if(user == null)
+            {
+                throw new ValidationException("User who passed this test does not exist", "Id");
+            }
+            var test = Database.Tests.Get(userTest.TestId.ToString());
+            if (test == null)
+            {
+                throw new ValidationException("Test does not exist", "Id");
+            }
+            var result = new
+            {
+                UserTestId = userTest.UserTestId,
+                UserId = user.Id,
+                TestId = test.TestId,
+                Username = user.UserName,
+                Test = test.Title,
+                Mark = userTest.Mark,
+                Time = userTest.Time
+            };
+            return result;
+        }
         public void DeleteUserTest(string id)
         {
             var userTest = mapper.Map<UserTest, UserTestDTO>(Database.UserTests.Get(id));

@@ -32,4 +32,15 @@
             </tbody>
         </table>
     </div>
+
+    <button class="btn btn-info place" (click)="showChangePassword()">Изменить пароль</button>
+    <div *ngIf="showChangePass">
+        <label>Старый пароль</label><br>
+        <input id="OldPassword" type="password"><br>
+        <label >Новый пароль пароль</label><br>
+        <input id="NewPassword" type="password"><br>
+        <label >Подтвердите новый пароль</label><br>
+        <input type="password"><br>
+        <button (click)="changePassword()">Подтвердить</button>
+    </div>
 </div>

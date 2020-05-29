@@ -1,4 +1,5 @@
 <div class="container">
+    <button routerLink= "/admin-panel/user-test-create" class="btn btn-sm btn-primary">Добавить результат</button>
     <h1 style="text-align: center">Список результатов пользователей</h1>
     <table class="table mtable">
         <thead>
@@ -17,7 +18,7 @@
                 <td>{{u?.mark}}</td>
                 <td>{{u?.time.substring(14)}}</td>
                 <td>
-                    <a class="btn btn-sm btn-primary" style="margin-right: 5px;">Изменить</a>
+                    <a routerLink="/admin-panel/user-test-edit/{{u.userTestId}}" class="btn btn-sm btn-primary" style="margin-right: 5px;">Изменить</a>
                     <button (click)="deleteUserTest(u.userTestId)" class="btn btn-sm btn-danger">Удалить</button>
                 </td>
             </tr>

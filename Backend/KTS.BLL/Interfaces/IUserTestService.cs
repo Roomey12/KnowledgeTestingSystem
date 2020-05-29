@@ -14,5 +14,6 @@ namespace KTS.BLL.Interfaces
         object GetUserTestByUserId(string userId);
         void DeleteUserTest(string id);
         void PutUserTest(UserTestDTO userTestDTO);
+        object GetUserTestById(string id);
     }
 }

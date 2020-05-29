@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Answer } from '../models/answer';
 
 @Injectable()
 export class AnswerService {//experimental decorations
@@ -11,5 +12,10 @@ export class AnswerService {//experimental decorations
 
     getAnswerById(id: number) {
         return this.http.get(this.answerUrl + `/${id}`);
+    }
+
+    createAnswer(answer: Answer){
+        console.log(answer);
+        return this.http.post(this.answerUrl, answer);
     }
 }

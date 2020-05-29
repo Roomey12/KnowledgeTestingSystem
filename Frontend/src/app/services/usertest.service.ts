@@ -19,13 +19,21 @@ export class UserTestService {//experimental decorations
     }
     
     getUserTestsByUserId(id: string){
-        return this.http.get(this.userTestUrl + id);
+        return this.http.get(this.userTestUrl + `user/${id}`);
+    }
+
+    getUserTestById(id: string){
+        return this.http.get(this.userTestUrl + id)
     }
 
     postTestResult(testResult: TestResult){
         return this.http.post(this.userTestUrl, testResult);
     }
 
+    putUserTest(testResult: TestResult){
+        return this.http.put(this.userTestUrl, testResult);
+    }
+    
     deleteUserTest(id: string){
         return this.http.delete(this.userTestUrl + id);
     }

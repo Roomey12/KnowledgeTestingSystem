@@ -132,5 +132,29 @@ namespace KTS.WEBAPI.Controllers
                 user.UserName
             };
         }
+
+        [HttpPost("changePass")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            User user = await _userManager.FindByIdAsync(model.UserId);
+            IdentityResult result;
+            if (user != null)
+            {
+                try
+                {
+                    result =
+                     await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            else
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
     }
 }

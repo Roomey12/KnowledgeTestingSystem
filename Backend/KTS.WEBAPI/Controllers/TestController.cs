@@ -4,6 +4,7 @@ using KTS.BLL.Infrastucture;
 using KTS.BLL.Interfaces;
 using KTS.BLL.Services;
 using KTS.DAL.Entities;
+using KTS.DAL.Interfaces;
 using KTS.WEBAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,8 @@ namespace KTS.WEBAPI.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
-        private readonly ITestService _testService;
+        private readonly ITestService _testService; 
+
 
         IMapper mapper = new MapperConfiguration(cfg =>
         {

@@ -50,7 +50,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public IActionResult GetAllUserTests()
         {
             object result;
@@ -61,6 +61,10 @@ namespace KTS.WEBAPI.Controllers
             catch (NotFoundException)
             {
                 return NotFound();
+            }
+            catch(ValidationException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception)
             {
@@ -88,15 +92,34 @@ namespace KTS.WEBAPI.Controllers
             }
             return Ok(result);
         }
-
         [HttpGet("{id}")]
-        [Authorize]
-        public IActionResult GetUserTestByUserId(string id)
+        public IActionResult GetUserTestById(string id)
         {
-            object result;
+            object userTest;
             try
             {
-                result = _userTestService.GetUserTestByUserId(id);
+                userTest = _userTestService.GetUserTestById(id);
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                //return StatusCode(500);
+            }
+            return Ok(userTest);
+        }
+
+        [HttpGet("user/{id}")]
+        //[Authorize]
+        public IActionResult GetUserTestByUserId(string id)
+        {
+            object userTest;
+            try
+            {
+                userTest = _userTestService.GetUserTestByUserId(id);
             }
             catch (NotFoundException)
             {
@@ -106,7 +129,7 @@ namespace KTS.WEBAPI.Controllers
             {
                 return StatusCode(500);
             }
-            return Ok(result);
+            return Ok(userTest);
         }
 
 

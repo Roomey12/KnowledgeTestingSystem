@@ -33,7 +33,10 @@ import { QuestionService } from './services/question.service';
 import { AnswerService } from './services/answer.service';
 import { TestCreateComponent } from './admin-panel/test/test-create/test-create.component';
 import { UserTestListComponent } from './admin-panel/user-test/user-test-list/user-test-list.component';
-import { UserTestFormComponent } from './admin-panel/user-test/user-test-form/user-test-form.component';
+import { UserTestFormUTComponent } from './admin-panel/user-test/user-test-form-ut/user-test-form-ut.component';
+import { UserTestEditComponent } from './admin-panel/user-test/user-test-edit/user-test-edit.component';
+import { UserTestFormMTComponent } from './admin-panel/user-test/user-test-form-mt/user-test-form-mt.component';
+import { UserTestCreateComponent } from './admin-panel/user-test/user-test-create/user-test-create.component';
 
 
 
@@ -58,7 +61,10 @@ import { UserTestFormComponent } from './admin-panel/user-test/user-test-form/us
     TestFormComponent,
     TestCreateComponent,
     UserTestListComponent,
-    UserTestFormComponent
+    UserTestFormUTComponent,
+    UserTestEditComponent,
+    UserTestFormMTComponent,
+    UserTestCreateComponent
   ],
   imports: [
     BrowserModule,
