@@ -20,16 +20,16 @@ export class RegistrationComponent implements OnInit {
       (res: any) => {
         if (res.succeeded) {
           this.authService.formModel.reset();
-          this.toastr.success('New user created!', 'Registration successful.');
+          this.toastr.success('Для окончания регистрации, перейдите по ссылке, которая была отправлена на указаную почту.', 'Регистрация прошла успешно.');
         } else {
           res.errors.forEach(element => {
             switch (element.code) {
               case 'DuplicateUserName':
-                this.toastr.error('Username is already taken','Registration failed.');
+                this.toastr.error('Данный логин уже занят.','Регистрация не выполнена.');
                 break;
 
               default:
-              this.toastr.error(element.description,'Registration failed.');
+              this.toastr.error(element.description,'Регистрация не выполнена.');
                 break;
             }
           });

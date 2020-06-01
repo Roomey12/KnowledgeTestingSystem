@@ -76,7 +76,7 @@ namespace KTS.DAL.EF
             Answer a4t2q2 = new Answer(25, "Exception()", false, 0, 7);
 
             Answer a1t2q3 = new Answer(26, "Да", true, 1, 8);
-            Answer a2t2q3 = new Answer(27, "Нет", false, 1, 8);
+            Answer a2t2q3 = new Answer(27, "Нет", false, 0, 8);
 
             modelBuilder.ApplyConfiguration(new TestConfiguration());
             modelBuilder.ApplyConfiguration(new QuestionConfiguration());

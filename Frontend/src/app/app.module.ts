@@ -37,6 +37,7 @@ import { UserTestFormUTComponent } from './admin-panel/user-test/user-test-form-
 import { UserTestEditComponent } from './admin-panel/user-test/user-test-edit/user-test-edit.component';
 import { UserTestFormMTComponent } from './admin-panel/user-test/user-test-form-mt/user-test-form-mt.component';
 import { UserTestCreateComponent } from './admin-panel/user-test/user-test-create/user-test-create.component';
+import { ConfirmEmailComponent } from './user/confirm-email/confirm-email.component';
 
 
 
@@ -64,7 +65,8 @@ import { UserTestCreateComponent } from './admin-panel/user-test/user-test-creat
     UserTestFormUTComponent,
     UserTestEditComponent,
     UserTestFormMTComponent,
-    UserTestCreateComponent
+    UserTestCreateComponent,
+    ConfirmEmailComponent
   ],
   imports: [
     BrowserModule,

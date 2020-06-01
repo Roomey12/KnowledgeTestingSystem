@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace KTS.WEBAPI.Models
 {
-    public class ChangePasswordViewModel
+    public class ChangePasswordModel
     {
         public string UserId { get; set; }
         public string OldPassword { get; set; }

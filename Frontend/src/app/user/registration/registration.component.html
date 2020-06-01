@@ -1,37 +1,46 @@
 <form [formGroup]="authService.formModel" autocomplete="off" (submit)="onSubmit()">
     <div class="form-group required">
-      <label>Username</label>
+      <label>Имя пользователя</label>
       <input class="form-control" formControlName="UserName">
-      <label class="text-danger" *ngIf="authService.formModel.get('UserName').touched && authService.formModel.get('UserName').errors?.required">This
-        field is mandatory.</label>
+      <label class="text-danger" *ngIf="authService.formModel.get('UserName').touched && authService.formModel.get('UserName').errors?.required">
+        Это поле обязательно.
+      </label>
     </div>
-    <div class="form-group">
-      <label>Email</label>
+    <div class="form-group required">
+      <label>Почта</label>
       <input class="form-control" formControlName="Email">
-      <label class="text-danger" *ngIf="authService.formModel.get('Email').touched && authService.formModel.get('Email').errors?.email">Invalid
-        email address.</label>
+      <label class="text-danger" *ngIf="authService.formModel.get('Email').touched && authService.formModel.get('Email').errors?.required">
+        Это поле обязательно.
+      </label>
+      <label class="text-danger" *ngIf="authService.formModel.get('Email').touched && authService.formModel.get('Email').errors?.email">
+        Почта введена неверно.
+      </label>
     </div>
     <div formGroupName="Passwords">
       <div class="form-group required">
-        <label>Password</label>
+        <label>Пароль</label>
         <input type="password" class="form-control" formControlName="Password">
-        <label class="text-danger" *ngIf="authService.formModel.get('Passwords.Password').touched && authService.formModel.get('Passwords.Password').errors?.required">This
-          field is mandatory.</label>
-        <label class="text-danger" *ngIf="authService.formModel.get('Passwords.Password').touched && authService.formModel.get('Passwords.Password').errors?.minlength">Minimum
-          6 characters required.</label>
+        <label class="text-danger" *ngIf="authService.formModel.get('Passwords.Password').touched && authService.formModel.get('Passwords.Password').errors?.required">
+          Это поле обязательно.
+        </label>
+        <label class="text-danger" *ngIf="authService.formModel.get('Passwords.Password').touched && authService.formModel.get('Passwords.Password').errors?.minlength">
+          Пароль должен состоять минимум из 6 символов.
+        </label>
       </div>
       <div class="form-group required">
-        <label>Confirm Password</label>
+        <label>Подтвердите пароль</label>
         <input type="password" class="form-control" formControlName="ConfirmPassword">
-        <label class="text-danger" *ngIf="authService.formModel.get('Passwords.ConfirmPassword').touched && authService.formModel.get('Passwords.ConfirmPassword').errors?.required">This
-          field is mandatory.</label>
+        <label class="text-danger" *ngIf="authService.formModel.get('Passwords.ConfirmPassword').touched && authService.formModel.get('Passwords.ConfirmPassword').errors?.required">
+          Это поле обязательно.
+        </label>
         <label class="text-danger" *ngIf="authService.formModel.get('Passwords.ConfirmPassword').touched && authService.formModel.get('Passwords.ConfirmPassword').errors?.passwordMismatch">Confirm
-          Password does not match.</label>
+          Пароли не совпадают.
+        </label>
       </div>
     </div>
     <div class="form-row">
       <div class="form-group col-md-8 offset-md-2">
-        <button type="submit" class="btn btn-lg btn-block" [disabled]="!authService.formModel.valid">Sign Up</button>
+        <button type="submit" class="btn btn-lg btn-block" [disabled]="!authService.formModel.valid">Зарегистрироваться</button>
       </div>
     </div>
   </form>

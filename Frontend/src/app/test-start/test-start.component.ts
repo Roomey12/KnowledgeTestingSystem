@@ -258,6 +258,7 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
     var timeResult = new Date();
     timeResult.setMinutes(this.minutes);
     timeResult.setSeconds(this.seconds);
+    timeResult.setMilliseconds(0);
     this.testResult = new TestResult();
     this.testResult.Mark = Number(this.sum.toFixed(2));
     this.testResult.TestId = this.testId;

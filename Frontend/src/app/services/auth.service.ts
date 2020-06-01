@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -8,11 +9,11 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 export class AuthService {
 
   constructor(private fb: FormBuilder, private http: HttpClient) { }
-  readonly BaseURI = 'http://localhost:58733/api';
+  readonly authUrl = 'http://localhost:58733/api/auth/';
 
   formModel = this.fb.group({
     UserName: ['', Validators.required],
-    Email: ['', Validators.email],
+    Email: ['', [Validators.email, Validators.required]],
     Passwords: this.fb.group({
       Password: ['', [Validators.required, Validators.minLength(6)]],
       ConfirmPassword: ['', Validators.required]
@@ -38,11 +39,11 @@ export class AuthService {
       Email: this.formModel.value.Email,
       Password: this.formModel.value.Passwords.Password
     };
-    return this.http.post(this.BaseURI + '/auth/register', body);
+    return this.http.post(this.authUrl + 'register', body);
   }
 
   login(formData) {
-    return this.http.post(this.BaseURI + '/auth/login', formData);
+    return this.http.post(this.authUrl + 'login', formData);
   }
 
   roleMatch(allowedRoles): boolean {
@@ -56,5 +57,13 @@ export class AuthService {
       }
     });
     return isMatch;
+  }
+
+  confirmEmail(userId: string, token: string){
+    const body = JSON.stringify(token);
+    const options = {
+      headers: new HttpHeaders().append('Content-Type', 'application/json')
+    };
+    return this.http.post(this.authUrl + `confirmemail/${userId}`, body, options);
   }
 }

@@ -46,6 +46,10 @@
               "target": "Package",
               "version": "[9.0.0, )"
             },
+            "MailKit": {
+              "target": "Package",
+              "version": "[2.7.0, )"
+            },
             "Microsoft.AspNetCore.Identity": {
               "target": "Package",
               "version": "[2.2.0, )"
@@ -53,6 +57,14 @@
             "Microsoft.AspNetCore.Mvc.Abstractions": {
               "target": "Package",
               "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Core": {
+              "target": "Package",
+              "version": "[2.2.5, )"
+            },
+            "NETCore.MailKit": {
+              "target": "Package",
+              "version": "[2.0.3, )"
             },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",

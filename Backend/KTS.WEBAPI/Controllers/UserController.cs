@@ -25,6 +25,7 @@ namespace KTS.WEBAPI.Controllers
 
         IMapper mapper = new MapperConfiguration(cfg =>
         {
+            cfg.CreateMap<ChangePasswordModel, ChangePasswordDTO>();
             cfg.CreateMap<UserDTO, UserModel>();
             cfg.CreateMap<UserModel, UserDTO>();
             cfg.CreateMap<UserTestModel, UserTestDTO>();
@@ -134,27 +135,25 @@ namespace KTS.WEBAPI.Controllers
         }
 
         [HttpPost("changePass")]
-        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        public IActionResult ChangePassword(ChangePasswordModel model)
         {
-            User user = await _userManager.FindByIdAsync(model.UserId);
-            IdentityResult result;
-            if (user != null)
+            try
             {
-                try
-                {
-                    result =
-                     await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+               _userService.ChangePassword(mapper.Map<ChangePasswordModel, ChangePasswordDTO>(model));
             }
-            else
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (NotFoundException)
             {
                 return NotFound();
             }
-            return Ok(result);
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok(new { Message = "Password was successfully changed!" });
         }
     }
 }

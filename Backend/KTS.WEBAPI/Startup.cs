@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KTS.BLL.DTO;
+using KTS.BLL.Infrastucture;
 using KTS.BLL.Interfaces;
 using KTS.BLL.Services;
 using KTS.DAL.EF;
@@ -21,6 +23,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using NETCore.MailKit.Extensions;
+using NETCore.MailKit.Infrastructure.Internal;
 
 namespace KTS.WEBAPI
 {
@@ -41,20 +45,23 @@ namespace KTS.WEBAPI
             services.AddDbContext<ApplicationContext>();
             services.AddIdentity<User, IdentityRole>(opts =>
             {
-                opts.SignIn.RequireConfirmedAccount = false;
+                opts.SignIn.RequireConfirmedEmail = true;
                 opts.Password.RequiredLength = 6;   // минимальная длина
                 opts.Password.RequireNonAlphanumeric = false;   // требуются ли не алфавитно-цифровые символы
                 opts.Password.RequireLowercase = false; // требуются ли символы в нижнем регистре
                 opts.Password.RequireUppercase = false; // требуются ли символы в верхнем регистре
                 opts.Password.RequireDigit = false; // требуются ли цифры
             })
-                .AddEntityFrameworkStores<ApplicationContext>();
+                .AddEntityFrameworkStores<ApplicationContext>()
+                .AddDefaultTokenProviders();
+            services.AddMailKit(config => config.UseMailKit(Configuration.GetSection("EmailSettings").Get<MailKitOptions>()));
             services.AddTransient<IUnitOfWork, EFUnitOfWork>();
             services.AddTransient<ITestService, TestService>();
             services.AddTransient<IQuestionService, QuestionService>();
             services.AddTransient<IAnswerService, AnswerService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserTestService, UserTestService>();
+            services.AddTransient<IAuthService, AuthService>();
 
             services.AddCors();
 

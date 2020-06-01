@@ -19,6 +19,7 @@ import { TestCreateComponent } from './admin-panel/test/test-create/test-create.
 import { UserTestListComponent } from './admin-panel/user-test/user-test-list/user-test-list.component';
 import { UserTestEditComponent } from './admin-panel/user-test/user-test-edit/user-test-edit.component';
 import { UserTestCreateComponent } from './admin-panel/user-test/user-test-create/user-test-create.component';
+import { ConfirmEmailComponent } from './user/confirm-email/confirm-email.component';
 
 
 const routes: Routes = [
@@ -27,7 +28,8 @@ const routes: Routes = [
     path: 'user', component: UserComponent,
     children: [
       { path: 'registration', component: RegistrationComponent },
-      { path: 'login', component: LoginComponent }
+      { path: 'login', component: LoginComponent },
+      { path: 'confirmemail', component: ConfirmEmailComponent }
     ]
   },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },

@@ -88,6 +88,25 @@ namespace KTS.BLL.Services
             Database.SaveAsync();
         }
 
+        public async void ChangePassword(ChangePasswordDTO modelDTO)
+        {
+            if (modelDTO == null)
+            {
+                throw new ValidationException("Model can not be null");
+            }
+            User user = await _userManager.FindByIdAsync(modelDTO.UserId);
+            if (user == null)
+            {
+                throw new NotFoundException("User was not found", "Id");
+            }
+            IdentityResult result = await _userManager.ChangePasswordAsync
+                (user, modelDTO.OldPassword, modelDTO.NewPassword);
+            if (!result.Succeeded)
+            {
+                throw new ValidationException("Wrong parameters were sent");
+            }
+        }
+
         public void Dispose()
         {
             Database.Dispose();

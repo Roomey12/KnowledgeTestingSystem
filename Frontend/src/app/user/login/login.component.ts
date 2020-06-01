@@ -28,8 +28,12 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl('/home');
       },
       err => {
-        if (err.status == 400)
-          this.toastr.error('Incorrect username or password.', 'Authentication failed.');
+        if (err.error == "Username or password is incorrect"){
+          this.toastr.error('Логин или пароль введены неверно.', 'Вход не выполнен.');
+        }
+        else if(err.error == "Email is not confirmed"){
+          this.toastr.error('Почта не подтверждена.', 'Вход не выполнен.');
+        }
         else
           console.log(err);
       }
