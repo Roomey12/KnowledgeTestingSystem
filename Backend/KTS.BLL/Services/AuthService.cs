@@ -96,7 +96,6 @@ namespace KTS.BLL.Services
         public async Task SendEmailAsync(string email, string subject, string message)
         {
             var emailMessage = new MimeMessage();
-
             emailMessage.From.Add(new MailboxAddress("Knowledge Testing System", _emailSettings.UsernameEmail/*"autoktsmailer@gmail.com"*/));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = subject;
@@ -110,7 +109,6 @@ namespace KTS.BLL.Services
                 await client.ConnectAsync(_emailSettings.PrimaryDomain, _emailSettings.PrimaryPort, false);
                 await client.AuthenticateAsync(_emailSettings.UsernameEmail, _emailSettings.UsernamePassword);
                 await client.SendAsync(emailMessage);
-
                 await client.DisconnectAsync(true);
             }
         }
@@ -130,6 +128,25 @@ namespace KTS.BLL.Services
             }
             var result = await _userManager.ConfirmEmailAsync(user, tokenDecoded);
             return result;
+        }
+
+        public async Task ForgotPassword(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                throw new NotFoundException("User was not found", "Email");
+            }
+            if(!await _userManager.IsEmailConfirmedAsync(user))
+            {
+                throw new ValidationException("Not allowed to reset password. Email is not confirmed");
+            }
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            byte[] tokenGeneratedBytes = Encoding.UTF8.GetBytes(token);
+            var tokenEncoded = WebEncoders.Base64UrlEncode(tokenGeneratedBytes);
+            var url = $@"http://localhost:4200/user/forgotpassword/?userId={user.Id}&token={tokenEncoded}";
+            await SendEmailAsync(email, "Восстановление пароля",
+               $"Для сброса по ссылке, перейдите по ссылке: <a href='{url}'>клик</a>.");
         }
     }
 }

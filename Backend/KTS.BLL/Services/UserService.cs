@@ -106,10 +106,6 @@ namespace KTS.BLL.Services
             }
             IdentityResult result = await _userManager.ChangePasswordAsync
                 (user, modelDTO.OldPassword, modelDTO.NewPassword);
-            //if (!result.Succeeded)
-            //{
-            //    throw new ValidationException("Wrong parameters were sent");
-            //}
             return result;
         }
 

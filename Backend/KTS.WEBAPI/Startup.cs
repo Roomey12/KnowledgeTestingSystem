@@ -55,6 +55,7 @@ namespace KTS.WEBAPI
                 .AddEntityFrameworkStores<ApplicationContext>()
                 .AddDefaultTokenProviders();
             services.AddMailKit(config => config.UseMailKit(Configuration.GetSection("EmailSettings").Get<MailKitOptions>()));
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
             services.AddTransient<IUnitOfWork, EFUnitOfWork>();
             services.AddTransient<ITestService, TestService>();
             services.AddTransient<IQuestionService, QuestionService>();

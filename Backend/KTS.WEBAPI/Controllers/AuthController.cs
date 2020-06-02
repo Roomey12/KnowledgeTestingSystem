@@ -72,9 +72,9 @@ namespace KTS.WEBAPI.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                return StatusCode(500);
             }
             return Ok(new { token });
         }
@@ -91,11 +91,33 @@ namespace KTS.WEBAPI.Controllers
             {
                 return NotFound(ex.Message);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                return StatusCode(500);
             }
             return Ok(result);
+        }
+
+        [HttpPost("forgotPassword")]
+        public async Task<IActionResult> ForgotPassword([FromBody]string email)
+        {
+            try
+            {
+                await _authService.ForgotPassword(email);
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok();
         }
     }
 }
