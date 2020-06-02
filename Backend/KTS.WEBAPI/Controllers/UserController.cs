@@ -135,11 +135,12 @@ namespace KTS.WEBAPI.Controllers
         }
 
         [HttpPost("changePass")]
-        public IActionResult ChangePassword(ChangePasswordModel model)
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
         {
+            IdentityResult result;
             try
             {
-               _userService.ChangePassword(mapper.Map<ChangePasswordModel, ChangePasswordDTO>(model));
+               result = await _userService.ChangePassword(mapper.Map<ChangePasswordModel, ChangePasswordDTO>(model));
             }
             catch (ValidationException ex)
             {
@@ -153,7 +154,7 @@ namespace KTS.WEBAPI.Controllers
             {
                 return StatusCode(500);
             }
-            return Ok(new { Message = "Password was successfully changed!" });
+            return Ok(result);
         }
     }
 }

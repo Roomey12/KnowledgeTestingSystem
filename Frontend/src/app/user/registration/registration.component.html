@@ -33,7 +33,7 @@
         <label class="text-danger" *ngIf="authService.formModel.get('Passwords.ConfirmPassword').touched && authService.formModel.get('Passwords.ConfirmPassword').errors?.required">
           Это поле обязательно.
         </label>
-        <label class="text-danger" *ngIf="authService.formModel.get('Passwords.ConfirmPassword').touched && authService.formModel.get('Passwords.ConfirmPassword').errors?.passwordMismatch">Confirm
+        <label class="text-danger" *ngIf="authService.formModel.get('Passwords.ConfirmPassword').touched && authService.formModel.get('Passwords.ConfirmPassword').errors?.passwordMismatch">
           Пароли не совпадают.
         </label>
       </div>

@@ -12,7 +12,7 @@ export class RegistrationComponent implements OnInit {
   constructor(public authService: AuthService, private toastr: ToastrService) { }
 
   ngOnInit() {
-    this.authService.formModel.reset();
+    this.authService.formModel.reset(); 
   }
 
   onSubmit() {
@@ -40,5 +40,4 @@ export class RegistrationComponent implements OnInit {
       }
     );
   }
-
 }

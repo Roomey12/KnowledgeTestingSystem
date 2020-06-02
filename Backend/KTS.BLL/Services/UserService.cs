@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -88,11 +89,15 @@ namespace KTS.BLL.Services
             Database.SaveAsync();
         }
 
-        public async void ChangePassword(ChangePasswordDTO modelDTO)
+        public async Task<IdentityResult> ChangePassword(ChangePasswordDTO modelDTO)
         {
             if (modelDTO == null)
             {
                 throw new ValidationException("Model can not be null");
+            }
+            if(modelDTO.OldPassword == modelDTO.NewPassword)
+            {
+                throw new ValidationException("Old and new password are same");
             }
             User user = await _userManager.FindByIdAsync(modelDTO.UserId);
             if (user == null)
@@ -101,10 +106,11 @@ namespace KTS.BLL.Services
             }
             IdentityResult result = await _userManager.ChangePasswordAsync
                 (user, modelDTO.OldPassword, modelDTO.NewPassword);
-            if (!result.Succeeded)
-            {
-                throw new ValidationException("Wrong parameters were sent");
-            }
+            //if (!result.Succeeded)
+            //{
+            //    throw new ValidationException("Wrong parameters were sent");
+            //}
+            return result;
         }
 
         public void Dispose()

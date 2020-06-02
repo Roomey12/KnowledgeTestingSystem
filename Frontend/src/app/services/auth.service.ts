@@ -18,7 +18,6 @@ export class AuthService {
       Password: ['', [Validators.required, Validators.minLength(6)]],
       ConfirmPassword: ['', Validators.required]
     }, { validator: this.comparePasswords })
-
   });
 
   comparePasswords(fb: FormGroup) {

@@ -18,9 +18,10 @@ export class AccountComponent implements OnInit {
   showChangePass: boolean = false;
   password: ChangePassword;
 
-  constructor(private userTestService: UserTestService, private userService: UserService, private toastr: ToastrService) { }
+  constructor(private userTestService: UserTestService, public userService: UserService, private toastr: ToastrService) { }
 
   ngOnInit() {
+    this.userService.formModel.reset(); 
     this.userService.getUserProfile().subscribe(
       res => {
         this.userDetails = res;
@@ -44,13 +45,34 @@ export class AccountComponent implements OnInit {
   }
 
   changePassword(){
-    this.password = new ChangePassword();
-    this.password.UserId = this.userDetails["id"];
-    this.password.OldPassword = (document.getElementById("OldPassword") as HTMLInputElement).value;
-    this.password.NewPassword = (document.getElementById("NewPassword") as HTMLInputElement).value;
-    this.userService.changePassword(this.password).subscribe(data => { 
-      this.showChangePass = false;
-      this.toastr.success('Пароль был изменен!', 'Успешно!');
-    });
+    this.userService.changePassword(this.userDetails["id"]).subscribe(
+      (res: any) => {
+        console.log(res);
+        if (res.succeeded) {
+          this.userService.formModel.reset();
+          this.toastr.success('Пароль был изменен.', 'Успешно.');
+          this.showChangePass = false;
+        } 
+        else{
+          res.errors.forEach(element => {
+            switch (element.code) {
+              case 'PasswordMismatch':
+                this.toastr.error('Старый пароль введен неверно.','Пароль не был изменен.');
+                break;
+
+              default:
+              this.toastr.error(element.description,'Пароль не был изменен.');
+                break;
+            }
+          });
+        }
+      },
+      err => {
+        if (err.error == "Old and new password are same"){
+          this.toastr.error('Старый и новый пароли совпадают.', 'Пароль не был изменен.');
+        }
+        console.log(err);
+      }
+    );
   }
 }

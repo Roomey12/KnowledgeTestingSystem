@@ -1,5 +1,6 @@
 ﻿using KTS.BLL.DTO;
 using KTS.DAL.Entities;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -14,6 +15,6 @@ namespace KTS.BLL.Interfaces
         UserDTO GetUserById(string id);
         void DeleteUser(string id);
         void PutUser(UserDTO userDTO);
-        void ChangePassword(ChangePasswordDTO modelDTO);
+        Task<IdentityResult> ChangePassword(ChangePasswordDTO modelDTO);
     }
 }
