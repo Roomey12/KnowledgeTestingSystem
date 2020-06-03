@@ -27,7 +27,6 @@ export class RegistrationComponent implements OnInit {
               case 'DuplicateUserName':
                 this.toastr.error('Данный логин уже занят.','Регистрация не выполнена.');
                 break;
-
               default:
               this.toastr.error(element.description,'Регистрация не выполнена.');
                 break;
@@ -36,7 +35,7 @@ export class RegistrationComponent implements OnInit {
         }
       },
       err => {
-        console.log(err);
+        this.toastr.error('Что-то пошло не так.', 'Регистрация не выполнена.');
       }
     );
   }

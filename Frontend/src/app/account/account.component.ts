@@ -4,6 +4,8 @@ import { UserTestService } from '../services/usertest.service';
 import { UserService } from '../services/user.service';
 import { ChangePassword } from '../models/changePassword';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../services/auth.service';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-account',

@@ -46,7 +46,7 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
               private questionService: QuestionService,
               private answerService: AnswerService,
               private userTestService: UserTestService,
-              private router: Router, activeRoute: ActivatedRoute) {
+              private activeRoute: ActivatedRoute) {
     this.testId = Number.parseInt(activeRoute.snapshot.params["id"]);
   }
 

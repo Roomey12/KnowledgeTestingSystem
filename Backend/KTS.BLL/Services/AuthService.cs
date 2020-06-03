@@ -139,14 +139,35 @@ namespace KTS.BLL.Services
             }
             if(!await _userManager.IsEmailConfirmedAsync(user))
             {
-                throw new ValidationException("Not allowed to reset password. Email is not confirmed");
+                throw new ValidationException("Email is not confirmed");
             }
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             byte[] tokenGeneratedBytes = Encoding.UTF8.GetBytes(token);
             var tokenEncoded = WebEncoders.Base64UrlEncode(tokenGeneratedBytes);
-            var url = $@"http://localhost:4200/user/forgotpassword/?userId={user.Id}&token={tokenEncoded}";
+            var url = $@"http://localhost:4200/user/reset-password/?userId={user.Id}&token={tokenEncoded}";
             await SendEmailAsync(email, "Восстановление пароля",
                $"Для сброса по ссылке, перейдите по ссылке: <a href='{url}'>клик</a>.");
+        }
+
+        public async Task<IdentityResult> ResetPassword(ResetPasswordDTO modelDTO)
+        {
+            if(modelDTO == null)
+            {
+                throw new ValidationException("Model can not be null");
+            }
+            var tokenDecodedBytes = WebEncoders.Base64UrlDecode(modelDTO.Token);
+            var tokenDecoded = Encoding.UTF8.GetString(tokenDecodedBytes);
+            var user = await _userManager.FindByIdAsync(modelDTO.UserId);
+            if(user == null)
+            {
+                throw new NotFoundException("User was not found", "Email");
+            }
+            var result = await _userManager.ResetPasswordAsync(user, tokenDecoded, modelDTO.Password);
+            //if (!result.Succeeded)
+            //{
+            //    throw new ValidationException("Wrong parameters were sent");
+            //}
+            return result;
         }
     }
 }

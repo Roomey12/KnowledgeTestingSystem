@@ -13,5 +13,6 @@ namespace KTS.BLL.Interfaces
         Task<string> Login(LoginDTO modelDTO);
         Task<IdentityResult> ConfirmEmail(string userId, string token);
         Task ForgotPassword(string email);
+        Task<IdentityResult> ResetPassword(ResetPasswordDTO modelDTO);
     }
 }

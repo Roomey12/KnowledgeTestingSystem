@@ -33,6 +33,7 @@ namespace KTS.WEBAPI.Controllers
         {
             cfg.CreateMap<LoginModel, LoginDTO>();
             cfg.CreateMap<RegistrationModel, RegistrationDTO>();
+            cfg.CreateMap<ResetPasswordModel, ResetPasswordDTO>();
         }).CreateMapper();
 
         public AuthController(UserManager<User> userManager, IAuthService authService)
@@ -105,9 +106,9 @@ namespace KTS.WEBAPI.Controllers
             {
                 await _authService.ForgotPassword(email);
             }
-            catch (NotFoundException)
+            catch (NotFoundException ex)
             {
-                return NotFound();
+                return NotFound(ex.Message);
             }
             catch (ValidationException ex)
             {
@@ -118,6 +119,30 @@ namespace KTS.WEBAPI.Controllers
                 return StatusCode(500);
             }
             return Ok();
+        }
+
+        [HttpPost("resetPassword")]
+        public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordModel model)
+        {
+            IdentityResult result;
+            try
+            {
+                result = await _authService.ResetPassword(mapper.Map<ResetPasswordModel, ResetPasswordDTO>(model));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                //return StatusCode(500);
+            }
+            return Ok(result);
         }
     }
 }

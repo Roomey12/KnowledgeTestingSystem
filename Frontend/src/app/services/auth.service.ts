@@ -8,7 +8,12 @@ import { map, catchError } from 'rxjs/operators';
 })
 export class AuthService {
 
-  constructor(private fb: FormBuilder, private http: HttpClient) { }
+  options;
+  constructor(private fb: FormBuilder, private http: HttpClient) {
+    this.options = {
+      headers: new HttpHeaders().append('Content-Type', 'application/json')
+    };
+  }
   readonly authUrl = 'http://localhost:58733/api/auth/';
 
   formModel = this.fb.group({
@@ -20,10 +25,19 @@ export class AuthService {
     }, { validator: this.comparePasswords })
   });
 
+  passwordsModel = this.fb.group({
+    Passwords: this.fb.group({
+      Password: ['', [Validators.required, Validators.minLength(6)]],
+      ConfirmPassword: ['', Validators.required]
+    }, { validator: this.comparePasswords })
+  })
+
+  emailModel = this.fb.group({
+    Email: ['', [Validators.email, Validators.required]]
+  });
+
   comparePasswords(fb: FormGroup) {
     let confirmPswrdCtrl = fb.get('ConfirmPassword');
-    //passwordMismatch
-    //confirmPswrdCtrl.errors={passwordMismatch:true}
     if (confirmPswrdCtrl.errors == null || 'passwordMismatch' in confirmPswrdCtrl.errors) {
       if (fb.get('Password').value != confirmPswrdCtrl.value)
         confirmPswrdCtrl.setErrors({ passwordMismatch: true });
@@ -59,10 +73,21 @@ export class AuthService {
   }
 
   confirmEmail(userId: string, token: string){
-    const body = JSON.stringify(token);
-    const options = {
-      headers: new HttpHeaders().append('Content-Type', 'application/json')
+    let body = JSON.stringify(token);
+    return this.http.post(this.authUrl + `confirmemail/${userId}`, body, this.options);
+  }
+
+  forgotPassword(){
+    let body = JSON.stringify(this.emailModel.value.Email);
+    return this.http.post(this.authUrl + 'forgotpassword', body, this.options);
+  }
+
+  resetPassword(userId: string, token: string){
+    var body = {
+      UserId: userId,
+      Password: this.passwordsModel.value.Passwords.Password,
+      Token: token
     };
-    return this.http.post(this.authUrl + `confirmemail/${userId}`, body, options);
+    return this.http.post(this.authUrl + 'resetpassword', body);
   }
 }

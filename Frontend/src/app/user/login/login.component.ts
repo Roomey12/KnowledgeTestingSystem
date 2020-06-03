@@ -34,8 +34,9 @@ export class LoginComponent implements OnInit {
         else if(err.error == "Email is not confirmed"){
           this.toastr.error('Почта не подтверждена.', 'Вход не выполнен.');
         }
-        else
-          console.log(err);
+        else{
+          this.toastr.error('Что-то пошло не так.', 'Вход не выполнен.');
+        }
       }
     );
   }

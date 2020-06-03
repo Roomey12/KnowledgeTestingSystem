@@ -38,6 +38,8 @@ import { UserTestEditComponent } from './admin-panel/user-test/user-test-edit/us
 import { UserTestFormMTComponent } from './admin-panel/user-test/user-test-form-mt/user-test-form-mt.component';
 import { UserTestCreateComponent } from './admin-panel/user-test/user-test-create/user-test-create.component';
 import { ConfirmEmailComponent } from './user/confirm-email/confirm-email.component';
+import { ForgotPasswordComponent } from './user/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './user/reset-password/reset-password.component';
 
 
 
@@ -66,7 +68,9 @@ import { ConfirmEmailComponent } from './user/confirm-email/confirm-email.compon
     UserTestEditComponent,
     UserTestFormMTComponent,
     UserTestCreateComponent,
-    ConfirmEmailComponent
+    ConfirmEmailComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,

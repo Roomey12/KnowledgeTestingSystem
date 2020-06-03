@@ -20,6 +20,8 @@ import { UserTestListComponent } from './admin-panel/user-test/user-test-list/us
 import { UserTestEditComponent } from './admin-panel/user-test/user-test-edit/user-test-edit.component';
 import { UserTestCreateComponent } from './admin-panel/user-test/user-test-create/user-test-create.component';
 import { ConfirmEmailComponent } from './user/confirm-email/confirm-email.component';
+import { ForgotPasswordComponent } from './user/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './user/reset-password/reset-password.component';
 
 
 const routes: Routes = [
@@ -29,7 +31,9 @@ const routes: Routes = [
     children: [
       { path: 'registration', component: RegistrationComponent },
       { path: 'login', component: LoginComponent },
-      { path: 'confirmemail', component: ConfirmEmailComponent }
+      { path: 'confirm-email', component: ConfirmEmailComponent },
+      { path: 'forgot-password', component: ForgotPasswordComponent },
+      { path: 'reset-password', component: ResetPasswordComponent }
     ]
   },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
@@ -47,7 +51,7 @@ const routes: Routes = [
       { path: 'user-test-create', component: UserTestCreateComponent }
     ]
   },
-  { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },
+  { path: 'account', component: AccountComponent, canActivate: [AuthGuard], },
   { path: 'teststart/:id', component: TestStartComponent, canActivate: [AuthGuard], canDeactivate: [ExitTestStartGuard] },
   { path: 'test/:id', component: TestInfoComponent, canActivate: [AuthGuard]} ,
   { path: '**', redirectTo: '/' }
