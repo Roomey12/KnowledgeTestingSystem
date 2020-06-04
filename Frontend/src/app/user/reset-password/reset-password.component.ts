@@ -13,7 +13,7 @@ export class ResetPasswordComponent implements OnInit {
   userId: string;
   token: string;
   emailConfirmed: boolean;
-  constructor(private activatedRoute: ActivatedRoute, private authService: AuthService, private toastr: ToastrService, private router: Router) {
+  constructor(private activatedRoute: ActivatedRoute, public authService: AuthService, private toastr: ToastrService, private router: Router) {
     this.activatedRoute.queryParams.subscribe(params => {
           this.userId = params['userId'];
           this.token = params['token'];
@@ -29,7 +29,6 @@ export class ResetPasswordComponent implements OnInit {
       (res: any) => { 
       if (res.succeeded) {
         this.router.navigateByUrl('/user/login');
-        this.authService.passwordsModel.reset();
         this.toastr.success('Пароль был изменен.', 'Успешно.');
       } 
       else {

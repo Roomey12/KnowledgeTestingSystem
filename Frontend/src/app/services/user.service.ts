@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user';
-import { ChangePassword } from '../models/changePassword';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 @Injectable()
