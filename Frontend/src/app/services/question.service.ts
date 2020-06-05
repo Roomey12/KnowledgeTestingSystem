@@ -5,17 +5,20 @@ import { Question } from '../models/question';
 @Injectable()
 export class QuestionService {//experimental decorations
 
-    private questionUrl = "http://localhost:58733/api/question"
+    private questionUrl = "http://localhost:58733/api/question/"
 
     constructor(private http: HttpClient) {
     }
 
     getQuestionById(id: number) {
-        return this.http.get(this.questionUrl + `/${id}`);
+        return this.http.get(this.questionUrl + id);
     }
 
     createQuestion(question: Question){
-        console.log(question);
         return this.http.post(this.questionUrl, question);
+    }
+
+    deleteQuestion(questionId: number){
+        return this.http.delete(this.questionUrl + questionId);
     }
 }

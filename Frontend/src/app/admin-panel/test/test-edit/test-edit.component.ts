@@ -5,6 +5,9 @@ import { Test } from 'src/app/models/test';
 import { Question } from 'src/app/models/question';
 import { Answer } from 'src/app/models/answer';
 import { QuestionService } from 'src/app/services/question.service';
+import { queueScheduler, from } from 'rxjs';
+import { concatMap, tap, finalize } from 'rxjs/operators';
+import { AnswerService } from 'src/app/services/answer.service';
 
 @Component({
   selector: 'app-test-edit',
@@ -18,10 +21,16 @@ export class TestEditComponent implements OnInit {
   testId;
   test: Test;
   loaded: boolean;
+  showAddQuestion: boolean;
+  showFillQuestion: boolean;
+  end: boolean;
+  newQuestion;
+  answersCount;
 
   constructor(private testService: TestService, 
               private router: Router, 
               private questionService: QuestionService,
+              private answerService: AnswerService,
               activeRoute: ActivatedRoute) {
       this.testId = activeRoute.snapshot.params["id"];
   }
@@ -62,7 +71,69 @@ export class TestEditComponent implements OnInit {
 
   fillTestInfo(testInfo: Map<string, Answer[]>, question: Question) {
     this.testInfo.set(question, testInfo[question["questionId"].toString()]);
-    console.log(this.testInfo);
+  }
+
+  deleteQuestion(questionId: number){
+    this.questionService.deleteQuestion(questionId).subscribe(data => {this.loadTestInfoGet()} );
+  }
+
+  deleteAnswer(answerId: number){
+    console.log(answerId);
+  }
+
+  addQuestion(){
+    this.showAddQuestion=true;
+  }
+
+  next(){
+    let isMultiple = document.getElementById('isMultiple') as HTMLInputElement;
+    let content = document.getElementById('content') as HTMLInputElement;
+    let answersCount = document.getElementById('answersCount') as HTMLInputElement;
+    this.newQuestion = {
+      content: content.value,
+      isSingle: !isMultiple.checked,
+      answersCount: Number(answersCount.value)
+    };
+    this.answersCount=[];
+    for(let i = 0; i < this.newQuestion.answersCount; i++){
+      this.answersCount.push(i);
+    }
+    this.showFillQuestion = true;
+  }
+
+  onSubmit(){
+    let question = new Question();
+    question.Content = this.newQuestion.content;
+    question.IsSingle = this.newQuestion.isSingle;
+    question.TestId = Number(this.testId);
+
+    let answers = [];
+    for(let i = 0; i < this.newQuestion.answersCount; i++){
+      let isCorrect = document.getElementById(`a_isCorrect_${i}`) as unknown as HTMLInputElement;
+      let content = document.getElementById(`a_content_${i}`) as unknown as HTMLInputElement;
+      let mark =  document.getElementById(`a_mark_${i}`) as unknown as HTMLInputElement;
+      
+      let answer = new Answer();
+      answer.IsCorrect = isCorrect.checked;
+      answer.Content = content.value;
+      answer.Mark = Number(mark.value);
+      answers.push(answer);
+    }
+
+    this.questionService.createQuestion(question).pipe(
+      concatMap(data=> {
+          console.log(`question ${question.Content} done`);
+          return from(answers).pipe(
+              concatMap(answer => this.answerService.createAnswer(answer).pipe(
+                  tap(data => console.log(`answer ${answer} done` ) ),
+              )),
+              finalize(() => {
+                this.end = true;
+                console.log("final");
+              }),
+          );
+      })
+    ).subscribe(data => { console.log("done") });
   }
 
   save() {

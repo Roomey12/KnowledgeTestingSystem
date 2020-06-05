@@ -42,9 +42,9 @@ namespace KTS.WEBAPI.Controllers
             {
                 question = mapper.Map<QuestionDTO, QuestionModel>(_questionService.GetQuestionById(id));
             }
-            catch (NotFoundException)
+            catch (NotFoundException ex)
             {
-                return NotFound();
+                return NotFound(ex.Message);
             }
             catch (Exception)
             {
@@ -78,9 +78,9 @@ namespace KTS.WEBAPI.Controllers
             {
                 _questionService.DeleteQuestion(id);
             }
-            catch (NotFoundException)
+            catch (NotFoundException ex)
             {
-                return NotFound();
+                return NotFound(ex.Message);
             }
             catch (Exception)
             {
@@ -100,9 +100,9 @@ namespace KTS.WEBAPI.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            catch (NotFoundException)
+            catch (NotFoundException ex)
             {
-                return NotFound();
+                return NotFound(ex.Message);
             }
             catch (Exception)
             {

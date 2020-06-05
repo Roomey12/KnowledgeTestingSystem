@@ -163,10 +163,6 @@ namespace KTS.BLL.Services
                 throw new NotFoundException("User was not found", "Email");
             }
             var result = await _userManager.ResetPasswordAsync(user, tokenDecoded, modelDTO.Password);
-            //if (!result.Succeeded)
-            //{
-            //    throw new ValidationException("Wrong parameters were sent");
-            //}
             return result;
         }
     }

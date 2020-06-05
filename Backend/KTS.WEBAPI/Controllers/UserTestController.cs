@@ -58,9 +58,9 @@ namespace KTS.WEBAPI.Controllers
             {
                 result = _userTestService.GetAllUserTests();
             }
-            catch (NotFoundException)
+            catch (NotFoundException ex)
             {
-                return NotFound();
+                return NotFound(ex.Message);
             }
             catch(ValidationException ex)
             {
@@ -82,9 +82,9 @@ namespace KTS.WEBAPI.Controllers
             {
                 result = _userTestService.GetTopUserTests(count);
             }
-            catch (NotFoundException)
+            catch (NotFoundException ex)
             {
-                return NotFound();
+                return NotFound(ex.Message);
             }
             catch (Exception)
             {
@@ -100,14 +100,13 @@ namespace KTS.WEBAPI.Controllers
             {
                 userTest = _userTestService.GetUserTestById(id);
             }
-            catch (NotFoundException)
+            catch (NotFoundException ex)
             {
-                return NotFound();
+                return NotFound(ex.Message);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
-                //return StatusCode(500);
+                return StatusCode(500);
             }
             return Ok(userTest);
         }
@@ -121,9 +120,9 @@ namespace KTS.WEBAPI.Controllers
             {
                 userTest = _userTestService.GetUserTestByUserId(id);
             }
-            catch (NotFoundException)
+            catch (NotFoundException ex)
             {
-                return NotFound();
+                return NotFound(ex.Message);
             }
             catch (Exception)
             {
@@ -141,9 +140,9 @@ namespace KTS.WEBAPI.Controllers
             {
                 _userTestService.DeleteUserTest(id);
             }
-            catch (NotFoundException)
+            catch (NotFoundException ex)
             {
-                return NotFound();
+                return NotFound(ex.Message);
             }
             catch (Exception)
             {
@@ -164,9 +163,9 @@ namespace KTS.WEBAPI.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            catch (NotFoundException)
+            catch (NotFoundException ex)
             {
-                return NotFound();
+                return NotFound(ex.Message);
             }
             catch (Exception)
             {

@@ -133,14 +133,13 @@ namespace KTS.WEBAPI.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            catch (NotFoundException)
+            catch (NotFoundException ex)
             {
-                return NotFound();
+                return NotFound(ex.Message);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
-                //return StatusCode(500);
+                return StatusCode(500);
             }
             return Ok(result);
         }
