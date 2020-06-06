@@ -10,7 +10,8 @@ namespace KTS.BLL.Interfaces
     public interface IQuestionService
     {
         QuestionDTO GetQuestionById(int id);
-        void CreateQuestion(QuestionDTO question);
+        void CreateQuestionForOldTest(QuestionDTO question);
+        void CreateQuestionForNewTest(QuestionDTO question);
         void DeleteQuestion(string id);
         void PutQuestion(QuestionDTO questionDTO);
     }

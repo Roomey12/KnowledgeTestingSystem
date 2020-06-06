@@ -6,6 +6,7 @@
             <tr>
                 <td>Тест</td>
                 <td>Описание</td>
+                <td>Количество вопросов</td>
                 <td>Бал</td>
                 <td>Время</td>
                 <td>Операции</td>
@@ -15,6 +16,7 @@
             <tr *ngFor="let t of tests">
                 <td>{{t?.title}}</td>
                 <td>{{t?.description}}</td>
+                <td>{{t?.questionsCount}}</td>
                 <td>{{t?.maxScore}}</td>
                 <td>{{t?.maxTime.substring(14)}}</td>
                 <td>

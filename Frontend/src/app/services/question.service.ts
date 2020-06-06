@@ -14,8 +14,12 @@ export class QuestionService {//experimental decorations
         return this.http.get(this.questionUrl + id);
     }
 
-    createQuestion(question: Question){
-        return this.http.post(this.questionUrl, question);
+    createQuestionForNewTest(question: Question){
+        return this.http.post(this.questionUrl + "newTest", question);
+    }
+
+    createQuestionForOldTest(question: Question){
+        return this.http.post(this.questionUrl + "oldTest", question);
     }
 
     deleteQuestion(questionId: number){

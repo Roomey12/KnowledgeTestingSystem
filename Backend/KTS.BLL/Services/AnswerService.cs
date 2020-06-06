@@ -45,6 +45,11 @@ namespace KTS.BLL.Services
             }
             answer.QuestionId = Database.Questions.GetAll().Max(x => x.QuestionId);
             Database.Answers.Create(mapper.Map<AnswerDTO, Answer>(answer));
+            if(answer.Mark > 0)
+            {
+                var question = Database.Questions.Get(answer.QuestionId.ToString());
+                Database.Tests.Get(question.TestId.ToString()).MaxScore += answer.Mark;
+            }
             Database.Save();
         }
 
@@ -54,6 +59,11 @@ namespace KTS.BLL.Services
             if (answer == null)
             {
                 throw new NotFoundException("Answer was not found", "Id");
+            }
+            if (answer.Mark > 0)
+            {
+                var question = Database.Questions.Get(answer.QuestionId.ToString());
+                Database.Tests.Get(question.TestId.ToString()).MaxScore -= answer.Mark;
             }
             Database.Answers.Delete(id);
             Database.Save();

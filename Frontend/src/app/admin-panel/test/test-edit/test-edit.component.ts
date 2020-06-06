@@ -23,7 +23,6 @@ export class TestEditComponent implements OnInit {
   loaded: boolean;
   showAddQuestion: boolean;
   showFillQuestion: boolean;
-  end: boolean;
   newQuestion;
   answersCount;
 
@@ -120,7 +119,7 @@ export class TestEditComponent implements OnInit {
       answers.push(answer);
     }
 
-    this.questionService.createQuestion(question).pipe(
+    this.questionService.createQuestionForOldTest(question).pipe(
       concatMap(data=> {
           console.log(`question ${question.Content} done`);
           return from(answers).pipe(
@@ -128,12 +127,15 @@ export class TestEditComponent implements OnInit {
                   tap(data => console.log(`answer ${answer} done` ) ),
               )),
               finalize(() => {
-                this.end = true;
                 console.log("final");
               }),
           );
       })
-    ).subscribe(data => { console.log("done") });
+    ).subscribe(data => { 
+      this.showAddQuestion = false;
+      this.showFillQuestion = false;
+      this.loadTestInfoGet();
+     });
   }
 
   save() {

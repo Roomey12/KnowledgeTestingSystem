@@ -56,32 +56,26 @@
                         </p>
                     </ng-template>
                 </div>
-                <div *ngIf="!end">
-                    <button class="btn btn-success" style="margin-bottom: 20px; margin-left: 10px;" type="submit" (click)="onSubmit()">Создать</button>
-                </div>
+                <button class="btn btn-success" style="margin-bottom: 20px; margin-left: 10px;" type="submit" (click)="onSubmit()">Создать</button>
             </div>
         </div>
         <div *ngIf="!showAddQuestion"> 
             <div *ngFor="let item of testInfo | keyvalue; let i = index">
                 <form name="form_{{i}}">
                     <p><b>{{i+1}}. {{item.key.content}}</b></p> 
-                    <a class="btn btn-sm btn-primary" style="margin-right: 5px;">Изменить</a>
+                    <a routerLink="/admin-panel/question-edit/{{item.key.questionId}}" class="btn btn-sm btn-primary" style="margin-right: 5px;">Изменить</a>
                     <button (click)="deleteQuestion(item.key.questionId)" class="btn btn-sm btn-danger">Удалить</button>
                     <div *ngFor="let s of item.value">
                         <div *ngIf="item.key.isSingle; else isMultiple">
                             <p>
                                 <input type="radio" name="answer" id="{{s.answerId}}" />
                                 <i id="check_{{s.answerId}}">{{s.content}}</i>
-                                <a class="btn btn-sm btn-primary" style="margin-right: 5px;">Изменить</a>
-                                <button (click)="deleteAnswer(s.answerId)" class="btn btn-sm btn-danger">Удалить</button>
                             </p>
                         </div>
                         <ng-template #isMultiple>
                             <p>
                                 <input type="checkbox" name="answer" id="{{s.answerId}}" />
                                 <i id="check_{{s.answerId}}">{{s.content}}</i>
-                                <a class="btn btn-sm btn-primary" style="margin-right: 5px;">Изменить</a>
-                                <button (click)="deleteAnswer(s.answerId)" class="btn btn-sm btn-danger">Удалить</button>
                             </p>
                         </ng-template>
                     </div>

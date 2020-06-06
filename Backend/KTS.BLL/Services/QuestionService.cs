@@ -38,7 +38,7 @@ namespace KTS.BLL.Services
             return question;
         }
 
-        public void CreateQuestion(QuestionDTO question)
+        public void CreateQuestionForNewTest(QuestionDTO question)
         {
             if (question == null)
             {
@@ -46,6 +46,18 @@ namespace KTS.BLL.Services
             }
             question.TestId = Database.Tests.GetAll().Max(x => x.TestId);
             Database.Questions.Create(mapper.Map<QuestionDTO, Question>(question));
+            Database.Tests.Get(question.TestId.ToString()).QuestionsCount++;
+            Database.Save();
+        }
+
+        public void CreateQuestionForOldTest(QuestionDTO question)
+        {
+            if (question == null)
+            {
+                throw new ValidationException("Question can not be null", "Id");
+            }
+            Database.Questions.Create(mapper.Map<QuestionDTO, Question>(question));
+            Database.Tests.Get(question.TestId.ToString()).QuestionsCount++;
             Database.Save();
         }
 
@@ -57,6 +69,15 @@ namespace KTS.BLL.Services
                 throw new NotFoundException("Question was not found", "Id");
             }
             Database.Questions.Delete(id);
+            Database.Tests.Get(question.TestId.ToString()).QuestionsCount--;
+            var answers = Database.Answers.Find(x => x.QuestionId.ToString() == id);
+            foreach(var answer in answers)
+            {
+                if (answer.Mark > 0)
+                {
+                    Database.Tests.Get(question.TestId.ToString()).MaxScore -= answer.Mark;
+                }
+            }
             Database.Save();
         }
 

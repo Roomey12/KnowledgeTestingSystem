@@ -40,6 +40,7 @@ import { UserTestCreateComponent } from './admin-panel/user-test/user-test-creat
 import { ConfirmEmailComponent } from './user/confirm-email/confirm-email.component';
 import { ForgotPasswordComponent } from './user/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './user/reset-password/reset-password.component';
+import { QuestionEditComponent } from './admin-panel/test/question-edit/question-edit.component';
 
 
 
@@ -70,7 +71,8 @@ import { ResetPasswordComponent } from './user/reset-password/reset-password.com
     UserTestCreateComponent,
     ConfirmEmailComponent,
     ForgotPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    QuestionEditComponent
   ],
   imports: [
     BrowserModule,

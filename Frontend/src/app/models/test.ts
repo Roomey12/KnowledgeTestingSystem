@@ -4,4 +4,5 @@ export class Test {
     maxScore: number;
     description: string;
     maxTime: Date;
+    questionsCount: number;
 }

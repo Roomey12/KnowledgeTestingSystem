@@ -6,6 +6,7 @@
                     <td>Тест</td>
                     <td>Описание</td>
                     <td>Бал</td>
+                    <td>Количество вопросов</td>
                     <td>Время</td>
                 </tr>
             </thead>
@@ -14,6 +15,7 @@
                     <td>{{test.title}}</td>
                     <td>{{test.description}}</td> 
                     <td>{{test.maxScore}}</td>
+                    <td>{{test.questionsCount}}</td>
                     <td>{{test.maxTime.getMinutes()}}:{{test.maxTime.getSeconds()}}</td>
                 </tr>
             </tbody>

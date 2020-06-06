@@ -10,6 +10,7 @@ namespace KTS.BLL.DTO
         public string Title { get; set; }
         public double MaxScore { get; set; }
         public string Description { get; set; }
+        public int QuestionsCount { get; set; }
         public DateTime MaxTime { get; set; } 
     }
 }
