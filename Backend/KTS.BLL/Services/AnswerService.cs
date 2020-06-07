@@ -37,6 +37,20 @@ namespace KTS.BLL.Services
             return answer;
         }
 
+        public IEnumerable<AnswerDTO> GetAnswersByQuestionId(int? questionId)
+        {
+            if(questionId == null)
+            {
+                throw new ValidationException("Model can not be null", "Id");
+            }
+            var question = Database.Questions.Get(questionId.ToString());
+            if(question == null)
+            {
+                throw new NotFoundException("Question was not found");
+            }
+            var answers = mapper.Map<IEnumerable<Answer>, IEnumerable<AnswerDTO>>(Database.Answers.Find(x => x.QuestionId == questionId));
+            return answers;
+        }
         public void CreateAnswer(AnswerDTO answer)
         {
             if (answer == null)

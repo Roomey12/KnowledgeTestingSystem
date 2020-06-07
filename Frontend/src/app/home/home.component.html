@@ -21,7 +21,7 @@
                 <tr>
                     <td>Пользователь</td>
                     <td>Тест</td>
-                    <td>Бал</td>
+                    <td>Результат</td>
                     <td>Время</td>
                 </tr>
             </thead>
@@ -29,7 +29,7 @@
                 <tr *ngFor="let u of userTests">
                     <td>{{u?.username}}</td>
                     <td>{{u?.test}}</td>
-                    <td>{{u?.mark}}</td>
+                    <td>{{u?.mark}}%</td>
                     <td>{{u?.time.substring(14)}}</td>
                 </tr>
             </tbody>

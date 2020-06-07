@@ -50,6 +50,30 @@ namespace KTS.WEBAPI.Controllers
             return Ok(answer);
         }
 
+        [HttpGet("question/{id}")]
+        public IActionResult GetAnswersByQuestionId(int id)
+        {
+            IEnumerable<AnswerModel> answers;
+            try
+            {
+                answers = mapper.Map<IEnumerable<AnswerDTO>, IEnumerable<AnswerModel>>
+                    (_answerService.GetAnswersByQuestionId(id));
+            }
+            catch(ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch(NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok(answers);
+        }
+
         [HttpPost]
         public IActionResult PostAnswer(AnswerModel answer)
         {

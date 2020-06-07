@@ -19,14 +19,14 @@
             <thead>
                 <tr>
                     <td>Тест</td>
-                    <td>Бал</td>
+                    <td>Результат</td>
                     <td>Время</td>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let u of userTests">
                     <td>{{u?.test}}</td>
-                    <td>{{u?.mark}}</td>
+                    <td>{{u?.mark}}%</td>
                     <td>{{u?.time.substring(14)}}</td>
                 </tr>
             </tbody>

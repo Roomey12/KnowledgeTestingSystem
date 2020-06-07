@@ -1,1 +1,24 @@
-<p>question-edit works!</p>
+<div *ngIf="loaded">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6 pb-5">
+                <h2>Изменение данных о вопросе</h2>
+            </div>
+        </div> 
+        <p><b>{{question.content}}</b></p><br> 
+        <div *ngFor="let a of answers">
+            <div *ngIf="question.isSingle; else isMultiple">
+                <p>
+                    <input type="radio"/>
+                    <i>{{a.content}}</i>
+                </p>
+            </div>
+            <ng-template #isMultiple>
+                <p>
+                    <input type="checkbox"/>
+                    <i>{{a.content}}</i>
+                </p>
+            </ng-template>
+        </div>
+    </div>
+</div>

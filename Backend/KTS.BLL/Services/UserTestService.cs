@@ -51,10 +51,16 @@ namespace KTS.BLL.Services
             {
                 throw new NotFoundException("Users were not found");
             }
+            var tests = mapper.Map<IEnumerable<Test>, IEnumerable<TestDTO>>(Database.Tests.GetAll());
+            if (tests == null)
+            {
+                throw new NotFoundException("Tests were not found");
+            }
             var result = from u in users
                          join t in userTests on u.Id equals t.UserId
+                         join a in tests on t.TestId equals a.TestId
                          orderby t.Mark descending, t.Time descending
-                         select new { t.UserTestId, UserId = u.Id, t.Test.TestId, u.Username, Test = t.Test.Title, t.Mark, t.Time };
+                         select new { t.UserTestId, UserId = u.Id, t.Test.TestId, u.Username, Test = t.Test.Title, Mark = (float)Math.Round((t.Mark/a.MaxScore)*100,2), t.Time };
             return result;
         }
 
@@ -70,10 +76,16 @@ namespace KTS.BLL.Services
             {
                 throw new NotFoundException("Users were not found");
             }
+            var tests = mapper.Map<IEnumerable<Test>, IEnumerable<TestDTO>>(Database.Tests.GetAll());
+            if (tests == null)
+            {
+                throw new NotFoundException("Tests were not found");
+            }
             var result = (from u in users
                          join t in userTests on u.Id equals t.UserId
-                         orderby t.Mark descending, t.Time descending
-                         select new { u.Username, Test = t.Test.Title, t.Mark, t.Time }).Take(count);
+                         join a in tests on t.TestId equals a.TestId
+                          orderby (t.Mark / a.MaxScore) * 100 descending, t.Time descending
+                          select new { u.Username, Test = t.Test.Title, Mark = (float)Math.Round((t.Mark / a.MaxScore) * 100, 2), t.Time }).Take(count);
             return result;
         }
 
@@ -89,9 +101,15 @@ namespace KTS.BLL.Services
             {
                 throw new NotFoundException("UserTests were not found");
             }
+            var tests = mapper.Map<IEnumerable<Test>, IEnumerable<TestDTO>>(Database.Tests.GetAll());
+            if (tests == null)
+            {
+                throw new NotFoundException("Tests were not found");
+            }
             var result = from t in userTests
                     where t.UserId == userId
-                    select new { Id = t.UserTestId, Username = user.Username, Test = t.Test.Title, Mark = t.Mark, Time = t.Time };
+                    join a in tests on t.TestId equals a.TestId
+                    select new { Id = t.UserTestId, user.Username, Test = t.Test.Title, Mark = (float)Math.Round((t.Mark / a.MaxScore) * 100, 2), Time = t.Time };
             return result;
         }
 
@@ -119,7 +137,7 @@ namespace KTS.BLL.Services
                 TestId = test.TestId,
                 Username = user.UserName,
                 Test = test.Title,
-                Mark = userTest.Mark,
+                Mark = (float)Math.Round((userTest.Mark / test.MaxScore) * 100, 2),
                 Time = userTest.Time
             };
             return result;
