@@ -5,6 +5,28 @@
                 <h2>Изменение данных о вопросе</h2>
             </div>
         </div> 
+
+        <div class="form-group">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
+                </div>
+                <input type="text" class="form-control" [(ngModel)]="question.content" placeholder="Название">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-envelope text-info"></i></div>
+                </div>
+                <input type="text" class="form-control" [(ngModel)]="question.isSingle" placeholder="Описание">
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="button" value="Сохранить" (click)="save()" class="btn btn-success" />
+        </div>
+
+
         <p><b>{{question.content}}</b></p><br> 
         <div *ngFor="let a of answers">
             <div *ngIf="question.isSingle; else isMultiple">

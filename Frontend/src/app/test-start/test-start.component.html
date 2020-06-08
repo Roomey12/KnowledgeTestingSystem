@@ -1,7 +1,7 @@
 <body>
     <div *ngIf="loaded">
         <div class="container">
-            <h3 id="testtitle">{{testName}}</h3>
+            <h3 id="testtitle">{{test.description}}</h3>
             <div id="timer-wrapper">
                 <div class="rounded bg-gradient-4 text-white shadow text-center" id="countd">
                     <p class="mb-0 font-weight-bold text-uppercase">Limited Time Only!</p>
@@ -46,7 +46,7 @@
             </div>
             <div class="modal-body">
                 <div *ngIf="submitted" class="results">
-                    <p>Вы набрали: {{testResult.Mark}} баллов</p>
+                    <p>Вы набрали: {{result}}% баллов</p>
                     <p>Потраченное время на тест: {{testResult.Time.getMinutes()}} минут и {{testResult.Time.getSeconds()}} секунд</p>
                 </div> 
             </div>
@@ -56,5 +56,4 @@
           </div>
         </div>
     </div>
-    
 </body>

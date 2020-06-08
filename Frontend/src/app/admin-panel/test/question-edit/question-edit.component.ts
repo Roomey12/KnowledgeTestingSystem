@@ -14,7 +14,7 @@ import { Answer } from 'src/app/models/answer';
 export class QuestionEditComponent implements OnInit {
 
   questionId;
-  question: Question;
+  question;
   answers: Answer[];
   loaded; boolean;
   constructor(private router: Router, 
@@ -42,5 +42,9 @@ export class QuestionEditComponent implements OnInit {
           this.answers = data;
           this.loaded=true; 
     });
+  }
+
+  save(){
+    
   }
 }

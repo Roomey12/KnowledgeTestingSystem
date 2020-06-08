@@ -20,19 +20,18 @@ import { UserTestService } from '../services/usertest.service';
 export class TestStartComponent implements OnInit, ComponentCanDeactivate {
 
   testInfo: Map<Question, Answer[]>;
-  testName: string;
   loaded: boolean = false;
   sum: number = 0;
   timeLeft: number;
   submitted: boolean = false;
   localstorageTime: number;
   localstorageTimeSet: boolean;
+  test: Test;
   testId: number;
   testResult: TestResult;
-  testMaxTime: Date;
   interval;
   userDetails;
-
+  result;
   all;
   observables;
   minutes;
@@ -104,8 +103,10 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
   getTest() {
     this.testService.getTestById(this.testId)
         .subscribe((data: Test) => {
-            this.testName = data["description"];
-            this.testMaxTime = new Date(data["maxTime"]);
+            this.test = new Test();
+            this.test.maxScore = data["maxScore"];
+            this.test.description = data["description"];
+            this.test.maxTime = new Date(data["maxTime"]);
             this.timer(data["maxTime"]);
         })
   }
@@ -190,8 +191,8 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
   }
 
   endTest1(){
-    var min = this.testMaxTime.getMinutes() * 60000;
-    var sec = this.testMaxTime.getSeconds() * 1000;
+    var min = this.test.maxTime.getMinutes() * 60000;
+    var sec = this.test.maxTime.getSeconds() * 1000;
     var rizn = min + sec - this.timeLeft;
 
     this.minutes = Math.floor((rizn % (1000 * 60 * 60)) / (1000 * 60));
@@ -248,6 +249,7 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
       }
     });
 
+
     document.getElementById('subButton').innerHTML = "Результат";
     this.submitted = true;
     clearInterval(this.interval);
@@ -264,5 +266,6 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
     this.testResult.TestId = this.testId;
     this.testResult.Time = timeResult;
     this.testResult.UserId = this.userDetails.id;
+    this.result = Number((this.testResult.Mark/this.test.maxScore) * 100).toFixed(2);
   }
 }
