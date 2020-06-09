@@ -45,6 +45,7 @@ namespace KTS.WEBAPI
             services.AddDbContext<ApplicationContext>();
             services.AddIdentity<User, IdentityRole>(opts =>
             {
+                opts.User.RequireUniqueEmail = true;
                 opts.SignIn.RequireConfirmedEmail = true;
                 opts.Password.RequiredLength = 6;   // минимальная длина
                 opts.Password.RequireNonAlphanumeric = false;   // требуются ли не алфавитно-цифровые символы

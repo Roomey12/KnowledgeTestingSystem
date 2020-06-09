@@ -29,6 +29,7 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
   test: Test;
   testId: number;
   testResult: TestResult;
+  message: string;
   interval;
   userDetails;
   result;
@@ -248,8 +249,6 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
         }
       }
     });
-
-
     document.getElementById('subButton').innerHTML = "Результат";
     this.submitted = true;
     clearInterval(this.interval);
@@ -262,10 +261,33 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
     timeResult.setSeconds(this.seconds);
     timeResult.setMilliseconds(0);
     this.testResult = new TestResult();
-    this.testResult.Mark = Number(this.sum.toFixed(2));
+    this.testResult.Mark = Number(((Number(this.sum)/this.test.maxScore) * 100).toFixed(2));
     this.testResult.TestId = this.testId;
     this.testResult.Time = timeResult;
     this.testResult.UserId = this.userDetails.id;
-    this.result = Number((this.testResult.Mark/this.test.maxScore) * 100).toFixed(2);
+    if(this.testResult.Mark == 0){
+      this.message = "Ваш результат невообразимо ужасен! Может Вы сознательно выбирали неправильные ответы?";
+    }
+    else if(this.testResult.Mark > 0 && this.testResult.Mark < 40){
+      this.message = "Грош цена вашему результату! Вы уверены что хотите быть программистом?";
+    }
+    else if(this.testResult.Mark >= 40 && this.testResult.Mark < 60){
+      this.message = "Это плохой результат. Вам нужно подучить теорию."
+    }
+    else if(this.testResult.Mark >= 60 && this.testResult.Mark < 70){
+      this.message = "Это посредственный результат. Вам стоит больше практиковаться.";
+    }
+    else if(this.testResult.Mark >= 70 && this.testResult.Mark < 80){
+      this.message = "Это хороший результат, продолжайте обучение в том же духе!";
+    }
+    else if(this.testResult.Mark >= 80 && this.testResult.Mark < 90){
+      this.message = "Это отличный результат. Вы хорошо подготовились.";
+    }
+    else if(this.testResult.Mark >= 90 && this.testResult.Mark < 100){
+      this.message = "Это изумительный результат! Ваши знания программирования выше всяких похвал!";
+    }
+    else{
+      this.message = "Идеально! Вы Бог программирования!";
+    }
   }
 }

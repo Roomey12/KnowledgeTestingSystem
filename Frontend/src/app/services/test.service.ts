@@ -27,6 +27,7 @@ export class TestService {
     }
 
     putTest(test: Test){
+        console.log(test);
         return this.http.put(this.testUrl, test);
     }
 

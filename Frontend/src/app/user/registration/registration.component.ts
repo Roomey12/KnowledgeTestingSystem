@@ -28,13 +28,14 @@ export class RegistrationComponent implements OnInit {
                 this.toastr.error('Данный логин уже занят.','Регистрация не выполнена.');
                 break;
               default:
-              this.toastr.error(element.description,'Регистрация не выполнена.');
+                this.toastr.error(element.description,'Регистрация не выполнена.');
                 break;
             }
           });
         }
       },
       err => {
+        console.log(err);
         this.toastr.error('Что-то пошло не так.', 'Регистрация не выполнена.');
       }
     );

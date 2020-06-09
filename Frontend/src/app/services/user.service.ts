@@ -10,7 +10,7 @@ export class UserService {//experimental decorations
 
     constructor(private fb: FormBuilder, private http: HttpClient) { }
     
-    formModel = this.fb.group({
+    passwordModel = this.fb.group({
         Passwords: this.fb.group({
             OldPassword: ['', Validators.required],
             Password: ['', [Validators.required, Validators.minLength(6)]],
@@ -18,6 +18,10 @@ export class UserService {//experimental decorations
             }, { validator: this.comparePasswords })
     });
 
+    usernameModel = this.fb.group({
+        NewUsername: ['', Validators.required]
+    });
+    
     comparePasswords(fb: FormGroup) {
         let confirmPswrdCtrl = fb.get('ConfirmPassword');
         //passwordMismatch
@@ -53,9 +57,17 @@ export class UserService {//experimental decorations
     changePassword(userId: string){
         var body = {
             UserId: userId,
-            OldPassword: this.formModel.value.Passwords.OldPassword,
-            NewPassword: this.formModel.value.Passwords.Password
+            OldPassword: this.passwordModel.value.Passwords.OldPassword,
+            NewPassword: this.passwordModel.value.Passwords.Password
           };
-        return this.http.post(this.userUrl + 'changePass', body);
+        return this.http.put(this.userUrl + 'changePass', body);
+    }
+
+    changeUsername(oldUsername: String){
+        var body = {
+            OldUsername: oldUsername,
+            NewUsername: this.usernameModel.value.NewUsername
+        };
+        return this.http.put(this.userUrl + 'changeUsername', body);
     }
 }

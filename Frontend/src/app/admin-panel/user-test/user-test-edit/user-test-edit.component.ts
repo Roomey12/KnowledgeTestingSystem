@@ -37,7 +37,6 @@ save() {
   testResult.TestId = this.userTest.testId;
   testResult.Mark = Number(this.userTest.Mark);
   testResult.Time = time;
-  console.log(testResult);
   this.userTestService.putUserTest(testResult).subscribe(data => this.router.navigateByUrl("/admin-panel"));
 }
 

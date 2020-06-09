@@ -16,5 +16,6 @@ namespace KTS.BLL.Interfaces
         void DeleteUser(string id);
         void PutUser(UserDTO userDTO);
         Task<IdentityResult> ChangePassword(ChangePasswordDTO modelDTO);
+        Task ChangeUsername(ChangeUsernameDTO modelDTO);
     }
 }

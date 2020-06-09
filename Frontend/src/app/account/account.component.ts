@@ -4,8 +4,6 @@ import { UserTestService } from '../services/usertest.service';
 import { UserService } from '../services/user.service';
 import { ChangePassword } from '../models/changePassword';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../services/auth.service';
-import { of } from 'rxjs';
 
 @Component({
   selector: 'app-account',
@@ -18,12 +16,18 @@ export class AccountComponent implements OnInit {
   userDetails;
   userTests;
   showChangePass: boolean = false;
+  showChangeName: boolean = false;
   password: ChangePassword;
 
   constructor(private userTestService: UserTestService, public userService: UserService, private toastr: ToastrService) { }
 
   ngOnInit() {
-    this.userService.formModel.reset(); 
+    this.userService.usernameModel.reset();
+    this.userService.passwordModel.reset(); 
+    this.loadUserProfile();
+  }
+
+  loadUserProfile(){
     this.userService.getUserProfile().subscribe(
       res => {
         this.userDetails = res;
@@ -34,7 +38,6 @@ export class AccountComponent implements OnInit {
       },
     );
   }
-
   loadUserTests(){
     this.userTestService.getUserTestsByUserId(this.userDetails["id"])
       .subscribe((data: object[]) =>{
@@ -43,7 +46,13 @@ export class AccountComponent implements OnInit {
   }
 
   showChangePassword(){
-    this.showChangePass = true;
+    this.userService.passwordModel.reset(); 
+    this.showChangePass = !this.showChangePass;
+  }
+
+  showChangeUsername(){
+    this.userService.usernameModel.reset();
+    this.showChangeName = !this.showChangeName;
   }
 
   changePassword(){
@@ -51,7 +60,7 @@ export class AccountComponent implements OnInit {
       (res: any) => {
         console.log(res);
         if (res.succeeded) {
-          this.userService.formModel.reset();
+          this.userService.passwordModel.reset();
           this.toastr.success('Пароль был изменен.', 'Успешно.');
           this.showChangePass = false;
         } 
@@ -72,6 +81,26 @@ export class AccountComponent implements OnInit {
       err => {
         if (err.error == "Old and new password are same"){
           this.toastr.error('Старый и новый пароли совпадают.', 'Пароль не был изменен.');
+        }
+        console.log(err);
+      }
+    );
+  }
+
+  changeUsername(){
+    this.userService.changeUsername(this.userDetails.userName).subscribe(
+      data => {
+        this.loadUserProfile();
+        this.userService.usernameModel.reset();
+        this.showChangeName = false;
+        this.toastr.success('Имя пользователя было изменено.', 'Успешно.');
+      },
+      err => {
+        if (err.error == "User with this username already exists"){
+          this.toastr.error('Пользователь с таким именем уже существует.', 'Имя пользователя не было изменено.');
+        }
+        else if(err.error == "Username can not be the same as current"){
+          this.toastr.error('Новое имя пользователя не должно совпадать с текущим.', 'Имя пользователя не было изменено.');
         }
         console.log(err);
       }

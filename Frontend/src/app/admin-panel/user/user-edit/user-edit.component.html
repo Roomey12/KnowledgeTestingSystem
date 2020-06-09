@@ -14,7 +14,7 @@
             <thead>
                 <tr>
                     <td>Тест</td>
-                    <td>Бал</td>
+                    <td>Результат</td>
                     <td>Время</td>
                     <td>Операции</td>
                 </tr>
@@ -22,7 +22,7 @@
             <tbody>
                 <tr *ngFor="let u of userTests">
                     <td>{{u?.test}}</td>
-                    <td>{{u?.mark}}</td>
+                    <td>{{u?.mark}}%</td>
                     <td>{{u?.time.substring(14)}}</td>
                     <td>
                         <a class="btn btn-sm btn-primary" style="margin-right: 5px;">Изменить</a>

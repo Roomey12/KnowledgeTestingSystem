@@ -52,9 +52,9 @@ namespace KTS.BLL.Services
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 byte[] tokenGeneratedBytes = Encoding.UTF8.GetBytes(token);
                 var tokenEncoded = WebEncoders.Base64UrlEncode(tokenGeneratedBytes);
-                var url = $@"http://localhost:4200/user/confirmemail/?userId={user.Id}&token={tokenEncoded}";
+                var url = $@"http://localhost:4200/user/confirm-email/?userId={user.Id}&token={tokenEncoded}";
                 await SendEmailAsync(modelDTO.Email, "Подтвердите Ваш аккаунт",
-                   $"Подтвердите регистрацию, перейдя по ссылке: <a href='{url}'>клик</a>.");
+                                $"Подтвердите регистрацию, перейдя по ссылке: <a href='{url}'>клик</a>.");
             }
             return result;
         }

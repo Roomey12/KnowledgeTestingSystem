@@ -139,6 +139,8 @@ export class TestEditComponent implements OnInit {
   }
 
   save() {
+    this.test.maxScore = Number(this.test.maxScore);
+    this.test.maxTime = new Date(this.test.maxTime);
     this.testService.putTest(this.test).subscribe(data => this.router.navigateByUrl("/admin-panel"));
   }
 }

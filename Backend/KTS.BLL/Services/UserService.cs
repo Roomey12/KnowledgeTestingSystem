@@ -109,6 +109,32 @@ namespace KTS.BLL.Services
             return result;
         }
 
+        public async Task ChangeUsername(ChangeUsernameDTO modelDTO)
+        {
+            if(modelDTO == null)
+            {
+                throw new ValidationException("Model can not be null");
+            }
+            if(modelDTO.NewUsername.ToUpper() == modelDTO.OldUsername.ToUpper())
+            {
+                throw new ValidationException("Username can not be the same as current");
+            }
+            var currentUser = await _userManager.FindByNameAsync(modelDTO.OldUsername);
+            if (currentUser == null)
+            {
+                throw new NotFoundException("User was not found", "Username");
+            }
+            var checkUser = await _userManager.FindByNameAsync(modelDTO.NewUsername);
+            if(checkUser != null)
+            {
+                throw new ValidationException("User with this username already exists");
+            }
+            currentUser.UserName = modelDTO.NewUsername;
+            currentUser.NormalizedUserName = modelDTO.NewUsername.ToUpper();
+            Database.Users.Update(currentUser);
+            Database.Save();
+        }
+
         public void Dispose()
         {
             Database.Dispose();

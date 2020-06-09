@@ -26,6 +26,7 @@ namespace KTS.WEBAPI.Controllers
         IMapper mapper = new MapperConfiguration(cfg =>
         {
             cfg.CreateMap<ChangePasswordModel, ChangePasswordDTO>();
+            cfg.CreateMap<ChangeUsernameModel, ChangeUsernameDTO>();
             cfg.CreateMap<UserDTO, UserModel>();
             cfg.CreateMap<UserModel, UserDTO>();
             cfg.CreateMap<UserTestModel, UserTestDTO>();
@@ -94,7 +95,7 @@ namespace KTS.WEBAPI.Controllers
             {
                 return StatusCode(500);
             }
-            return Ok(new { Message = "User was successfully deleted!" });
+            return Ok(new { Message = "User was successfully deleted" });
         }
 
         [HttpPut]
@@ -117,7 +118,7 @@ namespace KTS.WEBAPI.Controllers
             {
                 return StatusCode(500);
             }
-            return Ok(new { Message = "User was successfully changed!" });
+            return Ok(new { Message = "User was successfully changed" });
         }
 
         [HttpGet("profile")]
@@ -134,7 +135,7 @@ namespace KTS.WEBAPI.Controllers
             };
         }
 
-        [HttpPost("changePass")]
+        [HttpPut("changePass")]
         public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
         {
             IdentityResult result;
@@ -155,6 +156,28 @@ namespace KTS.WEBAPI.Controllers
                 return StatusCode(500);
             }
             return Ok(result);
+        }
+
+        [HttpPut("changeUsername")]
+        public async Task<IActionResult> ChangeUsername(ChangeUsernameModel model)
+        {
+            try
+            {
+                await _userService.ChangeUsername(mapper.Map<ChangeUsernameModel, ChangeUsernameDTO>(model));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok(new { Message = "Username was successfully changed" });
         }
     }
 }

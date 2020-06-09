@@ -60,7 +60,7 @@ namespace KTS.BLL.Services
                          join t in userTests on u.Id equals t.UserId
                          join a in tests on t.TestId equals a.TestId
                          orderby t.Mark descending, t.Time descending
-                         select new { t.UserTestId, UserId = u.Id, t.Test.TestId, u.Username, Test = t.Test.Title, Mark = (float)Math.Round((t.Mark/a.MaxScore)*100,2), t.Time };
+                         select new { t.UserTestId, UserId = u.Id, t.Test.TestId, u.Username, Test = t.Test.Title, t.Mark, t.Time };
             return result;
         }
 
@@ -81,11 +81,12 @@ namespace KTS.BLL.Services
             {
                 throw new NotFoundException("Tests were not found");
             }
+            var date = DateTime.Now;
             var result = (from u in users
                          join t in userTests on u.Id equals t.UserId
                          join a in tests on t.TestId equals a.TestId
-                          orderby (t.Mark / a.MaxScore) * 100 descending, t.Time descending
-                          select new { u.Username, Test = t.Test.Title, Mark = (float)Math.Round((t.Mark / a.MaxScore) * 100, 2), t.Time }).Take(count);
+                         orderby t.Mark descending, new DateTime(date.Year, date.Month, date.Day, date.Hour, t.Time.Minute, t.Time.Second)
+                         select new { u.Username, Test = t.Test.Title, t.Mark, t.Time }).Take(count);
             return result;
         }
 
@@ -109,7 +110,7 @@ namespace KTS.BLL.Services
             var result = from t in userTests
                     where t.UserId == userId
                     join a in tests on t.TestId equals a.TestId
-                    select new { Id = t.UserTestId, user.Username, Test = t.Test.Title, Mark = (float)Math.Round((t.Mark / a.MaxScore) * 100, 2), Time = t.Time };
+                    select new { Id = t.UserTestId, user.Username, Test = t.Test.Title, t.Mark, Time = t.Time };
             return result;
         }
 
@@ -137,7 +138,7 @@ namespace KTS.BLL.Services
                 TestId = test.TestId,
                 Username = user.UserName,
                 Test = test.Title,
-                Mark = (float)Math.Round((userTest.Mark / test.MaxScore) * 100, 2),
+                Mark = userTest.Mark,
                 Time = userTest.Time
             };
             return result;
