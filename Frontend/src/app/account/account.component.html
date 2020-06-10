@@ -54,15 +54,21 @@
         <form [formGroup]="userService.passwordModel" autocomplete="off" (submit)="changePassword()">
             <div formGroupName="Passwords">
                 <div class="form-group required">
-                    <label>Старый пароль</label><br>
-                    <input type="password" class="form-control" formControlName="OldPassword">
+                    <div class="password">
+                        <label>Старый пароль</label><br>
+                        <input type="password" id="old-password" class="form-control" formControlName="OldPassword">
+                        <a href="#" id="old-passeye" class="password-control" (click)="show_hide_password(pas1)"></a>
+                    </div>
                     <label class="text-danger" *ngIf="userService.passwordModel.get('Passwords.OldPassword').touched && userService.passwordModel.get('Passwords.OldPassword').errors?.required">
                       Это поле обязательно.
                     </label>
                 </div>
                 <div class="form-group required">
-                    <label >Новый пароль</label><br>
-                    <input type="password" class="form-control" formControlName="Password">
+                    <div class="password">
+                        <label>Новый пароль</label><br>
+                        <input type="password" id="new-password" class="form-control" formControlName="Password">
+                        <a href="#" id="new-passeye" class="password-control" (click)="show_hide_password(pas2)"></a>
+                    </div>                    
                     <label class="text-danger" *ngIf="userService.passwordModel.get('Passwords.Password').touched && userService.passwordModel.get('Passwords.Password').errors?.required">
                         Это поле обязательно.
                     </label>
@@ -71,8 +77,11 @@
                     </label>
                 </div>
                 <div class="form-group required">
-                    <label >Подтвердите новый пароль</label><br>
-                    <input type="password" class="form-control" formControlName="ConfirmPassword">
+                    <div class="password">
+                        <label>Подтвердите пароль</label><br>
+                        <input type="password" id="conf-password" class="form-control" formControlName="ConfirmPassword">
+                        <a href="#" id="conf-passeye" class="password-control" (click)="show_hide_password(pas3)"></a>
+                    </div>
                     <label class="text-danger" *ngIf="userService.passwordModel.get('Passwords.ConfirmPassword').touched && userService.passwordModel.get('Passwords.ConfirmPassword').errors?.required">
                       Это поле обязательно.
                     </label>

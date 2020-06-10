@@ -8,8 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
-  styles: [
-  ]
+  styleUrls: ['./account.component.css']
+
 })
 export class AccountComponent implements OnInit {
 
@@ -18,6 +18,10 @@ export class AccountComponent implements OnInit {
   showChangePass: boolean = false;
   showChangeName: boolean = false;
   password: ChangePassword;
+  pas1: string = "oldpass";
+  pas2: string = "newpass";
+  pas3: string = "confpass";
+
 
   constructor(private userTestService: UserTestService, public userService: UserService, private toastr: ToastrService) { }
 
@@ -105,5 +109,28 @@ export class AccountComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  show_hide_password(el){
+    if(el == "oldpass"){
+      var input = document.getElementById('old-password');
+      var eye = document.getElementById('old-passeye');
+    }
+    else if(el == "newpass"){
+      var input = document.getElementById('new-password');
+      var eye = document.getElementById('new-passeye');
+    }
+    else{
+      var input = document.getElementById('conf-password');
+      var eye = document.getElementById('conf-passeye');
+    }
+    if (input.getAttribute('type') == 'password') {
+      eye.classList.add('view');
+      input.setAttribute('type', 'text');
+    } else {
+      eye.classList.remove('view');
+      input.setAttribute('type', 'password');
+    }
+    return false;
   }
 }

@@ -1,0 +1,2 @@
+Backend\KTS.WEBAPI\appsettings.json
+Frontend\node_modules

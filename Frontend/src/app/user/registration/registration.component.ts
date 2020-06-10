@@ -10,6 +10,8 @@ import { ToastrService } from 'ngx-toastr';
 export class RegistrationComponent implements OnInit {
 
   constructor(public authService: AuthService, private toastr: ToastrService) { }
+  pas1: string = "password";
+  pas2: string = "confirmPassword"
 
   ngOnInit() {
     this.authService.formModel.reset(); 
@@ -39,5 +41,24 @@ export class RegistrationComponent implements OnInit {
         this.toastr.error('Что-то пошло не так.', 'Регистрация не выполнена.');
       }
     );
+  }
+
+  show_hide_password(el){
+    if(el == "password"){
+      var input = document.getElementById('password-input');
+      var eye = document.getElementById('passeye');
+    }
+    else{
+      var input = document.getElementById('confirm-password-input');
+      var eye = document.getElementById('confirm-passeye');
+    }
+    if (input.getAttribute('type') == 'password') {
+      eye.classList.add('view');
+      input.setAttribute('type', 'text');
+    } else {
+      eye.classList.remove('view');
+      input.setAttribute('type', 'password');
+    }
+    return false;
   }
 }

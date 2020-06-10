@@ -22,7 +22,6 @@ import { UserTestCreateComponent } from './admin-panel/user-test/user-test-creat
 import { ConfirmEmailComponent } from './user/confirm-email/confirm-email.component';
 import { ForgotPasswordComponent } from './user/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './user/reset-password/reset-password.component';
-import { QuestionEditComponent } from './admin-panel/test/question-edit/question-edit.component';
 
 
 const routes: Routes = [
@@ -49,8 +48,7 @@ const routes: Routes = [
       { path: 'test-create', component: TestCreateComponent },
       { path: 'user-test-list', component: UserTestListComponent },
       { path: 'user-test-edit/:id', component: UserTestEditComponent },
-      { path: 'user-test-create', component: UserTestCreateComponent },
-      { path: 'question-edit/:id', component: QuestionEditComponent }
+      { path: 'user-test-create', component: UserTestCreateComponent }
     ]
   },
   { path: 'account', component: AccountComponent, canActivate: [AuthGuard], },

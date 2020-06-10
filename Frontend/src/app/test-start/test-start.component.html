@@ -18,20 +18,20 @@
                         <div *ngIf="item.key.isSingle; else isMultiple">
                             <p>
                                 <input type="radio" name="answer" id="{{s.answerId}}" />
-                                <i id="check_{{s.answerId}}">{{s.content}}</i>
+                                <i id="check_{{s.answerId}}"> {{s.content}}</i>
                             </p>
                         </div>
                         <ng-template #isMultiple>
                             <p>
                                 <input type="checkbox" name="answer" id="{{s.answerId}}" />
-                                <i id="check_{{s.answerId}}">{{s.content}}</i>
+                                <i id="check_{{s.answerId}}"> {{s.content}}</i>
                             </p>
                         </ng-template>
                     </div>
                 </form>
                 <br />
             </div>
-            <button class="btn btn-success" style="margin-bottom: 20px; margin-left: 10px;" type="submit" form="" id="subButton" (click)="onSubmit()" data-toggle="modal" data-target="#modalresults">Отправить</button>
+            <button class="btn btn-success" style="margin-bottom: 20px; margin-left: 10px;" type="submit" form="" id="subButton" (click)="onSubmit()" data-toggle="modal" data-target="#modalresults">Завершить</button>
         </div>
     </div>
 

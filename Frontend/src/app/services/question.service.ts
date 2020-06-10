@@ -25,4 +25,9 @@ export class QuestionService {//experimental decorations
     deleteQuestion(questionId: number){
         return this.http.delete(this.questionUrl + questionId);
     }
+
+    editQuestion(question: Question){
+        console.log(question);
+        return this.http.put(this.questionUrl, question);
+    }
 }

@@ -5,7 +5,7 @@
                 <h2>Изменение данных о тесте</h2>
                 <test-form [(test)]="test"></test-form>
                 <div class="form-group">
-                    <input type="button" value="Сохранить" (click)="save()" class="btn btn-success" />
+                    <input type="button" value="Сохранить" (click)="saveTest()" class="btn btn-success" />
                 </div>
             </div>
         </div>
@@ -31,6 +31,7 @@
         <div *ngIf="!showAddQuestion">
             <button class="btn btn-primary" (click)="addQuestion()">Добавить вопрос</button>
         </div>
+        <br>
         <div *ngIf="showAddQuestion">
             <span>Несколько правильных ответов?</span><input type="checkbox" id="isMultiple"/>
             <input type="text" id="content" placeholder="Текст вопроса">
@@ -62,22 +63,35 @@
         <div *ngIf="!showAddQuestion"> 
             <div *ngFor="let item of testInfo | keyvalue; let i = index">
                 <form name="form_{{i}}">
-                    <p><b>{{i+1}}. {{item.key.content}}</b></p> 
-                    <a routerLink="/admin-panel/question-edit/{{item.key.questionId}}" class="btn btn-sm btn-primary" style="margin-right: 5px;">Изменить</a>
-                    <button (click)="deleteQuestion(item.key.questionId)" class="btn btn-sm btn-danger">Удалить</button>
+                    <p>
+                        <b>{{i+1}}. Контент: </b>
+                        <input type="radio" id="q_isSingle_{{item.key.questionId}}" value="{{item.key.isSingle}}" style="display: none">
+                        <input type='text' id="q_content_{{item.key.questionId}}" value="{{item.key.content}}">
+                        <button class="btn btn-sm btn-primary" style="margin-right: 5px;" (click)="editQuestion(item.key.questionId)">Сохранить</button>
+                        <button (click)="deleteQuestion(item.key.questionId)" class="btn btn-sm btn-danger">Удалить</button>
+                    </p> 
                     <div *ngFor="let s of item.value">
+                        Правильный?
                         <div *ngIf="item.key.isSingle; else isMultiple">
-                            <p>
-                                <input type="radio" name="answer" id="{{s.answerId}}" />
-                                <i id="check_{{s.answerId}}">{{s.content}}</i>
-                            </p>
+                            <div *ngIf="s.isCorrect">
+                                <input type="radio" id="a_isCorrect_{{s.answerId}}" value="{{s.isCorrect}}" checked/>
+                            </div>
+                            <div *ngIf="!s.isCorrect">
+                                <input type="radio" id="a_isCorrect_{{s.answerId}}" value="{{s.isCorrect}}"/>
+                            </div>
                         </div>
                         <ng-template #isMultiple>
-                            <p>
-                                <input type="checkbox" name="answer" id="{{s.answerId}}" />
-                                <i id="check_{{s.answerId}}">{{s.content}}</i>
-                            </p>
+                            <div *ngIf="s.isCorrect">
+                                <input type="checkbox" id="a_isCorrect_{{s.answerId}}" value="{{s.isCorrect}}" checked/>
+                            </div>
+                            <div *ngIf="!s.isCorrect">
+                                <input type="checkbox" id="a_isCorrect_{{s.answerId}}" value="{{s.isCorrect}}"/>
+                            </div>
                         </ng-template>
+                        Контент:<input type='text' id="a_content_{{s.answerId}}" value='{{s.content}}'>
+                        Бал:<input type='text' id="a_mark_{{s.answerId}}" value="{{s.mark}}">
+                        <!-- <a class="btn btn-sm btn-primary" style="margin-right: 5px;" (click)="editAnswer(s.answerId)">Сохранить</a> -->
+                        <button (click)="deleteAnswer(s.answerId)" class="btn btn-sm btn-danger">Удалить</button>
                     </div>
                 </form>
                 <br />

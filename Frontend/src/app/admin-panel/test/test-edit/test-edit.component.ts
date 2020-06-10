@@ -8,6 +8,7 @@ import { QuestionService } from 'src/app/services/question.service';
 import { queueScheduler, from } from 'rxjs';
 import { concatMap, tap, finalize } from 'rxjs/operators';
 import { AnswerService } from 'src/app/services/answer.service';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-test-edit',
@@ -73,11 +74,11 @@ export class TestEditComponent implements OnInit {
   }
 
   deleteQuestion(questionId: number){
-    this.questionService.deleteQuestion(questionId).subscribe(data => {this.loadTestInfoGet()} );
+    this.questionService.deleteQuestion(questionId).subscribe(data => { this.loadTestInfoGet()} );
   }
 
   deleteAnswer(answerId: number){
-    console.log(answerId);
+    this.answerService.deleteAnswer(answerId).subscribe(data => { this.loadTestInfoGet()} );
   }
 
   addQuestion(){
@@ -138,9 +139,37 @@ export class TestEditComponent implements OnInit {
      });
   }
 
-  save() {
+  saveTest() {
     this.test.maxScore = Number(this.test.maxScore);
     this.test.maxTime = new Date(this.test.maxTime);
     this.testService.putTest(this.test).subscribe(data => this.router.navigateByUrl("/admin-panel"));
+  }
+
+  editQuestion(questionId){
+    let question = new Question();
+    let content = document.getElementById(`q_content_${questionId}`) as HTMLInputElement;
+    let isSingle = document.getElementById(`q_isSingle_${questionId}`) as HTMLInputElement;
+    console.log(isSingle.value);
+    question.QuestionId = questionId;
+    question.Content = content.value;
+    question.TestId = Number(this.testId);
+    question.IsSingle = isSingle.value=="true" ? true : false;
+    this.questionService.editQuestion(question).subscribe(data => { 
+      this.answerService.getAnswersByQuestionId(questionId).subscribe((data: Answer[]) => {
+        let answers = data;
+        answers.forEach(el => {
+          let answer = new Answer();
+          let content = document.getElementById(`a_content_${el["answerId"]}`) as HTMLInputElement;
+          let isCorrect = document.getElementById(`a_isCorrect_${el["answerId"]}`) as HTMLInputElement;
+          let mark = document.getElementById(`a_mark_${el["answerId"]}`) as HTMLInputElement;
+          answer.QuestionId = questionId;
+          answer.AnswerId = el["answerId"];
+          answer.Content = content.value;
+          answer.IsCorrect = isCorrect.checked;
+          answer.Mark = Number(mark.value);
+          this.answerService.editAnswer(answer).subscribe(data => { this.loadTestInfoGet() });
+        })
+      });
+    });
   }
 }

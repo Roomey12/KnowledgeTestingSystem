@@ -21,4 +21,12 @@ export class AnswerService {//experimental decorations
     getAnswersByQuestionId(id){
         return this.http.get(this.answerUrl + `question/${id}`);
     }
+
+    deleteAnswer(id){
+        return this.http.delete(this.answerUrl + id);
+    }
+
+    editAnswer(answer: Answer){
+        return this.http.put(this.answerUrl, answer);
+    }
 }

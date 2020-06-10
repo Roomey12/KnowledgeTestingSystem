@@ -40,4 +40,17 @@ export class LoginComponent implements OnInit {
       }
     );
   }
+
+  show_hide_password(){
+    var input = document.getElementById('password-input');
+    var eye = document.getElementById('passeye');
+    if (input.getAttribute('type') == 'password') {
+      eye.classList.add('view');
+      input.setAttribute('type', 'text');
+    } else {
+      eye.classList.remove('view');
+      input.setAttribute('type', 'password');
+    }
+    return false;
+  }
 }

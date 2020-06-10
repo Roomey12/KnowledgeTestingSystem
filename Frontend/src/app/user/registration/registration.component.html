@@ -18,8 +18,11 @@
     </div>
     <div formGroupName="Passwords">
       <div class="form-group required">
-        <label>Пароль</label>
-        <input type="password" class="form-control" formControlName="Password">
+        <div class="password">
+          <label>Пароль</label>
+          <input type="password" id="password-input" class="form-control" formControlName="Password">
+          <a href="#" id="passeye" class="password-control" (click)="show_hide_password(pas1)"></a>
+        </div>
         <label class="text-danger" *ngIf="authService.formModel.get('Passwords.Password').touched && authService.formModel.get('Passwords.Password').errors?.required">
           Это поле обязательно.
         </label>
@@ -28,8 +31,11 @@
         </label>
       </div>
       <div class="form-group required">
-        <label>Подтвердите пароль</label>
-        <input type="password" class="form-control" formControlName="ConfirmPassword">
+        <div class="password">
+          <label>Подтвердите пароль</label>
+          <input type="password" id="confirm-password-input" class="form-control" formControlName="ConfirmPassword">
+          <a href="#" id="confirm-passeye" class="password-control" (click)="show_hide_password(pas2)"></a>
+        </div>
         <label class="text-danger" *ngIf="authService.formModel.get('Passwords.ConfirmPassword').touched && authService.formModel.get('Passwords.ConfirmPassword').errors?.required">
           Это поле обязательно.
         </label>

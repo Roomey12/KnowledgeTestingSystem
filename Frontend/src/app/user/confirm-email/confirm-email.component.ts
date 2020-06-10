@@ -5,8 +5,8 @@ import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-confirm-email',
   templateUrl: './confirm-email.component.html',
-  styles: [
-  ]
+  styleUrls: ['./confirm-email.component.css']
+
 })
 export class ConfirmEmailComponent implements OnInit {
 
