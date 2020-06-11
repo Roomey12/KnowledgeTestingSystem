@@ -110,14 +110,10 @@ export class TestCreateComponent implements OnInit {
 
         //post question
         return this.questionService.createQuestionForNewTest(question).pipe(
-            // executes answers only when question emits.
             concatMap(data=> {
                 console.log(`question ${question.Content} done`);
-                //
-
-                //post answers for question
                 return from(answers).pipe(
-                    concatMap(answer => this.answerService.createAnswer(answer).pipe(
+                    concatMap(answer => this.answerService.createAnswerForNewQuestion(answer).pipe(
                         tap(data => console.log(`answer ${answer} done` ) ),
                     )),
                     finalize(() => {

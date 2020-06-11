@@ -5,7 +5,7 @@
                 <h2>Изменение данных о пользователе</h2>
                 <user-form [(user)]="user"></user-form>
                 <div class="form-group">
-                    <input type="button" value="Сохранить" (click)="save()" class="btn btn-success" />
+                    <input type="button" value="Сохранить" (click)="saveUser()" class="btn btn-success" />
                 </div>
             </div>
         </div>
@@ -25,7 +25,7 @@
                     <td>{{u?.mark}}%</td>
                     <td>{{u?.time.substring(14)}}</td>
                     <td>
-                        <a class="btn btn-sm btn-primary" style="margin-right: 5px;">Изменить</a>
+                        <a routerLink="/admin-panel/user-test-edit/{{u.id}}" class="btn btn-sm btn-primary" style="margin-right: 5px;">Изменить</a>
                         <button (click)="deleteTestResult(u.id)" class="btn btn-sm btn-danger">Удалить</button>
                     </td>
                 </tr>

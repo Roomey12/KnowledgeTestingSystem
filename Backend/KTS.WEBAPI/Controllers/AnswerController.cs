@@ -74,12 +74,30 @@ namespace KTS.WEBAPI.Controllers
             return Ok(answers);
         }
 
-        [HttpPost]
-        public IActionResult PostAnswer(AnswerModel answer)
+        [HttpPost("newQuestion")]
+        public IActionResult PostAnswerForNewQuestion(AnswerModel answer)
         {
             try
             {
-                _answerService.CreateAnswer(mapper.Map<AnswerModel, AnswerDTO>(answer));
+                _answerService.CreateAnswerForNewQuestion(mapper.Map<AnswerModel, AnswerDTO>(answer));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok(new { Message = "Answer was successfully created!" });
+        }
+
+        [HttpPost("oldQuestion")]
+        public IActionResult PostAnswerForOldQuestion(AnswerModel answer)
+        {
+            try
+            {
+                _answerService.CreateAnswerForOldQuestion(mapper.Map<AnswerModel, AnswerDTO>(answer));
             }
             catch (ValidationException ex)
             {

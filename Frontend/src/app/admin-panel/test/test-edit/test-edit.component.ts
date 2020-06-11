@@ -5,10 +5,10 @@ import { Test } from 'src/app/models/test';
 import { Question } from 'src/app/models/question';
 import { Answer } from 'src/app/models/answer';
 import { QuestionService } from 'src/app/services/question.service';
-import { queueScheduler, from } from 'rxjs';
 import { concatMap, tap, finalize } from 'rxjs/operators';
 import { AnswerService } from 'src/app/services/answer.service';
-import { ThrowStmt } from '@angular/compiler';
+import { from } from 'rxjs';
+import { convertActionBinding } from '@angular/compiler/src/compiler_util/expression_converter';
 
 @Component({
   selector: 'app-test-edit',
@@ -24,6 +24,7 @@ export class TestEditComponent implements OnInit {
   loaded: boolean;
   showAddQuestion: boolean;
   showFillQuestion: boolean;
+  questIdForNewAns;
   newQuestion;
   answersCount;
 
@@ -38,7 +39,6 @@ export class TestEditComponent implements OnInit {
   ngOnInit(){
     if(this.testId){
       this.loadTest();
-      this.loaded = true;
     }
   }
 
@@ -124,7 +124,7 @@ export class TestEditComponent implements OnInit {
       concatMap(data=> {
           console.log(`question ${question.Content} done`);
           return from(answers).pipe(
-              concatMap(answer => this.answerService.createAnswer(answer).pipe(
+              concatMap(answer => this.answerService.createAnswerForNewQuestion(answer).pipe(
                   tap(data => console.log(`answer ${answer} done` ) ),
               )),
               finalize(() => {
@@ -149,7 +149,6 @@ export class TestEditComponent implements OnInit {
     let question = new Question();
     let content = document.getElementById(`q_content_${questionId}`) as HTMLInputElement;
     let isSingle = document.getElementById(`q_isSingle_${questionId}`) as HTMLInputElement;
-    console.log(isSingle.value);
     question.QuestionId = questionId;
     question.Content = content.value;
     question.TestId = Number(this.testId);
@@ -167,9 +166,30 @@ export class TestEditComponent implements OnInit {
           answer.Content = content.value;
           answer.IsCorrect = isCorrect.checked;
           answer.Mark = Number(mark.value);
-          this.answerService.editAnswer(answer).subscribe(data => { this.loadTestInfoGet() });
+          this.answerService.editAnswer(answer).subscribe(data => { 
+            console.log("finish");
+          });
         })
       });
+    });
+  }
+
+  addAnswer(questionId){
+    this.questIdForNewAns = questionId == this.questIdForNewAns ? null : questionId;
+  }
+
+  saveNewAnswer(){
+    let answer = new Answer();
+    let content = document.getElementById('a_content_new') as HTMLInputElement;
+    let mark = document.getElementById('a_mark_new') as HTMLInputElement;
+    let isCorrect = document.getElementById('a_isCorrect_new') as HTMLInputElement;
+    answer.Content = content.value;
+    answer.IsCorrect = isCorrect != null ? isCorrect.checked : false;
+    answer.Mark = mark != null ? Number(mark.value) : 0;
+    answer.QuestionId = Number(this.questIdForNewAns);
+    this.answerService.createAnswerForOldQuestion(answer).subscribe(data => { 
+      this.questIdForNewAns = null;
+      this.loadTestInfoGet();
     });
   }
 }

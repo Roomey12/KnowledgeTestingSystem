@@ -33,15 +33,16 @@ export class UserEditComponent implements OnInit {
     }
   }
 
-  save() {
-      this.userService.putUser(this.user).subscribe(data => this.router.navigateByUrl("/admin-panel"));
+  saveUser() {
+    console.log(this.user);
+      //this.userService.putUser(this.user).subscribe(data => this.router.navigateByUrl("/admin-panel"));
   }
 
   loadUserTests(){
     this.userTestService.getUserTestsByUserId(this.id)
       .subscribe((data: object[]) =>{
          this.userTests = data;
-         console.log(data);
+         console.log(this.userTests);
       })
   }
 

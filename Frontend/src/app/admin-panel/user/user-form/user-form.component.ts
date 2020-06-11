@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { User } from 'src/app/models/user';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'user-form',
@@ -10,9 +11,10 @@ export class UserFormComponent implements OnInit {
 
   @Input() user: User;
   
-  constructor() { }
+  constructor(public userService: UserService) { }
 
   ngOnInit(): void{
+    this.userService.emailModel.reset(); 
   }
 
 }

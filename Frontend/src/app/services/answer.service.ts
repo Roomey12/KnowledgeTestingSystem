@@ -14,8 +14,12 @@ export class AnswerService {//experimental decorations
         return this.http.get(this.answerUrl + id);
     }
 
-    createAnswer(answer: Answer){
-        return this.http.post(this.answerUrl, answer);
+    createAnswerForNewQuestion(answer: Answer){
+        return this.http.post(this.answerUrl + 'newQuestion', answer);
+    }
+
+    createAnswerForOldQuestion(answer: Answer){
+        return this.http.post(this.answerUrl + 'oldQuestion', answer);
     }
 
     getAnswersByQuestionId(id){

@@ -1,16 +1,21 @@
-<div class="form-group">
-    <div class="input-group mb-2">
-        <div class="input-group-prepend">
-            <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
+<form [formGroup]="userService.emailModel" autocomplete="off">
+    <div class="form-group">
+        <div class="input-group mb-2">
+            <div class="input-group-prepend">
+                <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
+            </div>
+            <input type="text" class="form-control" [(ngModel)]="user.UserName" placeholder="Alex">
         </div>
-        <input type="text" class="form-control" [(ngModel)]="user.UserName" placeholder="Alex">
     </div>
-</div>
-<div class="form-group">
-    <div class="input-group mb-2">
-        <div class="input-group-prepend">
-            <div class="input-group-text"><i class="fa fa-envelope text-info"></i></div>
+    <div class="form-group">
+        <div class="input-group mb-2">
+            <div class="input-group-prepend">
+                <div class="input-group-text"><i class="fa fa-envelope text-info"></i></div>
+            </div>
+            <input type="email" formControlName="Email" class="form-control" [(ngModel)]="user.Email" placeholder="Email@gmail.com">
+            <label class="text-danger" *ngIf="userService.emailModel.get('Email').touched && userService.emailModel.get('Email').errors?.email">
+                Почта введена неверно.
+            </label>
         </div>
-        <input type="email" class="form-control" [(ngModel)]="user.Email" placeholder="Email@gmail.com">
     </div>
-</div>
+</form>

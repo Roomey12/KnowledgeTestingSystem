@@ -8,7 +8,8 @@ namespace KTS.BLL.Interfaces
     public interface IAnswerService
     {
         AnswerDTO GetAnswerById(int id);
-        void CreateAnswer(AnswerDTO answer);
+        void CreateAnswerForNewQuestion(AnswerDTO answer);
+        void CreateAnswerForOldQuestion(AnswerDTO answer);
         void DeleteAnswer(string id);
         void PutAnswer(AnswerDTO answerDTO);
         IEnumerable<AnswerDTO> GetAnswersByQuestionId(int? questionId);

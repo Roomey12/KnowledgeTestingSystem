@@ -51,7 +51,7 @@ namespace KTS.BLL.Services
             var answers = mapper.Map<IEnumerable<Answer>, IEnumerable<AnswerDTO>>(Database.Answers.Find(x => x.QuestionId == questionId));
             return answers;
         }
-        public void CreateAnswer(AnswerDTO answer)
+        public void CreateAnswerForNewQuestion(AnswerDTO answer)
         {
             if (answer == null)
             {
@@ -60,6 +60,21 @@ namespace KTS.BLL.Services
             answer.QuestionId = Database.Questions.GetAll().Max(x => x.QuestionId);
             Database.Answers.Create(mapper.Map<AnswerDTO, Answer>(answer));
             if(answer.Mark > 0)
+            {
+                var question = Database.Questions.Get(answer.QuestionId.ToString());
+                Database.Tests.Get(question.TestId.ToString()).MaxScore += answer.Mark;
+            }
+            Database.Save();
+        }
+
+        public void CreateAnswerForOldQuestion(AnswerDTO answer)
+        {
+            if (answer == null)
+            {
+                throw new ValidationException("Answer can not be null", "Id");
+            }
+            Database.Answers.Create(mapper.Map<AnswerDTO, Answer>(answer));
+            if (answer.Mark > 0)
             {
                 var question = Database.Questions.Get(answer.QuestionId.ToString());
                 Database.Tests.Get(question.TestId.ToString()).MaxScore += answer.Mark;
