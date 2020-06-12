@@ -27,7 +27,6 @@ export class QuestionService {//experimental decorations
     }
 
     editQuestion(question: Question){
-        console.log(question);
         return this.http.put(this.questionUrl, question);
     }
 }

@@ -25,7 +25,7 @@ export class TestCreateComponent implements OnInit {
   end: boolean;
   sas: Map<object, number[]>;
 
-  constructor(private testService: TestService, private questionService: QuestionService,
+  constructor(public testService: TestService, private questionService: QuestionService,
               private answerService: AnswerService, private router: Router) { }
 
   ngOnInit(): void {
@@ -44,7 +44,6 @@ export class TestCreateComponent implements OnInit {
       this.questions.push(i);
     }
     this.testCreated = true;
-    console.log(this.hideQuestions);
   }
 
   next(){

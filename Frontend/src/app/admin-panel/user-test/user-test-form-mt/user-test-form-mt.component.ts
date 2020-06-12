@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TestResult } from 'src/app/models/testResult';
+import { UserTestService } from 'src/app/services/usertest.service';
 
 @Component({
   selector: 'user-test-form-mt',
@@ -11,7 +12,7 @@ export class UserTestFormMTComponent implements OnInit {
 
   @Input() userTest: TestResult;
 
-  constructor() { }
+  constructor(public userTestService: UserTestService) { }
 
   ngOnInit(): void {
   }

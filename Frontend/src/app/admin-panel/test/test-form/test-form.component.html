@@ -1,32 +1,52 @@
-<div class="form-group">
-    <div class="input-group mb-2">
-        <div class="input-group-prepend">
-            <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
-        </div>
-        <input type="text" class="form-control" [(ngModel)]="test.title" placeholder="Название">
+<form [formGroup]="testService.testModel" autocomplete="off">
+    <div class="form-group">
+        <div class="input-group mb-2">
+            <div class="input-group-prepend">
+                <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
+            </div>
+            <input type="text" formControlName="Title" class="form-control" [(ngModel)]="test.title" placeholder="Название">
+            <label class="text-danger" *ngIf="testService.testModel.get('Title').touched && testService.testModel.get('Title').errors?.required">
+                Это поле обязательно.
+            </label>
+        </div> 
     </div>
-</div>
-<div class="form-group">
-    <div class="input-group mb-2">
-        <div class="input-group-prepend">
-            <div class="input-group-text"><i class="fa fa-envelope text-info"></i></div>
+    <div class="form-group">
+        <div class="input-group mb-2">
+            <div class="input-group-prepend">
+                <div class="input-group-text"><i class="fa fa-envelope text-info"></i></div>
+            </div>
+            <input type="text" formControlName="Description" class="form-control" [(ngModel)]="test.description" placeholder="Описание">
+            <label class="text-danger" *ngIf="testService.testModel.get('Description').touched && testService.testModel.get('Description').errors?.required">
+                Это поле обязательно.
+            </label>
         </div>
-        <input type="email" class="form-control" [(ngModel)]="test.description" placeholder="Описание">
     </div>
-</div>
-<div class="form-group">
-    <div class="input-group mb-2">
-        <div class="input-group-prepend">
-            <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
+    <div class="form-group">
+        <div class="input-group mb-2">
+            <div class="input-group-prepend">
+                <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
+            </div>
+            <input type="text" formControlName="QuestionsCount" class="form-control" [(ngModel)]="test.maxScore" placeholder="Количество вопросов">
+            <label class="text-danger" *ngIf="testService.testModel.get('QuestionsCount').touched && testService.testModel.get('QuestionsCount').errors?.questionCountRange">
+                Количество вопросов введено неверно.
+            </label>
+            <label class="text-danger" *ngIf="testService.testModel.get('QuestionsCount').touched && testService.testModel.get('QuestionsCount').errors?.required">
+                Это поле обязательно.
+            </label>
         </div>
-        <input type="text" class="form-control" [(ngModel)]="test.maxScore" placeholder="Количество вопросов">
     </div>
-</div>
-<div class="form-group">
-    <div class="input-group mb-2">
-        <div class="input-group-prepend">
-            <div class="input-group-text"><i class="fa fa-envelope text-info"></i></div>
+    <div class="form-group">
+        <div class="input-group mb-2">
+            <div class="input-group-prepend">
+                <div class="input-group-text"><i class="fa fa-envelope text-info"></i></div>
+            </div>
+            <input type="text" formControlName="Time" class="form-control" [(ngModel)]="test.maxTime" placeholder="Время">
+            <label class="text-danger" *ngIf="testService.testModel.get('Time').touched && testService.testModel.get('Time').errors?.pattern">
+                Время введено неверно.
+            </label>
+            <label class="text-danger" *ngIf="testService.testModel.get('Time').touched && testService.testModel.get('Time').errors?.required">
+                Это поле обязательно.
+            </label>
         </div>
-        <input type="text" class="form-control" [(ngModel)]="test.maxTime" placeholder="Время">
     </div>
-</div>
+</form>

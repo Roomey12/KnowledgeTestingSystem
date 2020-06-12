@@ -20,7 +20,6 @@ export class UserTestListComponent implements OnInit {
   loadUserTests(){
     this.userTestService.getAllUserTests()
         .subscribe((data: object[]) => {
-          console.log(data);
           this.userTests = data;
         });
   }

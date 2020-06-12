@@ -4,7 +4,7 @@
                 <h2>Информация по тесту</h2>
                 <test-form [(test)]="test"></test-form>
                 <div class="form-group">
-                    <input type="button" value="Создать" (click)="create()" class="btn btn-success"/>
+                    <input type="button" value="Создать" (click)="create()" class="btn btn-success" [disabled]="!testService.testModel.valid"/>
                 </div>
             </div>
         </div> 

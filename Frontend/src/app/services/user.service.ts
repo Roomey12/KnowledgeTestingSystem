@@ -23,7 +23,7 @@ export class UserService {//experimental decorations
     });
     
     emailModel = this.fb.group({
-        Email: ['', [Validators.email]]
+        UserEmail: ['', [Validators.email]]
     });
 
     comparePasswords(fb: FormGroup) {
@@ -47,6 +47,7 @@ export class UserService {//experimental decorations
     }
 
     deleteUser(id: string){
+        console.log(id);
         return this.http.delete(this.userUrl + id);
     }
 

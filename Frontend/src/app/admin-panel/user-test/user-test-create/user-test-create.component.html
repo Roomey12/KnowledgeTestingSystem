@@ -1,6 +1,13 @@
-<p>user-test-create works!</p>
-<user-test-form-ut [(userTest)]="userTest"></user-test-form-ut>
-<user-test-form-mt [(userTest)]="userTest"></user-test-form-mt>
-    <div class="form-group">
-        <input type="button" value="Создать" (click)="create()" class="btn btn-success" />
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6 pb-5">
+            <h2>Создание результата теста</h2>
+            <user-test-form-ut [(userTest)]="userTest"></user-test-form-ut>
+            <user-test-form-mt [(userTest)]="userTest"></user-test-form-mt>
+            <div class="form-group">
+                <input type="button" value="Создать" (click)="create()" class="btn btn-success" />
+            </div>
+        </div>
     </div>
+</div>
+

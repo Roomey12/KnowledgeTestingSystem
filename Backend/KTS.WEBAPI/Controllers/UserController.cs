@@ -60,7 +60,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public IActionResult GetUserById(string id)
         {
             UserModel user;
@@ -80,7 +80,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public IActionResult DeleteUser(string id)
         {
             try
