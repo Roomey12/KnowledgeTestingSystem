@@ -25,8 +25,8 @@ export class TestCreateComponent implements OnInit {
   end: boolean;
   sas: Map<object, number[]>;
 
-  constructor(public testService: TestService, private questionService: QuestionService,
-              private answerService: AnswerService, private router: Router) { }
+  constructor(public testService: TestService, public questionService: QuestionService,
+              public answerService: AnswerService, private router: Router) { }
 
   ngOnInit(): void {
     this.test = new Test;
@@ -71,6 +71,7 @@ export class TestCreateComponent implements OnInit {
   }
 
   onSubmit(){
+    this.test.maxScore = 0;
     this.testService.createTest(this.test).subscribe(data => {
           this.fillQuest();
       });
@@ -125,9 +126,6 @@ export class TestCreateComponent implements OnInit {
     finalize(() => {
       // call done function here.
       this.end = true;
-      console.log(this.hideQuestions);
-      console.log(this.testCreated);
-      console.log("finalize");
     }),
     ).subscribe();
   }

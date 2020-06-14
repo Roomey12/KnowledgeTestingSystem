@@ -16,7 +16,7 @@ export class UserEditComponent implements OnInit {
   loaded: boolean = false;
   userTests;
 
-  constructor(private userService: UserService, private userTestService: UserTestService, private router: Router, activeRoute: ActivatedRoute) {
+  constructor(public userService: UserService, private userTestService: UserTestService, private router: Router, activeRoute: ActivatedRoute) {
       this.id = activeRoute.snapshot.params["id"];
   }
 
