@@ -45,10 +45,6 @@ namespace KTS.WEBAPI.Controllers
             {
                 tests = mapper.Map<IEnumerable<TestDTO>, IEnumerable<TestModel>>(_testService.GetAllTests());
             }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
             catch (Exception)
             {
                 return StatusCode(500);
@@ -67,10 +63,6 @@ namespace KTS.WEBAPI.Controllers
                 questions = mapper.Map<IEnumerable<QuestionDTO>, IEnumerable<QuestionModel>>
                     (_testService.GetQuestionsByTestId(id));
             }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
             catch (Exception)
             {
                 return StatusCode(500);
@@ -80,7 +72,7 @@ namespace KTS.WEBAPI.Controllers
 
         // GET: api/Test/5/start
         [HttpGet("{id}/start")]
-        [Authorize]
+        //[Authorize]
         public IActionResult GetQuestionsAndAnswersByTestId(int id)
         {
             IDictionary<string, IEnumerable<AnswerModel>> result;

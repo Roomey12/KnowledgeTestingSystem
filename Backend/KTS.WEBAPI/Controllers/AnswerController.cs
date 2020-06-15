@@ -59,10 +59,6 @@ namespace KTS.WEBAPI.Controllers
                 answers = mapper.Map<IEnumerable<AnswerDTO>, IEnumerable<AnswerModel>>
                     (_answerService.GetAnswersByQuestionId(id));
             }
-            catch(ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
             catch(NotFoundException ex)
             {
                 return NotFound(ex.Message);
@@ -133,7 +129,7 @@ namespace KTS.WEBAPI.Controllers
         {
             try
             {
-                _answerService.PutAnswer(mapper.Map<AnswerModel, AnswerDTO>(answer));
+                _answerService.UpdateAnswer(mapper.Map<AnswerModel, AnswerDTO>(answer));
             }
             catch (ValidationException ex)
             {

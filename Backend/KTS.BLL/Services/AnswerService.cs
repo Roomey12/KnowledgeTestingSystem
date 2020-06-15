@@ -37,17 +37,13 @@ namespace KTS.BLL.Services
             return answer;
         }
 
-        public IEnumerable<AnswerDTO> GetAnswersByQuestionId(int? questionId)
+        public IEnumerable<AnswerDTO> GetAnswersByQuestionId(int questionId)
         {
-            if(questionId == null)
+            var question = Database.Questions.Get(questionId.ToString());
+            if (question == null)
             {
-                throw new ValidationException("Model can not be null", "Id");
+                throw new NotFoundException("Question was not found");
             }
-            //var question = Database.Questions.Get(questionId.ToString());
-            //if(question == null)
-            //{
-            //    throw new NotFoundException("Question was not found");
-            //}
             var answers = mapper.Map<IEnumerable<Answer>, IEnumerable<AnswerDTO>>(Database.Answers.Find(x => x.QuestionId == questionId));
             return answers;
         }
@@ -99,7 +95,7 @@ namespace KTS.BLL.Services
             Database.Save();
         }
 
-        public void PutAnswer(AnswerDTO answerDTO)
+        public void UpdateAnswer(AnswerDTO answerDTO)
         {
             if (answerDTO == null)
             {

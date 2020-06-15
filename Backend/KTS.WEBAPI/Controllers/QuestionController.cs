@@ -112,7 +112,7 @@ namespace KTS.WEBAPI.Controllers
         {
             try
             {
-                _questionService.PutQuestion(mapper.Map<QuestionModel, QuestionDTO>(question));
+                _questionService.UpdateQuestion(mapper.Map<QuestionModel, QuestionDTO>(question));
             }
             catch (ValidationException ex)
             {

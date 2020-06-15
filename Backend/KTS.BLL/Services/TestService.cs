@@ -22,6 +22,7 @@ namespace KTS.BLL.Services
             cfg.CreateMap<Question, QuestionDTO>();
             cfg.CreateMap<Answer, AnswerDTO>();
         }).CreateMapper();
+
         public TestService(IUnitOfWork uow)
         {
             Database = uow;
@@ -29,28 +30,18 @@ namespace KTS.BLL.Services
 
         public IEnumerable<TestDTO> GetAllTests()
         {
-            var tests = mapper.Map<IEnumerable<Test>, List<TestDTO>>(Database.Tests.GetAll());
-            if(tests == null)
-            {
-                throw new NotFoundException("Tests were not found");
-            }
-            return tests;
+            return mapper.Map<IEnumerable<Test>, List<TestDTO>>(Database.Tests.GetAll());
         }
 
         public IEnumerable<QuestionDTO> GetQuestionsByTestId(int testId)
         {
-            var questions = mapper.Map<IEnumerable<Question>, List<QuestionDTO>>
+            return mapper.Map<IEnumerable<Question>, IEnumerable<QuestionDTO>>//change List to IEnum
                 (Database.Questions.Find(q => q.TestId == testId));
-            if (questions == null)
-            {
-                throw new NotFoundException("Questions were not found", "Id");
-            }
-            return questions;
         }
 
         public IEnumerable<AnswerDTO> GetAnswersByQuestionId(int id)
         {
-            var answers = mapper.Map<IEnumerable<Answer>, List<AnswerDTO>>
+            var answers = mapper.Map<IEnumerable<Answer>, IEnumerable<AnswerDTO>>
                 (Database.Answers.Find(a => a.QuestionId == id));
             if (answers == null)
             {
@@ -70,18 +61,15 @@ namespace KTS.BLL.Services
         }
         public IDictionary<string, IEnumerable<AnswerDTO>> GetQuestionsAndAnswersByTestId(int id)
         {
+            var test = GetTestById(id);
             var questions = GetQuestionsByTestId(id);
-            var test = new Dictionary<string, IEnumerable<AnswerDTO>>();
+            var questionAnswers = new Dictionary<string, IEnumerable<AnswerDTO>>();
             foreach (var question in questions)
             {
                 var answers = GetAnswersByQuestionId(question.QuestionId);
-                test.Add(Convert.ToString(question.QuestionId), answers);
+                questionAnswers.Add(Convert.ToString(question.QuestionId), answers);
             }
-            if (test == null)
-            {
-                throw new NotFoundException("This test does not have questions", "Id");
-            }
-            return test;
+            return questionAnswers;
         }
 
         public void CreateTest(TestDTO test)

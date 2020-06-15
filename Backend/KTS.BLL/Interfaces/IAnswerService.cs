@@ -11,7 +11,7 @@ namespace KTS.BLL.Interfaces
         void CreateAnswerForNewQuestion(AnswerDTO answer);
         void CreateAnswerForOldQuestion(AnswerDTO answer);
         void DeleteAnswer(string id);
-        void PutAnswer(AnswerDTO answerDTO);
-        IEnumerable<AnswerDTO> GetAnswersByQuestionId(int? questionId);
+        void UpdateAnswer(AnswerDTO answerDTO);
+        IEnumerable<AnswerDTO> GetAnswersByQuestionId(int questionId);
     }
 }

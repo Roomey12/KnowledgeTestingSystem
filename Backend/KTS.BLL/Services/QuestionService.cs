@@ -81,7 +81,7 @@ namespace KTS.BLL.Services
             Database.Save();
         }
 
-        public void PutQuestion(QuestionDTO questionDTO)
+        public void UpdateQuestion(QuestionDTO questionDTO)
         {
             if (questionDTO == null)
             {

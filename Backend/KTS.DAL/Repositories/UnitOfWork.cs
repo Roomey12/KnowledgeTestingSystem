@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace KTS.DAL.Repositories
 {
-    public class EFUnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private ApplicationContext _context;
 
@@ -19,7 +19,7 @@ namespace KTS.DAL.Repositories
         private AnswerRepository answerRepository;
         private UserTestRepository userTestRepository;
         private UserRepository userRepository;
-        public EFUnitOfWork(ApplicationContext context)
+        public UnitOfWork(ApplicationContext context)
         {
             _context = context;
         }

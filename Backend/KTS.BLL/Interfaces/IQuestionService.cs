@@ -13,6 +13,6 @@ namespace KTS.BLL.Interfaces
         void CreateQuestionForOldTest(QuestionDTO question);
         void CreateQuestionForNewTest(QuestionDTO question);
         void DeleteQuestion(string id);
-        void PutQuestion(QuestionDTO questionDTO);
+        void UpdateQuestion(QuestionDTO questionDTO);
     }
 }
