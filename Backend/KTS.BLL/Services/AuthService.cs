@@ -26,13 +26,13 @@ namespace KTS.BLL.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly UserManager<User> _userManager;
         private readonly ApplicationSettings _appSettings;
         private readonly EmailSettings _emailSettings;
+        IUnitOfWork Database { get; set; }
 
-        public AuthService(UserManager<User> userManager, IOptions<ApplicationSettings> appSettings, IOptions<EmailSettings> emailSettings)
+        public AuthService(IUnitOfWork uow, IOptions<ApplicationSettings> appSettings, IOptions<EmailSettings> emailSettings)
         {
-            _userManager = userManager;
+            Database = uow;
             _appSettings = appSettings.Value;
             _emailSettings = emailSettings.Value;
         }
@@ -45,11 +45,11 @@ namespace KTS.BLL.Services
             }
             modelDTO.Role = "customer";
             User user = new User { Email = modelDTO.Email, UserName = modelDTO.UserName };
-            IdentityResult result = await _userManager.CreateAsync(user, modelDTO.Password);
-            await _userManager.AddToRoleAsync(user, modelDTO.Role);
+            IdentityResult result = await Database.UserManager.CreateAsync(user, modelDTO.Password);
+            await Database.UserManager.AddToRoleAsync(user, modelDTO.Role);
             if (result.Succeeded)
             {
-                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var token = await Database.UserManager.GenerateEmailConfirmationTokenAsync(user);
                 byte[] tokenGeneratedBytes = Encoding.UTF8.GetBytes(token);
                 var tokenEncoded = WebEncoders.Base64UrlEncode(tokenGeneratedBytes);
                 var url = $@"http://localhost:4200/user/confirm-email/?userId={user.Id}&token={tokenEncoded}";
@@ -61,14 +61,14 @@ namespace KTS.BLL.Services
 
         public async Task<string> Login(LoginDTO modelDTO)
         {
-            var user = await _userManager.FindByNameAsync(modelDTO.UserName);
-            if (user != null && await _userManager.CheckPasswordAsync(user, modelDTO.Password))
+            var user = await Database.UserManager.FindByNameAsync(modelDTO.UserName);
+            if (user != null && await Database.UserManager.CheckPasswordAsync(user, modelDTO.Password))
             {
-                if (!await _userManager.IsEmailConfirmedAsync(user))
+                if (!await Database.UserManager.IsEmailConfirmedAsync(user))
                 {
                     throw new ValidationException("Email is not confirmed");
                 }
-                var role = await _userManager.GetRolesAsync(user);
+                var role = await Database.UserManager.GetRolesAsync(user);
                 IdentityOptions _options = new IdentityOptions();
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
@@ -121,27 +121,27 @@ namespace KTS.BLL.Services
             {
                 throw new NotFoundException("UserId or token was empty", "Id");
             }
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await Database.UserManager.FindByIdAsync(userId);
             if (user == null)
             {
                 throw new NotFoundException("User was not found", "Id");
             }
-            var result = await _userManager.ConfirmEmailAsync(user, tokenDecoded);
+            var result = await Database.UserManager.ConfirmEmailAsync(user, tokenDecoded);
             return result;
         }
 
         public async Task ForgotPassword(string email)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await Database.UserManager.FindByEmailAsync(email);
             if (user == null)
             {
                 throw new NotFoundException("User was not found", "Email");
             }
-            if(!await _userManager.IsEmailConfirmedAsync(user))
+            if(!await Database.UserManager.IsEmailConfirmedAsync(user))
             {
                 throw new ValidationException("Email is not confirmed");
             }
-            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var token = await Database.UserManager.GeneratePasswordResetTokenAsync(user);
             byte[] tokenGeneratedBytes = Encoding.UTF8.GetBytes(token);
             var tokenEncoded = WebEncoders.Base64UrlEncode(tokenGeneratedBytes);
             var url = $@"http://localhost:4200/user/reset-password/?userId={user.Id}&token={tokenEncoded}";
@@ -157,12 +157,12 @@ namespace KTS.BLL.Services
             }
             var tokenDecodedBytes = WebEncoders.Base64UrlDecode(modelDTO.Token);
             var tokenDecoded = Encoding.UTF8.GetString(tokenDecodedBytes);
-            var user = await _userManager.FindByIdAsync(modelDTO.UserId);
+            var user = await Database.UserManager.FindByIdAsync(modelDTO.UserId);
             if(user == null)
             {
                 throw new NotFoundException("User was not found", "Email");
             }
-            var result = await _userManager.ResetPasswordAsync(user, tokenDecoded, modelDTO.Password);
+            var result = await Database.UserManager.ResetPasswordAsync(user, tokenDecoded, modelDTO.Password);
             return result;
         }
     }

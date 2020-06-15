@@ -25,6 +25,7 @@ namespace KTS.BLL.Services
             cfg.CreateMap<UserTest, UserTestDTO>();
             cfg.CreateMap<UserTestDTO, UserTest>();
         }).CreateMapper();
+
         public UserTestService(IUnitOfWork uow)
         {
             Database = uow;
@@ -39,6 +40,7 @@ namespace KTS.BLL.Services
             Database.UserTests.Create(mapper.Map<UserTestDTO, UserTest>(userTest));
             Database.Save();
         }
+
         public object GetAllUserTests()
         {
             var userTests = mapper.Map<IEnumerable<UserTest>, IEnumerable<UserTestDTO>>(Database.UserTests.GetAll());

@@ -1,4 +1,5 @@
 ﻿using KTS.DAL.Entities;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,6 +14,7 @@ namespace KTS.DAL.Interfaces
         IRepository<Question> Questions { get; }
         IRepository<Answer> Answers { get; }
         IRepository<UserTest> UserTests { get; }
+        UserManager<User> UserManager { get; }
         void Save();
         Task SaveAsync();
     }

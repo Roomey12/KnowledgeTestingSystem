@@ -39,17 +39,6 @@ namespace KTS.BLL.Services
                 (Database.Questions.Find(q => q.TestId == testId));
         }
 
-        public IEnumerable<AnswerDTO> GetAnswersByQuestionId(int id)
-        {
-            var answers = mapper.Map<IEnumerable<Answer>, IEnumerable<AnswerDTO>>
-                (Database.Answers.Find(a => a.QuestionId == id));
-            if (answers == null)
-            {
-                throw new NotFoundException("Tests were not found", "Id");
-            }
-            return answers;
-        }
-
         public TestDTO GetTestById(int id)
         {
             var test =  mapper.Map<Test, TestDTO>(Database.Tests.Get(id.ToString()));
@@ -59,6 +48,7 @@ namespace KTS.BLL.Services
             }
             return test;
         }
+
         public IDictionary<string, IEnumerable<AnswerDTO>> GetQuestionsAndAnswersByTestId(int id)
         {
             var test = GetTestById(id);
@@ -66,7 +56,8 @@ namespace KTS.BLL.Services
             var questionAnswers = new Dictionary<string, IEnumerable<AnswerDTO>>();
             foreach (var question in questions)
             {
-                var answers = GetAnswersByQuestionId(question.QuestionId);
+                var answers = mapper.Map<IEnumerable<Answer>, IEnumerable<AnswerDTO>>
+                            (Database.Answers.Find(a => a.QuestionId == question.QuestionId));
                 questionAnswers.Add(Convert.ToString(question.QuestionId), answers);
             }
             return questionAnswers;
@@ -93,7 +84,7 @@ namespace KTS.BLL.Services
             Database.Save();
         }
 
-        public void PutTest(TestDTO testDTO)
+        public void UpdateTest(TestDTO testDTO)
         {
             if (testDTO == null)
             {

@@ -40,17 +40,13 @@ namespace KTS.WEBAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public IActionResult GetAllUsers()
         {
             IEnumerable<UserModel> users;
             try
             {
                 users = mapper.Map<IEnumerable<UserDTO>, IEnumerable<UserModel>>(_userService.GetAllUsers());
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
             }
             catch (Exception)
             {

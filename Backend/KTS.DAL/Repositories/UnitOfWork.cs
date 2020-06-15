@@ -13,27 +13,29 @@ namespace KTS.DAL.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private ApplicationContext _context;
+        private TestRepository _testRepository;
+        private QuestionRepository _questionRepository;
+        private AnswerRepository _answerRepository;
+        private UserTestRepository _userTestRepository;
+        private UserRepository _userRepository;
+        private UserManager<User> _userManager;
 
-        private TestRepository testRepository;
-        private QuestionRepository questionRepository;
-        private AnswerRepository answerRepository;
-        private UserTestRepository userTestRepository;
-        private UserRepository userRepository;
-        public UnitOfWork(ApplicationContext context)
+        public UnitOfWork(ApplicationContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public IRepository<Test> Tests
         {
             get
             {
-                if (testRepository == null)
+                if (_testRepository == null)
                 {
-                    testRepository = new TestRepository(_context);
+                    _testRepository = new TestRepository(_context);
                 }
 
-                return testRepository;
+                return _testRepository;
             }
         }
 
@@ -41,12 +43,12 @@ namespace KTS.DAL.Repositories
         {
             get
             {
-                if (questionRepository == null)
+                if (_questionRepository == null)
                 {
-                    questionRepository = new QuestionRepository(_context);
+                    _questionRepository = new QuestionRepository(_context);
                 }
 
-                return questionRepository;
+                return _questionRepository;
             }
         }
 
@@ -54,12 +56,12 @@ namespace KTS.DAL.Repositories
         {
             get
             {
-                if (answerRepository == null)
+                if (_answerRepository == null)
                 {
-                    answerRepository = new AnswerRepository(_context);
+                    _answerRepository = new AnswerRepository(_context);
                 }
 
-                return answerRepository;
+                return _answerRepository;
             }
         }
 
@@ -67,12 +69,33 @@ namespace KTS.DAL.Repositories
         {
             get
             {
-                if (userTestRepository == null)
+                if (_userTestRepository == null)
                 {
-                    userTestRepository = new UserTestRepository(_context);
+                    _userTestRepository = new UserTestRepository(_context);
                 }
 
-                return userTestRepository;
+                return _userTestRepository;
+            }
+        }
+
+        public IRepository<User> Users
+        {
+            get
+            {
+                if (_userRepository == null)
+                {
+                    _userRepository = new UserRepository(_context);
+                }
+
+                return _userRepository;
+            }
+        }
+
+        public UserManager<User> UserManager
+        {
+            get
+            {
+                return _userManager;
             }
         }
 
@@ -104,19 +127,6 @@ namespace KTS.DAL.Repositories
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-        }
-
-        public IRepository<User> Users
-        {
-            get
-            {
-                if (userRepository == null)
-                {
-                    userRepository = new UserRepository(_context);
-                }
-
-                return userRepository;
-            }
         }
     }
 }

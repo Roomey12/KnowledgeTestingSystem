@@ -154,7 +154,7 @@ namespace KTS.WEBAPI.Controllers
         {
             try
             {
-                _testService.PutTest(mapper.Map<TestModel, TestDTO>(test));
+                _testService.UpdateTest(mapper.Map<TestModel, TestDTO>(test));
             }
             catch (ValidationException ex)
             {

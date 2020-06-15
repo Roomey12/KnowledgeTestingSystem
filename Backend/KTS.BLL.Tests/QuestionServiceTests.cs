@@ -23,15 +23,15 @@ namespace KTS.BLL.Tests
             uow.Setup(x => x.Questions.Get(It.IsAny<string>())).Returns(new Question());
 
             //Act
-            var actual = JsonConvert.SerializeObject(qs.GetQuestionById(It.IsAny<int>()));
             var expected = JsonConvert.SerializeObject(new Question());
+            var actual = JsonConvert.SerializeObject(qs.GetQuestionById(It.IsAny<int>()));
 
             //Assert
-            Assert.Equal(actual, expected);
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public void GetQuestionById_WithCorrectData_MustBeThrownNotFoundException()
+        public void GetQuestionById_WithCorrectData_NotFoundExceptionMustBeThrown()
         {
             //Arrange
             var uow = new Mock<IUnitOfWork>();
@@ -60,7 +60,7 @@ namespace KTS.BLL.Tests
         }
 
         [Fact]
-        public void CreateQuestionForNewTest_WithNullData_MustBeThrownValidationException()
+        public void CreateQuestionForNewTest_WithNullData_ValidationExceptionMustBeThrown()
         {
             var uow = new Mock<IUnitOfWork>();
             QuestionService qs = new QuestionService(uow.Object);
@@ -88,7 +88,7 @@ namespace KTS.BLL.Tests
         }
 
         [Fact]
-        public void CreateQuestionForOldTest_WithNullData_MustBeThrownValidationException()
+        public void CreateQuestionForOldTest_WithNullData_ValidationExceptionMustBeThrown()
         {
             var uow = new Mock<IUnitOfWork>();
             QuestionService qs = new QuestionService(uow.Object);
@@ -116,7 +116,7 @@ namespace KTS.BLL.Tests
         }
 
         [Fact]
-        public void DeleteQuestion_WithInCorrectData_MustBeThrownNotFoundException()
+        public void DeleteQuestion_WithInCorrectData_NotFoundExceptionMustBeThrown()
         {
             var uow = new Mock<IUnitOfWork>();
             QuestionService qs = new QuestionService(uow.Object);
@@ -144,7 +144,7 @@ namespace KTS.BLL.Tests
         }
 
         [Fact]
-        public void UpdateQuestion_WithNullData_MustBeThrownValidationException()
+        public void UpdateQuestion_WithNullData_ValidationExceptionMustBeThrown()
         {
             var uow = new Mock<IUnitOfWork>();
             QuestionService qs = new QuestionService(uow.Object);
@@ -158,7 +158,7 @@ namespace KTS.BLL.Tests
         }
 
         [Fact]
-        public void UpdateQuestion_WithInCorrectQuestionData_MustBeThrownNotFoundException()
+        public void UpdateQuestion_WithInCorrectQuestionData_NotFoundExceptionMustBeThrown()
         {
             var uow = new Mock<IUnitOfWork>();
             QuestionService qs = new QuestionService(uow.Object);
@@ -172,7 +172,7 @@ namespace KTS.BLL.Tests
         }
 
         [Fact]
-        public void UpdateQuestion_WithInCorrectTestIdData_MustBeThrownValidationException()
+        public void UpdateQuestion_WithInCorrectTestIdData_ValidationExceptionMustBeThrown()
         {
             var uow = new Mock<IUnitOfWork>();
             QuestionService qs = new QuestionService(uow.Object);

@@ -24,7 +24,6 @@ namespace KTS.BLL.Services
 {
     public class UserService : IUserService
     {
-        private readonly UserManager<User> _userManager;
         IUnitOfWork Database { get; set; }
 
         IMapper mapper = new MapperConfiguration(cfg =>
@@ -33,20 +32,14 @@ namespace KTS.BLL.Services
             cfg.CreateMap<Task<User>, Task<UserDTO>>();
         }).CreateMapper();
 
-        public UserService(IUnitOfWork uow, UserManager<User> userManager)
+        public UserService(IUnitOfWork uow)
         {
             Database = uow;
-            _userManager = userManager;
         }
 
         public IEnumerable<UserDTO> GetAllUsers()
         {
-            var users =  mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(_userManager.Users.ToList());
-            if (users == null)
-            {
-                throw new NotFoundException("Users were not found");
-            }
-            return users;
+            return mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(Database.Users.GetAll());
         }
 
         public UserDTO GetUserById(string id)
@@ -95,16 +88,12 @@ namespace KTS.BLL.Services
             {
                 throw new ValidationException("Model can not be null");
             }
-            if(modelDTO.OldPassword == modelDTO.NewPassword)
-            {
-                throw new ValidationException("Old and new password are same");
-            }
-            User user = await _userManager.FindByIdAsync(modelDTO.UserId);
+            User user = await Database.UserManager.FindByIdAsync(modelDTO.UserId);
             if (user == null)
             {
                 throw new NotFoundException("User was not found", "Id");
             }
-            IdentityResult result = await _userManager.ChangePasswordAsync
+            IdentityResult result = await Database.UserManager.ChangePasswordAsync
                 (user, modelDTO.OldPassword, modelDTO.NewPassword);
             return result;
         }
@@ -119,12 +108,12 @@ namespace KTS.BLL.Services
             {
                 throw new ValidationException("Username can not be the same as current");
             }
-            var currentUser = await _userManager.FindByNameAsync(modelDTO.OldUsername);
+            var currentUser = await Database.UserManager.FindByNameAsync(modelDTO.OldUsername);
             if (currentUser == null)
             {
                 throw new NotFoundException("User was not found", "Username");
             }
-            var checkUser = await _userManager.FindByNameAsync(modelDTO.NewUsername);
+            var checkUser = await Database.UserManager.FindByNameAsync(modelDTO.NewUsername);
             if(checkUser != null)
             {
                 throw new ValidationException("User with this username already exists");
