@@ -44,20 +44,8 @@ namespace KTS.BLL.Services
         public object GetAllUserTests()
         {
             var userTests = mapper.Map<IEnumerable<UserTest>, IEnumerable<UserTestDTO>>(Database.UserTests.GetAll());
-            if (userTests == null)
-            {
-                throw new NotFoundException("UserTests were not found");
-            }
             var users = mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(Database.Users.GetAll());
-            if (users == null)
-            {
-                throw new NotFoundException("Users were not found");
-            }
             var tests = mapper.Map<IEnumerable<Test>, IEnumerable<TestDTO>>(Database.Tests.GetAll());
-            if (tests == null)
-            {
-                throw new NotFoundException("Tests were not found");
-            }
             var result = from u in users
                          join t in userTests on u.Id equals t.UserId
                          join a in tests on t.TestId equals a.TestId
@@ -69,20 +57,8 @@ namespace KTS.BLL.Services
         public object GetTopUserTests(int count)
         {
             var userTests = mapper.Map<IEnumerable<UserTest>, IEnumerable<UserTestDTO>>(Database.UserTests.GetAll());
-            if (userTests == null)
-            {
-                throw new NotFoundException("UserTests were not found");
-            }
             var users = mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(Database.Users.GetAll());
-            if (users == null)
-            {
-                throw new NotFoundException("Users were not found");
-            }
             var tests = mapper.Map<IEnumerable<Test>, IEnumerable<TestDTO>>(Database.Tests.GetAll());
-            if (tests == null)
-            {
-                throw new NotFoundException("Tests were not found");
-            }
             var date = DateTime.Now;
             var result = (from u in users
                          join t in userTests on u.Id equals t.UserId
@@ -92,7 +68,7 @@ namespace KTS.BLL.Services
             return result;
         }
 
-        public object GetUserTestByUserId(string userId)
+        public object GetUserTestsByUserId(string userId)
         {
             var user = mapper.Map<User, UserDTO>(Database.Users.Get(userId));
             if (user == null)
@@ -100,15 +76,7 @@ namespace KTS.BLL.Services
                 throw new NotFoundException("User was not found", "Id");
             }
             var userTests = mapper.Map<IEnumerable<UserTest>, IEnumerable<UserTestDTO>>(Database.UserTests.GetAll());
-            if (userTests == null)
-            {
-                throw new NotFoundException("UserTests were not found");
-            }
             var tests = mapper.Map<IEnumerable<Test>, IEnumerable<TestDTO>>(Database.Tests.GetAll());
-            if (tests == null)
-            {
-                throw new NotFoundException("Tests were not found");
-            }
             var result = from t in userTests
                     where t.UserId == userId
                     join a in tests on t.TestId equals a.TestId
@@ -124,15 +92,7 @@ namespace KTS.BLL.Services
                 throw new NotFoundException("UserTest was not found", "Id");
             }
             var user = Database.Users.Get(userTest.UserId);
-            if(user == null)
-            {
-                throw new ValidationException("User who passed this test does not exist", "Id");
-            }
             var test = Database.Tests.Get(userTest.TestId.ToString());
-            if (test == null)
-            {
-                throw new ValidationException("Test does not exist", "Id");
-            }
             var result = new
             {
                 UserTestId = userTest.UserTestId,
@@ -145,6 +105,7 @@ namespace KTS.BLL.Services
             };
             return result;
         }
+
         public void DeleteUserTest(string id)
         {
             var userTest = mapper.Map<UserTest, UserTestDTO>(Database.UserTests.Get(id));
@@ -156,21 +117,11 @@ namespace KTS.BLL.Services
             Database.Save();
         }
 
-        public void PutUserTest(UserTestDTO userTestDTO)
+        public void UpdateUserTest(UserTestDTO userTestDTO)
         {
             if(userTestDTO == null)
             {
                 throw new ValidationException("UserTest can not be null", "Id");
-            }
-            var user = Database.Users.Get(userTestDTO.UserId.ToString());
-            if (user == null)
-            {
-                throw new ValidationException("User was not found", "Id");
-            }
-            var test = Database.Tests.Get(userTestDTO.TestId.ToString());
-            if (test == null)
-            {
-                throw new ValidationException("Test was not found", "Id");
             }
             var userTest = Database.UserTests.Get(userTestDTO.UserTestId.ToString());
             if (userTest == null)

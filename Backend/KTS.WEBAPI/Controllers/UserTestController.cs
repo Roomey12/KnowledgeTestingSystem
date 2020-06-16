@@ -58,14 +58,6 @@ namespace KTS.WEBAPI.Controllers
             {
                 result = _userTestService.GetAllUserTests();
             }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch(ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
             catch (Exception)
             {
                 return StatusCode(500);
@@ -81,10 +73,6 @@ namespace KTS.WEBAPI.Controllers
             try
             {
                 result = _userTestService.GetTopUserTests(count);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
             }
             catch (Exception)
             {
@@ -118,7 +106,7 @@ namespace KTS.WEBAPI.Controllers
             object userTest;
             try
             {
-                userTest = _userTestService.GetUserTestByUserId(id);
+                userTest = _userTestService.GetUserTestsByUserId(id);
             }
             catch (NotFoundException ex)
             {
@@ -157,7 +145,7 @@ namespace KTS.WEBAPI.Controllers
         {
             try
             {
-                _userTestService.PutUserTest(mapper.Map<UserTestModel, UserTestDTO>(userTest));
+                _userTestService.UpdateUserTest(mapper.Map<UserTestModel, UserTestDTO>(userTest));
             }
             catch (ValidationException ex)
             {

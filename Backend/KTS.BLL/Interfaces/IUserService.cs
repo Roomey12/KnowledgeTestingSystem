@@ -13,8 +13,8 @@ namespace KTS.BLL.Interfaces
     {
         IEnumerable<UserDTO> GetAllUsers();
         UserDTO GetUserById(string id);
-        void DeleteUser(string id);
-        void PutUser(UserDTO userDTO);
+        void UpdateUser(string id);
+        void UpdateUser(UserDTO userDTO);
         Task<IdentityResult> ChangePassword(ChangePasswordDTO modelDTO);
         Task ChangeUsername(ChangeUsernameDTO modelDTO);
     }

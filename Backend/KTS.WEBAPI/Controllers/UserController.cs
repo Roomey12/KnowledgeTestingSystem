@@ -81,7 +81,7 @@ namespace KTS.WEBAPI.Controllers
         {
             try
             {
-                _userService.DeleteUser(id);
+                _userService.UpdateUser(id);
             }
             catch(NotFoundException ex)
             {
@@ -100,7 +100,7 @@ namespace KTS.WEBAPI.Controllers
         {
             try
             {
-                _userService.PutUser(mapper.Map<UserModel, UserDTO>(model));
+                _userService.UpdateUser(mapper.Map<UserModel, UserDTO>(model));
             }
             catch(ValidationException ex)
             {

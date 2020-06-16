@@ -52,7 +52,7 @@ namespace KTS.BLL.Services
             return user;
         }
 
-        public void DeleteUser(string id)
+        public void UpdateUser(string id)
         {
             var user = mapper.Map<User, UserDTO>(Database.Users.Get(id));
             if (user == null)
@@ -63,7 +63,7 @@ namespace KTS.BLL.Services
             Database.SaveAsync();
         }
 
-        public void PutUser(UserDTO userDTO)
+        public void UpdateUser(UserDTO userDTO)
         {
             if(userDTO == null)
             {
@@ -88,7 +88,8 @@ namespace KTS.BLL.Services
             {
                 throw new ValidationException("Model can not be null");
             }
-            User user = await Database.UserManager.FindByIdAsync(modelDTO.UserId);
+            //User user = await Database.UserManager.FindByIdAsync(modelDTO.UserId);
+            User user = Database.Users.Get(modelDTO.UserId);
             if (user == null)
             {
                 throw new NotFoundException("User was not found", "Id");

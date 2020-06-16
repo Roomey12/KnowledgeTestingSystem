@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace KTS.BLL.Tests
@@ -37,10 +38,10 @@ namespace KTS.BLL.Tests
             UserService us = new UserService(uow.Object);
             uow.Setup(x => x.Users.Get(It.IsAny<string>())).Returns(new User());
 
-            var expected = JsonConvert.SerializeObject(new UserDTO());
-            var actual = JsonConvert.SerializeObject(us.GetUserById(It.IsAny<string>()));
+            var expected = new User();
+            var actual = us.GetUserById(It.IsAny<string>());
 
-            Assert.Equal(expected, actual);
+            Assert.Equal(expected.Email, actual.Email);
         }
 
         [Fact]
@@ -52,8 +53,85 @@ namespace KTS.BLL.Tests
 
             Assert.Throws<NotFoundException>(() =>
             {
-                var actual = JsonConvert.SerializeObject(us.GetUserById(It.IsAny<string>()));
+                var actual = us.GetUserById(It.IsAny<string>());
             });
         }
+
+        [Fact]
+        public void DeleteUser_WithCorrectData_UserMustBeDeleted()
+        {
+            var uow = new Mock<IUnitOfWork>();
+            UserService us = new UserService(uow.Object);
+            uow.Setup(x => x.Users.Get(It.IsAny<string>())).Returns(new User());
+
+            us.UpdateUser(It.IsAny<string>());
+
+            uow.Verify(x => x.SaveAsync());
+        }
+
+        [Fact]
+        public void DeleteUser_WithNullData_NotFoundExceptionMustBeThrown()
+        {
+            var uow = new Mock<IUnitOfWork>();
+            UserService us = new UserService(uow.Object);
+            uow.Setup(x => x.Users.Get(It.IsAny<string>())).Returns((User)null);
+
+            Assert.Throws<NotFoundException>(() =>
+            {
+                us.UpdateUser(It.IsAny<string>());
+            });
+        }
+
+        [Fact]
+        public void UpdateUser_WithCorrectData_UserMustBeUpdated()
+        {
+            var uow = new Mock<IUnitOfWork>();
+            UserService us = new UserService(uow.Object);
+            uow.Setup(x => x.Users.Get(It.IsAny<string>())).Returns(new User());
+
+            us.UpdateUser(new UserDTO() { Email = "A@gmail.com", Username = "B" });
+
+            uow.Verify(x => x.SaveAsync());
+        }
+
+        [Fact]
+        public void UpdateUser_WithNullData_ValidationExceptionMustBeThrown()
+        {
+            var uow = new Mock<IUnitOfWork>();
+            UserService us = new UserService(uow.Object);
+            uow.Setup(x => x.Users.Get(It.IsAny<string>())).Returns((User)null);
+
+            Assert.Throws<ValidationException>(() =>
+            {
+                us.UpdateUser((UserDTO)null);
+            });
+        }
+
+        [Fact]
+        public void UpdateUser_WithInCorrectData_NotFoundExceptionMustBeThrown()
+        {
+            var uow = new Mock<IUnitOfWork>();
+            UserService us = new UserService(uow.Object);
+            uow.Setup(x => x.Users.Get(It.IsAny<string>())).Returns((User)null);
+
+            Assert.Throws<NotFoundException>(() =>
+            {
+                us.UpdateUser(new UserDTO());
+            });
+        }
+
+        //[Fact]
+        //public async void ChangePassword_WithCorrectData_PasswordMustBeChanged()
+        //{
+        //    var uow = new Mock<IUnitOfWork>();
+        //    UserService us = new UserService(uow.Object);
+        //    uow.Setup(x => x.Users.Get(It.IsAny<string>())).Returns(new User());
+        //    //uow.Setup(x => x.UserManager.FindByIdAsync(It.IsAny<string>())).ReturnsAsync(new User());
+
+        //    var a = await us.ChangePassword(new ChangePasswordDTO() { UserId = "1", OldPassword = "s", NewPassword="sas"});
+        //    var e = new IdentityResult();
+
+        //    Assert.Equal(e, a);
+        //}
     }
 }
