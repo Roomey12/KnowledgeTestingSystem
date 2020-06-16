@@ -29,9 +29,9 @@ namespace KTS.WEBAPI.Controllers
             _answerService = answerService;
         }
 
-        // GET: api/Answer/5
+        // GET: api/answer/5
         [HttpGet("{id}")]
-        //[Authorize]
+        [Authorize]
         public IActionResult GetAnswerById(int id)
         {
             AnswerModel answer;
@@ -50,7 +50,9 @@ namespace KTS.WEBAPI.Controllers
             return Ok(answer);
         }
 
+        // GET: api/answer/question/5
         [HttpGet("question/{id}")]
+        [Authorize]
         public IActionResult GetAnswersByQuestionId(int id)
         {
             IEnumerable<AnswerModel> answers;
@@ -70,7 +72,9 @@ namespace KTS.WEBAPI.Controllers
             return Ok(answers);
         }
 
+        // POST: api/answer/newQuestion
         [HttpPost("newQuestion")]
+        [Authorize(Roles = "admin")]
         public IActionResult PostAnswerForNewQuestion(AnswerModel answer)
         {
             try
@@ -88,7 +92,9 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "Answer was successfully created!" });
         }
 
+        // POST: api/answer/oldQuestion
         [HttpPost("oldQuestion")]
+        [Authorize(Roles = "admin")]
         public IActionResult PostAnswerForOldQuestion(AnswerModel answer)
         {
             try
@@ -106,7 +112,9 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "Answer was successfully created!" });
         }
 
+        // DELETE: api/answer/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteAnswer(string id)
         {
             try
@@ -124,7 +132,9 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "Answer was successfully deleted!" });
         }
 
+        // PUT: api/answer/
         [HttpPut]
+        [Authorize(Roles = "admin")]
         public IActionResult PutAnswer(AnswerModel answer)
         {
             try

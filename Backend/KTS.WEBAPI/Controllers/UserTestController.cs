@@ -30,8 +30,9 @@ namespace KTS.WEBAPI.Controllers
             _userTestService = userTestService;
         }
 
+        // POST: api/userTest
         [HttpPost]
-        //[Authorize]
+        [Authorize(Roles = "admin")]
         public IActionResult PostUserTest(UserTestModel userTest)
         {
             try
@@ -49,8 +50,9 @@ namespace KTS.WEBAPI.Controllers
             return Ok(userTest);
         }
 
+        // GET: api/userTest
         [HttpGet]
-        //[Authorize]
+        [Authorize(Roles = "admin")]
         public IActionResult GetAllUserTests()
         {
             object result;
@@ -65,8 +67,9 @@ namespace KTS.WEBAPI.Controllers
             return Ok(result);
         }
 
+        // GET: api/userTest/top/10
         [HttpGet("top/{count}")]
-        [Authorize]
+        [AllowAnonymous]
         public IActionResult GetTopUserTests(int count)
         {
             object result;
@@ -80,7 +83,10 @@ namespace KTS.WEBAPI.Controllers
             }
             return Ok(result);
         }
+
+        // GET: api/userTest/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult GetUserTestById(string id)
         {
             object userTest;
@@ -99,8 +105,9 @@ namespace KTS.WEBAPI.Controllers
             return Ok(userTest);
         }
 
+        // GET: api/userTest/user/5
         [HttpGet("user/{id}")]
-        //[Authorize]
+        [Authorize]
         public IActionResult GetUserTestByUserId(string id)
         {
             object userTest;
@@ -119,7 +126,7 @@ namespace KTS.WEBAPI.Controllers
             return Ok(userTest);
         }
 
-
+        // DELETE: api/userTest/5
         [HttpDelete("{id}")]
         [Authorize (Roles ="admin")]
         public IActionResult DeleteUserTest(string id)
@@ -139,6 +146,7 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "UserTest was successfully deleted!" });
         }
 
+        // PUT: api/userTest
         [HttpPut]
         [Authorize(Roles = "admin")]
         public IActionResult PutUserTest(UserTestModel userTest)

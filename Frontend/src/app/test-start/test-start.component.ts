@@ -240,6 +240,7 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
   }
 
   endTest3(){
+    this.submitted = true;
     forkJoin(this.all).subscribe((data: Answer[]) => {
       if(window.location.href.toString().includes("teststart")){
         for(let i = 0; i < data.length; i++){
@@ -250,7 +251,6 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
       }
     });
     document.getElementById('subButton').innerHTML = "Результат";
-    this.submitted = true;
     clearInterval(this.interval);
     this.userTestService.postTestResult(this.testResult).subscribe(data => console.log("Finish"));
   }

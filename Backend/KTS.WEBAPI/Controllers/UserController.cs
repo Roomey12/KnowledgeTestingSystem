@@ -39,8 +39,9 @@ namespace KTS.WEBAPI.Controllers
             _userService = userService;
         }
 
+        // GET: api/user
         [HttpGet]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public IActionResult GetAllUsers()
         {
             IEnumerable<UserModel> users;
@@ -55,8 +56,9 @@ namespace KTS.WEBAPI.Controllers
             return Ok(users);
         }
 
+        // GET: api/user/5
         [HttpGet("{id}")]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public IActionResult GetUserById(string id)
         {
             UserModel user;
@@ -75,8 +77,9 @@ namespace KTS.WEBAPI.Controllers
             return Ok(user);
         }
 
+        // DELETE: api/user/5
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteUser(string id)
         {
             try
@@ -94,6 +97,7 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "User was successfully deleted" });
         }
 
+        // PUT: api/user
         [HttpPut]
         [Authorize(Roles = "admin")]
         public IActionResult PutUser(UserModel model)
@@ -117,21 +121,19 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "User was successfully changed" });
         }
 
+        // GET: api/user/profile
         [HttpGet("profile")]
         [Authorize]
         public async Task<object> GetUserProfile()
         {
             string userId = User.Claims.First(c => c.Type == "UserID").Value;
             var user = await _userManager.FindByIdAsync(userId);
-            return new
-            {
-                user.Id,
-                user.Email,
-                user.UserName
-            };
+            return new { user.Id, user.Email, user.UserName };
         }
 
-        [HttpPut("changePass")]
+        // PUT: api/user/changePassword
+        [HttpPut("changePassword")]
+        [Authorize]
         public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
         {
             IdentityResult result;
@@ -154,7 +156,9 @@ namespace KTS.WEBAPI.Controllers
             return Ok(result);
         }
 
+        // PUT: api/user/changeUsername
         [HttpPut("changeUsername")]
+        [Authorize]
         public async Task<IActionResult> ChangeUsername(ChangeUsernameModel model)
         {
             try

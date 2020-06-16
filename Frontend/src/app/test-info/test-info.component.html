@@ -16,12 +16,12 @@
                     <td>{{test.description}}</td> 
                     <td>{{test.maxScore}}</td>
                     <td>{{test.questionsCount}}</td>
-                    <td>{{test.maxTime.getMinutes()}}:{{test.maxTime.getSeconds()}}</td>
+                    <td>{{test.maxTime.substring(14)}}</td>
                 </tr>
             </tbody>
         </table>
         <div class="text-center">
-            <button class="btn btn-success" routerLink="/teststart/{{test.testId}}"> Начать тестирование </button>
+            <button class="btn btn-success" routerLink="/teststart/{{test.testId}}">Начать тестирование</button>
         </div>
     </div>
 </div>

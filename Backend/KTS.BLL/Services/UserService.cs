@@ -5,19 +5,8 @@ using KTS.BLL.Interfaces;
 using KTS.DAL.Entities;
 using KTS.DAL.Interfaces;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace KTS.BLL.Services
@@ -88,7 +77,6 @@ namespace KTS.BLL.Services
             {
                 throw new ValidationException("Model can not be null");
             }
-            //User user = await Database.UserManager.FindByIdAsync(modelDTO.UserId);
             User user = Database.Users.Get(modelDTO.UserId);
             if (user == null)
             {

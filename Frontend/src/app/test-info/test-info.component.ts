@@ -10,7 +10,7 @@ import { Test } from '../models/test';
 })
 export class TestInfoComponent implements OnInit {
 
-  test: Test;
+  test;
   loaded: boolean = false;
 
   constructor(private testService: TestService, private router: Router, activeRoute: ActivatedRoute) {
@@ -26,7 +26,7 @@ export class TestInfoComponent implements OnInit {
     this.testService.getTestById(this.test.testId)
         .subscribe((data: Test) => {
           this.test = data;
-          this.test.maxTime = new Date(data["maxTime"]);
+          //this.test.maxTime = new Date(data["maxTime"]);
           if(this.test != null){
             this.loaded = true;
           }

@@ -42,6 +42,7 @@ namespace KTS.WEBAPI.Controllers
             _authService = authService;
         }
 
+        // POST: api/auth/register
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegistrationModel model)
         {
@@ -54,14 +55,14 @@ namespace KTS.WEBAPI.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
-                //return StatusCode(500);
+                return StatusCode(500);
             }
             return Ok(result);
         }
 
+        // POST: api/auth/login
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginModel model)
         {
@@ -81,6 +82,7 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { token });
         }
 
+        // POST: api/auth/confirmEmail/abc5
         [HttpPost("confirmEmail/{userId}")]
         public async Task<IActionResult> ConfirmEmail(string userId, [FromBody]string token)
         {
@@ -100,6 +102,7 @@ namespace KTS.WEBAPI.Controllers
             return Ok(result);
         }
 
+        // POST: api/auth/forgotPassword
         [HttpPost("forgotPassword")]
         public async Task<IActionResult> ForgotPassword([FromBody]string email)
         {
@@ -122,6 +125,7 @@ namespace KTS.WEBAPI.Controllers
             return Ok();
         }
 
+        // POST: api/auth/resetPassword
         [HttpPost("resetPassword")]
         public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordModel model)
         {

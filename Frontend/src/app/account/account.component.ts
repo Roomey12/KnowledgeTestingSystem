@@ -42,6 +42,7 @@ export class AccountComponent implements OnInit {
       },
     );
   }
+  
   loadUserTests(){
     this.userTestService.getUserTestsByUserId(this.userDetails["id"])
       .subscribe((data: object[]) =>{

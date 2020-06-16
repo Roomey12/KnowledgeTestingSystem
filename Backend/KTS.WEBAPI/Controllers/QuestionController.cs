@@ -32,9 +32,9 @@ namespace KTS.WEBAPI.Controllers
             _questionService = questionService;
         }
 
-        // GET: api/Questions/5
+        // GET: api/question/5
         [HttpGet("{id}")]
-        //[Authorize]
+        [Authorize]
         public IActionResult GetQuestionById(int id)
         {
             QuestionModel question;
@@ -53,7 +53,9 @@ namespace KTS.WEBAPI.Controllers
             return Ok(question);
         }
 
+        // POST: api/question/newTest
         [HttpPost("newTest")]
+        [Authorize(Roles = "admin")]
         public IActionResult PostQuestionForNewTest(QuestionModel question)
         {
             try
@@ -71,7 +73,9 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "Question was successfully created!" });
         }
 
+        // POST: api/question/oldTest
         [HttpPost("oldTest")]
+        [Authorize(Roles = "admin")]
         public IActionResult PostQuestionForOldTest(QuestionModel question)
         {
             try
@@ -89,7 +93,9 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "Question was successfully created!" });
         }
 
+        // DELETE: api/question/1
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteTest(string id)
         {
             try
@@ -107,7 +113,9 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "Question was successfully deleted!" });
         }
 
+        // PUT: api/question
         [HttpPut]
+        [Authorize(Roles = "admin")]
         public IActionResult PutQuestion(QuestionModel question)
         {
             try

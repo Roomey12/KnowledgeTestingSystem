@@ -65,7 +65,7 @@ export class UserService {//experimental decorations
             OldPassword: this.passwordModel.value.Passwords.OldPassword,
             NewPassword: this.passwordModel.value.Passwords.Password
           };
-        return this.http.put(this.userUrl + 'changePass', body);
+        return this.http.put(this.userUrl + 'changePassword', body);
     }
 
     changeUsername(oldUsername: String){

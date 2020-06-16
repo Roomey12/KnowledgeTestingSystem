@@ -36,7 +36,7 @@ const routes: Routes = [
       { path: 'reset-password', component: ResetPasswordComponent }
     ]
   },
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'home', component: HomeComponent },
   { path: 'forbidden', component: ForbiddenComponent, canActivate: [AuthGuard]},
   { 
     path: 'admin-panel', component: AdminPanelComponent, canActivate: [AuthGuard], data: { permittedRoles: ['admin'] },
@@ -53,7 +53,7 @@ const routes: Routes = [
   },
   { path: 'account', component: AccountComponent, canActivate: [AuthGuard], },
   { path: 'teststart/:id', component: TestStartComponent, canActivate: [AuthGuard], canDeactivate: [ExitTestStartGuard] },
-  { path: 'test/:id', component: TestInfoComponent, canActivate: [AuthGuard]} ,
+  { path: 'test/:id', component: TestInfoComponent },
   { path: '**', redirectTo: '/' }
 ];
 

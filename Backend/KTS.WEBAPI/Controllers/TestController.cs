@@ -21,7 +21,6 @@ namespace KTS.WEBAPI.Controllers
     {
         private readonly ITestService _testService; 
 
-
         IMapper mapper = new MapperConfiguration(cfg =>
         {
             cfg.CreateMap<TestModel, TestDTO>();
@@ -35,9 +34,9 @@ namespace KTS.WEBAPI.Controllers
             _testService = testService;
         }
 
-        // GET: api/Test
+        // GET: api/test
         [HttpGet]
-        //[Authorize]
+        [AllowAnonymous]
         public IActionResult GetTests()
         {
             IEnumerable<TestModel> tests;
@@ -52,7 +51,7 @@ namespace KTS.WEBAPI.Controllers
             return Ok(tests);
         }
 
-        // GET: api/Test/5/Questions
+        // GET: api/test/5/questions
         [HttpGet("{id}/questions")]
         [Authorize]
         public IActionResult GetQuestionsByTestId(int id)
@@ -70,9 +69,9 @@ namespace KTS.WEBAPI.Controllers
             return Ok(questions);
         }
 
-        // GET: api/Test/5/start
+        // GET: api/test/5/start
         [HttpGet("{id}/start")]
-        //[Authorize]
+        [Authorize]
         public IActionResult GetQuestionsAndAnswersByTestId(int id)
         {
             IDictionary<string, IEnumerable<AnswerModel>> result;
@@ -92,9 +91,9 @@ namespace KTS.WEBAPI.Controllers
             return Ok(result);
         }
 
-        //GET: api/Test/5
+        // GET: api/test/5
         [HttpGet("{id}")]
-        [Authorize]
+        [AllowAnonymous]
         public IActionResult GetTest(int id)
         {
             TestModel test;
@@ -113,7 +112,9 @@ namespace KTS.WEBAPI.Controllers
             return Ok(test);
         }
 
+        // POST: api/test
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public IActionResult PostTest(TestModel test)
         {
             try
@@ -131,7 +132,9 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "Test was successfully created!" });
         }
 
+        // DELETE: api/test/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteTest(string id)
         {
             try
@@ -149,7 +152,9 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "Test was successfully deleted!" });
         }
 
+        // PUT: api/test
         [HttpPut]
+        [Authorize(Roles = "admin")]
         public IActionResult PutTest(TestModel test)
         {
             try
