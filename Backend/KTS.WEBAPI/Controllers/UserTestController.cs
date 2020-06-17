@@ -37,7 +37,7 @@ namespace KTS.WEBAPI.Controllers
         {
             try
             {
-                _userTestService.AddUserTest(mapper.Map<UserTestModel, UserTestDTO>(userTest));
+                _userTestService.CreateUserTest(mapper.Map<UserTestModel, UserTestDTO>(userTest));
             }
             catch(ValidationException ex)
             {

@@ -31,7 +31,11 @@ namespace KTS.BLL.Services
             Database = uow;
         }
 
-        public void AddUserTest(UserTestDTO userTest)
+        /// <summary>
+        /// This method creates result of passing test.
+        /// </summary>
+        /// <param name="userTest">Result of passing test which should be created</param>
+        public void CreateUserTest(UserTestDTO userTest)
         {
             if (userTest == null)
             {
@@ -41,6 +45,10 @@ namespace KTS.BLL.Services
             Database.Save();
         }
 
+        /// <summary>
+        /// This method returns all results of passing tests.
+        /// </summary>
+        /// <returns>Results of passing tests which were found</returns>
         public object GetAllUserTests()
         {
             var userTests = mapper.Map<IEnumerable<UserTest>, IEnumerable<UserTestDTO>>(Database.UserTests.GetAll());
@@ -54,6 +62,10 @@ namespace KTS.BLL.Services
             return result;
         }
 
+        /// <summary>
+        /// This method returns certain count of best results of passing tests.
+        /// </summary>
+        /// <returns>Results of passing tests which were found</returns>
         public object GetTopUserTests(int count)
         {
             var userTests = mapper.Map<IEnumerable<UserTest>, IEnumerable<UserTestDTO>>(Database.UserTests.GetAll());
@@ -68,6 +80,11 @@ namespace KTS.BLL.Services
             return result;
         }
 
+        /// <summary>
+        /// This method returns results of passing tests for certain user.
+        /// </summary>
+        /// <param name="userId">Id of user for whom results of passing tests should be returned</param>
+        /// <returns>Results of passing tests which were found</returns>
         public object GetUserTestsByUserId(string userId)
         {
             var user = mapper.Map<User, UserDTO>(Database.Users.Get(userId));
@@ -84,6 +101,11 @@ namespace KTS.BLL.Services
             return result;
         }
 
+        /// <summary>
+        /// This method returns certain result of passing test.
+        /// </summary>
+        /// <param name="id">Id of result of passing test which should be returned</param>
+        /// <returns>Result of passing test which was found</returns>
         public object GetUserTestById(string id)
         {
             var userTest = Database.UserTests.Get(id);
@@ -93,19 +115,15 @@ namespace KTS.BLL.Services
             }
             var user = Database.Users.Get(userTest.UserId);
             var test = Database.Tests.Get(userTest.TestId.ToString());
-            var result = new
-            {
-                UserTestId = userTest.UserTestId,
-                UserId = user.Id,
-                TestId = test.TestId,
-                Username = user.UserName,
-                Test = test.Title,
-                Mark = userTest.Mark,
-                Time = userTest.Time
-            };
+            var result = new { userTest.UserTestId, UserId = user.Id, test.TestId,
+                Username = user.UserName, Test = test.Title, userTest.Mark, userTest.Time};
             return result;
         }
 
+        /// <summary>
+        /// This method deletes certain result of passing test.
+        /// </summary>
+        /// <param name="id">Id of result of passing test which should be deleted</param>
         public void DeleteUserTest(string id)
         {
             var userTest = mapper.Map<UserTest, UserTestDTO>(Database.UserTests.Get(id));
@@ -117,6 +135,10 @@ namespace KTS.BLL.Services
             Database.Save();
         }
 
+        /// <summary>
+        /// This method updates data of certain result of passing test.
+        /// </summary>
+        /// <param name="userTestDTO">Result of passing test which should be updated</param>
         public void UpdateUserTest(UserTestDTO userTestDTO)
         {
             if(userTestDTO == null)

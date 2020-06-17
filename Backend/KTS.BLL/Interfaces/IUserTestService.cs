@@ -8,7 +8,7 @@ namespace KTS.BLL.Interfaces
 {
     public interface IUserTestService
     {
-        void AddUserTest(UserTestDTO userTest);
+        void CreateUserTest(UserTestDTO userTest);
         object GetTopUserTests(int count);
         object GetAllUserTests();
         object GetUserTestsByUserId(string userId);

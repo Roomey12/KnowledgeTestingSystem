@@ -37,6 +37,11 @@ namespace KTS.BLL.Services
             _emailSettings = emailSettings.Value;
         }
 
+        /// <summary>
+        /// This method is used to register a user.
+        /// </summary>
+        /// <param name="modelDTO">RegistrationDTO object</param>
+        /// <returns>Result of registration</returns>
         public async Task<IdentityResult> Register(RegistrationDTO modelDTO)
         {
             if (modelDTO == null)
@@ -59,6 +64,11 @@ namespace KTS.BLL.Services
             return result;
         }
 
+        /// <summary>
+        /// This method is used to authorize user.
+        /// </summary>
+        /// <param name="modelDTO">LoginDTO object</param>
+        /// <returns>JSON Web Token</returns>
         public async Task<string> Login(LoginDTO modelDTO)
         {
             var user = await Database.UserManager.FindByNameAsync(modelDTO.UserName);
@@ -93,6 +103,12 @@ namespace KTS.BLL.Services
             }
         }
 
+        /// <summary>
+        /// This method is used to send email.
+        /// </summary>
+        /// <param name="email">Email to which letter will be sent</param>
+        /// <param name="subject">Subject of letter</param>
+        /// <param name="message">Message of letter</param>
         public async Task SendEmailAsync(string email, string subject, string message)
         {
             var emailMessage = new MimeMessage();
@@ -113,6 +129,12 @@ namespace KTS.BLL.Services
             }
         }
 
+        /// <summary>
+        /// This method is used to confirm email.
+        /// </summary>
+        /// <param name="userId">Id of user whose email email is confirming</param>
+        /// <param name="token">User's JSON Web Token</param>
+        /// <returns>Result of email confirming</returns>
         public async Task<IdentityResult> ConfirmEmail(string userId, string token)
         {
             var tokenDecodedBytes = WebEncoders.Base64UrlDecode(token);
@@ -130,6 +152,10 @@ namespace KTS.BLL.Services
             return result;
         }
 
+        /// <summary>
+        /// This method is used to send information about resetting password to user email.
+        /// </summary>
+        /// <param name="email">Email to which letter will be sent</param>
         public async Task ForgotPassword(string email)
         {
             var user = await Database.UserManager.FindByEmailAsync(email);
@@ -149,6 +175,11 @@ namespace KTS.BLL.Services
                $"Для сброса по ссылке, перейдите по ссылке: <a href='{url}'>клик</a>.");
         }
 
+        /// <summary>
+        /// This method is used to reset user password.
+        /// </summary>
+        /// <param name="modelDTO">ResetPasswordDTO object</param>
+        /// <returns>Result of password resetting</returns>
         public async Task<IdentityResult> ResetPassword(ResetPasswordDTO modelDTO)
         {
             if(modelDTO == null)

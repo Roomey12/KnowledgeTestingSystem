@@ -26,11 +26,21 @@ namespace KTS.BLL.Services
             Database = uow;
         }
 
+
+        /// <summary>
+        /// This method returns all users.
+        /// </summary>
+        /// <returns>Users which were found</returns>
         public IEnumerable<UserDTO> GetAllUsers()
         {
             return mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(Database.Users.GetAll());
         }
 
+        /// <summary>
+        /// This method finds user by his Id and returns him.
+        /// </summary>
+        /// <param name="id">Id of user who should be returned</param>
+        /// <returns>User who was found</returns>
         public UserDTO GetUserById(string id)
         {
             var user = mapper.Map<User, UserDTO>(Database.Users.Get(id));
@@ -41,7 +51,11 @@ namespace KTS.BLL.Services
             return user;
         }
 
-        public void UpdateUser(string id)
+        /// <summary>
+        /// This method deletes user.
+        /// </summary>
+        /// <param name="id">User who should be deleted</param>
+        public void DeleteUser(string id)
         {
             var user = mapper.Map<User, UserDTO>(Database.Users.Get(id));
             if (user == null)
@@ -52,6 +66,10 @@ namespace KTS.BLL.Services
             Database.SaveAsync();
         }
 
+        /// <summary>
+        /// This method updates user's data.
+        /// </summary>
+        /// <param name="userDTO">User who should be updated</param>
         public void UpdateUser(UserDTO userDTO)
         {
             if(userDTO == null)
@@ -71,6 +89,11 @@ namespace KTS.BLL.Services
             Database.SaveAsync();
         }
 
+        /// <summary>
+        /// This method is used for changing user's password.
+        /// </summary>
+        /// <param name="modelDTO">ChangePasswordDTO object</param>
+        /// <returns>Result of changing password.</returns>
         public async Task<IdentityResult> ChangePassword(ChangePasswordDTO modelDTO)
         {
             if (modelDTO == null)
@@ -87,6 +110,11 @@ namespace KTS.BLL.Services
             return result;
         }
 
+        /// <summary>
+        /// This method is used for changing user's name.
+        /// </summary>
+        /// <param name="modelDTO">ChangeUsernameDTO object</param>
+        /// <returns>Result of changing username.</returns>
         public async Task ChangeUsername(ChangeUsernameDTO modelDTO)
         {
             if(modelDTO == null)

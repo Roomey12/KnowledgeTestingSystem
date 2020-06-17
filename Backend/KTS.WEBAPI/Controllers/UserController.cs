@@ -84,7 +84,7 @@ namespace KTS.WEBAPI.Controllers
         {
             try
             {
-                _userService.UpdateUser(id);
+                _userService.DeleteUser(id);
             }
             catch(NotFoundException ex)
             {

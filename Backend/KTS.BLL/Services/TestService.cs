@@ -28,17 +28,31 @@ namespace KTS.BLL.Services
             Database = uow;
         }
 
+        /// <summary>
+        /// This method returns all tests.
+        /// </summary>
+        /// <returns>Tests which were found</returns>
         public IEnumerable<TestDTO> GetAllTests()
         {
             return mapper.Map<IEnumerable<Test>, List<TestDTO>>(Database.Tests.GetAll());
         }
 
+        /// <summary>
+        /// This method returns questions which relate to the test which Id was passed.
+        /// </summary>
+        /// <param name="testId">Id of test for which questions should be found</param>
+        /// <returns>Questions which were found</returns>
         public IEnumerable<QuestionDTO> GetQuestionsByTestId(int testId)
         {
             return mapper.Map<IEnumerable<Question>, IEnumerable<QuestionDTO>>//change List to IEnum
                 (Database.Questions.Find(q => q.TestId == testId));
         }
 
+        /// <summary>
+        /// This method finds test by its Id and returns it.
+        /// </summary>
+        /// <param name="id">Id of test which should be returned</param>
+        /// <returns>Test which was found</returns>
         public TestDTO GetTestById(int id)
         {
             var test =  mapper.Map<Test, TestDTO>(Database.Tests.Get(id.ToString()));
@@ -49,6 +63,11 @@ namespace KTS.BLL.Services
             return test;
         }
 
+        /// <summary>
+        /// This method returns questions for test which Id was passed and answers for this questions.
+        /// </summary>
+        /// <param name="id">Test Id</param>
+        /// <returns>Questions and answers which were found</returns>
         public IDictionary<string, IEnumerable<AnswerDTO>> GetQuestionsAndAnswersByTestId(int id)
         {
             var test = GetTestById(id);
@@ -63,6 +82,10 @@ namespace KTS.BLL.Services
             return questionAnswers;
         }
 
+        /// <summary>
+        /// This method creates test.
+        /// </summary>
+        /// <param name="test">Test which should be created</param>
         public void CreateTest(TestDTO test)
         {
             if (test == null)
@@ -73,6 +96,10 @@ namespace KTS.BLL.Services
             Database.Save();
         }
 
+        /// <summary>
+        /// This method deletes test.
+        /// </summary>
+        /// <param name="id">Id of test which should be deleted</param>
         public void DeleteTest(string id)
         {
             var test = Database.Tests.Get(id);
@@ -84,6 +111,10 @@ namespace KTS.BLL.Services
             Database.Save();
         }
 
+        /// <summary>
+        /// This method updates test's data.
+        /// </summary>
+        /// <param name="testDTO">Test which should be updated</param>
         public void UpdateTest(TestDTO testDTO)
         {
             if (testDTO == null)
