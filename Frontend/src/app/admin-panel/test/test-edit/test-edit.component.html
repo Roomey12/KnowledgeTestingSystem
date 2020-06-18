@@ -2,14 +2,14 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 col-lg-6 pb-5">
-                <h2>Изменение данных о тесте</h2>
+                <h2 class="text-center">Изменение данных о тесте</h2>
                 <test-form [(test)]="test"></test-form>
-                <div class="form-group">
+                <div class="form-group text-center">
                     <input type="button" value="Сохранить" (click)="saveTest()" class="btn btn-success"/>
                 </div>
             </div>
         </div>
-        <h1>Тест</h1>
+        <h1 class="text-center">Тест</h1>
         <table class="table mtable">
             <thead>
                 <tr>
@@ -44,20 +44,15 @@
             <div *ngIf="showFillQuestion">
                 <p><b>{{newQuestion.content}}</b></p>
                 <div *ngFor="let s of answersCount; let i = index;">
+                    <span>Правильный?</span>
                     <div *ngIf="newQuestion.isSingle; else isMultiple">
-                        <p>
-                            <span>Правильный?</span><input type="radio" id="a_isCorrect_{{i}}" name="a_isCorrect"/>
-                            <input type="text" placeholder="Контент" id="a_content_{{i}}" name="a_content"/> 
-                            <input type="text" placeholder="Бал" id="a_mark_{{i}}" name="a_mark"/>
-                        </p>
+                        <input type="radio" id="a_isCorrect_{{i}}" name="a_isCorrect"/>
                     </div>
                     <ng-template #isMultiple>
-                        <p>
-                            <span>Правильный?</span><input type="checkbox" id="a_isCorrect_{{i}}" name="a_isCorrect"/>
-                            <input type="text" placeholder="Контент" id="a_content_{{i}}" name="a_content"/> 
-                            <input type="text" placeholder="Бал" id="a_mark_{{i}}" name="a_mark"/>
-                        </p>
+                        <input type="checkbox" id="a_isCorrect_{{i}}" name="a_isCorrect"/>
                     </ng-template>
+                    <input type="text" placeholder="Контент" id="a_content_{{i}}" name="a_content"/> 
+                    <input type="text" placeholder="Бал" id="a_mark_{{i}}" name="a_mark"/>
                 </div>
                 <button class="btn btn-success" style="margin-bottom: 20px; margin-left: 10px;" type="submit" (click)="onSubmit()">Создать</button>
             </div>
@@ -68,32 +63,46 @@
                     <p>
                         <b>{{i+1}}. Контент: </b>
                         <input type="radio" id="q_isSingle_{{item.key.questionId}}" value="{{item.key.isSingle}}" style="display: none">
-                        <input type='text' id="q_content_{{item.key.questionId}}" value="{{item.key.content}}">
-                        <button class="btn btn-sm btn-primary" style="margin-right: 5px;" (click)="editQuestion(item.key.questionId)">Сохранить</button>
-                        <button (click)="addAnswer(item.key.questionId)" class="btn btn-sm btn-primary">Добавить ответ</button>
+                        <input type='text' style="width: 700px;" id="q_content_{{item.key.questionId}}" value="{{item.key.content}}">
+                        <button class="btn btn-sm btn-primary mx-3" (click)="editQuestion(item.key.questionId)">Сохранить</button>
+                        <button (click)="addAnswer(item.key.questionId)" class="btn btn-sm btn-primary mr-3">Добавить ответ</button>
                         <button (click)="deleteQuestion(item.key.questionId)" class="btn btn-sm btn-danger">Удалить</button>
                     </p> 
-                    <div *ngFor="let s of item.value">
-                        Правильный?
-                        <div *ngIf="item.key.isSingle; else isMultiple">
-                            <div *ngIf="s.isCorrect">
-                                <input type="radio" id="a_isCorrect_{{s.answerId}}" name="answer" value="{{s.isCorrect}}" checked/>
+                    <div class="col-12" *ngFor="let s of item.value">
+                        <div class="row">
+                            <div class="col-3 pr-0" style="max-width: 13%!important;">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <p>Правильный?</p>
+                                    </div>
+                                    <div class="col-2">
+                                        <div *ngIf="item.key.isSingle; else isMultiple">
+                                            <div *ngIf="s.isCorrect">
+                                                <input type="radio" id="a_isCorrect_{{s.answerId}}" name="answer" value="{{s.isCorrect}}" checked/>
+                                            </div>
+                                            <div *ngIf="!s.isCorrect">
+                                                <input type="radio" id="a_isCorrect_{{s.answerId}}" name="answer" value="{{s.isCorrect}}"/>
+                                            </div>
+                                        </div>
+                                        
+                                        <ng-template #isMultiple>
+
+                                            <div *ngIf="s.isCorrect">
+                                                <input type="checkbox" id="a_isCorrect_{{s.answerId}}" name="answer" value="{{s.isCorrect}}" checked/>
+                                            </div>
+                                            <div *ngIf="!s.isCorrect">
+                                                <input type="checkbox" id="a_isCorrect_{{s.answerId}}" name="answer" value="{{s.isCorrect}}"/>
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </div>
                             </div>
-                            <div *ngIf="!s.isCorrect">
-                                <input type="radio" id="a_isCorrect_{{s.answerId}}" name="answer" value="{{s.isCorrect}}"/>
+                            <div class="col-9">
+                                Контент:<input type='text' id="a_content_{{s.answerId}}" style="width: 300px;" class="mx-2" value='{{s.content}}'>
+                                Бал:<input type='text' id="a_mark_{{s.answerId}}" value="{{s.mark}}" style="width: 50px;">
+                                <button (click)="deleteAnswer(s.answerId)" class="btn btn-sm btn-danger mx-3">Удалить</button>
                             </div>
                         </div>
-                        <ng-template #isMultiple>
-                            <div *ngIf="s.isCorrect">
-                                <input type="checkbox" id="a_isCorrect_{{s.answerId}}" name="answer" value="{{s.isCorrect}}" checked/>
-                            </div>
-                            <div *ngIf="!s.isCorrect">
-                                <input type="checkbox" id="a_isCorrect_{{s.answerId}}" name="answer" value="{{s.isCorrect}}"/>
-                            </div>
-                        </ng-template>
-                        Контент:<input type='text' id="a_content_{{s.answerId}}" value='{{s.content}}'>
-                        Бал:<input type='text' id="a_mark_{{s.answerId}}" value="{{s.mark}}">
-                        <button (click)="deleteAnswer(s.answerId)" class="btn btn-sm btn-danger">Удалить</button>
                     </div>
                     <div *ngIf="questIdForNewAns == item.key.questionId">
                         Новый ответ: 

@@ -19,6 +19,7 @@
         <table class="table mtable">
             <thead>
                 <tr>
+                    <td>№</td>
                     <td>Пользователь</td>
                     <td>Тест</td>
                     <td>Результат</td>
@@ -26,7 +27,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let u of userTests">
+                <tr *ngFor="let u of userTests; let i = index">
+                    <td>{{i+1}}</td>
                     <td>{{u?.username}}</td>
                     <td>{{u?.test}}</td>
                     <td>{{u?.mark}}%</td>

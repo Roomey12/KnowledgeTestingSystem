@@ -15,8 +15,6 @@ export class AccountComponent implements OnInit {
 
   userDetails;
   userTests;
-  showChangePass: boolean = false;
-  showChangeName: boolean = false;
   password: ChangePassword;
   pas1: string = "oldpass";
   pas2: string = "newpass";
@@ -52,12 +50,10 @@ export class AccountComponent implements OnInit {
 
   showChangePassword(){
     this.userService.passwordModel.reset(); 
-    this.showChangePass = !this.showChangePass;
   }
 
   showChangeUsername(){
     this.userService.usernameModel.reset();
-    this.showChangeName = !this.showChangeName;
   }
 
   changePassword(){
@@ -67,7 +63,6 @@ export class AccountComponent implements OnInit {
         if (res.succeeded) {
           this.userService.passwordModel.reset();
           this.toastr.success('Пароль был изменен.', 'Успешно.');
-          this.showChangePass = false;
         } 
         else{
           res.errors.forEach(element => {
@@ -97,7 +92,6 @@ export class AccountComponent implements OnInit {
       data => {
         this.loadUserProfile();
         this.userService.usernameModel.reset();
-        this.showChangeName = false;
         this.toastr.success('Имя пользователя было изменено.', 'Успешно.');
       },
       err => {

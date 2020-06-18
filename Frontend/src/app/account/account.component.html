@@ -1,100 +1,131 @@
  <div class="container">
     <h2 style="text-align: center; margin: 10px;">Личный кабинет</h2>
     
-    <div class="col-lg-6 floating">
-        <div class="card bg-light m-3" style="max-width: 18rem;" *ngIf="userDetails">
-            <div class="card-header">Информация о пользователе</div>
-            <div class="card-body">
-                <ul class="list-group">
-                    <li class="list-group-item"><strong>Имя пользователя: </strong>{{userDetails.userName}}</li>
-                    <li class="list-group-item"><strong>Почта: </strong>{{userDetails.email}}</li>
-                </ul>
+    <div class="row">
+        <div class="col-6">
+            <div class="card bg-light m-3" style="max-width: 18rem;" *ngIf="userDetails">
+                <div class="card-header">Информация о пользователе</div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item"><strong>Имя пользователя: </strong>{{userDetails.userName}}</li>
+                        <li class="list-group-item"><strong>Почта: </strong>{{userDetails.email}}</li>
+                    </ul>
+                </div>
             </div>
+            <div class="col-12">
+                <button class="btn btn-info place" (click)="showChangePassword()" data-toggle="modal" data-target="#modalchangepass">Изменить пароль</button>
+                <button class="btn btn-info place" (click)="showChangeUsername()" data-toggle="modal" data-target="#modachangename">Изменить имя пользователя</button>
+            </div>
+        </div>
+
+        <div class="col-6">
+            <h3 style="text-align: center;">Пройденные тесты</h3>
+            <table class="table mtable m-3" style="height: auto;">
+                <thead>
+                    <tr>
+                        <td>Тест</td>
+                        <td>Результат</td>
+                        <td>Время</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let u of userTests">
+                        <td>{{u?.test}}</td>
+                        <td>{{u?.mark}}%</td>
+                        <td>{{u?.time.substring(14)}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+    
+    <div class="modal fade" id="modachangename" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"  aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Изменение имени пользователя</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="userService.usernameModel" autocomplete="off" (submit)="changeUsername()">
+                    <div class="form-group required">
+                        <label>Новое имя пользователя</label>
+                        <input class="form-control" formControlName="NewUsername">
+                        <label class="text-danger" *ngIf="userService.usernameModel.get('NewUsername').touched && userService.usernameModel.get('NewUsername').errors?.required">
+                          Это поле обязательно.
+                        </label>
+                    </div>
+                    <div class="form-row  text-center">
+                        <div class="form-group col-12">
+                          <button type="submit" class="btn btn-lg btn-success" [disabled]="!userService.usernameModel.valid">Изменить</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+          </div>
         </div>
     </div>
 
-    <div class="col-lg-6 floating">
-        <h3 style="text-align: center;">Пройденные тесты</h3>
-        <table class="table mtable m-3">
-            <thead>
-                <tr>
-                    <td>Тест</td>
-                    <td>Результат</td>
-                    <td>Время</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let u of userTests">
-                    <td>{{u?.test}}</td>
-                    <td>{{u?.mark}}%</td>
-                    <td>{{u?.time.substring(14)}}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <button class="btn btn-info place" (click)="showChangePassword()">Изменить пароль</button>
-    <button class="btn btn-info place" (click)="showChangeUsername()">Изменить имя пользователя</button>
-    <div *ngIf="showChangeName">
-        <form [formGroup]="userService.usernameModel" autocomplete="off" (submit)="changeUsername()">
-            <div class="form-group required">
-                <label>Новое имя пользователя</label>
-                <input class="form-control" formControlName="NewUsername">
-                <label class="text-danger" *ngIf="userService.usernameModel.get('NewUsername').touched && userService.usernameModel.get('NewUsername').errors?.required">
-                  Это поле обязательно.
-                </label>
+    <div class="modal fade" id="modalchangepass" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Изменение пароля</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div class="form-row">
-                <div class="form-group col-md-8 offset-md-2">
-                  <button type="submit" class="btn btn-lg btn-block" [disabled]="!userService.usernameModel.valid">Изменить</button>
-                </div>
-            </div>
-        </form>
-    </div>
-    <div *ngIf="showChangePass">
-        <form [formGroup]="userService.passwordModel" autocomplete="off" (submit)="changePassword()">
-            <div formGroupName="Passwords">
-                <div class="form-group required">
-                    <div class="password">
-                        <label>Старый пароль</label><br>
-                        <input type="password" id="old-password" class="form-control" formControlName="OldPassword">
-                        <a href="#" id="old-passeye" class="password-control" (click)="show_hide_password(pas1)"></a>
+            <div class="modal-body">
+                <form [formGroup]="userService.passwordModel" autocomplete="off" (submit)="changePassword()">
+                    <div formGroupName="Passwords">
+                        <div class="form-group required">
+                            <label>Старый пароль</label><br>
+                            <div class="password">
+                                <input type="password" id="old-password" class="form-control" formControlName="OldPassword">
+                                <a href="#" id="old-passeye" class="password-control" (click)="show_hide_password(pas1)"></a>
+                            </div>
+                            <label class="text-danger" *ngIf="userService.passwordModel.get('Passwords.OldPassword').touched && userService.passwordModel.get('Passwords.OldPassword').errors?.required">
+                              Это поле обязательно.
+                            </label>
+                        </div>
+                        <div class="form-group required">
+                            <label>Новый пароль</label><br>
+                            <div class="password">
+                                <input type="password" id="new-password" class="form-control" formControlName="Password">
+                                <a href="#" id="new-passeye" class="password-control" (click)="show_hide_password(pas2)"></a>
+                            </div>                    
+                            <label class="text-danger" *ngIf="userService.passwordModel.get('Passwords.Password').touched && userService.passwordModel.get('Passwords.Password').errors?.required">
+                                Это поле обязательно.
+                            </label>
+                            <label class="text-danger" *ngIf="userService.passwordModel.get('Passwords.Password').touched && userService.passwordModel.get('Passwords.Password').errors?.minlength">
+                                Пароль должен состоять минимум из 6 символов.
+                            </label>
+                        </div>
+                        <div class="form-group required">
+                            <label>Подтвердите пароль</label><br>
+                            <div class="password">
+                                <input type="password" id="conf-password" class="form-control" formControlName="ConfirmPassword">
+                                <a href="#" id="conf-passeye" class="password-control" (click)="show_hide_password(pas3)"></a>
+                            </div>
+                            <label class="text-danger" *ngIf="userService.passwordModel.get('Passwords.ConfirmPassword').touched && userService.passwordModel.get('Passwords.ConfirmPassword').errors?.required">
+                              Это поле обязательно.
+                            </label>
+                            <label class="text-danger" *ngIf="userService.passwordModel.get('Passwords.ConfirmPassword').touched && userService.passwordModel.get('Passwords.ConfirmPassword').errors?.passwordMismatch">
+                              Пароли не совпадают.
+                            </label>
+                        </div>
                     </div>
-                    <label class="text-danger" *ngIf="userService.passwordModel.get('Passwords.OldPassword').touched && userService.passwordModel.get('Passwords.OldPassword').errors?.required">
-                      Это поле обязательно.
-                    </label>
-                </div>
-                <div class="form-group required">
-                    <div class="password">
-                        <label>Новый пароль</label><br>
-                        <input type="password" id="new-password" class="form-control" formControlName="Password">
-                        <a href="#" id="new-passeye" class="password-control" (click)="show_hide_password(pas2)"></a>
-                    </div>                    
-                    <label class="text-danger" *ngIf="userService.passwordModel.get('Passwords.Password').touched && userService.passwordModel.get('Passwords.Password').errors?.required">
-                        Это поле обязательно.
-                    </label>
-                    <label class="text-danger" *ngIf="userService.passwordModel.get('Passwords.Password').touched && userService.passwordModel.get('Passwords.Password').errors?.minlength">
-                        Пароль должен состоять минимум из 6 символов.
-                    </label>
-                </div>
-                <div class="form-group required">
-                    <div class="password">
-                        <label>Подтвердите пароль</label><br>
-                        <input type="password" id="conf-password" class="form-control" formControlName="ConfirmPassword">
-                        <a href="#" id="conf-passeye" class="password-control" (click)="show_hide_password(pas3)"></a>
+                    <div class="form-row text-center">
+                        <div class="form-group col-12">
+                          <button type="submit" class="btn btn-lg btn-success" [disabled]="!userService.passwordModel.valid">Изменить</button>
+                        </div>
                     </div>
-                    <label class="text-danger" *ngIf="userService.passwordModel.get('Passwords.ConfirmPassword').touched && userService.passwordModel.get('Passwords.ConfirmPassword').errors?.required">
-                      Это поле обязательно.
-                    </label>
-                    <label class="text-danger" *ngIf="userService.passwordModel.get('Passwords.ConfirmPassword').touched && userService.passwordModel.get('Passwords.ConfirmPassword').errors?.passwordMismatch">
-                      Пароли не совпадают.
-                    </label>
-                </div>
+                </form>
             </div>
-            <div class="form-row">
-                <div class="form-group col-md-8 offset-md-2">
-                  <button type="submit" class="btn btn-lg btn-block" [disabled]="!userService.passwordModel.valid">Изменить</button>
-                </div>
-            </div>
-        </form>
+          </div>
+        </div>
     </div>
 </div>

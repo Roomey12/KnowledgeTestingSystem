@@ -31,11 +31,11 @@
                 </form>
                 <br />
             </div>
-            <button class="btn btn-success" style="margin-bottom: 20px; margin-left: 10px;" type="submit" form="" id="subButton" (click)="onSubmit()" data-toggle="modal" data-target="#modalresults">Завершить</button>
+            <button class="btn btn-success" style="margin-bottom: 20px; margin-left: 10px;" type="submit" id="subButton" (click)="onSubmit()" data-toggle="modal" data-target="#modalresults">Завершить</button>
         </div>
     </div>
 
-    <div class="modal fade" id="modalresults" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" *ngIf="submitted" aria-hidden="true">
+    <div class="modal fade" id="modalresults" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"  aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
