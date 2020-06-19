@@ -1,60 +1,54 @@
-<body>
-    <div *ngIf="loaded">
-        <div class="container">
-            <h3 id="testtitle">{{test.description}}</h3>
-            <div id="timer-wrapper">
-                <div class="rounded bg-gradient-4 text-white shadow text-center" id="countd">
-                    <p class="mb-0 font-weight-bold text-uppercase">Limited Time Only!</p>
-                    <div id="clock-a" class="countdown pt-4">
-                        <span id="time"></span>
-                    </div>
+<div *ngIf="loaded">
+    <div class="container">
+        <h3 id="testtitle">{{test.description}}</h3>
+        <div id="timer-wrapper">
+            <div class="rounded bg-gradient-4 text-white shadow text-center" id="countd">
+                <p class="mb-0 font-weight-bold text-uppercase">Limited Time Only!</p>
+                <div id="clock-a" class="countdown pt-4">
+                    <span id="time"></span>
                 </div>
             </div>
-            <br>
-            <div *ngFor="let item of testInfo | keyvalue; let i = index">
-                <form name="form_{{i}}">
-                    <p><b>{{i+1}}. {{item.key.content}}</b></p>
-                    <div *ngFor="let s of item.value">
-                        <div *ngIf="item.key.isSingle; else isMultiple">
-                            <p>
-                                <input type="radio" name="answer" id="{{s.answerId}}" />
-                                <i id="check_{{s.answerId}}"> {{s.content}}</i>
-                            </p>
-                        </div>
-                        <ng-template #isMultiple>
-                            <p>
-                                <input type="checkbox" name="answer" id="{{s.answerId}}" />
-                                <i id="check_{{s.answerId}}"> {{s.content}}</i>
-                            </p>
-                        </ng-template>
+        </div>
+        <br>
+        <div *ngFor="let item of testInfo | keyvalue; let i = index">
+            <form name="form_{{i}}">
+                <p><b>{{i+1}}. {{item.key.content}}</b></p>
+                <div *ngFor="let s of item.value">
+                    <div *ngIf="item.key.isSingle; else isMultiple">
+                        <p>
+                            <input type="radio" name="answer" id="{{s.answerId}}" />
+                            <i id="check_{{s.answerId}}"> {{s.content}}</i>
+                        </p>
                     </div>
-                </form>
-                <br />
-            </div>
-            <button class="btn btn-success" style="margin-bottom: 20px; margin-left: 10px;" type="submit" id="subButton" (click)="onSubmit()" data-toggle="modal" data-target="#modalresults">Завершить</button>
+                    <ng-template #isMultiple>
+                        <p>
+                            <input type="checkbox" name="answer" id="{{s.answerId}}" />
+                            <i id="check_{{s.answerId}}"> {{s.content}}</i>
+                        </p>
+                    </ng-template>
+                </div>
+            </form>
+            <br />
         </div>
+        <button class="btn btn-success" style="margin-bottom: 20px; margin-left: 10px;" type="submit" id="subButton" (click)="onSubmit()" data-toggle="modal" data-target="#modalresults">Завершить</button>
     </div>
-
-    <div class="modal fade" id="modalresults" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"  aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Results</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="results">
-                    <p>Вы набрали: {{testResult.Mark}}% баллов</p>
-                    <p>{{message}}</p>
-                    <p>Потраченное время на тест: {{testResult.Time.getMinutes()}} минут и {{testResult.Time.getSeconds()}} секунд</p>
-                </div> 
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-          </div>
+</div>
+<div class="modal fade" id="modalresults" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" *ngIf="submitted" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Результат</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
+        <div class="modal-body">
+            <div class="results">
+                <p>Вы набрали: {{testResult.Mark}}% баллов</p>
+                <p>{{message}}</p>
+                <p>Потраченное время на тест: {{testResult.Time.getMinutes()}} минут и {{testResult.Time.getSeconds()}} секунд</p>
+            </div> 
+        </div>
+      </div>
     </div>
-</body>
+</div>

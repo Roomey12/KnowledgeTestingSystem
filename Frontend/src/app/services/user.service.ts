@@ -21,15 +21,9 @@ export class UserService {//experimental decorations
     usernameModel = this.fb.group({
         NewUsername: ['', Validators.required]
     });
-    
-    emailModel = this.fb.group({
-        UserEmail: ['', [Validators.email]]
-    });
 
     comparePasswords(fb: FormGroup) {
         let confirmPswrdCtrl = fb.get('ConfirmPassword');
-        //passwordMismatch
-        //confirmPswrdCtrl.errors={passwordMismatch:true}
         if (confirmPswrdCtrl.errors == null || 'passwordMismatch' in confirmPswrdCtrl.errors) {
           if (fb.get('Password').value != confirmPswrdCtrl.value)
             confirmPswrdCtrl.setErrors({ passwordMismatch: true });
@@ -47,7 +41,6 @@ export class UserService {//experimental decorations
     }
 
     deleteUser(id: string){
-        console.log(id);
         return this.http.delete(this.userUrl + id);
     }
 

@@ -8,19 +8,7 @@ export class AnswerService {//experimental decorations
 
     private answerUrl = "http://localhost:58733/api/answer/";
 
-    constructor(private fb: FormBuilder, private http: HttpClient) {
-    }
-
-    answerModel = this.fb.group({
-        Content: ['', Validators.required],
-        Mark: ['', [this.markRangeValidator, Validators.required]]
-    });
-    
-    markRangeValidator(control: AbstractControl): { [key: string]: boolean } | null {
-        if (control.value !== undefined && (isNaN(control.value) || control.value < -100 || control.value > 100)) {
-            return { 'markRange': true };
-        }
-        return null;
+    constructor(private http: HttpClient) {
     }
     
     getAnswerById(id: number) {

@@ -2,10 +2,10 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 col-lg-6 pb-5">
-                <h2>Изменение данных о результате теста пользователе</h2>
+                <h2 class="text-center">Изменение данных о результате теста пользователе</h2>
                 <user-test-form-mt [(userTest)]="userTest"></user-test-form-mt>
-                <div class="form-group">
-                    <input type="button" value="Сохранить" (click)="save()" class="btn btn-success" [disabled]="!userTestService.userTestModel.valid"/>
+                <div class="form-group text-center">
+                    <input type="button" value="Сохранить" (click)="save()" class="btn btn-success" [disabled]="!userTestFormMT.userTestModel.valid"/>
                 </div>
             </div>
         </div>

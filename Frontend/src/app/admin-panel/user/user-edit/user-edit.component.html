@@ -4,8 +4,8 @@
             <div class="col-12 col-md-8 col-lg-6 pb-5">
                 <h2>Изменение данных о пользователе</h2>
                 <user-form [(user)]="user"></user-form>
-                <div class="form-group">
-                    <input type="button" value="Сохранить" (click)="saveUser()" [disabled]="!userService.emailModel.valid" class="btn btn-success" />
+                <div class="form-group text-center" >
+                    <input type="button" value="Сохранить" (click)="saveUser()" [disabled]="!userForm.emailModel.valid" class="btn btn-success" />
                 </div>
             </div>
         </div>

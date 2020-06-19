@@ -8,19 +8,7 @@ export class UserTestService {//experimental decorations
 
     private userTestUrl = "http://localhost:58733/api/usertest/";
 
-    constructor(private fb: FormBuilder, private http: HttpClient) {
-    }
-
-    userTestModel = this.fb.group({
-        Mark: ['', [this.markRangeValidator]],
-        Time: ['', Validators.pattern('[0-5][0-9][:][0-5][0-9]')]
-    });
-    
-    markRangeValidator(control: AbstractControl): { [key: string]: boolean } | null {
-        if (control.value !== undefined && (isNaN(control.value) || control.value < 0 || control.value > 100)) {
-            return { 'markRange': true };
-        }
-        return null;
+    constructor(private http: HttpClient) {
     }
 
     getAllUserTests(){

@@ -1,11 +1,11 @@
-<form [formGroup]="userTestService.userTestModel" autocomplete="off">
+<form [formGroup]="userTestModel" autocomplete="off">
     <div class="form-group">
         <div class="input-group mb-2">
             <div class="input-group-prepend">
                 <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
             </div>
             <input type="text" formControlName="Mark" class="form-control" [(ngModel)]="userTest.Mark" placeholder="50">
-            <label class="text-danger" *ngIf="userTestService.userTestModel.get('Mark').touched && userTestService.userTestModel.get('Mark').errors?.markRange">
+            <label class="text-danger" *ngIf="userTestModel.get('Mark').touched && userTestModel.get('Mark').errors?.markRange">
                 Бал введен неверно.
             </label>
         </div>
@@ -16,7 +16,7 @@
                 <div class="input-group-text"><i class="fa fa-envelope text-info"></i></div>
             </div>
             <input type="text" formControlName="Time" class="form-control" [(ngModel)]="userTest.Time" placeholder="03:00">
-            <label class="text-danger" *ngIf="userTestService.userTestModel.get('Time').touched && userTestService.userTestModel.get('Time').errors?.pattern">
+            <label class="text-danger" *ngIf="userTestModel.get('Time').touched && userTestModel.get('Time').errors?.pattern">
                 Время введено неверно.
             </label>
         </div>

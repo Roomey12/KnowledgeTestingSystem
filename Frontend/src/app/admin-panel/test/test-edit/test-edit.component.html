@@ -35,24 +35,42 @@
         </div>
         <br>
         <div *ngIf="showAddQuestion">
-            <span>Несколько правильных ответов?</span><input type="checkbox" id="isMultiple"/>
-            <input type="text" id="content" placeholder="Текст вопроса">
-            <input type="text" id="answersCount" placeholder="Количество ответов">
+            <span>Несколько правильных ответов?</span><input class="ml-2" type="checkbox" id="isMultiple"/>
+            <input type="text" class="mx-3" style="width: 400px;" id="content" placeholder="Текст вопроса">
+            <label>Количество ответов:</label><input type="text" class="ml-2" style="width: 50px;" id="answersCount">
             <div class="form-group">
                 <input type="button" value="Далее" (click)="next()" class="btn btn-success"/>
             </div>
             <div *ngIf="showFillQuestion">
                 <p><b>{{newQuestion.content}}</b></p>
-                <div *ngFor="let s of answersCount; let i = index;">
-                    <span>Правильный?</span>
-                    <div *ngIf="newQuestion.isSingle; else isMultiple">
-                        <input type="radio" id="a_isCorrect_{{i}}" name="a_isCorrect"/>
+                <div class="col-12" *ngFor="let s of answersCount; let i = index;">
+                    <div class="row">
+                                <div class="col-2">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <p>Правильный?</p>
+                                        </div>
+                                        <div class="col-1">
+                                            <div *ngIf="newQuestion.isSingle; else isMultiple">
+                                                <input type="radio" id="a_isCorrect_{{i}}" name="a_isCorrect"/>
+                                            </div>
+                                            <ng-template #isMultiple>
+                                                <input type="checkbox" id="a_isCorrect_{{i}}" name="a_isCorrect"/>
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="row">
+                                        <div class="col-9">
+                                            <input type="text" style="width: 100%;" placeholder="Контент" id="a_content_{{i}}" name="a_content"/> 
+                                        </div>
+                                        <div class="col-2">
+                                            <input type="text" style="width:100%" placeholder="Бал" id="a_mark_{{i}}" name="a_mark"/>
+                                        </div> 
+                                    </div>
+                                </div>
                     </div>
-                    <ng-template #isMultiple>
-                        <input type="checkbox" id="a_isCorrect_{{i}}" name="a_isCorrect"/>
-                    </ng-template>
-                    <input type="text" placeholder="Контент" id="a_content_{{i}}" name="a_content"/> 
-                    <input type="text" placeholder="Бал" id="a_mark_{{i}}" name="a_mark"/>
                 </div>
                 <button class="btn btn-success" style="margin-bottom: 20px; margin-left: 10px;" type="submit" (click)="onSubmit()">Создать</button>
             </div>
@@ -84,7 +102,6 @@
                                                 <input type="radio" id="a_isCorrect_{{s.answerId}}" name="answer" value="{{s.isCorrect}}"/>
                                             </div>
                                         </div>
-                                        
                                         <ng-template #isMultiple>
 
                                             <div *ngIf="s.isCorrect">
@@ -99,7 +116,7 @@
                             </div>
                             <div class="col-9">
                                 Контент:<input type='text' id="a_content_{{s.answerId}}" style="width: 300px;" class="mx-2" value='{{s.content}}'>
-                                Бал:<input type='text' id="a_mark_{{s.answerId}}" value="{{s.mark}}" style="width: 50px;">
+                                Бал: <input type='text' id="a_mark_{{s.answerId}}" value="{{s.mark}}" style="width: 45px;">
                                 <button (click)="deleteAnswer(s.answerId)" class="btn btn-sm btn-danger mx-3">Удалить</button>
                             </div>
                         </div>

@@ -1,27 +1,27 @@
     <div class="container">
         <div class="row justify-content-center" *ngIf="!testCreated">
             <div class="col-12 col-md-8 col-lg-6 pb-5">
-                <h2>Информация по тесту</h2>
+                <h2 class="text-center">Информация по тесту</h2>
                 <test-form [(test)]="test"></test-form>
-                <div class="form-group">
+                <div class="form-group text-center">
                     <input type="button" value="Создать" (click)="create()" class="btn btn-success" [disabled]="!testService.testModel.valid"/>
                 </div>
             </div>
         </div> 
         <div *ngIf = "testCreated">
             <div *ngFor = "let i of questions">
-                <form [formGroup]="questionService.questionModel" autocomplete="off">
-                    <span>{{i+1}}. </span>
-                    <span>Несколько правильных ответов?</span><input type="checkbox" id="t_{{i+1}}"/>
-                    <input type="text" formControlName="Content" id="q_{{i+1}}" placeholder="Текст вопроса">
-                    <label class="text-danger" *ngIf="questionService.questionModel.get('Content').touched && questionService.questionModel.get('Content').errors?.required">
+                <form [formGroup]="questionModel" class="mx-3" autocomplete="off">
+                    <span>{{i+1}}.</span>
+                    <span>Несколько правильных ответов?</span><input class="ml-2" type="checkbox" id="t_{{i+1}}"/>
+                    <input type="text" class="mx-3" formControlName="Content" id="q_{{i+1}}" placeholder="Текст вопроса">
+                    <label class="text-danger" *ngIf="questionModel.get('Content').touched && questionModel.get('Content').errors?.required">
                         Это поле обязательно.
                     </label>
                     <input type="text" formControlName="AnswersCount" id="a_{{i+1}}" placeholder="Количество ответов">
-                    <label class="text-danger" *ngIf="questionService.questionModel.get('AnswersCount').touched && questionService.questionModel.get('AnswersCount').errors?.answerCountRange">
+                    <label class="text-danger" *ngIf="questionModel.get('AnswersCount').touched && questionModel.get('AnswersCount').errors?.answerCountRange">
                         Количество вопросов введено неверно.
                     </label>
-                    <label class="text-danger" *ngIf="questionService.questionModel.get('AnswersCount').touched && questionService.questionModel.get('AnswersCount').errors?.required">
+                    <label class="text-danger" *ngIf="questionModel.get('AnswersCount').touched && questionModel.get('AnswersCount').errors?.required">
                         Это поле обязательно.
                     </label>
                 </form>
@@ -29,7 +29,7 @@
             </div>
             <div *ngIf="hideQuestions">
                 <div class="form-group">
-                    <input type="button" value="Далее" (click)="next()" [disabled]="!questionService.questionModel.valid" class="btn btn-success"/>
+                    <input type="button" value="Далее" (click)="next()" [disabled]="!questionModel.valid" class="btn btn-success"/>
                 </div>
             </div>
         </div>
@@ -38,32 +38,40 @@
                 <form name="form_{{i}}">
                     <p><b>{{i+1}}. {{item.key.content}}</b></p>
                     <div *ngFor="let s of item.value; let j = index;">
-                        <form [formGroup]="answerService.answerModel" autocomplete="off">
-                            <span>Правильный?</span>
-                            <div *ngIf="item.key.isSingle; else isMultiple">
-                                <input type="radio" id="a_isCorrect_{{i}}:{{j}}" name="a_isCorrect"/>
+                        <form [formGroup]="answerModel" autocomplete="off">
+                            <div class="col-12">
+                                <div class="row">
+                                    <span>Правильный?</span>
+                                    <div class="mx-1">
+                                        <div *ngIf="item.key.isSingle; else isMultiple">
+                                            <input type="radio" id="a_isCorrect_{{i}}:{{j}}" name="a_isCorrect"/>
+                                        </div>
+                                        <ng-template #isMultiple>
+                                            <input type="checkbox" id="a_isCorrect_{{i}}:{{j}}" name="a_isCorrect"/>
+                                        </ng-template>
+                                    </div>
+                                    
+                                    <input type="text" class="mx-2" formControlName="Content" placeholder="Контент" id="a_content_{{i}}:{{j}}" name="a_content"/> 
+                                    <label class="text-danger" *ngIf="answerModel.get('Content').touched && answerModel.get('Content').errors?.required">
+                                        Это поле обязательно.
+                                    </label>
+                                    <input type="text" class="mx-2" formControlName="Mark" placeholder="Бал" id="a_mark_{{i}}:{{j}}" name="a_mark"/>
+                                    <label class="text-danger" *ngIf="answerModel.get('Mark').touched && answerModel.get('Mark').errors?.markRange">
+                                        Количество вопросов введено неверно.
+                                    </label>
+                                    <label class="text-danger" *ngIf="answerModel.get('Mark').touched && answerModel.get('Mark').errors?.required">
+                                        Это поле обязательно.
+                                    </label>        
+                                </div>
                             </div>
-                            <ng-template #isMultiple>
-                                <input type="checkbox" id="a_isCorrect_{{i}}:{{j}}" name="a_isCorrect"/>
-                            </ng-template>
-                            <input type="text" formControlName="Content" placeholder="Контент" id="a_content_{{i}}:{{j}}" name="a_content"/> 
-                            <label class="text-danger" *ngIf="answerService.answerModel.get('Content').touched && answerService.answerModel.get('Content').errors?.required">
-                                Это поле обязательно.
-                            </label>
-                            <input type="text" formControlName="Mark" placeholder="Бал" id="a_mark_{{i}}:{{j}}" name="a_mark"/>
-                            <label class="text-danger" *ngIf="answerService.answerModel.get('Mark').touched && answerService.answerModel.get('Mark').errors?.markRange">
-                                Количество вопросов введено неверно.
-                            </label>
-                            <label class="text-danger" *ngIf="answerService.answerModel.get('Mark').touched && answerService.answerModel.get('Mark').errors?.required">
-                                Это поле обязательно.
-                            </label>
+                            
                         </form>
                     </div>
                 </form>
                 <br />
             </div>
             <div *ngIf="!end">
-                <button class="btn btn-success" style="margin-bottom: 20px; margin-left: 10px;" type="submit" [disabled]="!answerService.answerModel.valid" (click)="onSubmit()">Создать</button>
+                <button class="btn btn-success" style="margin-bottom: 20px; margin-left: 10px;" type="submit" [disabled]="!answerModel.valid" (click)="onSubmit()">Создать</button>
             </div>
         </div>
     </div>

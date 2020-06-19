@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Test } from 'src/app/models/test';
 import { TestService } from 'src/app/services/test.service';
+import { FormBuilder, Validators, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'test-form',
@@ -14,7 +15,6 @@ export class TestFormComponent implements OnInit {
   constructor(public testService: TestService) { }
 
   ngOnInit(): void {
-    this.testService.testModel.reset();
   }
 
 }

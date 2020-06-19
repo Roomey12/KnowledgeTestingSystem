@@ -41,8 +41,6 @@ import { ConfirmEmailComponent } from './user/confirm-email/confirm-email.compon
 import { ForgotPasswordComponent } from './user/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './user/reset-password/reset-password.component';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -92,6 +90,9 @@ import { ResetPasswordComponent } from './user/reset-password/reset-password.com
     AnswerService,
     AuthService, 
     UserTestService,
+    UserFormComponent,
+    TestFormComponent,
+    UserTestFormMTComponent,
     ExitTestStartGuard, {
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,

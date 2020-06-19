@@ -9,6 +9,9 @@ import { QuestionService } from 'src/app/services/question.service';
 import { AnswerService } from 'src/app/services/answer.service';
 import { forkJoin, of, from } from 'rxjs';
 import { mergeMap, map, mergeAll, concatMap, tap, finalize } from 'rxjs/operators';
+import { TestFormComponent } from '../test-form/test-form.component';
+import { FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-test-create',
@@ -25,12 +28,22 @@ export class TestCreateComponent implements OnInit {
   end: boolean;
   sas: Map<object, number[]>;
 
-  constructor(public testService: TestService, public questionService: QuestionService,
-              public answerService: AnswerService, private router: Router) { }
+  constructor(private fb: FormBuilder, public testService: TestService, public questionService: QuestionService,
+              public answerService: AnswerService, private toastr: ToastrService, private router: Router) { }
 
   ngOnInit(): void {
     this.test = new Test;
   }
+
+  questionModel = this.fb.group({
+    Content: ['', Validators.required],
+    AnswersCount: ['', [this.answerCountRangeValidator, Validators.required]]
+  });
+
+  answerModel = this.fb.group({
+    Content: ['', Validators.required],
+    Mark: ['', [this.markRangeValidator, Validators.required]]
+  });
 
   create(){
     let testTime = new Date();
@@ -40,7 +53,7 @@ export class TestCreateComponent implements OnInit {
     testTime.setMilliseconds(0);
     this.test.maxTime = testTime;
     this.test.maxScore = Number(this.test.maxScore);
-    for(let i = 0; i< this.test.maxScore; i++){
+    for(let i = 0; i < this.test.maxScore; i++){
       this.questions.push(i);
     }
     this.testCreated = true;
@@ -124,9 +137,24 @@ export class TestCreateComponent implements OnInit {
         );
     }),
     finalize(() => {
-      // call done function here.
+      this.router.navigateByUrl("/admin-panel");
+      this.toastr.success("Тест был создан.", "Успешно.");
       this.end = true;
     }),
     ).subscribe();
+  }
+
+  answerCountRangeValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    if (control.value !== undefined && (isNaN(control.value) || control.value < 0 || control.value > 50)) {
+        return { 'answerCountRange': true };
+    }
+    return null;
+  }
+
+  markRangeValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    if (control.value !== undefined && (isNaN(control.value) || control.value < -100 || control.value > 100)) {
+        return { 'markRange': true };
+    }
+    return null;
   }
 }
