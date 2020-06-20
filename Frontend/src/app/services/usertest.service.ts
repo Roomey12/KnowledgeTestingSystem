@@ -1,14 +1,29 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TestResult } from '../models/testResult';
-import { FormBuilder, AbstractControl, Validators } from '@angular/forms';
+import { environment } from '../../environments/environment';
+import { FormBuilder, Validators, AbstractControl } from '@angular/forms';
 
 @Injectable()
-export class UserTestService {//experimental decorations
+export class UserTestService {
 
-    private userTestUrl = "http://localhost:58733/api/usertest/";
+    private userTestUrl = environment.apiUrl + 'usertest/';
 
-    constructor(private http: HttpClient) {
+    constructor(private fb: FormBuilder, private http: HttpClient) {
+    }
+
+    userTestModel = this.fb.group({
+        Username: ['', Validators.required],
+        TestTitle: ['', Validators.required],
+        Mark: ['', [this.markRangeValidator, Validators.required]],
+        Time: ['', [Validators.pattern('[0-5][0-9][:][0-5][0-9]'), Validators.required]]
+    });
+
+    markRangeValidator(control: AbstractControl): { [key: string]: boolean } | null {
+        if (control.value !== undefined && (isNaN(control.value) || control.value < 0 || control.value > 100)) {
+            return { 'markRange': true };
+        }
+        return null;
     }
 
     getAllUserTests(){
@@ -33,6 +48,10 @@ export class UserTestService {//experimental decorations
 
     putUserTest(testResult: TestResult){
         return this.http.put(this.userTestUrl, testResult);
+    }
+
+    postTestResultByAdmin(testResult: TestResult){
+        return this.http.post(this.userTestUrl + "admin", testResult);
     }
     
     deleteUserTest(id: string){

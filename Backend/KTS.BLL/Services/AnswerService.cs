@@ -137,6 +137,15 @@ namespace KTS.BLL.Services
             {
                 throw new ValidationException("Question was not found", "Id");
             }
+            var test = Database.Tests.Get(question.TestId.ToString());
+            if (answer.Mark > 0)
+            {
+                test.MaxScore -= answer.Mark;
+            }
+            if (answerDTO.Mark > 0)
+            {
+                test.MaxScore += answerDTO.Mark;
+            }
             answer.QuestionId = answerDTO.QuestionId;
             answer.Content = answerDTO.Content;
             answer.IsCorrect = answerDTO.IsCorrect;

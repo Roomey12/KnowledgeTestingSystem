@@ -17,7 +17,7 @@ export class UserTestEditComponent implements OnInit {
   userTest;
   userTestTime;
   userTestMark;
-  constructor(public userTestService: UserTestService, public userTestFormMT: UserTestFormMTComponent, activeRoute: ActivatedRoute, private toastr: ToastrService) {
+  constructor(public userTestService: UserTestService, activeRoute: ActivatedRoute, private toastr: ToastrService) {
     this.id = activeRoute.snapshot.params["id"];
   }
 
@@ -51,6 +51,7 @@ export class UserTestEditComponent implements OnInit {
       testResult.UserId = this.userTest.userId;
       testResult.TestId = this.userTest.testId;
       this.userTestService.putUserTest(testResult).subscribe(data => {
+        this.userTestService.userTestModel.reset();
         this.toastr.success("Данные о результате теста были изменены.","Успешно.");
         this.loadUserTest();
       });

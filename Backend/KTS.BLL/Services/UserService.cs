@@ -141,6 +141,48 @@ namespace KTS.BLL.Services
             Database.Save();
         }
 
+        /// <summary>
+        /// This method is used for making user an admin.
+        /// </summary>
+        /// <param name="userDTO">UserDTO object</param>
+        /// <returns>Result of changing user role.</returns>
+        public async Task<IdentityResult> MakeUserAdmin(UserDTO userDTO)
+        {
+            if(userDTO == null)
+            {
+                throw new ValidationException("User can not be null");
+            }
+            var user = Database.Users.Get(userDTO.Id);
+            if(user == null)
+            {
+                throw new NotFoundException("User was not found", "Id");
+            }
+            userDTO.Role = "admin";;
+            await Database.UserManager.RemoveFromRoleAsync(user, "customer");
+            return await Database.UserManager.AddToRoleAsync(user, userDTO.Role);
+        }
+
+        /// <summary>
+        /// This method is used for making user a customer.
+        /// </summary>
+        /// <param name="userDTO">UserDTO object</param>
+        /// <returns>Result of changing user role.</returns>
+        public async Task<IdentityResult> MakeUserCustomer(UserDTO userDTO)
+        {
+            if (userDTO == null)
+            {
+                throw new ValidationException("User can not be null");
+            }
+            var user = Database.Users.Get(userDTO.Id);
+            if (user == null)
+            {
+                throw new NotFoundException("User was not found", "Id");
+            }
+            userDTO.Role = "customer";
+            await Database.UserManager.RemoveFromRoleAsync(user, "admin");
+            return await Database.UserManager.AddToRoleAsync(user, userDTO.Role);
+        }
+
         public void Dispose()
         {
             Database.Dispose();

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { map, catchError } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class AuthService {
       headers: new HttpHeaders().append('Content-Type', 'application/json')
     };
   }
-  readonly authUrl = 'http://localhost:58733/api/auth/';
+  readonly authUrl = environment.apiUrl + 'auth/';
 
   formModel = this.fb.group({
     UserName: ['', Validators.required],

@@ -94,15 +94,6 @@ namespace KTS.WEBAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //app.Use(async (ctx, next) =>
-            //{
-            //    await next();
-            //    if (ctx.Response.StatusCode == 204)
-            //    {
-            //        ctx.Response.ContentLength = 0;
-            //    }
-            //});
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

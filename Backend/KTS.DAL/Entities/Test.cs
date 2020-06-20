@@ -15,11 +15,10 @@ namespace KTS.DAL.Entities
         public DateTime MaxTime { get; set; }
 
         public static List<Test> ExistingTests = new List<Test>();
-        public Test(int testId, string title, float maxScore, string desc, DateTime maxTime)
+        public Test(int testId, string title, string desc, DateTime maxTime)
         {
             TestId = testId;
             Title = title;
-            MaxScore = maxScore;
             Description = desc;
             MaxTime = maxTime;
             ExistingTests.Add(this);

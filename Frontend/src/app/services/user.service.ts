@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { environment } from '../../environments/environment';
 
 @Injectable()
-export class UserService {//experimental decorations
+export class UserService {
 
-    private userUrl = "http://localhost:58733/api/user/";
+    private userUrl = environment.apiUrl + 'user/';
 
     constructor(private fb: FormBuilder, private http: HttpClient) { }
     
@@ -30,7 +31,7 @@ export class UserService {//experimental decorations
           else
             confirmPswrdCtrl.setErrors(null);
         }
-      }
+    }
       
     getUsers() {
         return this.http.get(this.userUrl);
@@ -52,6 +53,14 @@ export class UserService {//experimental decorations
         return this.http.get(this.userUrl + 'profile');
     }
 
+    makeUserAdmin(user: User){
+        return this.http.put(this.userUrl + 'makeAdmin', user);
+    }
+
+    makeUserCustomer(user: User){
+        return this.http.put(this.userUrl + 'makeCustomer', user);
+    }
+    
     changePassword(userId: string){
         var body = {
             UserId: userId,

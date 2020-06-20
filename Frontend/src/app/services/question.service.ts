@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Question } from '../models/question';
-import { FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class QuestionService {//experimental decorations
 
-    private questionUrl = "http://localhost:58733/api/question/"
+    private questionUrl = environment.apiUrl + 'question/';
 
     constructor(private http: HttpClient) {
     }

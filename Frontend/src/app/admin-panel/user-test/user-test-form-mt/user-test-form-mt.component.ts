@@ -13,21 +13,8 @@ export class UserTestFormMTComponent implements OnInit {
 
   @Input() userTest: TestResult;
 
-  constructor(private fb: FormBuilder, public userTestService: UserTestService) { }
-
-  userTestModel = this.fb.group({
-    Mark: ['', [this.markRangeValidator]],
-    Time: ['', Validators.pattern('[0-5][0-9][:][0-5][0-9]')]
-  });
+  constructor(public userTestService: UserTestService) { }
 
   ngOnInit(): void {
-    this.userTestModel.reset();
-  }
-  
-  markRangeValidator(control: AbstractControl): { [key: string]: boolean } | null {
-    if (control.value !== undefined && (isNaN(control.value) || control.value < 0 || control.value > 100)) {
-        return { 'markRange': true };
-    }
-    return null;
   }
 }

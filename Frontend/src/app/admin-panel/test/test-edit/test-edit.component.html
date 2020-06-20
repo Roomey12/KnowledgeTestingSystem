@@ -3,9 +3,28 @@
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 col-lg-6 pb-5">
                 <h2 class="text-center">Изменение данных о тесте</h2>
-                <test-form [(test)]="test"></test-form>
+                <form [formGroup]="testService.testModel" autocomplete="off">
+                    <div class="form-group">
+                        <div class="input-group mb-2">
+                            <input type="text" formControlName="Title" class="form-control" id="title" placeholder="Название"><br>
+                        </div> 
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group mb-2">
+                            <input type="text" formControlName="Description" class="form-control" id="description" placeholder="Описание"><br>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group mb-2">
+                            <input type="text" formControlName="Time" class="form-control" id="maxTime" placeholder="Время"><br>
+                        </div>
+                        <p class="text-danger" *ngIf="testService.testModel.get('Time').touched && testService.testModel.get('Time').errors?.pattern">
+                            Время введено неверно.
+                        </p>
+                    </div>
+                </form>
                 <div class="form-group text-center">
-                    <input type="button" value="Сохранить" (click)="saveTest()" class="btn btn-success"/>
+                    <input type="button" value="Сохранить" (click)="saveTest()" class="btn btn-success" [disabled]="testService.testModel.get('Time').errors?.pattern"/>
                 </div>
             </div>
         </div>

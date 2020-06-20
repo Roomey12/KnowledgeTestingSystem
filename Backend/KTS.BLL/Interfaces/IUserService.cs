@@ -17,5 +17,7 @@ namespace KTS.BLL.Interfaces
         void UpdateUser(UserDTO userDTO);
         Task<IdentityResult> ChangePassword(ChangePasswordDTO modelDTO);
         Task ChangeUsername(ChangeUsernameDTO modelDTO);
+        Task<IdentityResult> MakeUserAdmin(UserDTO userDTO);
+        Task<IdentityResult> MakeUserCustomer(UserDTO userDTO);
     }
 }

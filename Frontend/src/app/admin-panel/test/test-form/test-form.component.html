@@ -1,8 +1,8 @@
 <form [formGroup]="testService.testModel" autocomplete="off">
     <div class="form-group">
         <div class="input-group mb-2">
-            <div class="input-group-prepend">
-            </div>
+            <!-- <div class="input-group-prepend">
+            </div> -->
             <input type="text" formControlName="Title" class="form-control" [(ngModel)]="test.title" placeholder="Название"><br>
         </div> 
         <p class="text-danger" *ngIf="testService.testModel.get('Title').touched && testService.testModel.get('Title').errors?.required">
@@ -11,8 +11,8 @@
     </div>
     <div class="form-group">
         <div class="input-group mb-2">
-            <div class="input-group-prepend">
-            </div>
+            <!-- <div class="input-group-prepend">
+            </div> -->
             <input type="text" formControlName="Description" class="form-control" [(ngModel)]="test.description" placeholder="Описание"><br>
         </div>
         <p class="text-danger" *ngIf="testService.testModel.get('Description').touched && testService.testModel.get('Description').errors?.required">
@@ -21,8 +21,8 @@
     </div>
     <div class="form-group">
         <div class="input-group mb-2">
-            <div class="input-group-prepend">
-            </div>
+            <!-- <div class="input-group-prepend">
+            </div> -->
             <input type="text" formControlName="QuestionsCount" class="form-control" [(ngModel)]="test.maxScore" placeholder="Количество вопросов"><br>
         </div>
         <p class="text-danger" *ngIf="testService.testModel.get('QuestionsCount').touched && testService.testModel.get('QuestionsCount').errors?.questionCountRange">
@@ -34,8 +34,8 @@
     </div>
     <div class="form-group">
         <div class="input-group mb-2">
-            <div class="input-group-prepend">
-            </div>
+            <!-- <div class="input-group-prepend">
+            </div> -->
             <input type="text" formControlName="Time" class="form-control" [(ngModel)]="test.maxTime" placeholder="Время"><br>
         </div>
         <p class="text-danger" *ngIf="testService.testModel.get('Time').touched && testService.testModel.get('Time').errors?.pattern">

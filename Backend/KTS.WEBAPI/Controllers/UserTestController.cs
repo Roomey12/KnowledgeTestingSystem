@@ -47,7 +47,31 @@ namespace KTS.WEBAPI.Controllers
             {
                 return StatusCode(500);
             }
-            return Ok(userTest);
+            return Ok(new { Message = "Result of test was successfully created!" });
+        }
+
+        // POST: api/userTest/admin
+        [HttpPost("admin")]
+        [Authorize(Roles = "admin")]
+        public IActionResult PostUserTestByAdmin(UserTestModel userTest)
+        {
+            try
+            {
+                _userTestService.CreateUserTestByAdmin(mapper.Map<UserTestModel, UserTestDTO>(userTest));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok(new { Message = "Result of test was successfully created!" });
         }
 
         // GET: api/userTest

@@ -4,8 +4,8 @@
             <h2>Создание результата теста</h2>
             <user-test-form-ut [(userTest)]="userTest"></user-test-form-ut>
             <user-test-form-mt [(userTest)]="userTest"></user-test-form-mt>
-            <div class="form-group">
-                <input type="button" value="Создать" (click)="create()" class="btn btn-success" />
+            <div class="form-group text-center">
+                <input type="button" value="Создать" (click)="create()" class="btn btn-success" [disabled]="!userTestService.userTestModel.valid"/>
             </div>
         </div>
     </div>

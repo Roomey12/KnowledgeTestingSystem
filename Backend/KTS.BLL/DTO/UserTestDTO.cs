@@ -13,5 +13,7 @@ namespace KTS.BLL.DTO
         public TestDTO Test { get; set; }
         public float Mark { get; set; }
         public DateTime Time { get; set; }
+        public string Username { get; set; }
+        public string TestTitle { get; set; }
     }
 }

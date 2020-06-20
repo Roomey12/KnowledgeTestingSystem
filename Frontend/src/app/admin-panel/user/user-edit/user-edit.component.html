@@ -9,7 +9,12 @@
                 </div>
             </div>
         </div>
-        <h1>Пройденные тесты</h1>
+        <div class="text-center">
+            <input type="button" value="Назначить администратором" (click)="makeUserAdmin()" class="btn btn-info"/>
+            <input type="button" value="Назначить клиентом" (click)="makeUserCustomer()" class="btn btn-info"/>
+        </div>
+        <br><br>
+        <h1 class="text-center">Пройденные тесты</h1>
         <table class="table mtable">
             <thead>
                 <tr>

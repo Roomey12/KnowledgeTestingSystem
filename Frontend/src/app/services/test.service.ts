@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Test } from '../models/test';
 import { FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class TestService {
 
-    private testUrl = "http://localhost:58733/api/test";
+    private testUrl = environment.apiUrl + 'test/';
 
     constructor(private fb: FormBuilder, private http: HttpClient) {
     }
@@ -30,15 +31,15 @@ export class TestService {
     }
 
     getTestById(id: number) {
-        return this.http.get(this.testUrl + `/${id}`);
+        return this.http.get(this.testUrl + id);
     }
     
     getTestStart(id: number) {
-        return this.http.get(this.testUrl + `/${id}/start`);
+        return this.http.get(this.testUrl + `${id}/start`);
     }
 
     deleteTest(id: string){
-        return this.http.delete(this.testUrl + `/${id}`);
+        return this.http.delete(this.testUrl + id);
     }
 
     putTest(test: Test){

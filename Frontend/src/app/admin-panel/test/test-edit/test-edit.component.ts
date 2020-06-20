@@ -9,6 +9,7 @@ import { concatMap, tap, finalize } from 'rxjs/operators';
 import { AnswerService } from 'src/app/services/answer.service';
 import { from } from 'rxjs';
 import { convertActionBinding } from '@angular/compiler/src/compiler_util/expression_converter';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-test-edit',
@@ -32,21 +33,24 @@ export class TestEditComponent implements OnInit {
               private router: Router, 
               private questionService: QuestionService,
               private answerService: AnswerService,
+              private toastr: ToastrService,
               activeRoute: ActivatedRoute) {
       this.testId = activeRoute.snapshot.params["id"];
   }
 
   ngOnInit(){
     if(this.testId){
-      this.loadTest();
+      this.loadTest(true);
     }
   }
 
-  loadTest(){
+  loadTest(withQA: boolean){
     this.testService.getTestById(this.testId)
       .subscribe((data: Test) =>{
           this.test = data;
-          this.loadTestInfoGet();
+          if(withQA == true){
+            this.loadTestInfoGet();
+          }
       })
   }
 
@@ -140,9 +144,26 @@ export class TestEditComponent implements OnInit {
   }
 
   saveTest() {
-    this.test.maxScore = Number(this.test.maxScore);
-    this.test.maxTime = new Date(this.test.maxTime);
-    this.testService.putTest(this.test).subscribe(data => this.router.navigateByUrl("/admin-panel"));
+    console.log(this.test.maxTime);
+    let title = document.getElementById('title') as HTMLInputElement;
+    let description = document.getElementById('description') as HTMLInputElement;
+    let maxTime = document.getElementById('maxTime') as HTMLInputElement;
+    let testTime = new Date();
+    if(maxTime.value != ""){
+      let Time = maxTime.value.split(":");
+      testTime.setMinutes(Number(Time[0]));
+      testTime.setSeconds(Number(Time[1]));
+      testTime.setMilliseconds(0); 
+      this.test.maxTime = testTime;
+    }
+    this.test.title = title.value == "" ? this.test.title : title.value;
+    this.test.description = description.value == "" ? this.test.description : description.value;
+    console.log(this.test.maxTime);
+    this.testService.putTest(this.test).subscribe(data => {
+        this.toastr.success("Тест был изменен.", "Успешно.");
+        this.testService.testModel.reset();
+        this.loadTest(false);
+    });
   }
 
   editQuestion(questionId){
@@ -167,9 +188,10 @@ export class TestEditComponent implements OnInit {
           answer.IsCorrect = isCorrect.checked;
           answer.Mark = Number(mark.value);
           this.answerService.editAnswer(answer).subscribe(data => { 
-            console.log("finish");
+            this.loadTest(false);
           });
         })
+        this.toastr.success("Данные по вопросу были изменены.","Успешно.");
       });
     });
   }

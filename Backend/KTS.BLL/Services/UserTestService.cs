@@ -46,6 +46,41 @@ namespace KTS.BLL.Services
         }
 
         /// <summary>
+        /// This method creates result of passing test.
+        /// </summary>
+        /// <param name="userTest">Result of passing test which should be created</param>
+        public void CreateUserTestByAdmin(UserTestDTO userTest)
+        {
+            if (userTest == null)
+            {
+                throw new ValidationException("UserTest can not be null");
+            }
+            var user = Database.Users.Find(x => x.UserName == userTest.Username).FirstOrDefault();
+            if(user == null)
+            {
+                throw new NotFoundException("User was not found", "Username");
+            }
+            var test = Database.Tests.Find(x => x.Title == userTest.TestTitle).FirstOrDefault();
+            if (test == null)
+            {
+                throw new NotFoundException("Test was not found", "Username");
+            }
+            var date = new DateTime();
+            DateTime userTestTime = new DateTime
+                (date.Year, date.Month, date.Day, date.Hour, userTest.Time.Minute, userTest.Time.Second);
+            DateTime testTime = new DateTime
+                (date.Year, date.Month, date.Day, date.Hour, test.MaxTime.Minute, test.MaxTime.Second);
+            if(userTestTime > testTime)
+            {
+                throw new ValidationException("Test result`s time can not be higher than test`s maximum time");
+            }
+            userTest.TestId = test.TestId;
+            userTest.UserId = user.Id;
+            Database.UserTests.Create(mapper.Map<UserTestDTO, UserTest>(userTest));
+            Database.Save();
+        }
+
+        /// <summary>
         /// This method returns all results of passing tests.
         /// </summary>
         /// <returns>Results of passing tests which were found</returns>

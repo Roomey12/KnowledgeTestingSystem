@@ -179,5 +179,55 @@ namespace KTS.WEBAPI.Controllers
             }
             return Ok(new { Message = "Username was successfully changed" });
         }
+
+        // PUT: api/user/makeAdmin
+        [HttpPut("makeAdmin")]
+        //[Authorize]
+        public async Task<IActionResult> MakeUserAdmin(UserModel model)
+        {
+            IdentityResult result;
+            try
+            {
+                result = await _userService.MakeUserAdmin(mapper.Map<UserModel, UserDTO>(model));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok(result);
+        }
+
+        // PUT: api/user/makeCustomer
+        [HttpPut("makeCustomer")]
+        //[Authorize]
+        public async Task<IActionResult> MakeUserCustomer(UserModel model)
+        {
+            IdentityResult result;
+            try
+            {
+                result = await _userService.MakeUserCustomer(mapper.Map<UserModel, UserDTO>(model));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok(result);
+        }
     }
 }

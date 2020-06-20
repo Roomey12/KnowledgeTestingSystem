@@ -127,6 +127,7 @@ namespace KTS.BLL.Services
                 throw new NotFoundException("Test was not found", "Id");
             }
             test.Title = testDTO.Title;
+            test.Description = testDTO.Description;
             test.MaxTime = testDTO.MaxTime;
             test.MaxScore = testDTO.MaxScore;
             Database.Tests.Update(test);

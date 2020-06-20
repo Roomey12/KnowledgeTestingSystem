@@ -64,4 +64,52 @@ export class UserEditComponent implements OnInit {
       this.toastr.success("Результат прохождения теста был удален.", "Успешно.")
     }
   } 
+
+  makeUserAdmin(){
+    this.userService.makeUserAdmin(this.user)
+      .subscribe((res: any) => {
+        if (res.succeeded) {
+          this.toastr.success('Пользователь назначен администратором.', 'Успешно.');
+        } 
+        else {
+          res.errors.forEach(element => {
+            switch (element.code) {
+              case 'UserAlreadyInRole':
+                this.toastr.error('Пользователь уже был назначен администратором.','Безуспешно.');
+                break;
+              default:
+                this.toastr.error(element.description,'Безуспешно.');
+                break;
+            }
+          });
+        }
+      },
+      err => {
+        this.toastr.error('Что-то пошло не так.', 'Безуспешно.');
+      }
+  )}
+
+  makeUserCustomer(){
+    this.userService.makeUserCustomer(this.user)
+      .subscribe((res: any) => {
+        if (res.succeeded) {
+          this.toastr.success('Пользователь назначен клиентом.', 'Успешно.');
+        } 
+        else {
+          res.errors.forEach(element => {
+            switch (element.code) {
+              case 'UserAlreadyInRole':
+                this.toastr.error('Пользователь уже был назначен клиентом.','Безуспешно.');
+                break;
+              default:
+                this.toastr.error(element.description,'Безуспешно.');
+                break;
+            }
+          });
+        }
+      },
+      err => {
+        this.toastr.error('Что-то пошло не так.', 'Безуспешно.');
+      }
+  )}
 }
