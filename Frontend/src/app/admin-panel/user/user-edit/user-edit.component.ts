@@ -19,7 +19,7 @@ export class UserEditComponent implements OnInit {
   loaded: boolean = false;
   userTests;
 
-  constructor(private userService: UserService, public userForm: UserFormComponent,
+  constructor(public userService: UserService,
               private userTestService: UserTestService, private router: Router, 
               private toastr: ToastrService, activeRoute: ActivatedRoute) { 
       this.id = activeRoute.snapshot.params["id"];
@@ -42,6 +42,8 @@ export class UserEditComponent implements OnInit {
     if(this.user.Email != null || this.user.UserName != null){
       this.userService.putUser(this.user)
         .subscribe(data => { 
+          this.userService.emailModel.reset();
+          (document.getElementById('Username') as HTMLInputElement).value = "";
           this.toastr.success("Данные о пользователе были изменены.", "Успешно.")
         });
     }

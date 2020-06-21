@@ -21,20 +21,21 @@ using System.Security.Claims;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using IEmailService = KTS.BLL.Interfaces.IEmailService;
 
 namespace KTS.BLL.Services
 {
     public class AuthService : IAuthService
     {
         private readonly ApplicationSettings _appSettings;
-        private readonly EmailSettings _emailSettings;
+        private readonly IEmailService _emailService;
         IUnitOfWork Database { get; set; }
 
-        public AuthService(IUnitOfWork uow, IOptions<ApplicationSettings> appSettings, IOptions<EmailSettings> emailSettings)
+        public AuthService(IUnitOfWork uow, IOptions<ApplicationSettings> appSettings, IEmailService emailService)
         {
             Database = uow;
             _appSettings = appSettings.Value;
-            _emailSettings = emailSettings.Value;
+            _emailService = emailService;
         }
 
         /// <summary>
@@ -58,7 +59,7 @@ namespace KTS.BLL.Services
                 byte[] tokenGeneratedBytes = Encoding.UTF8.GetBytes(token);
                 var tokenEncoded = WebEncoders.Base64UrlEncode(tokenGeneratedBytes);
                 var url = $@"http://localhost:4200/user/confirm-email/?userId={user.Id}&token={tokenEncoded}";
-                await SendEmailAsync(modelDTO.Email, "Подтвердите Ваш аккаунт",
+                await _emailService.SendEmailAsync(modelDTO.Email, "Подтвердите Ваш аккаунт",
                                 $"Подтвердите регистрацию, перейдя по ссылке: <a href='{url}'>клик</a>.");
             }
             return result;
@@ -104,32 +105,6 @@ namespace KTS.BLL.Services
         }
 
         /// <summary>
-        /// This method is used to send email.
-        /// </summary>
-        /// <param name="email">Email to which letter will be sent</param>
-        /// <param name="subject">Subject of letter</param>
-        /// <param name="message">Message of letter</param>
-        public async Task SendEmailAsync(string email, string subject, string message)
-        {
-            var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress("Knowledge Testing System", _emailSettings.UsernameEmail));
-            emailMessage.To.Add(new MailboxAddress("", email));
-            emailMessage.Subject = subject;
-            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
-            {
-                Text = message
-            };
-
-            using (var client = new SmtpClient())
-            {
-                await client.ConnectAsync(_emailSettings.PrimaryDomain, _emailSettings.PrimaryPort, false);
-                await client.AuthenticateAsync(_emailSettings.UsernameEmail, _emailSettings.UsernamePassword);
-                await client.SendAsync(emailMessage);
-                await client.DisconnectAsync(true);
-            }
-        }
-
-        /// <summary>
         /// This method is used to confirm email.
         /// </summary>
         /// <param name="userId">Id of user whose email email is confirming</param>
@@ -171,7 +146,7 @@ namespace KTS.BLL.Services
             byte[] tokenGeneratedBytes = Encoding.UTF8.GetBytes(token);
             var tokenEncoded = WebEncoders.Base64UrlEncode(tokenGeneratedBytes);
             var url = $@"http://localhost:4200/user/reset-password/?userId={user.Id}&token={tokenEncoded}";
-            await SendEmailAsync(email, "Восстановление пароля",
+            await _emailService.SendEmailAsync(email, "Восстановление пароля",
                $"Для сброса по ссылке, перейдите по ссылке: <a href='{url}'>клик</a>.");
         }
 

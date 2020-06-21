@@ -11,7 +11,7 @@ export class RegistrationComponent implements OnInit {
 
   constructor(public authService: AuthService, private toastr: ToastrService) { }
   pas1: string = "password";
-  pas2: string = "confirmPassword"
+  pas2: string = "confirmPassword";
 
   ngOnInit() {
     this.authService.formModel.reset(); 

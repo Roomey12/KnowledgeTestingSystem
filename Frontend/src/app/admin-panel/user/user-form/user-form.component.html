@@ -3,17 +3,17 @@
         <div class="input-group-prepend">
             <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
         </div>
-        <input type="text" class="form-control" [(ngModel)]="user.UserName" placeholder="Alex">
+        <input type="text" class="form-control" id="Username" [(ngModel)]="user.UserName" placeholder="Alex">
     </div>
 </div>
-<form [formGroup]="emailModel" autocomplete="off">
+<form [formGroup]="userService.emailModel" autocomplete="off">
     <div class="form-group">
         <div class="input-group mb-2">
             <div class="input-group-prepend">
                 <div class="input-group-text"><i class="fa fa-envelope text-info"></i></div>
             </div>
             <input type="email" formControlName="UserEmail" class="form-control" [(ngModel)]="user.Email" placeholder="Email@gmail.com">
-            <label class="text-danger" *ngIf="emailModel.get('UserEmail').touched && emailModel.get('UserEmail').errors?.email">
+            <label class="text-danger" *ngIf="userService.emailModel.get('UserEmail').touched && userService.emailModel.get('UserEmail').errors?.email">
                 Почта введена неверно.
             </label>
         </div>

@@ -225,7 +225,6 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
           this.sum = 0;
         }
         this.fillTestResult();
-  
         if(this.timeLeft > 0){
           var result = confirm("Вы уверены что хотите завершить прохождение теста?");
           if(result){

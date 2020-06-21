@@ -64,6 +64,7 @@ namespace KTS.WEBAPI
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserTestService, UserTestService>();
             services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<IEmailService, EmailService>();
 
             services.AddCors();
 

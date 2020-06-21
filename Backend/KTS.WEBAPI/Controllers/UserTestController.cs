@@ -32,7 +32,7 @@ namespace KTS.WEBAPI.Controllers
 
         // POST: api/userTest
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        [Authorize]
         public IActionResult PostUserTest(UserTestModel userTest)
         {
             try

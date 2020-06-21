@@ -141,15 +141,23 @@
                         </div>
                     </div>
                     <div *ngIf="questIdForNewAns == item.key.questionId">
-                        Новый ответ: 
-                        <div *ngIf="!item.key.isSingle">
-                            Правильный?: <input type="checkbox" id="a_isCorrect_new"/>
+                        <div class="col-12">
+                            <p>Новый ответ:</p>
+                            <div class="row">
+                                <div *ngIf="!item.key.isSingle">
+                                    <p class="ml-3 my-0">Правильный?:<input class="mx-1" type="checkbox" id="a_isCorrect_new"/></p>
+                                </div>
+                                <p class="ml-3 mr-2 py-0 my-0">Контент:</p>
+                                <input class="mr-3" style="width: 300px;" type='text' id="a_content_new" >
+                                <div *ngIf="!item.key.isSingle">
+                                    <p class="my-0">Бал:
+                                    <input type='text' style="width: 45px;" id="a_mark_new"></p>
+                                </div>
+                                <button (click)="saveNewAnswer()" class="btn btn-sm btn-primary mx-2">Создать</button>
+                            </div>
+
                         </div>
-                        Контент:<input type='text' id="a_content_new" >
-                        <div *ngIf="!item.key.isSingle">
-                            Бал:<input type='text' id="a_mark_new">
-                        </div>
-                        <button (click)="saveNewAnswer()" class="btn btn-sm btn-primary">Создать</button>
+                        
                     </div>
                 </form>
                 <br/><br/><br/>

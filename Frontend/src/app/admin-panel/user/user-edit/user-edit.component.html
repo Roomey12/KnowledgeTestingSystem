@@ -5,12 +5,12 @@
                 <h2>Изменение данных о пользователе</h2>
                 <user-form [(user)]="user"></user-form>
                 <div class="form-group text-center" >
-                    <input type="button" value="Сохранить" (click)="saveUser()" [disabled]="!userForm.emailModel.valid" class="btn btn-success" />
+                    <input type="button" value="Сохранить" (click)="saveUser()" [disabled]="!userService.emailModel.valid" class="btn btn-success" />
                 </div>
             </div>
         </div>
         <div class="text-center">
-            <input type="button" value="Назначить администратором" (click)="makeUserAdmin()" class="btn btn-info"/>
+            <input type="button" value="Назначить администратором" (click)="makeUserAdmin()" class="btn btn-info mx-3"/>
             <input type="button" value="Назначить клиентом" (click)="makeUserCustomer()" class="btn btn-info"/>
         </div>
         <br><br>

@@ -30,9 +30,12 @@ namespace KTS.DAL.EF
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            #region Create tests
             Test test1 = new Test(1, "ООП", "Простой тест по Объектно-Ориентированому Программированию", new DateTime(2020, 03, 20, 0, 3, 0));
             Test test2 = new Test(2, "C# Легкий", "Простой тест по языку программирования C#", new DateTime(2020, 03, 20, 0, 2, 30));
+            #endregion
 
+            #region Create questions
             Question t1q1 = new Question(1, "Какими бывают отношения между классами (укажите все подходящие варианты)?", 1, false);
             Question t1q2 = new Question(2, "Метод определения объектов, при котором производные объекты наследуют свойства от своих потомков?", 1, true);
             Question t1q3 = new Question(3, "Совокупность объектов, характеризующаяся общностью методов и свойств?", 1, true);
@@ -42,7 +45,9 @@ namespace KTS.DAL.EF
             Question t2q1 = new Question(6, "Что делает модификатор sealed?", 2, true);
             Question t2q2 = new Question(7, "Какой способ вызова исключения является корректным?", 2, true);
             Question t2q3 = new Question(8, "Можно ли сделать перегрузку операторов true и false?", 2, true);
+            #endregion
 
+            #region Create answers
             Answer a1t1q1 = new Answer(1, "Агрегация", true, 0.33, 1);
             Answer a2t1q1 = new Answer(2, "Ассоциация", true, 0.33, 1);
             Answer a3t1q1 = new Answer(3, "Специализация", false, -0.5, 1);
@@ -77,6 +82,7 @@ namespace KTS.DAL.EF
 
             Answer a1t2q3 = new Answer(26, "Да", true, 1, 8);
             Answer a2t2q3 = new Answer(27, "Нет", false, 0, 8);
+            #endregion
 
             modelBuilder.ApplyConfiguration(new TestConfiguration());
             modelBuilder.ApplyConfiguration(new QuestionConfiguration());

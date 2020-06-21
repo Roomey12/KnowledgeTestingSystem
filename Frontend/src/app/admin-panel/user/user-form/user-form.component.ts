@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { UserEditComponent } from '../user-edit/user-edit.component';
 import { FormBuilder, Validators } from '@angular/forms';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'user-form',
@@ -12,13 +13,9 @@ export class UserFormComponent implements OnInit {
 
   @Input() user: User;
   
-  constructor(private fb: FormBuilder) { }
+  constructor(public userService: UserService, private fb: FormBuilder) { }
 
   ngOnInit(): void{
-    this.emailModel.reset(); 
+    this.userService.emailModel.reset(); 
   }
-  
-  emailModel = this.fb.group({
-    UserEmail: ['', [Validators.email]]
-  });
 }

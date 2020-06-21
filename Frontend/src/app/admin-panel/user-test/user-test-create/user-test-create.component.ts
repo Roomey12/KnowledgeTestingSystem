@@ -13,8 +13,8 @@ export class UserTestCreateComponent implements OnInit {
 
   userTest;
   
-  constructor(private toastr: ToastrService, private userTestService: UserTestService, private router: Router, activeRoute: ActivatedRoute) {
-
+  constructor(private toastr: ToastrService, public userTestService: UserTestService,
+              private router: Router, activeRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {

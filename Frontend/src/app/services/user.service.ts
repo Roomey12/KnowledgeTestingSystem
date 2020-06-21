@@ -23,6 +23,10 @@ export class UserService {
         NewUsername: ['', Validators.required]
     });
 
+    emailModel = this.fb.group({
+        UserEmail: ['', [Validators.email]]
+    });
+
     comparePasswords(fb: FormGroup) {
         let confirmPswrdCtrl = fb.get('ConfirmPassword');
         if (confirmPswrdCtrl.errors == null || 'passwordMismatch' in confirmPswrdCtrl.errors) {

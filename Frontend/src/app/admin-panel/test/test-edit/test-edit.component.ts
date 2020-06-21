@@ -29,7 +29,7 @@ export class TestEditComponent implements OnInit {
   newQuestion;
   answersCount;
 
-  constructor(private testService: TestService, 
+  constructor(public testService: TestService, 
               private router: Router, 
               private questionService: QuestionService,
               private answerService: AnswerService,
@@ -78,11 +78,17 @@ export class TestEditComponent implements OnInit {
   }
 
   deleteQuestion(questionId: number){
-    this.questionService.deleteQuestion(questionId).subscribe(data => { this.loadTestInfoGet()} );
+    this.questionService.deleteQuestion(questionId).subscribe(data => {
+       this.loadTestInfoGet();
+       this.toastr.success("Вопрос был удален.","Успешно.");
+      });
   }
 
   deleteAnswer(answerId: number){
-    this.answerService.deleteAnswer(answerId).subscribe(data => { this.loadTestInfoGet()} );
+    this.answerService.deleteAnswer(answerId).subscribe(data => { 
+      this.loadTestInfoGet();
+      this.toastr.success("Ответ был удален.","Успешно.");
+    });
   }
 
   addQuestion(){
@@ -140,6 +146,7 @@ export class TestEditComponent implements OnInit {
       this.showAddQuestion = false;
       this.showFillQuestion = false;
       this.loadTestInfoGet();
+      this.toastr.success("Вопрос был добавлен.","Успешно.");
      });
   }
 
