@@ -27,6 +27,7 @@ namespace KTS.WEBAPI.Controllers
         {
             cfg.CreateMap<ChangePasswordModel, ChangePasswordDTO>();
             cfg.CreateMap<ChangeUsernameModel, ChangeUsernameDTO>();
+            cfg.CreateMap<ChangeEmailModel, ChangeEmailDTO>();
             cfg.CreateMap<UserDTO, UserModel>();
             cfg.CreateMap<UserModel, UserDTO>();
             cfg.CreateMap<UserTestModel, UserTestDTO>();
@@ -218,6 +219,47 @@ namespace KTS.WEBAPI.Controllers
             catch (ValidationException ex)
             {
                 return BadRequest(ex.Message);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok(result);
+        }
+
+        [HttpPost("changeEmail")]
+        public async Task<IActionResult> ChangeEmail(ChangeEmailModel model)
+        {
+            try
+            {
+                await _userService.ChangeEmail(mapper.Map<ChangeEmailModel, ChangeEmailDTO>(model));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok(new { Message = "link was sent to new email" });
+        }
+
+        [HttpPost("confirmNewEmail")]
+        public async Task<IActionResult> ConfirmNewEmail(ChangeEmailModel model)
+        {
+            IdentityResult result;
+            try
+            {
+                result = await _userService.ConfirmNewEmail(mapper.Map<ChangeEmailModel, ChangeEmailDTO>(model));
             }
             catch (NotFoundException ex)
             {

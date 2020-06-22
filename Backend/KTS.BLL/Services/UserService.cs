@@ -5,8 +5,10 @@ using KTS.BLL.Interfaces;
 using KTS.DAL.Entities;
 using KTS.DAL.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace KTS.BLL.Services
@@ -14,6 +16,7 @@ namespace KTS.BLL.Services
     public class UserService : IUserService
     {
         IUnitOfWork Database { get; set; }
+        private readonly IEmailService _emailService;
 
         IMapper mapper = new MapperConfiguration(cfg =>
         {
@@ -21,9 +24,10 @@ namespace KTS.BLL.Services
             cfg.CreateMap<Task<User>, Task<UserDTO>>();
         }).CreateMapper();
 
-        public UserService(IUnitOfWork uow)
+        public UserService(IUnitOfWork uow, IEmailService emailService)
         {
             Database = uow;
+            _emailService = emailService;
         }
 
 
@@ -141,6 +145,53 @@ namespace KTS.BLL.Services
             Database.Save();
         }
 
+
+        public async Task ChangeEmail(ChangeEmailDTO modelDTO)
+        {
+            if (modelDTO == null)
+            {
+                throw new ValidationException("Model can not be null");
+            }
+            var user = await Database.UserManager.FindByEmailAsync(modelDTO.OldEmail);
+            if(user == null)
+            {
+                throw new NotFoundException("User was not found", "Email");
+            }
+            var checkUser = await Database.UserManager.FindByEmailAsync(modelDTO.NewEmail);
+            if(checkUser != null)
+            {
+                throw new ValidationException("User with this email already exists");
+            }
+            var token = await Database.UserManager.GenerateEmailConfirmationTokenAsync(user);
+            byte[] tokenGeneratedBytes = Encoding.UTF8.GetBytes(token);
+            var tokenEncoded = WebEncoders.Base64UrlEncode(tokenGeneratedBytes);
+            var url = $@"http://localhost:4200/user/confirm-email/?userId={user.Id}&token={tokenEncoded}&newEmail={modelDTO.NewEmail}";
+            await _emailService.SendEmailAsync(modelDTO.NewEmail, "Смена почты",
+                            $"Для изменения почты, перейдя по ссылке: <a href='{url}'>клик</a>.");
+        }
+
+        public async Task<IdentityResult> ConfirmNewEmail(ChangeEmailDTO modelDTO)
+        {
+            var tokenDecodedBytes = WebEncoders.Base64UrlDecode(modelDTO.Token);
+            var tokenDecoded = Encoding.UTF8.GetString(tokenDecodedBytes);
+            if (modelDTO.UserId == null || tokenDecoded == null)
+            {
+                throw new NotFoundException("UserId or token was empty", "Id");
+            }
+            var user = await Database.UserManager.FindByIdAsync(modelDTO.UserId);
+            if (user == null)
+            {
+                throw new NotFoundException("User was not found", "Id");
+            }
+            user.EmailConfirmed = false;
+            user.Email = modelDTO.NewEmail;
+            user.NormalizedEmail = modelDTO.NewEmail.ToUpper();
+            var result = await Database.UserManager.ConfirmEmailAsync(user, tokenDecoded);
+            Database.Users.Update(user);
+            Database.Save();
+            return result;
+        }
+
         /// <summary>
         /// This method is used for making user an admin.
         /// </summary>
@@ -157,8 +208,11 @@ namespace KTS.BLL.Services
             {
                 throw new NotFoundException("User was not found", "Id");
             }
+            if(await Database.UserManager.IsInRoleAsync(user, "customer"))
+            {
+                await Database.UserManager.RemoveFromRoleAsync(user, "customer");
+            }
             userDTO.Role = "admin";;
-            await Database.UserManager.RemoveFromRoleAsync(user, "customer");
             return await Database.UserManager.AddToRoleAsync(user, userDTO.Role);
         }
 
@@ -179,7 +233,10 @@ namespace KTS.BLL.Services
                 throw new NotFoundException("User was not found", "Id");
             }
             userDTO.Role = "customer";
-            await Database.UserManager.RemoveFromRoleAsync(user, "admin");
+            if (await Database.UserManager.IsInRoleAsync(user, "admin"))
+            {
+                await Database.UserManager.RemoveFromRoleAsync(user, "admin");
+            }
             return await Database.UserManager.AddToRoleAsync(user, userDTO.Role);
         }
 

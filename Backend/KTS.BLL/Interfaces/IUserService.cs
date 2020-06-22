@@ -19,5 +19,7 @@ namespace KTS.BLL.Interfaces
         Task ChangeUsername(ChangeUsernameDTO modelDTO);
         Task<IdentityResult> MakeUserAdmin(UserDTO userDTO);
         Task<IdentityResult> MakeUserCustomer(UserDTO userDTO);
+        Task ChangeEmail(ChangeEmailDTO modelDTO);
+        Task<IdentityResult> ConfirmNewEmail(ChangeEmailDTO modelDTO);
     }
 }

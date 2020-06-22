@@ -56,6 +56,10 @@ export class AccountComponent implements OnInit {
     this.userService.usernameModel.reset();
   }
 
+  showChangeEmail(){
+    this.userService.newEmailModel.reset();
+  }
+  
   changePassword(){
     this.userService.changePassword(this.userDetails["id"]).subscribe(
       (res: any) => {
@@ -85,6 +89,20 @@ export class AccountComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  changeEmail(){
+    this.userService.changeEmail(this.userDetails["email"]).subscribe(
+      data => {
+        this.userService.newEmailModel.reset();
+        this.toastr.success('Для продолжения, перейдите по ссылке, которая была отправлена на указаную почту.', 'Успешно.');
+      },
+      err => {
+        if(err.error == "User with this email already exists"){
+          this.toastr.error("Данная почта уже занята.","Безуспешно.")
+        }
+      }
+    )
   }
 
   changeUsername(){

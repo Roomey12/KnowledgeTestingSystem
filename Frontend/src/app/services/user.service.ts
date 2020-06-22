@@ -27,6 +27,10 @@ export class UserService {
         UserEmail: ['', [Validators.email]]
     });
 
+    newEmailModel = this.fb.group({
+        UserEmail: ['', [Validators.email, Validators.required]]
+    });
+
     comparePasswords(fb: FormGroup) {
         let confirmPswrdCtrl = fb.get('ConfirmPassword');
         if (confirmPswrdCtrl.errors == null || 'passwordMismatch' in confirmPswrdCtrl.errors) {
@@ -66,19 +70,31 @@ export class UserService {
     }
     
     changePassword(userId: string){
-        var body = {
+        let body = {
             UserId: userId,
             OldPassword: this.passwordModel.value.Passwords.OldPassword,
             NewPassword: this.passwordModel.value.Passwords.Password
-          };
+        };
         return this.http.put(this.userUrl + 'changePassword', body);
     }
 
-    changeUsername(oldUsername: String){
-        var body = {
+    changeUsername(oldUsername:string){
+        let body = {
             OldUsername: oldUsername,
             NewUsername: this.usernameModel.value.NewUsername
         };
         return this.http.put(this.userUrl + 'changeUsername', body);
+    }
+
+    changeEmail(oldEmail: string){
+        let body = {
+            OldEmail: oldEmail,
+            NewEmail: this.newEmailModel.value.UserEmail
+        };
+        return this.http.post(this.userUrl + 'changeEmail', body);
+    }
+
+    confirmNewEmail(body){
+        return this.http.post(this.userUrl + 'confirmNewEmail', body);
     }
 }
