@@ -18,35 +18,61 @@ namespace KTS.DAL.Repositories
             _context = context;
         }
 
+        /// <summary>
+        /// This method creates user.
+        /// </summary>
+        /// <param name="user">User which should be created</param>
         public void Create(User user)
         {
             _context.Users.Add(user);
         }
 
-        public void Delete(string id)
+        /// <summary>
+        /// This method deletes user.
+        /// </summary>
+        /// <param name="userId">Id of user which should be deleted</param>
+        public void Delete(string userId)
         {
-            User user = _context.Users.Find(id);
+            User user = _context.Users.Find(userId);
             if (user != null)
             {
                 _context.Users.Remove(user);
             }
         }
 
+        /// <summary>
+        /// This method finds user by some condition.
+        /// </summary>
+        /// <param name="predicate">Condition by which the search will be performed</param>
+        /// <returns>Users which were found</returns>
         public IEnumerable<User> Find(Func<User, bool> predicate)
         {
             return _context.Users.Where(predicate).ToList();
         }
 
-        public User Get(string id)
+        /// <summary>
+        /// This method finds user by its Id and returns it.
+        /// </summary>
+        /// <param name="userId">Id of user which should be returned</param>
+        /// <returns>User which was found</returns>
+        public User Get(string userId)
         {
-            return _context.Users.Find(id);
+            return _context.Users.Find(userId);
         }
 
+        /// <summary>
+        /// This method returns all users.
+        /// </summary>
+        /// <returns>User which were found</returns>
         public IEnumerable<User> GetAll()
         {
             return  _context.Users.ToList();
         }
 
+        /// <summary>
+        /// This method updates user's data.
+        /// </summary>
+        /// <param name="user">User which should be updated</param>
         public void Update(User user)
         {
             _context.Entry(user).State = EntityState.Modified;

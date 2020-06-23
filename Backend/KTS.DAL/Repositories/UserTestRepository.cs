@@ -17,37 +17,60 @@ namespace KTS.DAL.Repositories
             _context = context;
         }
 
+        /// <summary>
+        /// This method creates result of test.
+        /// </summary>
+        /// <param name="userTest">Result of test which should be created</param>
         public void Create(UserTest userTest)
         {
             _context.UserTests.Add(userTest);
         }
 
+        /// <summary>
+        /// This method deletes result of test.
+        /// </summary>
+        /// <param name="userTestId">Id of result of test which should be deleted</param>
         public void Delete(string userTestId)
         {
-            int id = Convert.ToInt32(userTestId);
-            UserTest userTest = _context.UserTests.Find(id);
+            UserTest userTest = _context.UserTests.Find(Convert.ToInt32(userTestId));
             if (userTest != null)
             {
                 _context.UserTests.Remove(userTest);
             }
         }
 
+        /// <summary>
+        /// This method finds results of tests by some condition.
+        /// </summary>
+        /// <param name="predicate">Condition by which the search will be performed</param>
+        /// <returns>Results of tests which were found</returns>
         public IEnumerable<UserTest> Find(Func<UserTest, bool> predicate)
         {
             return _context.UserTests.Include(p => p.Test).Include(u => u.User).Where(predicate).ToList();
         }
 
+        /// <summary>
+        /// This method finds result of test by its Id and returns it.
+        /// </summary>
+        /// <param name="userTestId">Id of result of test which should be returned</param>
+        /// <returns>Result of test which was found</returns>
         public UserTest Get(string userTestId)
         {
-            int id = Convert.ToInt32(userTestId);
-            return _context.UserTests.Find(id);
+            return _context.UserTests.Find(Convert.ToInt32(userTestId));
         }
 
+        /// <summary>
+        /// This method returns all results of tests.
+        /// </summary>
+        /// <returns>Results of tests which were found</returns>
         public IEnumerable<UserTest> GetAll()
         {
             return _context.UserTests.Include(p => p.Test).Include(u=>u.User).ToList();
         }
 
+        /// This method updates result of test data.
+        /// </summary>
+        /// <param name="user">Result of test which should be updated</param>
         public void Update(UserTest userTest)
         {
             _context.Entry(userTest).State = EntityState.Modified;

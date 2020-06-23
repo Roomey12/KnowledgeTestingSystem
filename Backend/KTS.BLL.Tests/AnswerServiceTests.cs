@@ -178,6 +178,7 @@ namespace KTS.BLL.Tests
             AnswerService ans = new AnswerService(uow.Object);
             uow.Setup(x => x.Answers.Get(It.IsAny<string>())).Returns(new Answer());
             uow.Setup(x => x.Questions.Get(It.IsAny<string>())).Returns(new Question());
+            uow.Setup(x => x.Tests.Get(It.IsAny<string>())).Returns(new Test());
 
             ans.UpdateAnswer(new AnswerDTO());
 
@@ -189,8 +190,9 @@ namespace KTS.BLL.Tests
         {
             var uow = new Mock<IUnitOfWork>();
             AnswerService ans = new AnswerService(uow.Object);
-            uow.Setup(x => x.Answers.Get(It.IsAny<string>())).Returns(new Answer());
-            uow.Setup(x => x.Questions.Get(It.IsAny<string>())).Returns(new Question());
+            uow.Setup(x => x.Answers.Get(It.IsAny<string>())).Returns((Answer)null);
+            uow.Setup(x => x.Questions.Get(It.IsAny<string>())).Returns((Question)null);
+            uow.Setup(x => x.Tests.Get(It.IsAny<string>())).Returns((Test)null);
 
             Assert.Throws<ValidationException>(() =>
             {
@@ -205,6 +207,7 @@ namespace KTS.BLL.Tests
             AnswerService ans = new AnswerService(uow.Object);
             uow.Setup(x => x.Answers.Get(It.IsAny<string>())).Returns((Answer)null);
             uow.Setup(x => x.Questions.Get(It.IsAny<string>())).Returns((Question)null);
+            uow.Setup(x => x.Tests.Get(It.IsAny<string>())).Returns((Test)null);
 
             Assert.Throws<NotFoundException>(() =>
             {

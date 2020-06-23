@@ -145,7 +145,10 @@ namespace KTS.BLL.Services
             Database.Save();
         }
 
-
+        /// <summary>
+        /// This method is used for changin user's email.
+        /// </summary>
+        /// <param name="modelDTO">ChangeEmailDTO object</param>
         public async Task ChangeEmail(ChangeEmailDTO modelDTO)
         {
             if (modelDTO == null)
@@ -170,6 +173,11 @@ namespace KTS.BLL.Services
                             $"Для изменения почты, перейдя по ссылке: <a href='{url}'>клик</a>.");
         }
 
+        /// <summary>
+        /// This method is used for confirming new email.
+        /// </summary>
+        /// <param name="modelDTO">ChangeEmailDTO object</param>
+        /// <returns>Result of confirming new email.</returns>
         public async Task<IdentityResult> ConfirmNewEmail(ChangeEmailDTO modelDTO)
         {
             var tokenDecodedBytes = WebEncoders.Base64UrlDecode(modelDTO.Token);
@@ -183,12 +191,16 @@ namespace KTS.BLL.Services
             {
                 throw new NotFoundException("User was not found", "Id");
             }
+            string oldEmail = user.Email;
             user.EmailConfirmed = false;
             user.Email = modelDTO.NewEmail;
             user.NormalizedEmail = modelDTO.NewEmail.ToUpper();
             var result = await Database.UserManager.ConfirmEmailAsync(user, tokenDecoded);
-            Database.Users.Update(user);
-            Database.Save();
+            if (result.Succeeded)
+            {
+                await _emailService.SendEmailAsync(oldEmail, "Смена почты",
+                            $"Информируем, что Ваша почта была изменена.");
+            }
             return result;
         }
 

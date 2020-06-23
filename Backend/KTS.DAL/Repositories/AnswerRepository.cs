@@ -17,37 +17,61 @@ namespace KTS.DAL.Repositories
             _context = context;
         }
 
+        /// <summary>
+        /// This method creates answer.
+        /// </summary>
+        /// <param name="answer">Answer which should be created</param>
         public void Create(Answer answer)
         {
             _context.Answers.Add(answer);
         }
 
+        /// <summary>
+        /// This method deletes answer.
+        /// </summary>
+        /// <param name="answerId">Id of answer which should be deleted</param>
         public void Delete(string answerId)
         {
-            int id = Convert.ToInt32(answerId);
-            Answer answer = _context.Answers.Find(id);
+            Answer answer = _context.Answers.Find(Convert.ToInt32(answerId));
             if (answer != null)
             {
                 _context.Answers.Remove(answer);
             }
         }
 
+        /// <summary>
+        /// This method finds answer by some condition.
+        /// </summary>
+        /// <param name="predicate">Condition by which the search will be performed</param>
+        /// <returns>Answers which were found</returns>
         public IEnumerable<Answer> Find(Func<Answer, bool> predicate)
         {
             return _context.Answers.Include(p => p.Question).Where(predicate).ToList();
         }
 
+        /// <summary>
+        /// This method finds answer by its Id and returns it.
+        /// </summary>
+        /// <param name="answerId">Id of answer which should be returned</param>
+        /// <returns>Answer which was found</returns>
         public Answer Get(string answerId)
         {
-            int id = Convert.ToInt32(answerId);
-            return _context.Answers.Find(id);
+            return _context.Answers.Find(Convert.ToInt32(answerId));
         }
 
+        /// <summary>
+        /// This method returns all answers.
+        /// </summary>
+        /// <returns>Answers which were found</returns>
         public IEnumerable<Answer> GetAll()
         {
             return _context.Answers.Include(p => p.Question).ToList();
         }
 
+        /// <summary>
+        /// This method updates answer's data.
+        /// </summary>
+        /// <param name="answer">Answer which should be updated</param>
         public void Update(Answer answer)
         {
             _context.Entry(answer).State = EntityState.Modified;

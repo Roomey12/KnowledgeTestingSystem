@@ -32,19 +32,19 @@ namespace KTS.BLL.Tests
         }
 
         [Fact]
-        public void AddUserTest_WithCorrectData_UserTestMustBeCreated()
+        public void CreateUserTest_WithCorrectData_UserTestMustBeCreated()
         {
             var uow = new Mock<IUnitOfWork>();
             UserTestService uts = new UserTestService(uow.Object);
             uow.Setup(x => x.UserTests.Create(new UserTest()));
 
-            uts.AddUserTest(new UserTestDTO());
+            uts.CreateUserTest(new UserTestDTO());
 
             uow.Verify(x => x.Save());
         }
 
         [Fact]
-        public void AddUserTest_WithNullData_ValidationExceptionMustBeThrown()
+        public void CreateUserTest_WithNullData_ValidationExceptionMustBeThrown()
         {
             var uow = new Mock<IUnitOfWork>();
             UserTestService uts = new UserTestService(uow.Object);
@@ -52,7 +52,7 @@ namespace KTS.BLL.Tests
 
             Assert.Throws<ValidationException>(() =>
             {
-                uts.AddUserTest(null);
+                uts.CreateUserTest(null);
             });
         }
 

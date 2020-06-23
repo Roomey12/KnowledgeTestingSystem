@@ -28,7 +28,7 @@ namespace KTS.BLL.Services
         }
 
         /// <summary>
-        /// This method finds an answer by its Id and returns it.
+        /// This method finds answer by its Id and returns it.
         /// </summary>
         /// <param name="id">Id of answer which should be returned</param>
         /// <returns>Answer which was found</returns>

@@ -18,37 +18,61 @@ namespace KTS.DAL.Repositories
             _context = context;
         }
 
+        /// <summary>
+        /// This method creates question.
+        /// </summary>
+        /// <param name="question">Question which should be created</param>
         public void Create(Question question)
         {
             _context.Questions.Add(question);
         }
 
+        /// <summary>
+        /// This method deletes question.
+        /// </summary>
+        /// <param name="questionId">Id of question which should be deleted</param>
         public void Delete(string questionId)
         {
-            int id = Convert.ToInt32(questionId);
-            Question question = _context.Questions.Find(id);
+            Question question = _context.Questions.Find(Convert.ToInt32(questionId));
             if (question != null)
             {
                 _context.Questions.Remove(question);
             }
         }
 
+        /// <summary>
+        /// This method finds question by some condition.
+        /// </summary>
+        /// <param name="predicate">Condition by which the search will be performed</param>
+        /// <returns>Questions which were found</returns>
         public IEnumerable<Question> Find(Func<Question, bool> predicate)
         {
             return _context.Questions.Include(p=>p.Test).Where(predicate).ToList();
         }
 
+        /// <summary>
+        /// This method finds question by its Id and returns it.
+        /// </summary>
+        /// <param name="questionId">Id of answer which should be returned</param>
+        /// <returns>Question which was found</returns>
         public Question Get(string questionId)
         {
-            int id = Convert.ToInt32(questionId);
-            return _context.Questions.Find(id);
+            return _context.Questions.Find(Convert.ToInt32(questionId);
         }
 
+        /// <summary>
+        /// This method returns all questions.
+        /// </summary>
+        /// <returns>Questions which were found</returns>
         public IEnumerable<Question> GetAll()
         {
             return _context.Questions.Include(p => p.Test).ToList();
         }
 
+        /// <summary>
+        /// This method updates question's data.
+        /// </summary>
+        /// <param name="question">Question which should be updated</param>
         public void Update(Question question)
         { 
             _context.Entry(question).State = EntityState.Modified;
