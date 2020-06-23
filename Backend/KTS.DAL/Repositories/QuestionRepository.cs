@@ -57,7 +57,7 @@ namespace KTS.DAL.Repositories
         /// <returns>Question which was found</returns>
         public Question Get(string questionId)
         {
-            return _context.Questions.Find(Convert.ToInt32(questionId);
+            return _context.Questions.Find(Convert.ToInt32(questionId));
         }
 
         /// <summary>

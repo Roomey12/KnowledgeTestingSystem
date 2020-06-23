@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "9u1qp/ZOTS2NwDMeR5BdR+V5FIEZjrhmV5ncSMMV0YszKFxvJa2SYVbHmljg/Rza+VDhi3Ck9y0xkDNYiiopKg==",
+  "dgSpecHash": "YadirTtwAI3nPkZOYuXNp/6qWpX8iJi3KbnLzifVuLA25m1kE13/4PMCae+j1FC4No51ThZGAt4tEkS6obxCZw==",
   "success": true,
   "projectFilePath": "C:\\Users\\roomey\\Desktop\\c#\\KnowledgeTestingSystem\\Backend\\KTS.WEBAPI\\KTS.WEBAPI.csproj",
   "expectedPackageFiles": [
@@ -10,6 +10,7 @@
     "C:\\Users\\roomey\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\roomey\\.nuget\\packages\\microsoft.aspnetcore.authentication.cookies\\2.2.0\\microsoft.aspnetcore.authentication.cookies.2.2.0.nupkg.sha512",
     "C:\\Users\\roomey\\.nuget\\packages\\microsoft.aspnetcore.authentication.core\\2.2.0\\microsoft.aspnetcore.authentication.core.2.2.0.nupkg.sha512",
+    "C:\\Users\\roomey\\.nuget\\packages\\microsoft.aspnetcore.authentication.google\\3.1.5\\microsoft.aspnetcore.authentication.google.3.1.5.nupkg.sha512",
     "C:\\Users\\roomey\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\3.1.2\\microsoft.aspnetcore.authentication.jwtbearer.3.1.2.nupkg.sha512",
     "C:\\Users\\roomey\\.nuget\\packages\\microsoft.aspnetcore.authorization\\2.2.0\\microsoft.aspnetcore.authorization.2.2.0.nupkg.sha512",
     "C:\\Users\\roomey\\.nuget\\packages\\microsoft.aspnetcore.authorization.policy\\2.2.0\\microsoft.aspnetcore.authorization.policy.2.2.0.nupkg.sha512",
