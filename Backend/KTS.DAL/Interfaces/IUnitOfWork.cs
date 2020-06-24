@@ -15,6 +15,7 @@ namespace KTS.DAL.Interfaces
         IRepository<Answer> Answers { get; }
         IRepository<UserTest> UserTests { get; }
         UserManager<User> UserManager { get; }
+        SignInManager<User> SignInManager { get; }
         void Save();
         Task SaveAsync();
     }

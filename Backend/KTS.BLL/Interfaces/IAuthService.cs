@@ -1,5 +1,6 @@
 ﻿using KTS.BLL.DTO;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,5 +15,7 @@ namespace KTS.BLL.Interfaces
         Task<IdentityResult> ConfirmEmail(string userId, string token);
         Task ForgotPassword(string email);
         Task<IdentityResult> ResetPassword(ResetPasswordDTO modelDTO);
+        ChallengeResult LoginViaGoogle();
+        Task<string> ExternalLoginCallBack();
     }
 }

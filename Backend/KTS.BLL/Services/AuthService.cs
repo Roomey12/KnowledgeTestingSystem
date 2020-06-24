@@ -171,5 +171,82 @@ namespace KTS.BLL.Services
             var result = await Database.UserManager.ResetPasswordAsync(user, tokenDecoded, modelDTO.Password);
             return result;
         }
+
+        public ChallengeResult LoginViaGoogle()
+        {
+            var provider = "Google";
+            var redirectUrl = "/api/auth/ExternalLoginCallBack";
+            var properties = Database.SignInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return new ChallengeResult(provider, properties);
+        }
+
+        public async Task<string> ExternalLoginCallBack()
+        {
+            var info = await Database.SignInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                throw new ValidationException("Error loading external login information");
+            }
+
+            string Email = "";
+            if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+            {
+                Email = info.Principal.FindFirstValue(ClaimTypes.Email);
+            }
+
+            // Sign in the user with this external login provider if the user already has a login.
+            //var result = await Database.SignInManager.ExternalLoginSignInAsync
+            //    (info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+            var user = await Database.UserManager.FindByEmailAsync(Email);
+            if (user != null)
+            {
+                if (!await Database.UserManager.IsEmailConfirmedAsync(user))
+                {
+                    throw new ValidationException("Email is not confirmed");
+                }
+                var role = await Database.UserManager.GetRolesAsync(user);
+                IdentityOptions _options = new IdentityOptions();
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserID", user.Id.ToString()),
+                        new Claim(_options.ClaimsIdentity.RoleClaimType, role.FirstOrDefault())
+                    }),
+                    Expires = DateTime.UtcNow.AddHours(1),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey
+                        (Encoding.UTF8.GetBytes(_appSettings.JWT_Secret)),
+                        SecurityAlgorithms.HmacSha256Signature)
+                };
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+                var token = tokenHandler.WriteToken(securityToken);
+                return token;
+            }
+            else
+            {
+                // If the user does not have an account, then ask the user to create an account.
+                var user2 = new User { UserName = Email, Email = Email };
+                var result2 = await Database.UserManager.CreateAsync(user2);
+                if (result2.Succeeded)
+                {
+                    var res = await Database.UserManager.AddToRoleAsync(user2, "customer");
+                    var result3 = await Database.UserManager.AddLoginAsync(user2, info);
+                    if (result3.Succeeded && res.Succeeded)
+                    {
+                        //await Database.SignInManager.SignInAsync(user, isPersistent: false);
+                        var token = await Database.UserManager.GenerateEmailConfirmationTokenAsync(user2);
+                        byte[] tokenGeneratedBytes = Encoding.UTF8.GetBytes(token);
+                        var tokenEncoded = WebEncoders.Base64UrlEncode(tokenGeneratedBytes);
+                        var url = $@"http://localhost:4200/user/confirm-email/?userId={user2.Id}&token={tokenEncoded}";
+                        await _emailService.SendEmailAsync(Email, "Подтвердите Ваш аккаунт",
+                                        $"Подтвердите регистрацию, перейдя по ссылке: <a href='{url}'>клик</a>.");
+                        return "true";
+                    }
+                    return "sas";
+                }
+                return "false";
+            }
+        }
     }
 }

@@ -53,4 +53,8 @@ export class LoginComponent implements OnInit {
     }
     return false;
   }
+
+  googleLogin(){
+    this.authService.googleLogin().subscribe(data=> console.log(data));
+  }
 }

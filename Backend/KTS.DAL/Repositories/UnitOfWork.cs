@@ -19,11 +19,13 @@ namespace KTS.DAL.Repositories
         private UserTestRepository _userTestRepository;
         private UserRepository _userRepository;
         private UserManager<User> _userManager;
+        private SignInManager<User> _signInManager;
 
-        public UnitOfWork(ApplicationContext context, UserManager<User> userManager)
+        public UnitOfWork(ApplicationContext context, UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _context = context;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public IRepository<Test> Tests
@@ -96,6 +98,14 @@ namespace KTS.DAL.Repositories
             get
             {
                 return _userManager;
+            }
+        }
+
+        public SignInManager<User> SignInManager
+        {
+            get
+            {
+                return _signInManager;
             }
         }
 

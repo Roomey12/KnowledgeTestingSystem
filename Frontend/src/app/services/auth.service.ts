@@ -90,4 +90,13 @@ export class AuthService {
     };
     return this.http.post(this.authUrl + 'resetpassword', body);
   }
+
+  googleLogin(){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Access-Control-Allow-Origin": "*"
+      })
+    };
+    return this.http.get("https://localhost:44340/api/auth/googlelogin", httpOptions);
+  }
 }
