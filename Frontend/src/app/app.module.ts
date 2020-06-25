@@ -41,6 +41,7 @@ import { UserTestCreateComponent } from './admin-panel/user-test/user-test-creat
 import { ConfirmEmailComponent } from './user/confirm-email/confirm-email.component';
 import { ForgotPasswordComponent } from './user/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './user/reset-password/reset-password.component';
+import { ExternalLoginComponent } from './user/external-login/external-login.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { ResetPasswordComponent } from './user/reset-password/reset-password.com
     ConfirmEmailComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
+    ExternalLoginComponent,
   ],
   imports: [
     BrowserModule,

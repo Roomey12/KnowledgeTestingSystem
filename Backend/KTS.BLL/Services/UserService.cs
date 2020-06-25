@@ -109,8 +109,16 @@ namespace KTS.BLL.Services
             {
                 throw new NotFoundException("User was not found", "Id");
             }
-            IdentityResult result = await Database.UserManager.ChangePasswordAsync
-                (user, modelDTO.OldPassword, modelDTO.NewPassword);
+            IdentityResult result;
+            if (!await Database.UserManager.HasPasswordAsync(user))
+            {
+                result = await Database.UserManager.AddPasswordAsync(user, modelDTO.NewPassword);
+            }
+            else
+            {
+                result = await Database.UserManager.ChangePasswordAsync
+                     (user, modelDTO.OldPassword, modelDTO.NewPassword);
+            }
             return result;
         }
 

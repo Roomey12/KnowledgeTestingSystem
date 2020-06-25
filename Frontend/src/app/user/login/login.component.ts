@@ -10,11 +10,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+
   formModel = {
     UserName: '',
     Password: ''
   }
-  constructor(private authService: AuthService, private router: Router, private toastr: ToastrService) { }
+
+  private authWindow: Window;
+
+  constructor(private authService: AuthService, private router: Router, private toastr: ToastrService) {
+  }
 
   ngOnInit() {
     if (localStorage.getItem('token') != null)
@@ -55,6 +60,7 @@ export class LoginComponent implements OnInit {
   }
 
   googleLogin(){
-    this.authService.googleLogin().subscribe(data=> console.log(data));
+    document.location.href = "https://localhost:44340/api/auth/googlelogin";
+    //this.authService.googleLogin().subscribe(data=> console.log("sas"));
   }
 }

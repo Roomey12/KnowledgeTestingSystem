@@ -5,6 +5,7 @@ using KTS.BLL.Interfaces;
 using KTS.DAL.Entities;
 using KTS.WEBAPI.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -18,6 +19,7 @@ using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -172,9 +174,20 @@ namespace KTS.WEBAPI.Controllers
         public async Task<IActionResult> ExternalLoginCallBack()
         {
             string result;
+            bool aa;
+            string final;
             try
             {
                 result = await _authService.ExternalLoginCallBack();
+                try
+                {
+                    aa = Convert.ToBoolean(result);
+                    final = $@"http://localhost:4200/user/external-login/?isSuccess={aa.ToString()}";
+                }
+                catch (Exception)
+                {
+                    final = $@"http://localhost:4200/user/external-login/?token={result}";
+                }
             }
             catch(ValidationException ex)
             {
@@ -184,7 +197,8 @@ namespace KTS.WEBAPI.Controllers
             {
                 throw ex;
             }
-            return Ok(result);
+            return Redirect(final);
+            //return Ok(result);
         }
         #region delete
         //[HttpGet("GoogleLogin")]

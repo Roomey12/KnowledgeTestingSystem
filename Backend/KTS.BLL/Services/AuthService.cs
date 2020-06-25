@@ -243,7 +243,6 @@ namespace KTS.BLL.Services
                                         $"Подтвердите регистрацию, перейдя по ссылке: <a href='{url}'>клик</a>.");
                         return "true";
                     }
-                    return "sas";
                 }
                 return "false";
             }

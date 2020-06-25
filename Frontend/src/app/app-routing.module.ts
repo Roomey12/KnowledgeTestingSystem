@@ -22,6 +22,7 @@ import { UserTestCreateComponent } from './admin-panel/user-test/user-test-creat
 import { ConfirmEmailComponent } from './user/confirm-email/confirm-email.component';
 import { ForgotPasswordComponent } from './user/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './user/reset-password/reset-password.component';
+import { ExternalLoginComponent } from './user/external-login/external-login.component';
 
 
 const routes: Routes = [
@@ -33,7 +34,8 @@ const routes: Routes = [
       { path: 'login', component: LoginComponent },
       { path: 'confirm-email', component: ConfirmEmailComponent },
       { path: 'forgot-password', component: ForgotPasswordComponent },
-      { path: 'reset-password', component: ResetPasswordComponent }
+      { path: 'reset-password', component: ResetPasswordComponent },
+      { path: 'external-login', component: ExternalLoginComponent }
     ]
   },
   { path: 'home', component: HomeComponent },

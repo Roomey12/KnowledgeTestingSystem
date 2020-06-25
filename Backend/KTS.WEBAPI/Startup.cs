@@ -65,15 +65,17 @@ namespace KTS.WEBAPI
             services.AddTransient<IUserTestService, UserTestService>();
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IEmailService, EmailService>();
-            
-            services.AddCors(options =>//del mb
+
+            services.AddCors(options =>
             {
-                options.AddPolicy("AllowAllHeaders",
+                options.AddPolicy("MyPolicy",
                       builder =>
                       {
-                          builder.AllowAnyOrigin()
-                                 .AllowAnyHeader()
-                                 .AllowAnyMethod();
+                          builder
+                          //.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString())
+                          .AllowAnyOrigin()
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
                       });
             });
             //Jwt Authentication
@@ -113,13 +115,7 @@ namespace KTS.WEBAPI
             }
 
             app.UseRouting();
-
-            app.UseCors(builder =>
-                builder.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString())
-                .AllowAnyOrigin()
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                );
+            app.UseCors("MyPolicy");
 
             app.UseAuthentication();
             app.UseAuthorization();
