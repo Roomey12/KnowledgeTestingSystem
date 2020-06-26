@@ -12,23 +12,14 @@ import { UserService } from '../services/user.service';
 })
 export class HomeComponent implements OnInit {
 
-  userDetails;
   tests: Test[];   
   userTests;
 
-  constructor(private router: Router, private userTestService: UserTestService, private testService: TestService, private userService: UserService) { }
+  constructor(private router: Router, private userTestService: UserTestService, private testService: TestService) { }
 
   ngOnInit() {
     this.loadTests();
     this.loadUserTests();
-    this.userService.getUserProfile().subscribe(
-      res => {
-        this.userDetails = res;
-      },
-      err => {
-        console.log(err);
-      },
-    );
   }
 
   loadTests() {

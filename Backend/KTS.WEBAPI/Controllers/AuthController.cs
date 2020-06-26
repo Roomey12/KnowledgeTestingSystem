@@ -170,6 +170,21 @@ namespace KTS.WEBAPI.Controllers
             return result;
         }
 
+        [HttpGet("FacebookLogin")]
+        public IActionResult FacebookLogin()
+        {
+            ChallengeResult result;
+            try
+            {
+                result = _authService.LoginViaFacebook();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
+
         [HttpGet("ExternalLoginCallback")]
         public async Task<IActionResult> ExternalLoginCallBack()
         {

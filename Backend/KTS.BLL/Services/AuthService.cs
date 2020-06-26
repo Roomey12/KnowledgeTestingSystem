@@ -180,6 +180,14 @@ namespace KTS.BLL.Services
             return new ChallengeResult(provider, properties);
         }
 
+        public ChallengeResult LoginViaFacebook()
+        {
+            var provider = "Facebook";
+            var redirectUrl = "/api/auth/ExternalLoginCallBack";
+            var properties = Database.SignInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return new ChallengeResult(provider, properties);
+        }
+
         public async Task<string> ExternalLoginCallBack()
         {
             var info = await Database.SignInManager.GetExternalLoginInfoAsync();
