@@ -27,6 +27,7 @@ using System.Threading.Tasks;
 namespace KTS.WEBAPI.Controllers
 {
     [Route("api/[controller]")]
+    [EnableCors("MyPolicy")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -178,9 +179,9 @@ namespace KTS.WEBAPI.Controllers
             {
                 result = _authService.LoginViaFacebook();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                return StatusCode(500);
             }
             return result;
         }
@@ -189,15 +190,15 @@ namespace KTS.WEBAPI.Controllers
         public async Task<IActionResult> ExternalLoginCallBack()
         {
             string result;
-            bool aa;
+            bool isSuccess;
             string final;
             try
             {
                 result = await _authService.ExternalLoginCallBack();
                 try
                 {
-                    aa = Convert.ToBoolean(result);
-                    final = $@"http://localhost:4200/user/external-login/?isSuccess={aa.ToString()}";
+                    isSuccess = Convert.ToBoolean(result);
+                    final = $@"http://localhost:4200/user/external-login/?isSuccess={isSuccess.ToString()}";
                 }
                 catch (Exception)
                 {
@@ -208,88 +209,13 @@ namespace KTS.WEBAPI.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            catch(Exception ex)
+            catch(Exception)
             {
-                throw ex;
+                return StatusCode(500);
             }
             return Redirect(final);
             //return Ok(result);
         }
-        #region delete
-        //[HttpGet("GoogleLogin")]
-        //public IActionResult GoogleLogin()
-        //{
-        //    var provider = "Google";
-
-        //    var redirectUrl = "/api/auth/ExternalLoginCallBack";
-        //    var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
-        //    return new ChallengeResult(provider, properties);
-        //}
-
-        //[HttpGet("ExternalLoginCallBack")]
-        //public async Task<IActionResult> CallBack()
-        //{
-        //    var info = await _signInManager.GetExternalLoginInfoAsync();
-        //    if (info == null)
-        //    {
-        //        //ErrorMessage = "Error loading external login information.";
-        //        return Ok("2");
-        //    }
-
-        //    // Sign in the user with this external login provider if the user already has a login.
-        //    var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
-        //    if (result.Succeeded)
-        //    {
-        //        //_logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
-        //        return Ok("3");
-        //    }
-        //    else
-        //    {
-        //        // If the user does not have an account, then ask the user to create an account.
-        //        string Email = "";
-
-        //        if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
-        //        {
-        //            Email = info.Principal.FindFirstValue(ClaimTypes.Email);
-        //        }
-
-        //        var user = new User { UserName = Email, Email = Email};
-        //        var result2 = await _userManager.CreateAsync(user);
-        //        if (result2.Succeeded)
-        //        {
-        //            var res = await _userManager.AddToRoleAsync(user, "customer");
-        //            result2 = await _userManager.AddLoginAsync(user, info);
-        //            if (result2.Succeeded && res.Succeeded)
-        //            {
-        //                await _signInManager.SignInAsync(user, isPersistent: false);
-        //                //_logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
-
-        //                var userId = await _userManager.GetUserIdAsync(user);
-        //                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-        //                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-        //                var callbackUrl = Url.Page(
-        //                    "/Account/ConfirmEmail",
-        //                    pageHandler: null,
-        //                    values: new { area = "Identity", userId = userId, code = code },
-        //                    protocol: Request.Scheme);
-
-        //                //await _emailSender.SendEmailAsync(Email, "Confirm your email",
-        //                //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-        //                return Ok("5");
-        //            }
-        //        }
-        //        foreach (var error in result2.Errors)
-        //        {
-        //            ModelState.AddModelError(string.Empty, error.Description);
-        //        }
-
-        //        IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
-
-        //        return Ok(allErrors.FirstOrDefault());
-        //    }
-        //}
-        #endregion
     }
 }
 

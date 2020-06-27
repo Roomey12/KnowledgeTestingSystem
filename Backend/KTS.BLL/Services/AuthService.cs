@@ -172,6 +172,10 @@ namespace KTS.BLL.Services
             return result;
         }
 
+        /// <summary>
+        /// This method is used to authorize user via google.
+        /// </summary>
+        /// <returns>Result with settings of authorizing</returns>
         public ChallengeResult LoginViaGoogle()
         {
             var provider = "Google";
@@ -180,6 +184,10 @@ namespace KTS.BLL.Services
             return new ChallengeResult(provider, properties);
         }
 
+        /// <summary>
+        /// This method is used to authorize user via facebook.
+        /// </summary>
+        /// <returns>Result with settings of authorizing</returns>
         public ChallengeResult LoginViaFacebook()
         {
             var provider = "Facebook";
@@ -188,6 +196,10 @@ namespace KTS.BLL.Services
             return new ChallengeResult(provider, properties);
         }
 
+        /// <summary>
+        /// This method is callback for external authorizing.
+        /// </summary>
+        /// <returns>JWT or result of registation.</returns>
         public async Task<string> ExternalLoginCallBack()
         {
             var info = await Database.SignInManager.GetExternalLoginInfoAsync();
@@ -195,16 +207,11 @@ namespace KTS.BLL.Services
             {
                 throw new ValidationException("Error loading external login information");
             }
-
             string Email = "";
             if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
             {
                 Email = info.Principal.FindFirstValue(ClaimTypes.Email);
             }
-
-            // Sign in the user with this external login provider if the user already has a login.
-            //var result = await Database.SignInManager.ExternalLoginSignInAsync
-            //    (info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
             var user = await Database.UserManager.FindByEmailAsync(Email);
             if (user != null)
             {
@@ -233,20 +240,18 @@ namespace KTS.BLL.Services
             }
             else
             {
-                // If the user does not have an account, then ask the user to create an account.
-                var user2 = new User { UserName = Email, Email = Email };
-                var result2 = await Database.UserManager.CreateAsync(user2);
-                if (result2.Succeeded)
+                var registerUser = new User { UserName = Email, Email = Email };
+                var registerResult = await Database.UserManager.CreateAsync(registerUser);
+                if (registerResult.Succeeded)
                 {
-                    var res = await Database.UserManager.AddToRoleAsync(user2, "customer");
-                    var result3 = await Database.UserManager.AddLoginAsync(user2, info);
-                    if (result3.Succeeded && res.Succeeded)
+                    var roleResult = await Database.UserManager.AddToRoleAsync(registerUser, "customer");
+                    var loginResult = await Database.UserManager.AddLoginAsync(registerUser, info);
+                    if (loginResult.Succeeded && roleResult.Succeeded)
                     {
-                        //await Database.SignInManager.SignInAsync(user, isPersistent: false);
-                        var token = await Database.UserManager.GenerateEmailConfirmationTokenAsync(user2);
+                        var token = await Database.UserManager.GenerateEmailConfirmationTokenAsync(registerUser);
                         byte[] tokenGeneratedBytes = Encoding.UTF8.GetBytes(token);
                         var tokenEncoded = WebEncoders.Base64UrlEncode(tokenGeneratedBytes);
-                        var url = $@"http://localhost:4200/user/confirm-email/?userId={user2.Id}&token={tokenEncoded}";
+                        var url = $@"http://localhost:4200/user/confirm-email/?userId={registerUser.Id}&token={tokenEncoded}";
                         await _emailService.SendEmailAsync(Email, "Подтвердите Ваш аккаунт",
                                         $"Подтвердите регистрацию, перейдя по ссылке: <a href='{url}'>клик</a>.");
                         return "true";

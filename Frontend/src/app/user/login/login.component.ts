@@ -66,6 +66,6 @@ export class LoginComponent implements OnInit {
 
   facebookLogin(){
     document.location.href = "https://localhost:44340/api/auth/facebooklogin";
-    //this.authService.googleLogin().subscribe(data=> console.log("sas"));
+    //this.authService.facebookLogin().subscribe(data=> console.log("sas"));
   }
 }

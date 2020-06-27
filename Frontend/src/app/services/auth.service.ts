@@ -99,4 +99,13 @@ export class AuthService {
     };
     return this.http.get("https://localhost:44340/api/auth/googlelogin", httpOptions);
   }
+
+  facebookLogin(){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Access-Control-Allow-Origin": "*"
+      })
+    };
+    return this.http.get("https://localhost:44340/api/auth/facebooklogin", httpOptions);
+  }
 }
