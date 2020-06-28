@@ -6,6 +6,7 @@ using AutoMapper;
 using KTS.BLL.DTO;
 using KTS.BLL.Infrastucture;
 using KTS.BLL.Interfaces;
+using KTS.DAL.Configuration;
 using KTS.DAL.Entities;
 using KTS.WEBAPI.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -183,7 +184,7 @@ namespace KTS.WEBAPI.Controllers
 
         // PUT: api/user/makeAdmin
         [HttpPut("makeAdmin")]
-        //[Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> MakeUserAdmin(UserModel model)
         {
             IdentityResult result;
@@ -208,7 +209,7 @@ namespace KTS.WEBAPI.Controllers
 
         // PUT: api/user/makeCustomer
         [HttpPut("makeCustomer")]
-        //[Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> MakeUserCustomer(UserModel model)
         {
             IdentityResult result;
@@ -231,7 +232,9 @@ namespace KTS.WEBAPI.Controllers
             return Ok(result);
         }
 
+        // POST: api/user/changeEmail
         [HttpPost("changeEmail")]
+        [Authorize]
         public async Task<IActionResult> ChangeEmail(ChangeEmailModel model)
         {
             try
@@ -253,6 +256,7 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "link was sent to new email" });
         }
 
+        // POST: api/user/confirmNewEmail
         [HttpPost("confirmNewEmail")]
         public async Task<IActionResult> ConfirmNewEmail(ChangeEmailModel model)
         {
@@ -266,6 +270,24 @@ namespace KTS.WEBAPI.Controllers
                 return NotFound(ex.Message);
             }
             catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok(result);
+        }
+
+        // GET: api/user/pagination?pageNumber=1&pageSize=40
+        [HttpGet("pagination")]
+        [Authorize(Roles = "admin")]
+        public IActionResult GetUsersForPagination([FromQuery]Pagination pagination)
+        {
+            IEnumerable<UserModel> result;
+            try
+            {
+                result = mapper.Map<IEnumerable<UserDTO>, IEnumerable<UserModel>>
+                    (_userService.GetAllUsersForPagination(pagination));
+            }
+            catch(Exception)
             {
                 return StatusCode(500);
             }

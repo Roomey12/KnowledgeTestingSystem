@@ -13,18 +13,5 @@ namespace KTS.WEBAPI.Models
         public string Description { get; set; }
         public DateTime MaxTime { get; set; }
         public int QuestionsCount { get; set; }
-
-        public static List<TestModel> ExistingTests = new List<TestModel>();
-        public TestModel(int testId, string title, float maxScore, string desc, DateTime maxTime)
-        {
-            TestId = testId;
-            Title = title;
-            MaxScore = maxScore;
-            Description = desc;
-            MaxTime = maxTime;
-            ExistingTests.Add(this);
-        }
-
-        public TestModel() { }
     }
 }

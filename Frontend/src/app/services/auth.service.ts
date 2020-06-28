@@ -92,20 +92,22 @@ export class AuthService {
   }
 
   googleLogin(){
-    const httpOptions = {
-      headers: new HttpHeaders({
-        "Access-Control-Allow-Origin": "*"
-      })
-    };
-    return this.http.get("https://localhost:44340/api/auth/googlelogin", httpOptions);
+    // const httpOptions = {
+    //   headers: new HttpHeaders({
+    //     "Access-Control-Allow-Origin": "*"
+    //   })
+    // };
+    // return this.http.get("https://localhost:44340/api/auth/googlelogin", httpOptions);
+    document.location.href = this.authUrl + "googlelogin";
   }
 
   facebookLogin(){
-    const httpOptions = {
-      headers: new HttpHeaders({
-        "Access-Control-Allow-Origin": "*"
-      })
-    };
-    return this.http.get("https://localhost:44340/api/auth/facebooklogin", httpOptions);
+    // const httpOptions = {
+    //   headers: new HttpHeaders({
+    //     "Access-Control-Allow-Origin": "*"
+    //   })
+    // };
+    // return this.http.get("https://localhost:44340/api/auth/facebooklogin", httpOptions);
+    document.location.href = this.authUrl + "facebooklogin";
   }
 }

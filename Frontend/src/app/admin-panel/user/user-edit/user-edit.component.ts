@@ -39,6 +39,8 @@ export class UserEditComponent implements OnInit {
   }
 
   saveUser() {
+    console.log(this.user.Email);
+    console.log(this.user.UserName);
     if(this.user.Email != null || this.user.UserName != null){
       this.userService.putUser(this.user)
         .subscribe(data => { 

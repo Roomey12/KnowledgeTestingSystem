@@ -2,6 +2,7 @@
 using KTS.BLL.DTO;
 using KTS.BLL.Infrastucture;
 using KTS.BLL.Interfaces;
+using KTS.DAL.Configuration;
 using KTS.DAL.Entities;
 using KTS.DAL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -84,7 +85,7 @@ namespace KTS.BLL.Services
         /// This method returns all results of passing tests.
         /// </summary>
         /// <returns>Results of passing tests which were found</returns>
-        public object GetAllUserTests()
+        public IEnumerable<object> GetAllUserTests()
         {
             var userTests = mapper.Map<IEnumerable<UserTest>, IEnumerable<UserTestDTO>>(Database.UserTests.GetAll());
             var users = mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(Database.Users.GetAll());
@@ -101,7 +102,7 @@ namespace KTS.BLL.Services
         /// This method returns certain count of best results of passing tests.
         /// </summary>
         /// <returns>Results of passing tests which were found</returns>
-        public object GetTopUserTests(int count)
+        public IEnumerable<object> GetTopUserTests(int count)
         {
             var userTests = mapper.Map<IEnumerable<UserTest>, IEnumerable<UserTestDTO>>(Database.UserTests.GetAll());
             var users = mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(Database.Users.GetAll());
@@ -189,6 +190,20 @@ namespace KTS.BLL.Services
             userTest.Time = userTestDTO.Time;
             Database.UserTests.Update(userTest);
             Database.SaveAsync();
+        }
+
+        public IEnumerable<object> GetAllUserTestsForPagination(Pagination pagination)
+        {
+            var userTests =  mapper.Map<IEnumerable<UserTest>, IEnumerable<UserTestDTO>>
+                (Database.UserTests.GetAllForPagination(pagination));
+            var users = mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(Database.Users.GetAll());
+            var tests = mapper.Map<IEnumerable<Test>, IEnumerable<TestDTO>>(Database.Tests.GetAll());
+            var result = from u in users
+                         join t in userTests on u.Id equals t.UserId
+                         join a in tests on t.TestId equals a.TestId
+                         orderby t.Mark descending, t.Time descending
+                         select new { t.UserTestId, UserId = u.Id, t.Test.TestId, u.Username, Test = t.Test.Title, t.Mark, t.Time };
+            return result;
         }
     }
 }

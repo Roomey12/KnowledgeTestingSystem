@@ -61,6 +61,10 @@ export class UserService {
         return this.http.get(this.userUrl + 'profile');
     }
 
+    getUsersForPagination(pageNumber){
+        return this.http.get(this.userUrl + `pagination?pageNumber=${pageNumber}`);
+    }
+    
     makeUserAdmin(user: User){
         return this.http.put(this.userUrl + 'makeAdmin', user);
     }

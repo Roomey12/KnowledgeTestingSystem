@@ -1,4 +1,5 @@
-﻿using KTS.DAL.EF;
+﻿using KTS.DAL.Configuration;
+using KTS.DAL.EF;
 using KTS.DAL.Entities;
 using KTS.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -66,6 +67,15 @@ namespace KTS.DAL.Repositories
         public IEnumerable<UserTest> GetAll()
         {
             return _context.UserTests.Include(p => p.Test).Include(u=>u.User).ToList();
+        }
+
+        public IEnumerable<UserTest> GetAllForPagination(Pagination pagination)
+        {
+            return GetAll()
+                .OrderBy(on => on.UserTestId)
+                .Skip((pagination.PageNumber - 1) * pagination.PageSize)
+                .Take(pagination.PageSize)
+                .ToList();
         }
 
         /// This method updates result of test data.

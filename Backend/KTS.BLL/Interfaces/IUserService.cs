@@ -1,4 +1,5 @@
 ﻿using KTS.BLL.DTO;
+using KTS.DAL.Configuration;
 using KTS.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -21,5 +22,6 @@ namespace KTS.BLL.Interfaces
         Task<IdentityResult> MakeUserCustomer(UserDTO userDTO);
         Task ChangeEmail(ChangeEmailDTO modelDTO);
         Task<IdentityResult> ConfirmNewEmail(ChangeEmailDTO modelDTO);
+        IEnumerable<UserDTO> GetAllUsersForPagination(Pagination pagination);
     }
 }

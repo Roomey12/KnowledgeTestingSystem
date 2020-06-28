@@ -11,7 +11,9 @@ import { ToastrService } from 'ngx-toastr';
 
 export class UserTestListComponent implements OnInit {
 
+  previousUserTests: object[];
   userTests: object[];
+  pageNumber: number = 1;
   constructor(private router: Router, private toastr: ToastrService, private userTestService: UserTestService) { }
 
   ngOnInit() {
@@ -19,10 +21,32 @@ export class UserTestListComponent implements OnInit {
   }
 
   loadUserTests(){
-    this.userTestService.getAllUserTests()
-        .subscribe((data: object[]) => {
-          this.userTests = data;
-        });
+    // this.userTestService.getAllUserTests()
+    //     .subscribe((data: object[]) => {
+    //       this.userTests = data;
+    //     });
+    this.userTestService.getUserTestsForPagination(this.pageNumber).subscribe((data: object[]) => {
+      this.userTests = data;
+      if(data.length != 0 ){
+        this.previousUserTests = data;
+      }
+      else{
+        this.userTests = this.previousUserTests;
+        this.pageNumber--;
+      }
+    })
+  } 
+
+  nextPage(){
+    this.pageNumber++;
+    this.loadUserTests();
+  }
+
+  previousPage(){
+    if(this.pageNumber > 1){
+      this.pageNumber--;
+    }
+    this.loadUserTests();
   }
 
   deleteUserTest(id: string) {

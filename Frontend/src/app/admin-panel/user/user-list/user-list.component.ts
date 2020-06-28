@@ -11,18 +11,38 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class UserListComponent implements OnInit {
 
+  previousUsers: User[];
   users: User[];
-  constructor(private router: Router, private toastr: ToastrService, private userService: UserService) { }
-
+  pageNumber: number = 1;
+  constructor(private toastr: ToastrService, private userService: UserService) { }
+ 
   ngOnInit() {
     this.loadUsers();
   }
 
   loadUsers(){
-    this.userService.getUsers()
-        .subscribe((data: User[]) => {
-          this.users = data;
-        });
+    this.userService.getUsersForPagination(this.pageNumber).subscribe((data: User[]) => {
+      this.users = data;
+      if(data.length != 0 ){
+        this.previousUsers = data;
+      }
+      else{
+        this.users = this.previousUsers;
+        this.pageNumber--;
+      }
+    })
+  }
+
+  nextPage(){
+    this.pageNumber++;
+    this.loadUsers();
+  }
+
+  previousPage(){
+    if(this.pageNumber > 1){
+      this.pageNumber--;
+    }
+    this.loadUsers();
   }
 
   delete(id: string) {

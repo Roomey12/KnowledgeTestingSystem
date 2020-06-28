@@ -57,4 +57,8 @@ export class UserTestService {
     deleteUserTest(id: string){
         return this.http.delete(this.userTestUrl + id);
     }
+
+    getUserTestsForPagination(pageNumber){
+        return this.http.get(this.userTestUrl + `pagination?pageNumber=${pageNumber}`);
+    }
 }

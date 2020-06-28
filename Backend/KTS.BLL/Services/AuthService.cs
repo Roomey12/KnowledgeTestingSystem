@@ -58,9 +58,10 @@ namespace KTS.BLL.Services
                 var token = await Database.UserManager.GenerateEmailConfirmationTokenAsync(user);
                 byte[] tokenGeneratedBytes = Encoding.UTF8.GetBytes(token);
                 var tokenEncoded = WebEncoders.Base64UrlEncode(tokenGeneratedBytes);
-                var url = $@"http://localhost:4200/user/confirm-email/?userId={user.Id}&token={tokenEncoded}";
+                var clientUrl = _appSettings.Client_URL;
+                var callbackUrl = $@"{clientUrl}/user/confirm-email/?userId={user.Id}&token={tokenEncoded}";
                 await _emailService.SendEmailAsync(modelDTO.Email, "Подтвердите Ваш аккаунт",
-                                $"Подтвердите регистрацию, перейдя по ссылке: <a href='{url}'>клик</a>.");
+                                $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>клик</a>.");
             }
             return result;
         }
@@ -145,9 +146,10 @@ namespace KTS.BLL.Services
             var token = await Database.UserManager.GeneratePasswordResetTokenAsync(user);
             byte[] tokenGeneratedBytes = Encoding.UTF8.GetBytes(token);
             var tokenEncoded = WebEncoders.Base64UrlEncode(tokenGeneratedBytes);
-            var url = $@"http://localhost:4200/user/reset-password/?userId={user.Id}&token={tokenEncoded}";
+            var clientUrl = _appSettings.Client_URL;
+            var callbackUrl = $@"{clientUrl}/user/reset-password/?userId={user.Id}&token={tokenEncoded}";
             await _emailService.SendEmailAsync(email, "Восстановление пароля",
-               $"Для сброса по ссылке, перейдите по ссылке: <a href='{url}'>клик</a>.");
+               $"Для сброса по ссылке, перейдите по ссылке: <a href='{callbackUrl}'>клик</a>.");
         }
 
         /// <summary>
@@ -251,9 +253,10 @@ namespace KTS.BLL.Services
                         var token = await Database.UserManager.GenerateEmailConfirmationTokenAsync(registerUser);
                         byte[] tokenGeneratedBytes = Encoding.UTF8.GetBytes(token);
                         var tokenEncoded = WebEncoders.Base64UrlEncode(tokenGeneratedBytes);
-                        var url = $@"http://localhost:4200/user/confirm-email/?userId={registerUser.Id}&token={tokenEncoded}";
+                        var clientUrl = _appSettings.Client_URL;
+                        var callbackUrl = $@"{clientUrl}/user/confirm-email/?userId={registerUser.Id}&token={tokenEncoded}";
                         await _emailService.SendEmailAsync(Email, "Подтвердите Ваш аккаунт",
-                                        $"Подтвердите регистрацию, перейдя по ссылке: <a href='{url}'>клик</a>.");
+                                        $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>клик</a>.");
                         return "true";
                     }
                 }

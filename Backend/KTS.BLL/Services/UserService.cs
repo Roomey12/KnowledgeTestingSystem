@@ -2,6 +2,7 @@
 using KTS.BLL.DTO;
 using KTS.BLL.Infrastucture;
 using KTS.BLL.Interfaces;
+using KTS.DAL.Configuration;
 using KTS.DAL.Entities;
 using KTS.DAL.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -29,7 +30,6 @@ namespace KTS.BLL.Services
             Database = uow;
             _emailService = emailService;
         }
-
 
         /// <summary>
         /// This method returns all users.
@@ -263,6 +263,12 @@ namespace KTS.BLL.Services
         public void Dispose()
         {
             Database.Dispose();
+        }
+
+        public IEnumerable<UserDTO> GetAllUsersForPagination(Pagination pagination)
+        {
+            return mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>
+                (Database.Users.GetAllForPagination(pagination));
         }
     }
 }

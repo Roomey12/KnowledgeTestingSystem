@@ -2,37 +2,18 @@
 using KTS.BLL.DTO;
 using KTS.BLL.Infrastucture;
 using KTS.BLL.Interfaces;
-using KTS.DAL.Entities;
 using KTS.WEBAPI.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace KTS.WEBAPI.Controllers
 {
     [Route("api/[controller]")]
-    [EnableCors("MyPolicy")]
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly SignInManager<User> _signInManager;
-        private readonly UserManager<User> _userManager;
         private IAuthService _authService;
 
         IMapper mapper = new MapperConfiguration(cfg =>
@@ -42,11 +23,9 @@ namespace KTS.WEBAPI.Controllers
             cfg.CreateMap<ResetPasswordModel, ResetPasswordDTO>();
         }).CreateMapper();
 
-        public AuthController(SignInManager<User> signInManager, UserManager<User> userManager, IAuthService authService)
+        public AuthController(IAuthService authService)
         {
-            _userManager = userManager;
             _authService = authService;
-            _signInManager = signInManager;
         }
 
         // POST: api/auth/register
@@ -156,6 +135,7 @@ namespace KTS.WEBAPI.Controllers
             return Ok(result);
         }
 
+        // GET: api/auth/GoogleLogin
         [HttpGet("GoogleLogin")]
         public IActionResult GoogleLogin()
         {
@@ -171,6 +151,7 @@ namespace KTS.WEBAPI.Controllers
             return result;
         }
 
+        // GET: api/auth/FacebookLogin
         [HttpGet("FacebookLogin")]
         public IActionResult FacebookLogin()
         {
@@ -186,6 +167,7 @@ namespace KTS.WEBAPI.Controllers
             return result;
         }
 
+        // GET: api/auth/ExternalLoginCallback
         [HttpGet("ExternalLoginCallback")]
         public async Task<IActionResult> ExternalLoginCallBack()
         {
@@ -218,5 +200,3 @@ namespace KTS.WEBAPI.Controllers
         }
     }
 }
-
-

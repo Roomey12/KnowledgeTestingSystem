@@ -6,6 +6,7 @@ using AutoMapper;
 using KTS.BLL.DTO;
 using KTS.BLL.Infrastucture;
 using KTS.BLL.Interfaces;
+using KTS.DAL.Configuration;
 using KTS.WEBAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -79,7 +80,7 @@ namespace KTS.WEBAPI.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult GetAllUserTests()
         {
-            object result;
+            IEnumerable<object> result;
             try
             {
                 result = _userTestService.GetAllUserTests();
@@ -96,7 +97,7 @@ namespace KTS.WEBAPI.Controllers
         [AllowAnonymous]
         public IActionResult GetTopUserTests(int count)
         {
-            object result;
+            IEnumerable<object> result;
             try
             {
                 result = _userTestService.GetTopUserTests(count);
@@ -192,6 +193,23 @@ namespace KTS.WEBAPI.Controllers
                 return StatusCode(500);
             }
             return Ok(new { Message = "UserTest was successfully changed!" });
+        }
+
+        // GET: api/userTest/pagination?pageNumber=1&pageSize=40
+        [HttpGet("pagination")]
+        [Authorize(Roles = "admin")]
+        public IActionResult GetUsersForPagination([FromQuery]Pagination pagination)
+        {
+            IEnumerable<object> result;
+            try
+            {
+                result = _userTestService.GetAllUserTestsForPagination(pagination);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok(result);
         }
     }
 }

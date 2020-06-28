@@ -12,14 +12,5 @@ namespace KTS.WEBAPI.Models
         public bool IsCorrect { get; set; }
         public double Mark { get; set; }
         public int QuestionId { get; set; }
-        public AnswerModel(int answerId, string content, bool isCorrect, double mark, int questionId)
-        {
-            AnswerId = answerId;
-            Content = content;
-            IsCorrect = isCorrect;
-            Mark = mark;
-            QuestionId = questionId;
-        }
-        public AnswerModel() { }
     }
 }
