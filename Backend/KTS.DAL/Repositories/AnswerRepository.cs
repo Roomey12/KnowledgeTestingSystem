@@ -71,7 +71,7 @@ namespace KTS.DAL.Repositories
 
         public IEnumerable<Answer> GetAllForPagination(Pagination pagination)
         {
-            return GetAll()
+            return _context.Answers.Include(p => p.Question)
                      .OrderBy(on => on.AnswerId)
                      .Skip((pagination.PageNumber - 1) * pagination.PageSize)
                      .Take(pagination.PageSize)

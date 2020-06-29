@@ -45,6 +45,7 @@ namespace KTS.WEBAPI
             services.AddDbContext<ApplicationContext>();
             services.AddIdentity<User, IdentityRole>(opts =>
             {
+                opts.User.AllowedUserNameCharacters = " ¸יצףךוםדרשחץתפûגאןנמכהז‎ÿקסלטעüב‏¿¯¨ÉÖÓÊÅÍÃØÙÇÕÚÔÛÂÀÏÐÎËÄÆÝ‗×ÑÌÈÒÜÁÞ";
                 opts.User.RequireUniqueEmail = true;
                 opts.SignIn.RequireConfirmedEmail = true;
                 opts.Password.RequiredLength = 6;   // לטםטלאכüםאÿ הכטםא
@@ -72,7 +73,6 @@ namespace KTS.WEBAPI
                       {
                           builder
                           .WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString())
-                          //.AllowAnyOrigin()
                           .AllowAnyHeader()
                           .AllowAnyMethod();
                       });

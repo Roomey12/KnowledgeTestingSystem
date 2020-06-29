@@ -66,12 +66,12 @@ namespace KTS.DAL.Repositories
         /// <returns>Results of tests which were found</returns>
         public IEnumerable<UserTest> GetAll()
         {
-            return _context.UserTests.Include(p => p.Test).Include(u=>u.User).ToList();
+            return _context.UserTests.Include(p => p.Test).Include(u => u.User).ToList();
         }
 
         public IEnumerable<UserTest> GetAllForPagination(Pagination pagination)
         {
-            return GetAll()
+            return _context.UserTests.Include(p => p.Test).Include(u => u.User)
                 .OrderBy(on => on.UserTestId)
                 .Skip((pagination.PageNumber - 1) * pagination.PageSize)
                 .Take(pagination.PageSize)

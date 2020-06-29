@@ -73,7 +73,7 @@ namespace KTS.DAL.Repositories
 
         public IEnumerable<Test> GetAllForPagination(Pagination pagination)
         {
-            return GetAll()
+            return _context.Tests
                 .OrderBy(on => on.Title)
                 .Skip((pagination.PageNumber - 1) * pagination.PageSize)
                 .Take(pagination.PageSize)
