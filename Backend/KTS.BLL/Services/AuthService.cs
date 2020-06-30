@@ -210,6 +210,7 @@ namespace KTS.BLL.Services
                 throw new ValidationException("Error loading external login information");
             }
             string Email = "";
+            string Name = info.Principal.Identity.Name;
             if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
             {
                 Email = info.Principal.FindFirstValue(ClaimTypes.Email);
@@ -242,7 +243,7 @@ namespace KTS.BLL.Services
             }
             else
             {
-                var registerUser = new User { UserName = Email, Email = Email };
+                var registerUser = new User { UserName = Name, Email = Email };
                 var registerResult = await Database.UserManager.CreateAsync(registerUser);
                 if (registerResult.Succeeded)
                 {
