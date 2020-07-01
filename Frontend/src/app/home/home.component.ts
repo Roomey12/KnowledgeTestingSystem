@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Test } from '../models/test';
 import { TestService } from '../services/test.service';
-import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +11,10 @@ import { UserService } from '../services/user.service';
 })
 export class HomeComponent implements OnInit {
 
-  tests: Test[];   
+  title: string;
+  previousTests: Test[];
+  pageNumber: number = 1;
+  tests: Test[]; 
   userTests;
 
   constructor(private router: Router, private userTestService: UserTestService, private testService: TestService) { }
@@ -23,10 +25,28 @@ export class HomeComponent implements OnInit {
   }
 
   loadTests() {
-    this.testService.getTests()
-        .subscribe((data: Test[]) => {
-            this.tests = data;
-        });
+    this.testService.getTestsForPagination(this.pageNumber).subscribe((data: Test[]) => {
+      this.tests = data;
+      if(data.length != 0 ){
+        this.previousTests = data;
+      }
+      else{
+        this.tests = this.previousTests;
+        this.pageNumber--;
+      }
+    })
+  }
+
+  nextPage(){
+    this.pageNumber++;
+    this.loadTests();
+  }
+
+  previousPage(){
+    if(this.pageNumber > 1){
+      this.pageNumber--;
+    }
+    this.loadTests();
   }
   
   loadUserTests(){
@@ -34,5 +54,18 @@ export class HomeComponent implements OnInit {
       .subscribe((data: object[]) =>{
          this.userTests = data;
       })
+  }
+
+  loadTestsByTitle(){
+    setTimeout(() => {
+      if(this.title == ""){
+        this.loadTests();
+      }
+      else{
+        this.testService.getTestsByTitle(this.title).subscribe((data: Test[]) => {
+          this.tests = data;
+        })
+      }
+    }, 0);
   }
 }

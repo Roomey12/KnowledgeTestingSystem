@@ -2,6 +2,7 @@
 using KTS.BLL.DTO;
 using KTS.BLL.Infrastucture;
 using KTS.BLL.Interfaces;
+using KTS.DAL.Configuration;
 using KTS.DAL.Entities;
 using KTS.DAL.Interfaces;
 using System;
@@ -132,6 +133,22 @@ namespace KTS.BLL.Services
             test.MaxScore = testDTO.MaxScore;
             Database.Tests.Update(test);
             Database.Save();
+        }
+
+        public IEnumerable<TestDTO> GetAllTestsForPagination(Pagination pagination)
+        {
+            return mapper.Map<IEnumerable<Test>, IEnumerable<TestDTO>>
+                (Database.Tests.GetAllForPagination(pagination));
+        }
+
+        public IEnumerable<TestDTO> GetTestsByTitle(string title)
+        {
+            if(title == null)
+            {
+                throw new ValidationException("Title can not be null");
+            }
+            return mapper.Map<IEnumerable<Test>, IEnumerable<TestDTO>>
+                (Database.Tests.Find(x => x.Title.ToLower().Contains(title.ToLower())));
         }
     }
 }

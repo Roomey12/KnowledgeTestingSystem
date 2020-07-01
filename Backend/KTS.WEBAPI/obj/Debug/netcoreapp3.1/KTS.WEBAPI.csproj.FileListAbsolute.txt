@@ -216,7 +216,6 @@ C:\Users\roomey\Desktop\c#\KnowledgeTestingSystem\Backend\KTS.WEBAPI\bin\Debug\n
 C:\Users\roomey\Desktop\c#\KnowledgeTestingSystem\Backend\KTS.WEBAPI\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyModel.dll
 C:\Users\roomey\Desktop\c#\KnowledgeTestingSystem\Backend\KTS.WEBAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.Google.dll
 C:\Users\roomey\Desktop\c#\KnowledgeTestingSystem\Backend\KTS.WEBAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.Facebook.dll
-C:\Users\roomey\Desktop\c#\KnowledgeTestingSystem\Backend\KTS.WEBAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.Twitter.dll
 C:\Users\roomey\Desktop\c#\KnowledgeTestingSystem\Backend\KTS.WEBAPI\obj\Debug\netcoreapp3.1\KTS.WEBAPI.csproj.CoreCompileInputs.cache
 C:\Users\roomey\Desktop\c#\KnowledgeTestingSystem\Backend\KTS.WEBAPI\obj\Debug\netcoreapp3.1\KTS.WEBAPI.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\roomey\Desktop\c#\KnowledgeTestingSystem\Backend\KTS.WEBAPI\obj\Debug\netcoreapp3.1\KTS.WEBAPI.MvcApplicationPartsAssemblyInfo.cache

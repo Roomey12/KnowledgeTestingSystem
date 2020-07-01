@@ -1,6 +1,7 @@
 <div class="container">
     <div class="col-lg-6 floating">
         <h1>Список тестов</h1>
+        <input type="text" class="form-control" placeholder="Название теста" [(ngModel)]="title" (ngModelChange)="loadTestsByTitle()">
         <table class="table mtable">
             <thead>
                 <tr>
@@ -13,6 +14,10 @@
                 </tr>
             </tbody>
         </table>
+        <div class="text-center">
+            <button class="btn btn-sm btn-info mx-3" (click)="previousPage()"><</button>
+            <button class="btn btn-sm btn-info" (click)="nextPage()">></button>
+        </div>
     </div>
     <div class="col-lg-6 floating">
         <h1>Топ 10 результатов</h1>

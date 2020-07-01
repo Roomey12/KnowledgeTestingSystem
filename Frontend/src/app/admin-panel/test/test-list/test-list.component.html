@@ -1,6 +1,10 @@
 <div class="col-lg-6 floating" class="container">
     <button routerLink= "/admin-panel/test-create" class="btn btn-sm btn-primary">Создать тест</button>
     <h1 style="text-align: center">Список тестов</h1>
+    <div class="text-center">
+        <button class="btn btn-sm btn-info mx-3" (click)="previousPage()"><</button>
+        <button class="btn btn-sm btn-info" (click)="nextPage()">></button>
+    </div>
     <table class="table mtable">
         <thead>
             <tr>

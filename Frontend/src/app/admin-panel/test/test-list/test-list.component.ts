@@ -11,18 +11,38 @@ import { Test } from 'src/app/models/test';
 })
 export class TestListComponent implements OnInit {
 
+  previousTests: Test[];
+  pageNumber: number = 1;
   tests: Test[];
-  constructor(private router: Router, private testService: TestService) { }
+  constructor(private testService: TestService) { }
 
   ngOnInit() {
     this.loadTests();
   }
 
   loadTests() {
-    this.testService.getTests()
-        .subscribe((data: Test[]) => {
-            this.tests = data;
-        });
+    this.testService.getTestsForPagination(this.pageNumber).subscribe((data: Test[]) => {
+      this.tests = data;
+      if(data.length != 0 ){
+        this.previousTests = data;
+      }
+      else{
+        this.tests = this.previousTests;
+        this.pageNumber--;
+      }
+    })
+  }
+
+  nextPage(){
+    this.pageNumber++;
+    this.loadTests();
+  }
+
+  previousPage(){
+    if(this.pageNumber > 1){
+      this.pageNumber--;
+    }
+    this.loadTests();
   }
 
   delete(id: string) {

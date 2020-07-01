@@ -43,12 +43,18 @@ export class TestService {
     }
 
     putTest(test: Test){
-        console.log(test);
         return this.http.put(this.testUrl, test);
     }
 
     createTest(test: Test){
-        console.log(test);
         return this.http.post(this.testUrl, test);
+    }
+
+    getTestsForPagination(pageNumber){
+        return this.http.get(this.testUrl + `pagination?pageNumber=${pageNumber}&pageSize=4`);
+    }
+
+    getTestsByTitle(title){
+        return this.http.get(this.testUrl + `title/${title}`);
     }
 }

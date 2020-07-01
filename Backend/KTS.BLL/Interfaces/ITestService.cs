@@ -1,4 +1,5 @@
 ﻿using KTS.BLL.DTO;
+using KTS.DAL.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,6 +12,8 @@ namespace KTS.BLL.Interfaces
         IEnumerable<QuestionDTO> GetQuestionsByTestId(int id);
         IEnumerable<TestDTO> GetAllTests();
         IDictionary<string, IEnumerable<AnswerDTO>> GetQuestionsAndAnswersByTestId(int id);
+        IEnumerable<TestDTO> GetAllTestsForPagination(Pagination pagination);
+        IEnumerable<TestDTO> GetTestsByTitle(string title);
         void CreateTest(TestDTO test);
         void DeleteTest(string id);
         void UpdateTest(TestDTO testDTO);

@@ -21,10 +21,6 @@ export class UserTestListComponent implements OnInit {
   }
 
   loadUserTests(){
-    // this.userTestService.getAllUserTests()
-    //     .subscribe((data: object[]) => {
-    //       this.userTests = data;
-    //     });
     this.userTestService.getUserTestsForPagination(this.pageNumber).subscribe((data: object[]) => {
       this.userTests = data;
       if(data.length != 0 ){

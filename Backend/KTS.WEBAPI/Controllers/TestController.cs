@@ -3,6 +3,7 @@ using KTS.BLL.DTO;
 using KTS.BLL.Infrastucture;
 using KTS.BLL.Interfaces;
 using KTS.BLL.Services;
+using KTS.DAL.Configuration;
 using KTS.DAL.Entities;
 using KTS.DAL.Interfaces;
 using KTS.WEBAPI.Models;
@@ -174,6 +175,46 @@ namespace KTS.WEBAPI.Controllers
                 return StatusCode(500);
             }
             return Ok(new { Message = "Test was successfully changed!" });
+        }
+
+
+        // GET: api/test/pagination?pageNumber=1&pageSize=40
+        [HttpGet("pagination")]
+        [AllowAnonymous]
+        public IActionResult GetTestsForPagination([FromQuery]Pagination pagination)
+        {
+            IEnumerable<TestModel> result;
+            try
+            {
+                result = mapper.Map<IEnumerable<TestDTO>, IEnumerable<TestModel>>
+                    (_testService.GetAllTestsForPagination(pagination));
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok(result);
+        }
+
+        [HttpGet("title/{title}")]
+        [AllowAnonymous]
+        public IActionResult GetTestsByTitle(string title)
+        {
+            IEnumerable<TestModel> result;
+            try
+            {
+                result = mapper.Map<IEnumerable<TestDTO>, IEnumerable<TestModel>>
+                    (_testService.GetTestsByTitle(title));
+            }
+            catch(ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok(result);
         }
     }
 }
