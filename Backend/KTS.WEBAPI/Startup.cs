@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using KTS.BLL.DTO;
@@ -43,9 +44,12 @@ namespace KTS.WEBAPI
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
             services.AddControllers();
             services.AddDbContext<ApplicationContext>();
+            string symChar = " !@#$%^&*()_+=-:{}[]/\\|/'";
+            string ruChar = "¸יצףךוםדרשחץתפûגאןנמכהז‎ÿקסלטעüב‏¿÷";
+            string enChar = "qwertyuiopasdfghjklzxcvbnm";
             services.AddIdentity<User, IdentityRole>(opts =>
             {
-                opts.User.AllowedUserNameCharacters = " ¸יצףךוםדרשחץתפûגאןנמכהז‎ÿקסלטעüב‏¿¯¨ÉÖÓÊÅÍÃØÙÇÕÚÔÛÂÀÏÐÎËÄÆÝ‗×ÑÌÈÒÜÁÞ";
+                opts.User.AllowedUserNameCharacters = symChar + ruChar + ruChar.ToUpper() + enChar + enChar.ToUpper();
                 opts.User.RequireUniqueEmail = true;
                 opts.SignIn.RequireConfirmedEmail = true;
                 opts.Password.RequiredLength = 6;   // לטםטלאכüםאÿ הכטםא
@@ -77,7 +81,6 @@ namespace KTS.WEBAPI
                           .AllowAnyMethod();
                       });
             });
-
             //Jwt Authentication
 
             var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
@@ -118,11 +121,11 @@ namespace KTS.WEBAPI
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors("MyPolicy");
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseCors("MyPolicy");
 
             app.UseEndpoints(endpoints =>
             {

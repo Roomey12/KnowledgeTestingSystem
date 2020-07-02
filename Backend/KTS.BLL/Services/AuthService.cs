@@ -89,7 +89,7 @@ namespace KTS.BLL.Services
                         new Claim("UserID", user.Id.ToString()),
                         new Claim(_options.ClaimsIdentity.RoleClaimType, role.FirstOrDefault())
                     }),
-                    Expires = DateTime.UtcNow.AddHours(1),
+                    Expires = DateTime.UtcNow.AddMinutes(1),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey
                         (Encoding.UTF8.GetBytes(_appSettings.JWT_Secret)), 
                         SecurityAlgorithms.HmacSha256Signature)

@@ -232,7 +232,7 @@ namespace KTS.BLL.Services
             {
                 await Database.UserManager.RemoveFromRoleAsync(user, "customer");
             }
-            userDTO.Role = "admin";;
+            userDTO.Role = "admin";
             return await Database.UserManager.AddToRoleAsync(user, userDTO.Role);
         }
 
@@ -260,15 +260,20 @@ namespace KTS.BLL.Services
             return await Database.UserManager.AddToRoleAsync(user, userDTO.Role);
         }
 
-        public void Dispose()
-        {
-            Database.Dispose();
-        }
-
+        /// <summary>
+        /// This method returns certain count of users.
+        /// </summary>
+        /// <param name="pagination">Settings for users count.</param>
+        /// <returns>Users which were found</returns>
         public IEnumerable<UserDTO> GetAllUsersForPagination(Pagination pagination)
         {
             return mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>
                 (Database.Users.GetAllForPagination(pagination));
+        }
+
+        public void Dispose()
+        {
+            Database.Dispose();
         }
     }
 }

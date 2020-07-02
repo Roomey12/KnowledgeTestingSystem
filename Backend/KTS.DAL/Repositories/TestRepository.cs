@@ -71,6 +71,11 @@ namespace KTS.DAL.Repositories
             return _context.Tests.ToList();
         }
 
+        /// <summary>
+        /// This method returns certain count of tests.
+        /// </summary>
+        /// <param name="pagination">Settings for tests count.</param>
+        /// <returns>Tests which were found</returns>
         public IEnumerable<Test> GetAllForPagination(Pagination pagination)
         {
             return _context.Tests

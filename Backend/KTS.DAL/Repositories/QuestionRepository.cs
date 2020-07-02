@@ -70,6 +70,12 @@ namespace KTS.DAL.Repositories
             return _context.Questions.Include(p => p.Test).ToList();
         }
 
+
+        /// <summary>
+        /// This method returns certain count of questions.
+        /// </summary>
+        /// <param name="pagination">Settings for questions count.</param>
+        /// <returns>Questions which were found</returns>
         public IEnumerable<Question> GetAllForPagination(Pagination pagination)
         {
             return _context.Questions.Include(p => p.Test)

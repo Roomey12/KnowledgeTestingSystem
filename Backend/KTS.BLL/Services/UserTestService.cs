@@ -192,6 +192,11 @@ namespace KTS.BLL.Services
             Database.SaveAsync();
         }
 
+        /// <summary>
+        /// This method returns certain count of userTests.
+        /// </summary>
+        /// <param name="pagination">Settings for userTests count.</param>
+        /// <returns>UserTests which were found</returns>
         public IEnumerable<object> GetAllUserTestsForPagination(Pagination pagination)
         {
             var userTests =  mapper.Map<IEnumerable<UserTest>, IEnumerable<UserTestDTO>>

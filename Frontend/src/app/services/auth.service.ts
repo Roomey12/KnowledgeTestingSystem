@@ -97,7 +97,7 @@ export class AuthService {
     //     "Access-Control-Allow-Origin": "*"
     //   })
     // };
-    // return this.http.get("https://localhost:44340/api/auth/googlelogin", httpOptions);
+    // return this.http.get("https://localhost:44340/api/auth/googlelogin");
     document.location.href = this.authUrl + "googlelogin";
   }
 

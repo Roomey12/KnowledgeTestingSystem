@@ -69,10 +69,15 @@ namespace KTS.DAL.Repositories
             return _context.UserTests.Include(p => p.Test).Include(u => u.User).ToList();
         }
 
+
+        /// <summary>
+        /// This method returns certain count of userTests.
+        /// </summary>
+        /// <param name="pagination">Settings for userTests count.</param>
+        /// <returns>UserTests which were found</returns>
         public IEnumerable<UserTest> GetAllForPagination(Pagination pagination)
         {
             return _context.UserTests.Include(p => p.Test).Include(u => u.User)
-                .OrderBy(on => on.UserTestId)
                 .Skip((pagination.PageNumber - 1) * pagination.PageSize)
                 .Take(pagination.PageSize)
                 .ToList();

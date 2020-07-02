@@ -184,7 +184,7 @@ namespace KTS.WEBAPI.Controllers
 
         // PUT: api/user/makeAdmin
         [HttpPut("makeAdmin")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> MakeUserAdmin(UserModel model)
         {
             IdentityResult result;
@@ -209,7 +209,7 @@ namespace KTS.WEBAPI.Controllers
 
         // PUT: api/user/makeCustomer
         [HttpPut("makeCustomer")]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> MakeUserCustomer(UserModel model)
         {
             IdentityResult result;

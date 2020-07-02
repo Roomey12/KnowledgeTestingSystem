@@ -168,5 +168,18 @@ namespace KTS.BLL.Tests
                 ts.UpdateTest(new TestDTO());
             });
         }
+
+        [Fact]
+        public void GetTestsByTitle_WithCorrectData_TestMustBeReceived()
+        {
+            var uow = new Mock<IUnitOfWork>();
+            TestService ts = new TestService(uow.Object);
+            uow.Setup(x => x.Tests.Find(It.IsAny<Func<Test, bool>>())).Returns(new List<Test>());
+
+            var expected = JsonConvert.SerializeObject(new List<Test>());
+            var actual = JsonConvert.SerializeObject(ts.GetTestsByTitle("a"));
+
+            Assert.Equal(expected, actual);
+        }
     }
 }

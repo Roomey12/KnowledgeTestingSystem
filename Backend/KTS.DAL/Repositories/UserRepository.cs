@@ -70,6 +70,12 @@ namespace KTS.DAL.Repositories
             return  _context.Users.ToList();
         }
 
+
+        /// <summary>
+        /// This method returns certain count of users.
+        /// </summary>
+        /// <param name="pagination">Settings for users count.</param>
+        /// <returns>Users which were found</returns>
         public IEnumerable<User> GetAllForPagination(Pagination pagination)
         {
             return _context.Users

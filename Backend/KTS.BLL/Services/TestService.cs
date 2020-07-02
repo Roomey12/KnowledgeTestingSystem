@@ -7,8 +7,6 @@ using KTS.DAL.Entities;
 using KTS.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 
 namespace KTS.BLL.Services
 {
@@ -135,12 +133,22 @@ namespace KTS.BLL.Services
             Database.Save();
         }
 
+        /// <summary>
+        /// This method returns certain count of tests.
+        /// </summary>
+        /// <param name="pagination">Settings for tests count.</param>
+        /// <returns>Tests which were found</returns>
         public IEnumerable<TestDTO> GetAllTestsForPagination(Pagination pagination)
         {
             return mapper.Map<IEnumerable<Test>, IEnumerable<TestDTO>>
                 (Database.Tests.GetAllForPagination(pagination));
         }
 
+        /// <summary>
+        /// This method returns tests by part of their title.
+        /// </summary>
+        /// <param name="title">Part of tests title</param>
+        /// <returns>Tests which were found</returns>
         public IEnumerable<TestDTO> GetTestsByTitle(string title)
         {
             if(title == null)

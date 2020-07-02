@@ -69,10 +69,14 @@ namespace KTS.DAL.Repositories
             return _context.Answers.Include(p => p.Question).ToList();
         }
 
+        /// <summary>
+        /// This method returns certain count of answers.
+        /// </summary>
+        /// <param name="pagination">Settings for answers count.</param>
+        /// <returns>Answers which were found</returns>
         public IEnumerable<Answer> GetAllForPagination(Pagination pagination)
         {
             return _context.Answers.Include(p => p.Question)
-                     .OrderBy(on => on.AnswerId)
                      .Skip((pagination.PageNumber - 1) * pagination.PageSize)
                      .Take(pagination.PageSize)
                      .ToList();
