@@ -167,25 +167,16 @@ namespace KTS.WEBAPI.Controllers
             return result;
         }
 
-        // GET: api/auth/ExternalLoginCallback
-        [HttpGet("ExternalLoginCallback")]
-        public async Task<IActionResult> ExternalLoginCallBack()
+        // GET: api/auth/ExternalLoginCallback/provider
+        [HttpGet("ExternalLoginCallback/{provider}")]
+        public async Task<IActionResult> ExternalLoginCallBack(string provider)
         {
-            string result;
-            bool isSuccess;
+            string token;
             string final;
             try
             {
-                result = await _authService.ExternalLoginCallBack();
-                try
-                {
-                    isSuccess = Convert.ToBoolean(result);
-                    final = $@"http://localhost:4200/user/external-login/?isSuccess={isSuccess.ToString()}";
-                }
-                catch (Exception)
-                {
-                    final = $@"http://localhost:4200/user/external-login/?token={result}";
-                }
+                token = await _authService.ExternalLoginCallBack(provider);
+                final = $@"http://localhost:4200/user/external-login/?token={token}";
             }
             catch(ValidationException ex)
             {
@@ -196,7 +187,7 @@ namespace KTS.WEBAPI.Controllers
                 return StatusCode(500);
             }
             return Redirect(final);
-            //return Ok(result);
+            //return Ok(token);
         }
     }
 }

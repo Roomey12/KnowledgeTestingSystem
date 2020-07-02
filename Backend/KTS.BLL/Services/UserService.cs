@@ -271,6 +271,21 @@ namespace KTS.BLL.Services
                 (Database.Users.GetAllForPagination(pagination));
         }
 
+        public async Task ChangeProfileImage(UserDTO userDTO)
+        {
+            if (userDTO == null)
+            {
+                throw new ValidationException("User can not be null");
+            }
+            var user = await Database.UserManager.FindByEmailAsync(userDTO.Email);
+            if(user == null)
+            {
+                throw new NotFoundException("User was not found", "Email");
+            }
+            user.ProfileImageUrl = userDTO.ProfileImageUrl;
+            Database.Users.Update(user);
+            await Database.SaveAsync();
+        }
         public void Dispose()
         {
             Database.Dispose();

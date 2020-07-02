@@ -130,7 +130,7 @@ namespace KTS.WEBAPI.Controllers
         {
             string userId = User.Claims.First(c => c.Type == "UserID").Value;
             var user = await _userManager.FindByIdAsync(userId);
-            return new { user.Id, user.Email, user.UserName };
+            return new { user.Id, user.Email, user.UserName, user.ProfileImageUrl };
         }
 
         // PUT: api/user/changePassword
@@ -184,7 +184,7 @@ namespace KTS.WEBAPI.Controllers
 
         // PUT: api/user/makeAdmin
         [HttpPut("makeAdmin")]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> MakeUserAdmin(UserModel model)
         {
             IdentityResult result;
@@ -209,7 +209,7 @@ namespace KTS.WEBAPI.Controllers
 
         // PUT: api/user/makeCustomer
         [HttpPut("makeCustomer")]
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> MakeUserCustomer(UserModel model)
         {
             IdentityResult result;
@@ -253,7 +253,7 @@ namespace KTS.WEBAPI.Controllers
             {
                 return StatusCode(500);
             }
-            return Ok(new { Message = "link was sent to new email" });
+            return Ok(new { Message = "Link was sent to new email" });
         }
 
         // POST: api/user/confirmNewEmail
@@ -292,6 +292,30 @@ namespace KTS.WEBAPI.Controllers
                 return StatusCode(500);
             }
             return Ok(result);
+        }
+
+        // PUT: api/user/changeProfileImage
+        [HttpPut("changeProfileImage")]
+        [Authorize]
+        public async Task<IActionResult> ChangeProfileImage(UserModel model)
+        {
+            try
+            {
+                await _userService.ChangeProfileImage(mapper.Map<UserModel, UserDTO>(model));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok(new { Message = "Profile image was successfully changed" });
         }
     }
 }

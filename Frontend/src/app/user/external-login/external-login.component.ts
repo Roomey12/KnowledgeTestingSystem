@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Route } from '@angular/compiler/src/core';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-external-login',
   templateUrl: './external-login.component.html',
   styleUrls: ['./external-login.component.css']
-
 })
 export class ExternalLoginComponent implements OnInit {
 
@@ -19,9 +17,6 @@ export class ExternalLoginComponent implements OnInit {
       if(params['token']){
         this.token = params['token'];
       }
-      if(params['isSuccess']){
-        this.isSuccess = params['isSuccess'];
-      }
     });
   }
 
@@ -31,12 +26,7 @@ export class ExternalLoginComponent implements OnInit {
       this.router.navigateByUrl('/home');
     }
     else{
-      if(this.isSuccess){
-        this.toastr.success("Для окончания регистрации, перейдите по ссылке, которая была отправлена на Вашу почту.", "Успешно.")
-      }
-      else{
-        this.toastr.error('Что-то пошло не так','Регистрация не выполнена.');
-      }
+      this.toastr.error('Что-то пошло не так','Безуспешно.');
       this.router.navigateByUrl('/user/login');
     }
   }

@@ -98,6 +98,14 @@ export class UserService {
         return this.http.post(this.userUrl + 'changeEmail', body);
     }
 
+    changeProfileImage(email: string, profileImageUrl: string){
+        let body = {
+            Email: email,
+            profileImageUrl: profileImageUrl
+        };
+        return this.http.put(this.userUrl + 'changeProfileImage', body);
+    }
+
     confirmNewEmail(body){
         return this.http.post(this.userUrl + 'confirmNewEmail', body);
     }

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>KTS.DAL</id>
+    <version>1.0.0</version>
+    <authors>KTS.DAL</authors>
+    <owners>KTS.DAL</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Package Description</description>
+    <dependencies>
+      <group targetFramework=".NETCoreApp3.1">
+        <dependency id="Microsoft.AspNetCore.Identity" version="2.2.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.Identity.EntityFrameworkCore" version="3.1.2" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.EntityFrameworkCore" version="3.1.2" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.EntityFrameworkCore.SqlServer" version="3.1.2" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Configuration" version="3.1.3" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Configuration.FileExtensions" version="2.2.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Configuration.Json" version="2.2.0" exclude="Build,Analyzers" />
+        <dependency id="System.Configuration.ConfigurationManager" version="4.7.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\roomey\Desktop\c#\KnowledgeTestingSystem\Backend\KTS.DAL\bin\Debug\netcoreapp3.1\KTS.DAL.runtimeconfig.json" target="lib\netcoreapp3.1\KTS.DAL.runtimeconfig.json" />
+    <file src="C:\Users\roomey\Desktop\c#\KnowledgeTestingSystem\Backend\KTS.DAL\bin\Debug\netcoreapp3.1\KTS.DAL.dll" target="lib\netcoreapp3.1\KTS.DAL.dll" />
+  </files>
+</package>

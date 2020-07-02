@@ -17,6 +17,6 @@ namespace KTS.BLL.Interfaces
         Task<IdentityResult> ResetPassword(ResetPasswordDTO modelDTO);
         ChallengeResult LoginViaGoogle();
         ChallengeResult LoginViaFacebook();
-        Task<string> ExternalLoginCallBack();
+        Task<string> ExternalLoginCallBack(string provider);
     }
 }

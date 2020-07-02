@@ -20,7 +20,6 @@ export class AccountComponent implements OnInit {
   pas2: string = "newpass";
   pas3: string = "confpass";
 
-
   constructor(private userTestService: UserTestService, public userService: UserService, private toastr: ToastrService) { }
 
   ngOnInit() {
@@ -124,6 +123,19 @@ export class AccountComponent implements OnInit {
     );
   }
 
+  changeProfileImage(){
+    var profileImageUrl = (document.getElementById("profileImageUrl") as HTMLInputElement).value;
+    this.userService.changeProfileImage(this.userDetails.email, profileImageUrl).subscribe(
+      data => {
+        this.loadUserProfile();
+        (document.getElementById("profileImageUrl") as HTMLInputElement).value = "";
+        this.toastr.success('Аватар был изменен', 'Успешно.');
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
   show_hide_password(el){
     if(el == "oldpass"){
       var input = document.getElementById('old-password');

@@ -44,7 +44,7 @@ namespace KTS.WEBAPI
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
             services.AddControllers();
             services.AddDbContext<ApplicationContext>();
-            string symChar = " !@#$%^&*()_+=-:{}[]/\\|/'";
+            string symChar = " !@#$%^&*()_+=-:{}[]/\\|/'0123456789";
             string ruChar = "¸יצףךוםדרשחץתפûגאןנמכהז‎ÿקסלטעüב‏¿÷";
             string enChar = "qwertyuiopasdfghjklzxcvbnm";
             services.AddIdentity<User, IdentityRole>(opts =>

@@ -5,10 +5,12 @@ using KTS.BLL.Interfaces;
 using KTS.DAL.Entities;
 using KTS.DAL.Interfaces;
 using MailKit.Net.Smtp;
+using MailKit.Search;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MimeKit;
@@ -50,7 +52,8 @@ namespace KTS.BLL.Services
                 throw new ValidationException("Model can not be null");
             }
             modelDTO.Role = "customer";
-            User user = new User { Email = modelDTO.Email, UserName = modelDTO.UserName };
+            modelDTO.ImageProfileUrl = "https://i03.fotocdn.net/s118/60ff0fe19bf91339/user_l/2688937826.jpg";
+            User user = new User { Email = modelDTO.Email, UserName = modelDTO.UserName, ProfileImageUrl = modelDTO.ImageProfileUrl };
             IdentityResult result = await Database.UserManager.CreateAsync(user, modelDTO.Password);
             await Database.UserManager.AddToRoleAsync(user, modelDTO.Role);
             if (result.Succeeded)
@@ -89,7 +92,7 @@ namespace KTS.BLL.Services
                         new Claim("UserID", user.Id.ToString()),
                         new Claim(_options.ClaimsIdentity.RoleClaimType, role.FirstOrDefault())
                     }),
-                    Expires = DateTime.UtcNow.AddMinutes(1),
+                    Expires = DateTime.UtcNow.AddHours(1),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey
                         (Encoding.UTF8.GetBytes(_appSettings.JWT_Secret)), 
                         SecurityAlgorithms.HmacSha256Signature)
@@ -181,7 +184,7 @@ namespace KTS.BLL.Services
         public ChallengeResult LoginViaGoogle()
         {
             var provider = "Google";
-            var redirectUrl = "/api/auth/ExternalLoginCallBack";
+            var redirectUrl = $"/api/auth/ExternalLoginCallBack/{provider}";
             var properties = Database.SignInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return new ChallengeResult(provider, properties);
         }
@@ -193,7 +196,7 @@ namespace KTS.BLL.Services
         public ChallengeResult LoginViaFacebook()
         {
             var provider = "Facebook";
-            var redirectUrl = "/api/auth/ExternalLoginCallBack";
+            var redirectUrl = $"/api/auth/ExternalLoginCallBack/{provider}";
             var properties = Database.SignInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return new ChallengeResult(provider, properties);
         }
@@ -202,7 +205,7 @@ namespace KTS.BLL.Services
         /// This method is callback for external authorizing.
         /// </summary>
         /// <returns>JWT or result of registation.</returns>
-        public async Task<string> ExternalLoginCallBack()
+        public async Task<string> ExternalLoginCallBack(string provider)
         {
             var info = await Database.SignInManager.GetExternalLoginInfoAsync();
             if (info == null)
@@ -210,59 +213,68 @@ namespace KTS.BLL.Services
                 throw new ValidationException("Error loading external login information");
             }
             string Email = "";
+            var identifier = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
+            string picture = "";
+            if(provider == "Facebook")
+            {
+                picture = $"https://graph.facebook.com/{identifier}/picture";
+            }
+            else if(provider == "Google")
+            {
+                picture = "http://www.nbdesign.fi/wp-content/uploads/2019/03/henkilö_icon2.jpg";
+            }
             string Name = info.Principal.Identity.Name;
             if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
             {
                 Email = info.Principal.FindFirstValue(ClaimTypes.Email);
             }
             var user = await Database.UserManager.FindByEmailAsync(Email);
-            if (user != null)
+            if (user == null)
             {
-                if (!await Database.UserManager.IsEmailConfirmedAsync(user))
+                User checkUser;
+                int i = 1;
+                do
                 {
-                    throw new ValidationException("Email is not confirmed");
-                }
-                var role = await Database.UserManager.GetRolesAsync(user);
-                IdentityOptions _options = new IdentityOptions();
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Subject = new ClaimsIdentity(new Claim[]
+                    checkUser = Database.Users.Find(x => x.UserName == Name).FirstOrDefault();
+                    if(checkUser != null)
                     {
-                        new Claim("UserID", user.Id.ToString()),
-                        new Claim(_options.ClaimsIdentity.RoleClaimType, role.FirstOrDefault())
-                    }),
-                    Expires = DateTime.UtcNow.AddHours(1),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey
-                        (Encoding.UTF8.GetBytes(_appSettings.JWT_Secret)),
-                        SecurityAlgorithms.HmacSha256Signature)
-                };
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-                var token = tokenHandler.WriteToken(securityToken);
-                return token;
-            }
-            else
-            {
-                var registerUser = new User { UserName = Name, Email = Email };
-                var registerResult = await Database.UserManager.CreateAsync(registerUser);
-                if (registerResult.Succeeded)
-                {
-                    var roleResult = await Database.UserManager.AddToRoleAsync(registerUser, "customer");
-                    var loginResult = await Database.UserManager.AddLoginAsync(registerUser, info);
-                    if (loginResult.Succeeded && roleResult.Succeeded)
-                    {
-                        var token = await Database.UserManager.GenerateEmailConfirmationTokenAsync(registerUser);
-                        byte[] tokenGeneratedBytes = Encoding.UTF8.GetBytes(token);
-                        var tokenEncoded = WebEncoders.Base64UrlEncode(tokenGeneratedBytes);
-                        var clientUrl = _appSettings.Client_URL;
-                        var callbackUrl = $@"{clientUrl}/user/confirm-email/?userId={registerUser.Id}&token={tokenEncoded}";
-                        await _emailService.SendEmailAsync(Email, "Подтвердите Ваш аккаунт",
-                                        $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>клик</a>.");
-                        return "true";
+                        Name += i.ToString();
                     }
                 }
-                return "false";
+                while (checkUser != null);
+                var registerUser = new User
+                {
+                    UserName = Name,
+                    Email = Email,
+                    EmailConfirmed = true,
+                    ProfileImageUrl = picture
+                };
+                var registerResult = await Database.UserManager.CreateAsync(registerUser);
+                var roleResult = await Database.UserManager.AddToRoleAsync(registerUser, "customer");
+                if(!registerResult.Succeeded || !roleResult.Succeeded)
+                {
+                    throw new ValidationException(registerResult.Errors.ToList()[0].Description + " " + roleResult.Errors.ToList()[0].Description);
+                }
             }
+            user = await Database.UserManager.FindByEmailAsync(Email);
+            var role = await Database.UserManager.GetRolesAsync(user);
+            IdentityOptions _options = new IdentityOptions();
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                        new Claim("UserID", user.Id.ToString()),
+                        new Claim(_options.ClaimsIdentity.RoleClaimType, role.FirstOrDefault())
+                }),
+                Expires = DateTime.UtcNow.AddHours(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey
+                    (Encoding.UTF8.GetBytes(_appSettings.JWT_Secret)),
+                    SecurityAlgorithms.HmacSha256Signature)
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+            var token = tokenHandler.WriteToken(securityToken);
+            return token;
         }
     }
 }

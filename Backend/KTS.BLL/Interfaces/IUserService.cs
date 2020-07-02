@@ -23,5 +23,6 @@ namespace KTS.BLL.Interfaces
         Task ChangeEmail(ChangeEmailDTO modelDTO);
         Task<IdentityResult> ConfirmNewEmail(ChangeEmailDTO modelDTO);
         IEnumerable<UserDTO> GetAllUsersForPagination(Pagination pagination);
+        Task ChangeProfileImage(UserDTO userDTO);
     }
 }
