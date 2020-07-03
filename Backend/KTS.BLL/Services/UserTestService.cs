@@ -112,7 +112,7 @@ namespace KTS.BLL.Services
                          join t in userTests on u.Id equals t.UserId
                          join a in tests on t.TestId equals a.TestId
                          orderby t.Mark descending, new DateTime(date.Year, date.Month, date.Day, date.Hour, t.Time.Minute, t.Time.Second)
-                         select new { u.Username, Test = t.Test.Title, t.Mark, t.Time }).Take(count);
+                         select new { UserId = u.Id, u.Username, t.TestId, Test = t.Test.Title, t.Mark, t.Time }).Take(count);
             return result;
         }
 

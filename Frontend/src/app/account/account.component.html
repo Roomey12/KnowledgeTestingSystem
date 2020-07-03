@@ -9,12 +9,12 @@
                 <div class="card-body col-6">
                     <ul class="list-group">
                         <li class="list-group-item"><strong>Имя пользователя: </strong>{{userDetails.userName}}</li>
-                        <li class="list-group-item"><strong>Почта: </strong>{{userDetails.email}}</li>
+                        <li class="list-group-item" *ngIf="!userId"><strong>Почта: </strong>{{userDetails.email}}</li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="col-12 d-flex justify-content-center">
+        <div class="col-12 d-flex justify-content-center" *ngIf="!userId">
             <button class="btn btn-info place m-3" (click)="showChangePassword()" data-toggle="modal" data-target="#modalchangepass">Изменить пароль</button>
             <button class="btn btn-info place m-3" (click)="showChangeEmail()" data-toggle="modal" data-target="#modachangeemail">Изменить Email</button>
             <button class="btn btn-info place m-3" (click)="showChangeUsername()" data-toggle="modal" data-target="#modachangename">Изменить имя пользователя</button>

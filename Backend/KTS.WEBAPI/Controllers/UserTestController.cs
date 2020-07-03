@@ -132,7 +132,7 @@ namespace KTS.WEBAPI.Controllers
 
         // GET: api/userTest/user/5
         [HttpGet("user/{id}")]
-        [Authorize]
+        [AllowAnonymous]
         public IActionResult GetUserTestByUserId(string id)
         {
             object userTest;

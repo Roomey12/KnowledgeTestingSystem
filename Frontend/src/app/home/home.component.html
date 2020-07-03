@@ -34,8 +34,8 @@
             <tbody>
                 <tr *ngFor="let u of userTests; let i = index">
                     <td>{{i+1}}</td>
-                    <td>{{u?.username}}</td>
-                    <td>{{u?.test}}</td>
+                    <td><a routerLink="/account/{{u.userId}}">{{u?.username}}</a></td>
+                    <td><a routerLink="/test/{{u.testId}}">{{u?.test}}</a></td>
                     <td>{{u?.mark}}%</td>
                     <td>{{u?.time.substring(14)}}</td>
                 </tr>

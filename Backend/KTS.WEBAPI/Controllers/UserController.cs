@@ -60,7 +60,7 @@ namespace KTS.WEBAPI.Controllers
 
         // GET: api/user/5
         [HttpGet("{id}")]
-        [Authorize(Roles = "admin")]
+        [AllowAnonymous]
         public IActionResult GetUserById(string id)
         {
             UserModel user;

@@ -221,7 +221,8 @@ namespace KTS.BLL.Services
             }
             else if(provider == "Google")
             {
-                picture = "http://www.nbdesign.fi/wp-content/uploads/2019/03/henkilö_icon2.jpg";
+                //picture = "http://www.nbdesign.fi/wp-content/uploads/2019/03/henkilö_icon2.jpg";
+                picture = $"http://picasaweb.google.com/data/entry/api/user/{identifier}?alt=json";
             }
             string Name = info.Principal.Identity.Name;
             if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))

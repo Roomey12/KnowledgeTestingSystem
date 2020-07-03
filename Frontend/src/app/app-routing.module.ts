@@ -54,6 +54,7 @@ const routes: Routes = [
     ]
   },
   { path: 'account', component: AccountComponent, canActivate: [AuthGuard], },
+  { path: 'account/:id', component: AccountComponent },
   { path: 'teststart/:id', component: TestStartComponent, canActivate: [AuthGuard], canDeactivate: [ExitTestStartGuard] },
   { path: 'test/:id', component: TestInfoComponent },
   { path: '**', redirectTo: '/' }

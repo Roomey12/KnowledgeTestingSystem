@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserTestService } from '../services/usertest.service';
 import { UserService } from '../services/user.service';
 import { ChangePassword } from '../models/changePassword';
@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class AccountComponent implements OnInit {
 
+  userId: string;
   userDetails;
   userTests;
   password: ChangePassword;
@@ -20,12 +21,21 @@ export class AccountComponent implements OnInit {
   pas2: string = "newpass";
   pas3: string = "confpass";
 
-  constructor(private userTestService: UserTestService, public userService: UserService, private toastr: ToastrService) { }
+  constructor(private userTestService: UserTestService, public userService: UserService, 
+              private toastr: ToastrService, activeRoute: ActivatedRoute) {
+    this.userId = activeRoute.snapshot.params["id"];
+    console.log(this.userId);
+  }
 
   ngOnInit() {
-    this.userService.usernameModel.reset();
-    this.userService.passwordModel.reset(); 
-    this.loadUserProfile();
+    if(!this.userId){
+      this.userService.usernameModel.reset();
+      this.userService.passwordModel.reset();
+      this.loadUserProfile();
+    }
+    else{
+      this.loadStrangeUserProfile();
+    }
   }
 
   loadUserProfile(){
@@ -136,6 +146,7 @@ export class AccountComponent implements OnInit {
       }
     );
   }
+
   show_hide_password(el){
     if(el == "oldpass"){
       var input = document.getElementById('old-password');
@@ -157,5 +168,14 @@ export class AccountComponent implements OnInit {
       input.setAttribute('type', 'password');
     }
     return false;
+  }
+
+  loadStrangeUserProfile(){
+    this.userService.getUser(this.userId).subscribe(
+      data => {
+        this.userDetails = data;
+        this.loadUserTests();
+      }
+    )
   }
 }
