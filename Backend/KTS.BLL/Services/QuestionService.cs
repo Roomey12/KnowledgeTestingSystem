@@ -44,6 +44,17 @@ namespace KTS.BLL.Services
         }
 
         /// <summary>
+        /// This method returns questions which relate to the test which Id was passed.
+        /// </summary>
+        /// <param name="testId">Id of test for which questions should be found</param>
+        /// <returns>Questions which were found</returns>
+        public IEnumerable<QuestionDTO> GetQuestionsByTestId(int testId)
+        {
+            return mapper.Map<IEnumerable<Question>, IEnumerable<QuestionDTO>>
+                (Database.Questions.Find(q => q.TestId == testId));
+        }
+
+        /// <summary>
         /// This method creates question for new test.
         /// </summary>
         /// <param name="question">Question which should be created</param>

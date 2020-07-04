@@ -24,7 +24,6 @@ export class AccountComponent implements OnInit {
   constructor(private userTestService: UserTestService, public userService: UserService, 
               private toastr: ToastrService, activeRoute: ActivatedRoute) {
     this.userId = activeRoute.snapshot.params["id"];
-    console.log(this.userId);
   }
 
   ngOnInit() {

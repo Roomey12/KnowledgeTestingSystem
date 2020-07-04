@@ -12,6 +12,8 @@ namespace KTS.BLL.Interfaces
         QuestionDTO GetQuestionById(int id);
         void CreateQuestionForOldTest(QuestionDTO question);
         void CreateQuestionForNewTest(QuestionDTO question);
+        IEnumerable<QuestionDTO> GetQuestionsByTestId(int id);
+
         void DeleteQuestion(string id);
         void UpdateQuestion(QuestionDTO questionDTO);
     }

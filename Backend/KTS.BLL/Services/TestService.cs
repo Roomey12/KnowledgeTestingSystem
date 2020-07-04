@@ -13,6 +13,7 @@ namespace KTS.BLL.Services
     public class TestService : ITestService
     {
         IUnitOfWork Database { get; set; }
+        IQuestionService _questionService;
 
         IMapper mapper = new MapperConfiguration(cfg =>
         {
@@ -22,9 +23,10 @@ namespace KTS.BLL.Services
             cfg.CreateMap<Answer, AnswerDTO>();
         }).CreateMapper();
 
-        public TestService(IUnitOfWork uow)
+        public TestService(IUnitOfWork uow, IQuestionService questionService)
         {
             Database = uow;
+            _questionService = questionService;
         }
 
         /// <summary>
@@ -34,17 +36,6 @@ namespace KTS.BLL.Services
         public IEnumerable<TestDTO> GetAllTests()
         {
             return mapper.Map<IEnumerable<Test>, List<TestDTO>>(Database.Tests.GetAll());
-        }
-
-        /// <summary>
-        /// This method returns questions which relate to the test which Id was passed.
-        /// </summary>
-        /// <param name="testId">Id of test for which questions should be found</param>
-        /// <returns>Questions which were found</returns>
-        public IEnumerable<QuestionDTO> GetQuestionsByTestId(int testId)
-        {
-            return mapper.Map<IEnumerable<Question>, IEnumerable<QuestionDTO>>//change List to IEnum
-                (Database.Questions.Find(q => q.TestId == testId));
         }
 
         /// <summary>
@@ -70,7 +61,7 @@ namespace KTS.BLL.Services
         public IDictionary<string, IEnumerable<AnswerDTO>> GetQuestionsAndAnswersByTestId(int id)
         {
             var test = GetTestById(id);
-            var questions = GetQuestionsByTestId(id);
+            var questions = _questionService.GetQuestionsByTestId(id);
             var questionAnswers = new Dictionary<string, IEnumerable<AnswerDTO>>();
             foreach (var question in questions)
             {

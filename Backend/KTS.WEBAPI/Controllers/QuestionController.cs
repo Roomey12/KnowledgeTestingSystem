@@ -53,6 +53,24 @@ namespace KTS.WEBAPI.Controllers
             return Ok(question);
         }
 
+        // GET: api/question/test/5/
+        [HttpGet("test/{id}")]
+        [Authorize]
+        public IActionResult GetQuestionsByTestId(int id)
+        {
+            IEnumerable<QuestionModel> questions;
+            try
+            {
+                questions = mapper.Map<IEnumerable<QuestionDTO>, IEnumerable<QuestionModel>>
+                    (_questionService.GetQuestionsByTestId(id));
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok(questions);
+        }
+
         // POST: api/question/newTest
         [HttpPost("newTest")]
         [Authorize(Roles = "admin")]

@@ -21,3 +21,4 @@ C:\Users\roomey\Desktop\c#\KnowledgeTestingSystem\Backend\KTS.DAL\obj\Debug\netc
 C:\Users\roomey\Desktop\c#\KnowledgeTestingSystem\Backend\KTS.DAL\obj\Debug\netcoreapp3.1\KTS.DAL.pdb
 C:\Users\roomey\Desktop\c#\KnowledgeTestingSystem\Backend\KTS.DAL\obj\Debug\netcoreapp3.1\KTS.DAL.genruntimeconfig.cache
 C:\Users\roomey\Desktop\c#\KnowledgeTestingSystem\Backend\KTS.DAL\obj\Debug\netcoreapp3.1\KTS.DAL.csproj.CoreCompileInputs.cache
+C:\Users\roomey\Desktop\c#\KnowledgeTestingSystem\Backend\KTS.DAL\obj\Debug\netcoreapp3.1\KTS.DAL.csprojAssemblyReference.cache
