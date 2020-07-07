@@ -31,13 +31,16 @@ namespace KTS.BLL.Services
     {
         private readonly ApplicationSettings _appSettings;
         private readonly IEmailService _emailService;
+        private readonly IRefreshTokenGenerator _refreshTokenGenerator;
         IUnitOfWork Database { get; set; }
 
-        public AuthService(IUnitOfWork uow, IOptions<ApplicationSettings> appSettings, IEmailService emailService)
+        public AuthService(IUnitOfWork uow, IOptions<ApplicationSettings> appSettings,
+            IEmailService emailService, IRefreshTokenGenerator refreshTokenGenerator)
         {
             Database = uow;
             _appSettings = appSettings.Value;
             _emailService = emailService;
+            _refreshTokenGenerator = refreshTokenGenerator;
         }
 
         /// <summary>
@@ -74,7 +77,7 @@ namespace KTS.BLL.Services
         /// </summary>
         /// <param name="modelDTO">LoginDTO object</param>
         /// <returns>JSON Web Token</returns>
-        public async Task<string> Login(LoginDTO modelDTO)
+        public async Task<AuthenticationResponse> Login(LoginDTO modelDTO)
         {
             var user = await Database.UserManager.FindByNameAsync(modelDTO.UserName);
             if (user != null && await Database.UserManager.CheckPasswordAsync(user, modelDTO.Password))
@@ -100,7 +103,8 @@ namespace KTS.BLL.Services
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var securityToken = tokenHandler.CreateToken(tokenDescriptor);
                 var token = tokenHandler.WriteToken(securityToken);
-                return token;
+                var refreshToken = _refreshTokenGenerator.GenerateToken();
+                return new AuthenticationResponse() { JwtToken = token, RefreshToken = refreshToken };
             }
             else
             {
@@ -221,7 +225,6 @@ namespace KTS.BLL.Services
             }
             else if(provider == "Google")
             {
-                //picture = "http://www.nbdesign.fi/wp-content/uploads/2019/03/henkilö_icon2.jpg";
                 picture = $"http://picasaweb.google.com/data/entry/api/user/{identifier}?alt=json";
             }
             string Name = info.Principal.Identity.Name;

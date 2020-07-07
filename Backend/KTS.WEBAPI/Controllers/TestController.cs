@@ -159,7 +159,6 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "Test was successfully changed!" });
         }
 
-
         // GET: api/test/pagination?pageNumber=1&pageSize=40
         [HttpGet("pagination")]
         [AllowAnonymous]

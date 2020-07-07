@@ -1,6 +1,7 @@
 ﻿using Castle.DynamicProxy.Internal;
 using KTS.BLL.DTO;
 using KTS.BLL.Infrastucture;
+using KTS.BLL.Interfaces;
 using KTS.BLL.Services;
 using KTS.DAL.Entities;
 using KTS.DAL.Interfaces;

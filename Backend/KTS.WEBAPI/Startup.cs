@@ -70,6 +70,7 @@ namespace KTS.WEBAPI
             services.AddTransient<IUserTestService, UserTestService>();
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<IRefreshTokenGenerator, RefreshTokenGenerator>();
             services.AddCors(options =>
             {
                 options.AddPolicy("MyPolicy",
@@ -104,16 +105,12 @@ namespace KTS.WEBAPI
                 };
             }).AddGoogle(googleOptions =>
             {
-                //googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
-                //googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-                googleOptions.ClientId = "oHe1Vh0TfAB_Md-S90O8CdPm";
-                googleOptions.ClientSecret = "290651554267-8117cc07qv6idsgk9jbnoq4bsmlb5k54.apps.googleusercontent.com";
+                googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+                googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
             }).AddFacebook(facebookOptions =>
             {
-                //facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
-                //facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-                facebookOptions.AppId = "264483651495133";
-                facebookOptions.AppSecret = "1e784793cacbb0df71e46e02df52c980";
+                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
             });
         }
 

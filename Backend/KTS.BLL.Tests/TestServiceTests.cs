@@ -1,5 +1,6 @@
 ﻿using KTS.BLL.DTO;
 using KTS.BLL.Infrastucture;
+using KTS.BLL.Interfaces;
 using KTS.BLL.Services;
 using KTS.DAL.Entities;
 using KTS.DAL.Interfaces;
@@ -18,7 +19,8 @@ namespace KTS.BLL.Tests
         public void GetAllTests_WithCorrectData_AllTestMustBeReceived()
         {
             var uow = new Mock<IUnitOfWork>();
-            TestService ts = new TestService(uow.Object);
+            var qs = new Mock<IQuestionService>();
+            TestService ts = new TestService(uow.Object, qs.Object);
             uow.Setup(x => x.Tests.GetAll()).Returns(new List<Test>());
 
             var expected = JsonConvert.SerializeObject(new List<Test>());
@@ -28,23 +30,11 @@ namespace KTS.BLL.Tests
         }
 
         [Fact]
-        public void GetQuestionsByTestId_WithCorrectData_QuestionMustBeReceived()
-        {
-            var uow = new Mock<IUnitOfWork>();
-            TestService ts = new TestService(uow.Object);
-            uow.Setup(x => x.Questions.Find(It.IsAny<Func<Question, bool>>())).Returns(new List<Question>());
-
-            var expected = JsonConvert.SerializeObject(new List<Question>());
-            var actual = JsonConvert.SerializeObject(ts.GetQuestionsByTestId(It.IsAny<int>()));
-
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
         public void GetTestById_WithCorrectData_TestMustBeReceived()
         {
             var uow = new Mock<IUnitOfWork>();
-            TestService ts = new TestService(uow.Object);
+            var qs = new Mock<IQuestionService>();
+            TestService ts = new TestService(uow.Object, qs.Object);
             uow.Setup(x => x.Tests.Get(It.IsAny<string>())).Returns(new Test());
 
             var expected = JsonConvert.SerializeObject(new Test());
@@ -57,7 +47,8 @@ namespace KTS.BLL.Tests
         public void GetTestById_WithInCorrectData_NotFoundExceptionMustBeThrown()
         {
             var uow = new Mock<IUnitOfWork>();
-            TestService ts = new TestService(uow.Object);
+            var qs = new Mock<IQuestionService>();
+            TestService ts = new TestService(uow.Object, qs.Object);
             uow.Setup(x => x.Tests.Get(It.IsAny<string>())).Returns((Test)null);
 
             Assert.Throws<NotFoundException>(() =>
@@ -70,7 +61,8 @@ namespace KTS.BLL.Tests
         public void GetQuestionsAndAnswersByTestId_WithCorrectData_QuestionsAndAnswersMustBeReceived()
         {
             var uow = new Mock<IUnitOfWork>();
-            TestService ts = new TestService(uow.Object);
+            var qs = new Mock<IQuestionService>();
+            TestService ts = new TestService(uow.Object, qs.Object);
             uow.Setup(x => x.Tests.Get(It.IsAny<string>())).Returns(new Test());
             uow.Setup(x => x.Questions.Find(It.IsAny<Func<Question, bool>>())).Returns(new List<Question>());
             uow.Setup(x => x.Answers.Find(It.IsAny<Func<Answer, bool>>())).Returns(new List<Answer>());
@@ -85,7 +77,8 @@ namespace KTS.BLL.Tests
         public void CreateTest_WithCorrectData_TestMustBeCreated()
         {
             var uow = new Mock<IUnitOfWork>();
-            TestService ts = new TestService(uow.Object);
+            var qs = new Mock<IQuestionService>();
+            TestService ts = new TestService(uow.Object, qs.Object);
             uow.Setup(x => x.Tests.Create(new Test()));
 
             ts.CreateTest(new TestDTO());
@@ -97,7 +90,8 @@ namespace KTS.BLL.Tests
         public void CreateTest_WithInCorrectData_ValidationExceptionMustBeThrown()
         {
             var uow = new Mock<IUnitOfWork>();
-            TestService ts = new TestService(uow.Object);
+            var qs = new Mock<IQuestionService>();
+            TestService ts = new TestService(uow.Object, qs.Object);
             uow.Setup(x => x.Tests.Create(new Test()));
 
             Assert.Throws<ValidationException>(() =>
@@ -110,7 +104,8 @@ namespace KTS.BLL.Tests
         public void DeleteTest_WithCorrectData_TestMustBeDeleted()
         {
             var uow = new Mock<IUnitOfWork>();
-            TestService ts = new TestService(uow.Object);
+            var qs = new Mock<IQuestionService>();
+            TestService ts = new TestService(uow.Object, qs.Object);
             uow.Setup(x => x.Tests.Get(It.IsAny<string>())).Returns(new Test());
 
             ts.DeleteTest(It.IsAny<string>());
@@ -122,7 +117,8 @@ namespace KTS.BLL.Tests
         public void DeleteTest_WithInCorrectData_NotFoundExceptionMustBeThrown()
         {
             var uow = new Mock<IUnitOfWork>();
-            TestService ts = new TestService(uow.Object);
+            var qs = new Mock<IQuestionService>();
+            TestService ts = new TestService(uow.Object, qs.Object);
             uow.Setup(x => x.Tests.Get(It.IsAny<string>())).Returns((Test)null);
 
             Assert.Throws<NotFoundException>(() =>
@@ -135,7 +131,8 @@ namespace KTS.BLL.Tests
         public void UpdateTest_WithCorrectData_TestMustBeUpdated()
         {
             var uow = new Mock<IUnitOfWork>();
-            TestService ts = new TestService(uow.Object);
+            var qs = new Mock<IQuestionService>();
+            TestService ts = new TestService(uow.Object, qs.Object);
             uow.Setup(x => x.Tests.Get(It.IsAny<string>())).Returns(new Test());
 
             ts.UpdateTest(new TestDTO());
@@ -147,7 +144,8 @@ namespace KTS.BLL.Tests
         public void UpdateTest_WithNullData_ValidationExceptionMustBeThrown()
         {
             var uow = new Mock<IUnitOfWork>();
-            TestService ts = new TestService(uow.Object);
+            var qs = new Mock<IQuestionService>();
+            TestService ts = new TestService(uow.Object, qs.Object);
             uow.Setup(x => x.Tests.Get(It.IsAny<string>())).Returns((Test)null);
 
             Assert.Throws<ValidationException>(() =>
@@ -160,7 +158,8 @@ namespace KTS.BLL.Tests
         public void UpdateTest_WithInCorrectData_NotFoundExceptionMustBeThrown()
         {
             var uow = new Mock<IUnitOfWork>();
-            TestService ts = new TestService(uow.Object);
+            var qs = new Mock<IQuestionService>();
+            TestService ts = new TestService(uow.Object, qs.Object);
             uow.Setup(x => x.Tests.Get(It.IsAny<string>())).Returns((Test)null);
 
             Assert.Throws<NotFoundException>(() =>
@@ -173,7 +172,8 @@ namespace KTS.BLL.Tests
         public void GetTestsByTitle_WithCorrectData_TestMustBeReceived()
         {
             var uow = new Mock<IUnitOfWork>();
-            TestService ts = new TestService(uow.Object);
+            var qs = new Mock<IQuestionService>();
+            TestService ts = new TestService(uow.Object, qs.Object);
             uow.Setup(x => x.Tests.Find(It.IsAny<Func<Test, bool>>())).Returns(new List<Test>());
 
             var expected = JsonConvert.SerializeObject(new List<Test>());

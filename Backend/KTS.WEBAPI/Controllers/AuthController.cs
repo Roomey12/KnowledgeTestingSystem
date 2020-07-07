@@ -6,6 +6,7 @@ using KTS.WEBAPI.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
 
 namespace KTS.WEBAPI.Controllers
@@ -52,7 +53,7 @@ namespace KTS.WEBAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginModel model)
         {
-            string token;
+            AuthenticationResponse token;
             try
             {
                 token = await _authService.Login(mapper.Map<LoginModel, LoginDTO>(model));
@@ -65,7 +66,12 @@ namespace KTS.WEBAPI.Controllers
             {
                 return StatusCode(500);
             }
-            return Ok(new { token });
+            return Ok(token);
+        }
+
+        public IActionResult Refresh(AuthenticationResponse authenticationResponse)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler
         }
 
         // POST: api/auth/confirmEmail/abc5

@@ -1,4 +1,5 @@
 ﻿using KTS.BLL.DTO;
+using KTS.BLL.Infrastucture;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,7 +12,7 @@ namespace KTS.BLL.Interfaces
     public interface IAuthService
     {
         Task<IdentityResult> Register(RegistrationDTO modelDTO);
-        Task<string> Login(LoginDTO modelDTO);
+        Task<AuthenticationResponse> Login(LoginDTO modelDTO);
         Task<IdentityResult> ConfirmEmail(string userId, string token);
         Task ForgotPassword(string email);
         Task<IdentityResult> ResetPassword(ResetPasswordDTO modelDTO);

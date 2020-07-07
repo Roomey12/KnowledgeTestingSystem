@@ -46,6 +46,19 @@ namespace KTS.BLL.Tests
         }
 
         [Fact]
+        public void GetQuestionsByTestId_WithCorrectData_QuestionMustBeReceived()
+        {
+            var uow = new Mock<IUnitOfWork>();
+            QuestionService qs = new QuestionService(uow.Object);
+            uow.Setup(x => x.Questions.Find(It.IsAny<Func<Question, bool>>())).Returns(new List<Question>());
+
+            var expected = JsonConvert.SerializeObject(new List<Question>());
+            var actual = JsonConvert.SerializeObject(qs.GetQuestionsByTestId(It.IsAny<int>()));
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
         public void CreateQuestionForNewTest_WithCorrectData_QuestionMustBeCreated()
         {
             var uow = new Mock<IUnitOfWork>();

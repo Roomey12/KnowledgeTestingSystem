@@ -132,18 +132,25 @@ export class AccountComponent implements OnInit {
     );
   }
 
-  changeProfileImage(){
+  async changeProfileImage(){
     var profileImageUrl = (document.getElementById("profileImageUrl") as HTMLInputElement).value;
-    this.userService.changeProfileImage(this.userDetails.email, profileImageUrl).subscribe(
-      data => {
-        this.loadUserProfile();
-        (document.getElementById("profileImageUrl") as HTMLInputElement).value = "";
-        this.toastr.success('Аватар был изменен', 'Успешно.');
-      },
-      err => {
-        console.log(err);
-      }
-    );
+    var img = document.createElement("img");
+    img.src = profileImageUrl;
+    img.onerror = () => {
+      this.toastr.error("Ссылка на картинку недействительна.", "Безуспешно.");
+    }
+    img.onload = () => {
+      this.userService.changeProfileImage(this.userDetails.email, profileImageUrl).subscribe(
+        data => {
+          this.loadUserProfile();
+          (document.getElementById("profileImageUrl") as HTMLInputElement).value = "";
+          this.toastr.success('Аватар был изменен', 'Успешно.');
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    }
   }
 
   show_hide_password(el){
