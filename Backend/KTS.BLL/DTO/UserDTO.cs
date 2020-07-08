@@ -13,5 +13,6 @@ namespace KTS.BLL.DTO
         public string Role { get; set; }
         public string Password { get; set; }
         public string ProfileImageUrl { get; set; }
+        public string RefreshToken { get; set; }
     }
 }

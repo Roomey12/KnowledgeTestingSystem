@@ -8,5 +8,6 @@ namespace KTS.DAL.Entities
     public class User : IdentityUser
     {
         public string ProfileImageUrl { get; set; }
+        public string RefreshToken { get; set; }
     }
 }

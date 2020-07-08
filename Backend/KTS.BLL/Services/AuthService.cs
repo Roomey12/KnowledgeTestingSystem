@@ -32,15 +32,17 @@ namespace KTS.BLL.Services
         private readonly ApplicationSettings _appSettings;
         private readonly IEmailService _emailService;
         private readonly IRefreshTokenGenerator _refreshTokenGenerator;
+        private readonly string _tokenKey;
         IUnitOfWork Database { get; set; }
 
         public AuthService(IUnitOfWork uow, IOptions<ApplicationSettings> appSettings,
-            IEmailService emailService, IRefreshTokenGenerator refreshTokenGenerator)
+            IEmailService emailService, IRefreshTokenGenerator refreshTokenGenerator, string tokenKey)
         {
             Database = uow;
             _appSettings = appSettings.Value;
             _emailService = emailService;
             _refreshTokenGenerator = refreshTokenGenerator;
+            _tokenKey = tokenKey;
         }
 
         /// <summary>
@@ -72,6 +74,25 @@ namespace KTS.BLL.Services
             return result;
         }
 
+        public async Task<AuthenticationResponse> Authenticate(string userId, Claim[] claims)
+        {
+            var key = Encoding.ASCII.GetBytes(_tokenKey);
+            var jwtSecurityToken = new JwtSecurityToken(
+                    claims: claims,
+                    expires: DateTime.UtcNow.AddHours(1),
+                    signingCredentials: new SigningCredentials(
+                        new SymmetricSecurityKey(key),
+                        SecurityAlgorithms.HmacSha256Signature)
+                );
+            var token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+            var refreshToken = _refreshTokenGenerator.GenerateToken();
+            var user = await Database.UserManager.FindByIdAsync(userId);
+            user.RefreshToken = refreshToken;
+            Database.Users.Update(user);
+            await Database.SaveAsync();
+
+            return new AuthenticationResponse() { JwtToken = token, RefreshToken = refreshToken };
+        }
         /// <summary>
         /// This method is used to authorize user.
         /// </summary>
@@ -104,6 +125,10 @@ namespace KTS.BLL.Services
                 var securityToken = tokenHandler.CreateToken(tokenDescriptor);
                 var token = tokenHandler.WriteToken(securityToken);
                 var refreshToken = _refreshTokenGenerator.GenerateToken();
+
+                user.RefreshToken = refreshToken;
+                Database.Users.Update(user);
+                await Database.SaveAsync();
                 return new AuthenticationResponse() { JwtToken = token, RefreshToken = refreshToken };
             }
             else

@@ -14,5 +14,6 @@ namespace KTS.WEBAPI.Models
         public string Role { get; set; }
         public string Password { get; set; }
         public string ProfileImageUrl { get; set; }
+        public string RefreshToken { get; set; }
     }
 }

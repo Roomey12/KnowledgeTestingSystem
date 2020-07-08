@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,5 +20,6 @@ namespace KTS.BLL.Interfaces
         ChallengeResult LoginViaGoogle();
         ChallengeResult LoginViaFacebook();
         Task<string> ExternalLoginCallBack(string provider);
+        Task<AuthenticationResponse> Authenticate(string userId, Claim[] claims);
     }
 }

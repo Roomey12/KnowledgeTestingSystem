@@ -23,6 +23,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NETCore.MailKit.Extensions;
 using NETCore.MailKit.Infrastructure.Internal;
@@ -42,7 +43,8 @@ namespace KTS.WEBAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddDbContext<ApplicationContext>();
             string symChar = " !@#$%^&*()_+=-:{}[]/\\|/'0123456789";
             string ruChar = "¸יצףךוםדרשחץתפûגאןנמכהז‎ÿקסלטעüב‏¿÷";
@@ -68,9 +70,16 @@ namespace KTS.WEBAPI
             services.AddTransient<IAnswerService, AnswerService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserTestService, UserTestService>();
-            services.AddTransient<IAuthService, AuthService>();
+            //services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IRefreshTokenGenerator, RefreshTokenGenerator>();
+            //services.AddTransient<ITokenRefresher, TokenRefresher>();
+            var tokenKey = Configuration["ApplicationSettings:JWT_Secret"].ToString();
+            var key = Encoding.UTF8.GetBytes(tokenKey);
+            services.AddTransient<ITokenRefresher>(x => 
+                new TokenRefresher(key, x.GetService<IAuthService>(), x.GetService<IUnitOfWork>()));
+            services.AddTransient<IAuthService>(x => new AuthService(x.GetService<IUnitOfWork>(), x.GetService<IOptions<ApplicationSettings>>(), x.GetService<IEmailService>(), x.GetService<IRefreshTokenGenerator>(), tokenKey));
+
             services.AddCors(options =>
             {
                 options.AddPolicy("MyPolicy",
@@ -84,7 +93,7 @@ namespace KTS.WEBAPI
             });
             //Jwt Authentication
 
-            var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
+            //var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
 
             services.AddAuthentication(x =>
             {
@@ -94,7 +103,7 @@ namespace KTS.WEBAPI
             }).AddJwtBearer(x =>
             {
                 x.RequireHttpsMetadata = false;
-                x.SaveToken = false;
+                x.SaveToken = true;//change false to true
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,

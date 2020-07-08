@@ -3,8 +3,10 @@ using KTS.BLL.DTO;
 using KTS.BLL.Infrastucture;
 using KTS.BLL.Interfaces;
 using KTS.WEBAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
@@ -16,6 +18,7 @@ namespace KTS.WEBAPI.Controllers
     public class AuthController : ControllerBase
     {
         private IAuthService _authService;
+        private ITokenRefresher _tokenRefresher;
 
         IMapper mapper = new MapperConfiguration(cfg =>
         {
@@ -24,9 +27,10 @@ namespace KTS.WEBAPI.Controllers
             cfg.CreateMap<ResetPasswordModel, ResetPasswordDTO>();
         }).CreateMapper();
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, ITokenRefresher tokenRefresher)
         {
             _authService = authService;
+            _tokenRefresher = tokenRefresher;
         }
 
         // POST: api/auth/register
@@ -69,9 +73,24 @@ namespace KTS.WEBAPI.Controllers
             return Ok(token);
         }
 
-        public IActionResult Refresh(AuthenticationResponse authenticationResponse)
+        [HttpPost("refresh")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Refresh(AuthenticationResponse authenticationResponse)
         {
-            var tokenHandler = new JwtSecurityTokenHandler
+            AuthenticationResponse token;
+            try
+            {
+                token = await _tokenRefresher.Refresh(authenticationResponse);
+            }
+            catch(SecurityTokenException ex)
+            {
+                return Unauthorized(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok(token);
         }
 
         // POST: api/auth/confirmEmail/abc5
