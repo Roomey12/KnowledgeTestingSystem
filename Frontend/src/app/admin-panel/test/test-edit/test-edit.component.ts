@@ -40,6 +40,7 @@ export class TestEditComponent implements OnInit {
 
   ngOnInit(){
     if(this.testId){
+      this.testService.testModel.reset();
       this.loadTest(true);
     }
   }
@@ -99,10 +100,12 @@ export class TestEditComponent implements OnInit {
     let isMultiple = document.getElementById('isMultiple') as HTMLInputElement;
     let content = document.getElementById('content') as HTMLInputElement;
     let answersCount = document.getElementById('answersCount') as HTMLInputElement;
+    let answerDescription = document.getElementById('ansDesc') as HTMLInputElement;
     this.newQuestion = {
       content: content.value,
       isSingle: !isMultiple.checked,
-      answersCount: Number(answersCount.value)
+      answersCount: Number(answersCount.value),
+      answerDescription: answerDescription.value
     };
     this.answersCount=[];
     for(let i = 0; i < this.newQuestion.answersCount; i++){
@@ -115,6 +118,7 @@ export class TestEditComponent implements OnInit {
     let question = new Question();
     question.Content = this.newQuestion.content;
     question.IsSingle = this.newQuestion.isSingle;
+    question.AnswerDescription = this.newQuestion.answerDescription;
     question.TestId = Number(this.testId);
 
     let answers = [];
@@ -177,10 +181,13 @@ export class TestEditComponent implements OnInit {
     let question = new Question();
     let content = document.getElementById(`q_content_${questionId}`) as HTMLInputElement;
     let isSingle = document.getElementById(`q_isSingle_${questionId}`) as HTMLInputElement;
+    let answerDescription = document.getElementById(`q_ansDesc_${questionId}`) as HTMLInputElement;
     question.QuestionId = questionId;
     question.Content = content.value;
+    question.AnswerDescription = answerDescription.value;
     question.TestId = Number(this.testId);
     question.IsSingle = isSingle.value=="true" ? true : false;
+    console.log(question);
     this.questionService.editQuestion(question).subscribe(data => { 
       this.answerService.getAnswersByQuestionId(questionId).subscribe((data: Answer[]) => {
         let answers = data;

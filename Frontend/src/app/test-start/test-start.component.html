@@ -27,8 +27,14 @@
                         </p>
                     </ng-template>
                 </div>
+                <div *ngIf="submitted">
+                    <div *ngIf="item.key.answerDescription">
+                        <p>Объяснение правильного ответа:</p>
+                        <p>{{item.key.answerDescription}}</p>
+                    </div>
+                </div>
             </form>
-            <br />
+            <br/>
         </div>
         <button class="btn btn-success" style="margin-bottom: 20px; margin-left: 10px;" type="submit" id="subButton" (click)="onSubmit()" data-toggle="modal" data-target="#modalresults">Завершить</button>
     </div>

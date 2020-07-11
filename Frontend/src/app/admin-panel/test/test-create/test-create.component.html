@@ -17,6 +17,7 @@
                     <label class="text-danger" *ngIf="questionModel.get('Content').touched && questionModel.get('Content').errors?.required">
                         Это поле обязательно.
                     </label>
+                    <input type="text" class="mx-3" id="cad_{{i+1}}" placeholder="Объяснение ответа">
                     <input type="text" formControlName="AnswersCount" id="a_{{i+1}}" placeholder="Количество ответов">
                     <label class="text-danger" *ngIf="questionModel.get('AnswersCount').touched && questionModel.get('AnswersCount').errors?.answerCountRange">
                         Количество вопросов введено неверно.

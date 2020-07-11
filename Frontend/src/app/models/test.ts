@@ -5,4 +5,5 @@ export class Test {
     description: string;
     maxTime: Date;
     questionsCount: number;
+    passedTimes: number;
 }

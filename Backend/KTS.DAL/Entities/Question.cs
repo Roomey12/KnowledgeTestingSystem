@@ -10,7 +10,7 @@ namespace KTS.DAL.Entities
         public int QuestionId { get; set; }
         public string Content { get; set; }
         public bool IsSingle { get; set; }
-
+        public string AnswerDescription { get; set; }
         public int TestId { get; set; }
         public Test Test { get; set; }
 

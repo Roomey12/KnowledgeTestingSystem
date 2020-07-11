@@ -21,6 +21,7 @@ namespace KTS.BLL.Services
             cfg.CreateMap<QuestionDTO, Question>();
             cfg.CreateMap<Question, QuestionDTO>();
             cfg.CreateMap<Answer, AnswerDTO>();
+            cfg.CreateMap<Test, TestDTO>();
         }).CreateMapper();
 
         public QuestionService(IUnitOfWork uow)
@@ -132,6 +133,7 @@ namespace KTS.BLL.Services
             question.TestId = questionDTO.TestId;
             question.Content = questionDTO.Content;
             question.IsSingle = questionDTO.IsSingle;
+            question.AnswerDescription = questionDTO.AnswerDescription;
             Database.Questions.Update(question);
             Database.Save();
         }

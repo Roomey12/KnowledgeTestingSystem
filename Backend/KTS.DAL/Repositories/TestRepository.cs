@@ -80,7 +80,7 @@ namespace KTS.DAL.Repositories
         public IEnumerable<Test> GetAllForPagination(Pagination pagination)
         {
             return _context.Tests
-                .OrderBy(on => on.Title)
+                .OrderByDescending(on => on.PassedTimes)
                 .Skip((pagination.PageNumber - 1) * pagination.PageSize)
                 .Take(pagination.PageSize)
                 .ToList();

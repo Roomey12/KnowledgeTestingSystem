@@ -31,7 +31,7 @@ export class TestCreateComponent implements OnInit {
   constructor(private fb: FormBuilder, public testService: TestService, public questionService: QuestionService,
               public answerService: AnswerService, private toastr: ToastrService, private router: Router) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
     this.test = new Test;
   }
 
@@ -65,12 +65,14 @@ export class TestCreateComponent implements OnInit {
       let q = document.getElementById(`q_${i+1}`) as HTMLInputElement;
       let t = document.getElementById(`t_${i+1}`) as HTMLInputElement;
       let a = document.getElementById(`a_${i+1}`) as HTMLInputElement;
+      let cad = document.getElementById(`cad_${i+1}`) as HTMLInputElement;
       let isSin = true;
       if(t.checked){
         isSin = false;
       }
       let quest = {
         content: q.value,
+        answerDescription: cad.value == null ? null : cad.value,
         isSingle: isSin
       };
       let help = [];
@@ -97,6 +99,7 @@ export class TestCreateComponent implements OnInit {
         // get question info
         let q = document.getElementById(`q_${i+1}`) as HTMLInputElement;
         let t = document.getElementById(`t_${i+1}`) as HTMLInputElement;
+        let cad = document.getElementById(`cad_${i+1}`) as HTMLInputElement;
         let isSin = true;
         if(t.checked){
             isSin = false;
@@ -104,6 +107,7 @@ export class TestCreateComponent implements OnInit {
         let question = new Question();
         question.Content = q.value;
         question.IsSingle = isSin;
+        question.AnswerDescription = cad.value;
 
         // get answers for this question
         let answers = [];

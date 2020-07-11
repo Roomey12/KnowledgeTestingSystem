@@ -36,7 +36,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // GET: api/test
-        [HttpGet]
+        [HttpGet]/*(ApiRoutes.Test.GetAll)]*/
         [AllowAnonymous]
         public IActionResult GetTests()
         {
@@ -54,7 +54,7 @@ namespace KTS.WEBAPI.Controllers
 
         // GET: api/test/5/start
         [HttpGet("{id}/start")]
-        [Authorize]
+        //[Authorize]
         public IActionResult GetQuestionsAndAnswersByTestId(int id)
         {
             IDictionary<string, IEnumerable<AnswerModel>> result;

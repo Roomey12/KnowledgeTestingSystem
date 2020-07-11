@@ -34,8 +34,9 @@
                 <tr>
                     <td>Тест</td>
                     <td>Описание</td>
-                    <td>Количество вопросов</td>
                     <td>Бал</td>
+                    <td>Количество вопросов</td>
+                    <td>Пройдено раз</td>
                     <td>Время</td>
                 </tr>
             </thead>
@@ -43,8 +44,9 @@
                 <tr>
                     <td>{{test?.title}}</td>
                     <td>{{test?.description}}</td>
-                    <td>{{test?.questionsCount}}</td>
                     <td>{{test?.maxScore}}</td>
+                    <td>{{test?.questionsCount}}</td>
+                    <td>{{test?.passedTimes}}</td>
                     <td>{{test?.maxTime.substring(14)}}</td>
                 </tr>
             </tbody>
@@ -56,39 +58,41 @@
         <div *ngIf="showAddQuestion">
             <span>Несколько правильных ответов?</span><input class="ml-2" type="checkbox" id="isMultiple"/>
             <input type="text" class="mx-3" style="width: 400px;" id="content" placeholder="Текст вопроса">
+            <input type="text" class="mx-3" style="width: 400px;" id="ansDesc" placeholder="Объяснение ответа">
             <label>Количество ответов:</label><input type="text" class="ml-2" style="width: 50px;" id="answersCount">
             <div class="form-group">
                 <input type="button" value="Далее" (click)="next()" class="btn btn-success"/>
             </div>
             <div *ngIf="showFillQuestion">
                 <p><b>{{newQuestion.content}}</b></p>
+                <p><b>{{newQuestion.answerDescription}}</b></p>
                 <div class="col-12" *ngFor="let s of answersCount; let i = index;">
                     <div class="row">
+                        <div class="col-2">
+                            <div class="row">
+                                <div class="col-8">
+                                    <p>Правильный?</p>
+                                </div>
+                                <div class="col-1">
+                                    <div *ngIf="newQuestion.isSingle; else isMultiple">
+                                        <input type="radio" id="a_isCorrect_{{i}}" name="a_isCorrect"/>
+                                    </div>
+                                    <ng-template #isMultiple>
+                                        <input type="checkbox" id="a_isCorrect_{{i}}" name="a_isCorrect"/>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-9">
+                                    <input type="text" style="width: 100%;" placeholder="Контент" id="a_content_{{i}}" name="a_content"/> 
+                                </div>
                                 <div class="col-2">
-                                    <div class="row">
-                                        <div class="col-8">
-                                            <p>Правильный?</p>
-                                        </div>
-                                        <div class="col-1">
-                                            <div *ngIf="newQuestion.isSingle; else isMultiple">
-                                                <input type="radio" id="a_isCorrect_{{i}}" name="a_isCorrect"/>
-                                            </div>
-                                            <ng-template #isMultiple>
-                                                <input type="checkbox" id="a_isCorrect_{{i}}" name="a_isCorrect"/>
-                                            </ng-template>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="row">
-                                        <div class="col-9">
-                                            <input type="text" style="width: 100%;" placeholder="Контент" id="a_content_{{i}}" name="a_content"/> 
-                                        </div>
-                                        <div class="col-2">
-                                            <input type="text" style="width:100%" placeholder="Бал" id="a_mark_{{i}}" name="a_mark"/>
-                                        </div> 
-                                    </div>
-                                </div>
+                                    <input type="text" style="width:100%" placeholder="Бал" id="a_mark_{{i}}" name="a_mark"/>
+                                </div> 
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <button class="btn btn-success" style="margin-bottom: 20px; margin-left: 10px;" type="submit" (click)="onSubmit()">Создать</button>
@@ -101,6 +105,10 @@
                         <b>{{i+1}}. Контент: </b>
                         <input type="radio" id="q_isSingle_{{item.key.questionId}}" value="{{item.key.isSingle}}" style="display: none">
                         <input type='text' style="width: 700px;" id="q_content_{{item.key.questionId}}" value="{{item.key.content}}">
+
+                        <b>Объяснение ответа: </b>
+                        <input type='text' style="width: 700px;" id="q_ansDesc_{{item.key.questionId}}" value="{{item.key.answerDescription}}">
+                        
                         <button class="btn btn-sm btn-primary mx-3" (click)="editQuestion(item.key.questionId)">Сохранить</button>
                         <button (click)="addAnswer(item.key.questionId)" class="btn btn-sm btn-primary mr-3">Добавить ответ</button>
                         <button (click)="deleteQuestion(item.key.questionId)" class="btn btn-sm btn-danger">Удалить</button>

@@ -13,5 +13,6 @@ namespace KTS.WEBAPI.Models
         public string Description { get; set; }
         public DateTime MaxTime { get; set; }
         public int QuestionsCount { get; set; }
+        public int PassedTimes { get; set; }
     }
 }

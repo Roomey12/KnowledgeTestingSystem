@@ -43,6 +43,9 @@ namespace KTS.BLL.Services
                 throw new ValidationException("UserTest can not be null", "Id");
             }
             Database.UserTests.Create(mapper.Map<UserTestDTO, UserTest>(userTest));
+            var test = Database.Tests.Get(userTest.TestId.ToString());
+            test.PassedTimes++;
+            Database.Tests.Update(test);
             Database.Save();
         }
 
@@ -78,6 +81,8 @@ namespace KTS.BLL.Services
             userTest.TestId = test.TestId;
             userTest.UserId = user.Id;
             Database.UserTests.Create(mapper.Map<UserTestDTO, UserTest>(userTest));
+            test.PassedTimes++;
+            Database.Tests.Update(test);
             Database.Save();
         }
 
@@ -168,6 +173,9 @@ namespace KTS.BLL.Services
                 throw new NotFoundException("UserTest was not found", "Id");
             }
             Database.UserTests.Delete(id);
+            var test = Database.Tests.Get(userTest.TestId.ToString());
+            test.PassedTimes--;
+            Database.Tests.Update(test);
             Database.Save();
         }
 

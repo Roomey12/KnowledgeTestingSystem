@@ -12,7 +12,8 @@
                 <td>Описание</td>
                 <td>Количество вопросов</td>
                 <td>Бал</td>
-                <td>Время</td>
+                <td>Пройдено раз</td>
+                <td>Время</td> 
                 <td>Операции</td>
             </tr>
         </thead>
@@ -22,6 +23,7 @@
                 <td>{{t?.description}}</td>
                 <td>{{t?.questionsCount}}</td>
                 <td>{{t?.maxScore}}</td>
+                <td>{{t?.passedTimes}}</td>
                 <td>{{t?.maxTime.substring(14)}}</td>
                 <td>
                     <a routerLink="/admin-panel/test-edit/{{t.testId}}" class="btn btn-sm btn-primary" style="margin-right: 5px;">Изменить</a>

@@ -12,6 +12,7 @@ namespace KTS.DAL.Entities
         public double MaxScore { get; set; }
         public string Description { get; set; }
         public int QuestionsCount { get; set; }
+        public int PassedTimes { get; set; }
         public DateTime MaxTime { get; set; }
 
         public static List<Test> ExistingTests = new List<Test>();

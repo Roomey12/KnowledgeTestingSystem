@@ -6,4 +6,5 @@ export class Question {
     TestId: number;
     IsSingle: boolean;
     Test: Test;
+    AnswerDescription: string;
 }

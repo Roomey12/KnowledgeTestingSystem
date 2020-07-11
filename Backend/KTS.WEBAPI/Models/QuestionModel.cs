@@ -11,6 +11,7 @@ namespace KTS.WEBAPI.Models
         public string Content { get; set; }
         public bool IsSingle { get; set; }
         public int TestId { get; set; }
+        public string AnswerDescription { get; set; }
         public QuestionModel() { }
     }
 }
