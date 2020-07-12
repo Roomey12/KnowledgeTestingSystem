@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace KTS.WEBAPI.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
     [ApiController]
     public class AnswerController : ControllerBase
     {
@@ -30,7 +30,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // GET: api/answer/5
-        [HttpGet("{id}")]
+        [HttpGet(ApiRoutes.Answer.GetAnswerById)]
         [Authorize]
         public IActionResult GetAnswerById(int id)
         {
@@ -51,7 +51,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // GET: api/answer/question/5
-        [HttpGet("question/{id}")]
+        [HttpGet(ApiRoutes.Answer.GetAnswersByQuestionId)]
         [Authorize]
         public IActionResult GetAnswersByQuestionId(int id)
         {
@@ -73,7 +73,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // POST: api/answer/newQuestion
-        [HttpPost("newQuestion")]
+        [HttpPost(ApiRoutes.Answer.PostAnswerForNewQuestion)]
         [Authorize(Roles = "admin")]
         public IActionResult PostAnswerForNewQuestion(AnswerModel answer)
         {
@@ -93,7 +93,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // POST: api/answer/oldQuestion
-        [HttpPost("oldQuestion")]
+        [HttpPost(ApiRoutes.Answer.PostAnswerForOldQuestion)]
         [Authorize(Roles = "admin")]
         public IActionResult PostAnswerForOldQuestion(AnswerModel answer)
         {
@@ -113,7 +113,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // DELETE: api/answer/5
-        [HttpDelete("{id}")]
+        [HttpDelete(ApiRoutes.Answer.DeleteAnswer)]
         [Authorize(Roles = "admin")]
         public IActionResult DeleteAnswer(string id)
         {
@@ -133,7 +133,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // PUT: api/answer/
-        [HttpPut]
+        [HttpPut(ApiRoutes.Answer.PutAnswer)]
         [Authorize(Roles = "admin")]
         public IActionResult PutAnswer(AnswerModel answer)
         {

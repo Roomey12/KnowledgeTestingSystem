@@ -31,17 +31,17 @@ namespace KTS.BLL.Services
     {
         private readonly ApplicationSettings _appSettings;
         private readonly IEmailService _emailService;
-        private readonly IRefreshTokenGenerator _refreshTokenGenerator;
+        private readonly ITokenService _tokenService;
         private readonly string _tokenKey;
         IUnitOfWork Database { get; set; }
 
         public AuthService(IUnitOfWork uow, IOptions<ApplicationSettings> appSettings,
-            IEmailService emailService, IRefreshTokenGenerator refreshTokenGenerator, string tokenKey)
+            IEmailService emailService, ITokenService tokenService, string tokenKey)
         {
             Database = uow;
             _appSettings = appSettings.Value;
             _emailService = emailService;
-            _refreshTokenGenerator = refreshTokenGenerator;
+            _tokenService = tokenService;
             _tokenKey = tokenKey;
         }
 
@@ -85,7 +85,7 @@ namespace KTS.BLL.Services
                         SecurityAlgorithms.HmacSha256Signature)
                 );
             var token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-            var refreshToken = _refreshTokenGenerator.GenerateToken();
+            var refreshToken = _tokenService.GenerateToken();
             var user = await Database.UserManager.FindByIdAsync(userId);
             user.RefreshToken = refreshToken;
             Database.Users.Update(user);
@@ -124,7 +124,7 @@ namespace KTS.BLL.Services
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var securityToken = tokenHandler.CreateToken(tokenDescriptor);
                 var token = tokenHandler.WriteToken(securityToken);
-                var refreshToken = _refreshTokenGenerator.GenerateToken();
+                var refreshToken = _tokenService.GenerateToken();
 
                 user.RefreshToken = refreshToken;
                 Database.Users.Update(user);

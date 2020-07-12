@@ -17,7 +17,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KTS.WEBAPI.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -42,7 +42,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // GET: api/user
-        [HttpGet]
+        [HttpGet(ApiRoutes.User.GetAllUsers)]
         [Authorize(Roles = "admin")]
         public IActionResult GetAllUsers()
         {
@@ -59,7 +59,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // GET: api/user/5
-        [HttpGet("{id}")]
+        [HttpGet(ApiRoutes.User.GetUserById)]
         [AllowAnonymous]
         public IActionResult GetUserById(string id)
         {
@@ -80,7 +80,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // DELETE: api/user/5
-        [HttpDelete("{id}")]
+        [HttpDelete(ApiRoutes.User.DeleteUser)]
         [Authorize(Roles = "admin")]
         public IActionResult DeleteUser(string id)
         {
@@ -100,7 +100,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // PUT: api/user
-        [HttpPut]
+        [HttpPut(ApiRoutes.User.PutUser)]
         [Authorize(Roles = "admin")]
         public IActionResult PutUser(UserModel model)
         {
@@ -124,7 +124,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // GET: api/user/profile
-        [HttpGet("profile")]
+        [HttpGet(ApiRoutes.User.GetUserProfile)]
         [Authorize]
         public async Task<object> GetUserProfile()
         {
@@ -134,7 +134,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // PUT: api/user/changePassword
-        [HttpPut("changePassword")]
+        [HttpPut(ApiRoutes.User.ChangePassword)]
         [Authorize]
         public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
         {
@@ -159,7 +159,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // PUT: api/user/changeUsername
-        [HttpPut("changeUsername")]
+        [HttpPut(ApiRoutes.User.ChangeUsername)]
         [Authorize]
         public async Task<IActionResult> ChangeUsername(ChangeUsernameModel model)
         {
@@ -183,7 +183,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // PUT: api/user/makeAdmin
-        [HttpPut("makeAdmin")]
+        [HttpPut(ApiRoutes.User.MakeUserAdmin)]
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> MakeUserAdmin(UserModel model)
         {
@@ -208,7 +208,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // PUT: api/user/makeCustomer
-        [HttpPut("makeCustomer")]
+        [HttpPut(ApiRoutes.User.MakeUserCustomer)]
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> MakeUserCustomer(UserModel model)
         {
@@ -233,7 +233,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // POST: api/user/changeEmail
-        [HttpPost("changeEmail")]
+        [HttpPost(ApiRoutes.User.ChangeEmail)]
         [Authorize]
         public async Task<IActionResult> ChangeEmail(ChangeEmailModel model)
         {
@@ -257,7 +257,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // POST: api/user/confirmNewEmail
-        [HttpPost("confirmNewEmail")]
+        [HttpPost(ApiRoutes.User.ConfirmNewEmail)]
         public async Task<IActionResult> ConfirmNewEmail(ChangeEmailModel model)
         {
             IdentityResult result;
@@ -277,7 +277,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // GET: api/user/pagination?pageNumber=1&pageSize=40
-        [HttpGet("pagination")]
+        [HttpGet(ApiRoutes.User.GetUsersForPagination)]
         [Authorize(Roles = "admin")]
         public IActionResult GetUsersForPagination([FromQuery]Pagination pagination)
         {
@@ -295,7 +295,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // PUT: api/user/changeProfileImage
-        [HttpPut("changeProfileImage")]
+        [HttpPut(ApiRoutes.User.ChangeProfileImage)]
         [Authorize]
         public async Task<IActionResult> ChangeProfileImage(UserModel model)
         {

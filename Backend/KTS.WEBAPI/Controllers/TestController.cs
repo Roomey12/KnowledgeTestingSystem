@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace KTS.WEBAPI.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
     [ApiController]
     public class TestController : ControllerBase
     {
@@ -36,7 +36,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // GET: api/test
-        [HttpGet]/*(ApiRoutes.Test.GetAll)]*/
+        [HttpGet(ApiRoutes.Test.GetTests)]
         [AllowAnonymous]
         public IActionResult GetTests()
         {
@@ -53,8 +53,8 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // GET: api/test/5/start
-        [HttpGet("{id}/start")]
-        //[Authorize]
+        [HttpGet(ApiRoutes.Test.GetQuestionsAndAnswersByTestId)]
+        [Authorize]
         public IActionResult GetQuestionsAndAnswersByTestId(int id)
         {
             IDictionary<string, IEnumerable<AnswerModel>> result;
@@ -75,7 +75,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // GET: api/test/5
-        [HttpGet("{id}")]
+        [HttpGet(ApiRoutes.Test.GetTest)]
         [AllowAnonymous]
         public IActionResult GetTest(int id)
         {
@@ -96,7 +96,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // POST: api/test
-        [HttpPost]
+        [HttpPost(ApiRoutes.Test.PostTest)]
         [Authorize(Roles = "admin")]
         public IActionResult PostTest(TestModel test)
         {
@@ -116,7 +116,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // DELETE: api/test/5
-        [HttpDelete("{id}")]
+        [HttpDelete(ApiRoutes.Test.DeleteTest)]
         [Authorize(Roles = "admin")]
         public IActionResult DeleteTest(string id)
         {
@@ -136,7 +136,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // PUT: api/test
-        [HttpPut]
+        [HttpPut(ApiRoutes.Test.PutTest)]
         [Authorize(Roles = "admin")]
         public IActionResult PutTest(TestModel test)
         {
@@ -160,7 +160,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // GET: api/test/pagination?pageNumber=1&pageSize=40
-        [HttpGet("pagination")]
+        [HttpGet(ApiRoutes.Test.GetTestsForPagination)]
         [AllowAnonymous]
         public IActionResult GetTestsForPagination([FromQuery]Pagination pagination)
         {
@@ -177,7 +177,8 @@ namespace KTS.WEBAPI.Controllers
             return Ok(result);
         }
 
-        [HttpGet("title/{title}")]
+        // PUT: api/test/title/{title}
+        [HttpGet(ApiRoutes.Test.GetTestsByTitle)]
         [AllowAnonymous]
         public IActionResult GetTestsByTitle(string title)
         {

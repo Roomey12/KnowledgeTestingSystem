@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KTS.WEBAPI.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
     [ApiController]
     public class UserTestController : ControllerBase
     {
@@ -32,7 +32,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // POST: api/userTest
-        [HttpPost]
+        [HttpPost(ApiRoutes.UserTest.PostUserTest)]
         [Authorize]
         public IActionResult PostUserTest(UserTestModel userTest)
         {
@@ -52,7 +52,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // POST: api/userTest/admin
-        [HttpPost("admin")]
+        [HttpPost(ApiRoutes.UserTest.PostUserTestByAdmin)]
         [Authorize(Roles = "admin")]
         public IActionResult PostUserTestByAdmin(UserTestModel userTest)
         {
@@ -76,7 +76,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // GET: api/userTest
-        [HttpGet]
+        [HttpGet(ApiRoutes.UserTest.GetAllUserTests)]
         [Authorize(Roles = "admin")]
         public IActionResult GetAllUserTests()
         {
@@ -93,7 +93,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // GET: api/userTest/top/10
-        [HttpGet("top/{count}")]
+        [HttpGet(ApiRoutes.UserTest.GetTopUserTests)]
         [AllowAnonymous]
         public IActionResult GetTopUserTests(int count)
         {
@@ -110,7 +110,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // GET: api/userTest/5
-        [HttpGet("{id}")]
+        [HttpGet(ApiRoutes.UserTest.GetUserTestById)]
         [Authorize(Roles = "admin")]
         public IActionResult GetUserTestById(string id)
         {
@@ -131,7 +131,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // GET: api/userTest/user/5
-        [HttpGet("user/{id}")]
+        [HttpGet(ApiRoutes.UserTest.GetUserTestByUserId)]
         [AllowAnonymous]
         public IActionResult GetUserTestByUserId(string id)
         {
@@ -152,7 +152,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // DELETE: api/userTest/5
-        [HttpDelete("{id}")]
+        [HttpDelete(ApiRoutes.UserTest.DeleteUserTest)]
         [Authorize (Roles ="admin")]
         public IActionResult DeleteUserTest(string id)
         {
@@ -172,7 +172,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // PUT: api/userTest
-        [HttpPut]
+        [HttpPut(ApiRoutes.UserTest.PutUserTest)]
         [Authorize(Roles = "admin")]
         public IActionResult PutUserTest(UserTestModel userTest)
         {
@@ -196,7 +196,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // GET: api/userTest/pagination?pageNumber=1&pageSize=40
-        [HttpGet("pagination")]
+        [HttpGet(ApiRoutes.UserTest.GetUsersForPagination)]
         [Authorize(Roles = "admin")]
         public IActionResult GetUsersForPagination([FromQuery]Pagination pagination)
         {

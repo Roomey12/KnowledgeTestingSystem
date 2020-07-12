@@ -13,12 +13,12 @@ using System.Threading.Tasks;
 
 namespace KTS.WEBAPI.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
         private IAuthService _authService;
-        private ITokenRefresher _tokenRefresher;
+        private ITokenService _tokenService;
 
         IMapper mapper = new MapperConfiguration(cfg =>
         {
@@ -27,14 +27,15 @@ namespace KTS.WEBAPI.Controllers
             cfg.CreateMap<ResetPasswordModel, ResetPasswordDTO>();
         }).CreateMapper();
 
-        public AuthController(IAuthService authService, ITokenRefresher tokenRefresher)
+        public AuthController(IAuthService authService, ITokenService tokenService)
         {
             _authService = authService;
-            _tokenRefresher = tokenRefresher;
+            _tokenService = tokenService;
         }
 
         // POST: api/auth/register
-        [HttpPost("register")]
+        [HttpPost(ApiRoutes.Auth.Register)]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(RegistrationModel model)
         {
             IdentityResult result;
@@ -54,7 +55,8 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // POST: api/auth/login
-        [HttpPost("login")]
+        [HttpPost(ApiRoutes.Auth.Login)]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginModel model)
         {
             AuthenticationResponse token;
@@ -73,14 +75,14 @@ namespace KTS.WEBAPI.Controllers
             return Ok(token);
         }
 
-        [HttpPost("refresh")]
+        [HttpPost(ApiRoutes.Auth.Refresh)]
         [AllowAnonymous]
         public async Task<IActionResult> Refresh(AuthenticationResponse authenticationResponse)
         {
             AuthenticationResponse token;
             try
             {
-                token = await _tokenRefresher.Refresh(authenticationResponse);
+                token = await _tokenService.Refresh(authenticationResponse);
             }
             catch(SecurityTokenException ex)
             {
@@ -94,7 +96,8 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // POST: api/auth/confirmEmail/abc5
-        [HttpPost("confirmEmail/{userId}")]
+        [HttpPost(ApiRoutes.Auth.ConfirmEmail)]
+        [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, [FromBody]string token)
         {
             IdentityResult result;
@@ -114,7 +117,8 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // POST: api/auth/forgotPassword
-        [HttpPost("forgotPassword")]
+        [HttpPost(ApiRoutes.Auth.ForgotPassword)]
+        [AllowAnonymous]
         public async Task<IActionResult> ForgotPassword([FromBody]string email)
         {
             try
@@ -137,7 +141,8 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // POST: api/auth/resetPassword
-        [HttpPost("resetPassword")]
+        [HttpPost(ApiRoutes.Auth.ResetPassword)]
+        [AllowAnonymous]
         public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordModel model)
         {
             IdentityResult result;
@@ -161,7 +166,8 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // GET: api/auth/GoogleLogin
-        [HttpGet("GoogleLogin")]
+        [HttpGet(ApiRoutes.Auth.GoogleLogin)]
+        [AllowAnonymous]
         public IActionResult GoogleLogin()
         {
             ChallengeResult result;
@@ -177,7 +183,8 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // GET: api/auth/FacebookLogin
-        [HttpGet("FacebookLogin")]
+        [HttpGet(ApiRoutes.Auth.FacebookLogin)]
+        [AllowAnonymous]
         public IActionResult FacebookLogin()
         {
             ChallengeResult result;
@@ -193,7 +200,8 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // GET: api/auth/ExternalLoginCallback/provider
-        [HttpGet("ExternalLoginCallback/{provider}")]
+        [HttpGet(ApiRoutes.Auth.ExternalLoginCallback)]
+        [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginCallBack(string provider)
         {
             string token;

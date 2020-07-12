@@ -1,20 +1,21 @@
-﻿using KTS.BLL.Interfaces;
+﻿using AutoMapper;
+using KTS.BLL.DTO;
+using KTS.BLL.Infrastucture;
+using KTS.BLL.Interfaces;
 using KTS.DAL.Entities;
 using KTS.DAL.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
-using KTS.BLL.DTO;
 
-namespace KTS.BLL.Infrastucture
+namespace KTS.BLL.Services
 {
-    public class TokenRefresher : ITokenRefresher
+    public class TokenService : ITokenService
     {
         private readonly byte[] _key;
         private readonly IAuthService _authService;
@@ -25,12 +26,13 @@ namespace KTS.BLL.Infrastucture
             cfg.CreateMap<User, UserDTO>();
         }).CreateMapper();
 
-        public TokenRefresher(byte[] key, IAuthService authService, IUnitOfWork uow)
+        public TokenService(byte[] key, IAuthService authService, IUnitOfWork uow)
         {
             _key = key;
             _authService = authService;
             Database = uow;
         }
+
         public async Task<AuthenticationResponse> Refresh(AuthenticationResponse authenticationResponse)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -55,6 +57,16 @@ namespace KTS.BLL.Infrastucture
                 throw new SecurityTokenException("Invalid token passed");
             }
             return await _authService.Authenticate(userId, principal.Claims.ToArray());
+        }
+
+        public string GenerateToken()
+        {
+            var randomNumber = new byte[32];
+            using (var randomNumberGenerator = RandomNumberGenerator.Create())
+            {
+                randomNumberGenerator.GetBytes(randomNumber);
+                return Convert.ToBase64String(randomNumber);
+            }
         }
     }
 }

@@ -70,15 +70,12 @@ namespace KTS.WEBAPI
             services.AddTransient<IAnswerService, AnswerService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserTestService, UserTestService>();
-            //services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IEmailService, EmailService>();
-            services.AddTransient<IRefreshTokenGenerator, RefreshTokenGenerator>();
-            //services.AddTransient<ITokenRefresher, TokenRefresher>();
             var tokenKey = Configuration["ApplicationSettings:JWT_Secret"].ToString();
             var key = Encoding.UTF8.GetBytes(tokenKey);
-            services.AddTransient<ITokenRefresher>(x => 
-                new TokenRefresher(key, x.GetService<IAuthService>(), x.GetService<IUnitOfWork>()));
-            services.AddTransient<IAuthService>(x => new AuthService(x.GetService<IUnitOfWork>(), x.GetService<IOptions<ApplicationSettings>>(), x.GetService<IEmailService>(), x.GetService<IRefreshTokenGenerator>(), tokenKey));
+            services.AddTransient<ITokenService>(x => 
+                new TokenService(key, x.GetService<IAuthService>(), x.GetService<IUnitOfWork>()));
+            services.AddTransient<IAuthService>(x => new AuthService(x.GetService<IUnitOfWork>(), x.GetService<IOptions<ApplicationSettings>>(), x.GetService<IEmailService>(), x.GetService<ITokenService>(), tokenKey));
 
             services.AddCors(options =>
             {

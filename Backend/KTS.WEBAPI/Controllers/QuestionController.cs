@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace KTS.WEBAPI.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
     [ApiController]
     public class QuestionController : ControllerBase
     {
@@ -33,7 +33,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // GET: api/question/5
-        [HttpGet("{id}")]
+        [HttpGet(ApiRoutes.Question.GetQuestionById)]
         [Authorize]
         public IActionResult GetQuestionById(int id)
         {
@@ -54,7 +54,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // GET: api/question/test/5/
-        [HttpGet("test/{id}")]
+        [HttpGet(ApiRoutes.Question.GetQuestionsByTestId)]
         [Authorize]
         public IActionResult GetQuestionsByTestId(int id)
         {
@@ -72,7 +72,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // POST: api/question/newTest
-        [HttpPost("newTest")]
+        [HttpPost(ApiRoutes.Question.PostQuestionForNewTest)]
         [Authorize(Roles = "admin")]
         public IActionResult PostQuestionForNewTest(QuestionModel question)
         {
@@ -92,7 +92,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // POST: api/question/oldTest
-        [HttpPost("oldTest")]
+        [HttpPost(ApiRoutes.Question.PostQuestionForOldTest)]
         [Authorize(Roles = "admin")]
         public IActionResult PostQuestionForOldTest(QuestionModel question)
         {
@@ -112,9 +112,9 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // DELETE: api/question/1
-        [HttpDelete("{id}")]
+        [HttpDelete(ApiRoutes.Question.DeleteQuestion)]
         [Authorize(Roles = "admin")]
-        public IActionResult DeleteTest(string id)
+        public IActionResult DeleteQuestion(string id)
         {
             try
             {
@@ -132,7 +132,7 @@ namespace KTS.WEBAPI.Controllers
         }
 
         // PUT: api/question
-        [HttpPut]
+        [HttpPut(ApiRoutes.Question.PutQuestion)]
         [Authorize(Roles = "admin")]
         public IActionResult PutQuestion(QuestionModel question)
         {
