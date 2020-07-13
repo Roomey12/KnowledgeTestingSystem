@@ -10,6 +10,7 @@
                     <ul class="list-group">
                         <li class="list-group-item"><strong>Имя пользователя: </strong>{{userDetails.userName}}</li>
                         <li class="list-group-item" *ngIf="!userId"><strong>Почта: </strong>{{userDetails.email}}</li>
+                        <li class="list-group-item"><strong>О себе: </strong>{{userDetails.aboutMe}}</li>
                     </ul>
                 </div>
             </div>
@@ -19,6 +20,7 @@
             <button class="btn btn-info place m-3" (click)="showChangeEmail()" data-toggle="modal" data-target="#modachangeemail">Изменить Email</button>
             <button class="btn btn-info place m-3" (click)="showChangeUsername()" data-toggle="modal" data-target="#modachangename">Изменить имя пользователя</button>
             <button class="btn btn-info place m-3" data-toggle="modal" data-target="#modachangeprofileimage">Изменить аватар</button>
+            <button class="btn btn-info place m-3" data-toggle="modal" data-target="#modachangeaboutme">Изменить 'О себе'</button>
         </div>
         <div class="col-12">
             <h3 style="text-align: center;">Пройденные тесты</h3>
@@ -119,6 +121,30 @@
                 <div class="form-row text-center">
                     <div class="form-group col-12">
                       <button type="submit" class="btn btn-lg btn-success" (click)="changeProfileImage()">Изменить</button>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modachangeaboutme" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Изменение 'О себе'</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group required">
+                    <label>О себе</label>
+                    <input class="form-control" id="aboutMe">
+                </div>
+                <div class="form-row text-center">
+                    <div class="form-group col-12">
+                      <button type="submit" class="btn btn-lg btn-success" (click)="changeAboutMe()">Изменить</button>
                     </div>
                 </div>
             </div>

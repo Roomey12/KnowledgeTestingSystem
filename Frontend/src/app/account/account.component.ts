@@ -147,10 +147,26 @@ export class AccountComponent implements OnInit {
           this.toastr.success('Аватар был изменен', 'Успешно.');
         },
         err => {
+          this.toastr.success('Что-то пошло не так.','Безуспешно.');
           console.log(err);
         }
       );
     }
+  }
+
+  changeAboutMe(){
+    var aboutMe = (document.getElementById("aboutMe") as HTMLInputElement).value;
+    this.userService.changeAboutMe(this.userDetails.email, aboutMe).subscribe(
+      data => {
+        this.loadUserProfile();
+        (document.getElementById("aboutMe") as HTMLInputElement).value = "";
+        this.toastr.success('Информация `О себе была` изменена.', 'Успешно.');
+      },
+      err => {
+        this.toastr.success('Что-то пошло не так.','Безуспешно.');
+        console.log(err);
+      }
+    );
   }
 
   show_hide_password(el){

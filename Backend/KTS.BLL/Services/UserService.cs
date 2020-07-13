@@ -287,6 +287,22 @@ namespace KTS.BLL.Services
             await Database.SaveAsync();
         }
 
+        public async Task ChangeAboutMe(UserDTO userDTO)
+        {
+            if (userDTO == null)
+            {
+                throw new ValidationException("User can not be null");
+            }
+            var user = await Database.UserManager.FindByEmailAsync(userDTO.Email);
+            if (user == null)
+            {
+                throw new NotFoundException("User was not found", "Email");
+            }
+            user.AboutMe = userDTO.AboutMe;
+            Database.Users.Update(user);
+            await Database.SaveAsync();
+        }
+
         public void Dispose()
         {
             Database.Dispose();

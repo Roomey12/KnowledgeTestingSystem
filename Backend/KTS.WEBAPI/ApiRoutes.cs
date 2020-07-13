@@ -74,6 +74,7 @@ namespace KTS.WEBAPI
             public const string ConfirmNewEmail = Base + Root + "confirmNewEmail";
             public const string GetUsersForPagination = Base + Root + "pagination";
             public const string ChangeProfileImage = Base + Root + "changeProfileImage";
+            public const string ChangeAboutMe = Base + Root + "changeAboutMe";
         }
 
         public static class UserTest // 9

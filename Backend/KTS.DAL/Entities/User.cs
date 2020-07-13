@@ -9,5 +9,6 @@ namespace KTS.DAL.Entities
     {
         public string ProfileImageUrl { get; set; }
         public string RefreshToken { get; set; }
+        public string AboutMe { get; set; }
     }
 }

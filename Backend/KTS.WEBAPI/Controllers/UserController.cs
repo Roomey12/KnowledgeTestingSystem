@@ -130,7 +130,7 @@ namespace KTS.WEBAPI.Controllers
         {
             string userId = User.Claims.First(c => c.Type == "UserID").Value;
             var user = await _userManager.FindByIdAsync(userId);
-            return new { user.Id, user.Email, user.UserName, user.ProfileImageUrl };
+            return new { user.Id, user.Email, user.UserName, user.ProfileImageUrl, user.AboutMe };
         }
 
         // PUT: api/user/changePassword
@@ -316,6 +316,30 @@ namespace KTS.WEBAPI.Controllers
                 return StatusCode(500);
             }
             return Ok(new { Message = "Profile image was successfully changed" });
+        }
+
+        // PUT: api/user/changeAboutMe
+        [HttpPut(ApiRoutes.User.ChangeAboutMe)]
+        [Authorize]
+        public async Task<IActionResult> ChangeAboutMe(UserModel model)
+        {
+            try
+            {
+                await _userService.ChangeAboutMe(mapper.Map<UserModel, UserDTO>(model));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok(new { Message = "User's about me was successfully changed" });
         }
     }
 }
