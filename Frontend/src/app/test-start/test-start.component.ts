@@ -219,6 +219,7 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
       this.endTest3();
     }
     else{
+      console.log("1");
       forkJoin(this.observables).subscribe((data: Answer[]) => {
         this.sum = (data || []).reduce((res, ans: Answer) => res + ans["mark"], 0);
         if(this.sum < 0){
@@ -235,6 +236,7 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
           this.endTest3();
         }
       });
+      console.log("2");
     }
   }
 

@@ -42,9 +42,9 @@ namespace KTS.WEBAPI
             public const string ConfirmEmail = Base + Root + "confirmEmail/{userId}";
             public const string ForgotPassword = Base + Root + "forgotPassword";
             public const string ResetPassword = Base + Root + "resetPassword";
-            public const string GoogleLogin = Base + Root + "Google";
-            public const string FacebookLogin = Base + Root + "Facebook";
-            public const string ExternalLoginCallback = Base + Root + "ExternalLoginCallback/{provider}";
+            public const string GoogleLogin = Base + Root + "googleLogin";
+            public const string FacebookLogin = Base + Root + "facebookLogin";
+            public const string ExternalLoginCallback = Base + Root + "externalLoginCallback/{provider}";
         }
 
         public static class Question // 6

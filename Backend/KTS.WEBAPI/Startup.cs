@@ -64,6 +64,8 @@ namespace KTS.WEBAPI
                 .AddDefaultTokenProviders();
             services.AddMailKit(config => config.UseMailKit(Configuration.GetSection("EmailSettings").Get<MailKitOptions>()));
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
+            var tokenKey = Configuration["ApplicationSettings:JWT_Secret"].ToString();
+            var key = Encoding.UTF8.GetBytes(tokenKey);
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ITestService, TestService>();
             services.AddTransient<IQuestionService, QuestionService>();
@@ -71,11 +73,11 @@ namespace KTS.WEBAPI
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserTestService, UserTestService>();
             services.AddTransient<IEmailService, EmailService>();
-            var tokenKey = Configuration["ApplicationSettings:JWT_Secret"].ToString();
-            var key = Encoding.UTF8.GetBytes(tokenKey);
-            services.AddTransient<ITokenService>(x => 
-                new TokenService(key, x.GetService<IAuthService>(), x.GetService<IUnitOfWork>()));
-            services.AddTransient<IAuthService>(x => new AuthService(x.GetService<IUnitOfWork>(), x.GetService<IOptions<ApplicationSettings>>(), x.GetService<IEmailService>(), x.GetService<ITokenService>(), tokenKey));
+            services.AddTransient<IRefreshTokenGenerator, RefreshTokenGenerator>();
+            services.AddTransient<ITokenRefresher>(x =>
+                            new TokenRefresher(key, x.GetService<IAuthService>(), x.GetService<IUnitOfWork>()));
+            services.AddTransient<IAuthService>(x => new AuthService(x.GetService<IUnitOfWork>(), 
+                x.GetService<IOptions<ApplicationSettings>>(), x.GetService<IEmailService>(), x.GetService<IRefreshTokenGenerator>(), tokenKey));
 
             services.AddCors(options =>
             {
@@ -89,8 +91,6 @@ namespace KTS.WEBAPI
                       });
             });
             //Jwt Authentication
-
-            //var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
 
             services.AddAuthentication(x =>
             {

@@ -51,7 +51,6 @@
                                             <input type="checkbox" id="a_isCorrect_{{i}}:{{j}}" name="a_isCorrect"/>
                                         </ng-template>
                                     </div>
-                                    
                                     <input type="text" class="mx-2" formControlName="Content" placeholder="Контент" id="a_content_{{i}}:{{j}}" name="a_content"/> 
                                     <label class="text-danger" *ngIf="answerModel.get('Content').touched && answerModel.get('Content').errors?.required">
                                         Это поле обязательно.

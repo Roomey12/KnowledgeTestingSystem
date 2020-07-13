@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace KTS.BLL.Interfaces
 {
-    public interface ITokenService
+    public interface ITokenRefresher
     {
-        string GenerateToken();
         Task<AuthenticationResponse> Refresh(AuthenticationResponse authenticationResponse);
     }
 }

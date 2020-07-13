@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using KTS.BLL.DTO;
-using KTS.BLL.Infrastucture;
 using KTS.BLL.Interfaces;
 using KTS.DAL.Entities;
 using KTS.DAL.Interfaces;
@@ -9,13 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KTS.BLL.Services
+namespace KTS.BLL.Infrastucture
 {
-    public class TokenService : ITokenService
+    public class TokenRefresher : ITokenRefresher
     {
         private readonly byte[] _key;
         private readonly IAuthService _authService;
@@ -26,7 +24,7 @@ namespace KTS.BLL.Services
             cfg.CreateMap<User, UserDTO>();
         }).CreateMapper();
 
-        public TokenService(byte[] key, IAuthService authService, IUnitOfWork uow)
+        public TokenRefresher(byte[] key, IAuthService authService, IUnitOfWork uow)
         {
             _key = key;
             _authService = authService;
@@ -57,16 +55,6 @@ namespace KTS.BLL.Services
                 throw new SecurityTokenException("Invalid token passed");
             }
             return await _authService.Authenticate(userId, principal.Claims.ToArray());
-        }
-
-        public string GenerateToken()
-        {
-            var randomNumber = new byte[32];
-            using (var randomNumberGenerator = RandomNumberGenerator.Create())
-            {
-                randomNumberGenerator.GetBytes(randomNumber);
-                return Convert.ToBase64String(randomNumber);
-            }
         }
     }
 }

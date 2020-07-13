@@ -286,6 +286,7 @@ namespace KTS.BLL.Services
             Database.Users.Update(user);
             await Database.SaveAsync();
         }
+
         public void Dispose()
         {
             Database.Dispose();

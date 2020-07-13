@@ -18,7 +18,7 @@ namespace KTS.WEBAPI.Controllers
     public class AuthController : ControllerBase
     {
         private IAuthService _authService;
-        private ITokenService _tokenService;
+        private ITokenRefresher _tokenRefresher;
 
         IMapper mapper = new MapperConfiguration(cfg =>
         {
@@ -27,10 +27,10 @@ namespace KTS.WEBAPI.Controllers
             cfg.CreateMap<ResetPasswordModel, ResetPasswordDTO>();
         }).CreateMapper();
 
-        public AuthController(IAuthService authService, ITokenService tokenService)
+        public AuthController(IAuthService authService, ITokenRefresher tokenRefresher)
         {
             _authService = authService;
-            _tokenService = tokenService;
+            _tokenRefresher = tokenRefresher;
         }
 
         // POST: api/auth/register
@@ -82,7 +82,7 @@ namespace KTS.WEBAPI.Controllers
             AuthenticationResponse token;
             try
             {
-                token = await _tokenService.Refresh(authenticationResponse);
+                token = await _tokenRefresher.Refresh(authenticationResponse);
             }
             catch(SecurityTokenException ex)
             {
@@ -175,9 +175,9 @@ namespace KTS.WEBAPI.Controllers
             {
                 result = _authService.LoginViaGoogle();
             }
-            catch(Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                return StatusCode(500);
             }
             return result;
         }
