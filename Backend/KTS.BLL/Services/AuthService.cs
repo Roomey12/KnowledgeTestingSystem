@@ -74,6 +74,12 @@ namespace KTS.BLL.Services
             return result;
         }
 
+        /// <summary>
+        /// This method is used to authenticate with new refresh token.
+        /// </summary>
+        /// <param name="userId">Id of user who should be authenticated</param>
+        /// <param name="claims">User's claims</param>
+        /// <returns>JWT and refresh token</returns>
         public async Task<AuthenticationResponse> Authenticate(string userId, Claim[] claims)
         {
             var key = Encoding.ASCII.GetBytes(_tokenKey);

@@ -154,7 +154,7 @@ namespace KTS.BLL.Services
         }
 
         /// <summary>
-        /// This method is used for changin user's email.
+        /// This method is used for changing user's email.
         /// </summary>
         /// <param name="modelDTO">ChangeEmailDTO object</param>
         public async Task ChangeEmail(ChangeEmailDTO modelDTO)
@@ -271,6 +271,10 @@ namespace KTS.BLL.Services
                 (Database.Users.GetAllForPagination(pagination));
         }
 
+        /// <summary>
+        /// This method is used for changing user's profile image.
+        /// </summary>
+        /// <param name="userDTO">User whose profile image should be changed</param>
         public async Task ChangeProfileImage(UserDTO userDTO)
         {
             if (userDTO == null)
@@ -287,6 +291,10 @@ namespace KTS.BLL.Services
             await Database.SaveAsync();
         }
 
+        /// <summary>
+        /// This method is used for changing user's about me information.
+        /// </summary>
+        /// <param name="userDTO">User whose about me information should be changed</param>
         public async Task ChangeAboutMe(UserDTO userDTO)
         {
             if (userDTO == null)
