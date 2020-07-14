@@ -164,7 +164,6 @@ export class AccountComponent implements OnInit {
       },
       err => {
         this.toastr.success('Что-то пошло не так.','Безуспешно.');
-        console.log(err);
       }
     );
   }

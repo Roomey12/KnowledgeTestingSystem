@@ -38,7 +38,7 @@
                     <td>Количество вопросов</td>
                     <td>Пройдено раз</td>
                     <td>Время</td>
-                </tr>
+                </tr> 
             </thead>
             <tbody>
                 <tr>
@@ -101,18 +101,17 @@
         <div *ngIf="!showAddQuestion"> 
             <div *ngFor="let item of testInfo | keyvalue; let i = index">
                 <form name="form_{{i}}">
-                    <p>
-                        <b>{{i+1}}. Контент: </b>
-                        <input type="radio" id="q_isSingle_{{item.key.questionId}}" value="{{item.key.isSingle}}" style="display: none">
-                        <input type='text' style="width: 700px;" id="q_content_{{item.key.questionId}}" value="{{item.key.content}}">
-
-                        <b>Объяснение ответа: </b>
-                        <input type='text' style="width: 700px;" id="q_ansDesc_{{item.key.questionId}}" value="{{item.key.answerDescription}}">
-                        
+                    <b>{{i+1}}. Контент: </b>
+                    <input type="radio" id="q_isSingle_{{item.key.questionId}}" value="{{item.key.isSingle}}" style="display: none">
+                    <input type='text' style="width: 700px;" id="q_content_{{item.key.questionId}}" value="{{item.key.content}}">
+                    <br>
+                    <b class="pl-3">Объяснение ответа: </b>
+                    <input type='text' style="width: 614px;" id="q_ansDesc_{{item.key.questionId}}" value="{{item.key.answerDescription}}">
+                    <div class="text-center my-2">
                         <button class="btn btn-sm btn-primary mx-3" (click)="editQuestion(item.key.questionId)">Сохранить</button>
                         <button (click)="addAnswer(item.key.questionId)" class="btn btn-sm btn-primary mr-3">Добавить ответ</button>
                         <button (click)="deleteQuestion(item.key.questionId)" class="btn btn-sm btn-danger">Удалить</button>
-                    </p> 
+                    </div>
                     <div class="col-12" *ngFor="let s of item.value">
                         <div class="row">
                             <div class="col-3 pr-0" style="max-width: 13%!important;">
@@ -142,7 +141,7 @@
                                 </div>
                             </div>
                             <div class="col-9">
-                                Контент:<input type='text' id="a_content_{{s.answerId}}" style="width: 300px;" class="mx-2" value='{{s.content}}'>
+                                Контент:<input type='text' id="a_content_{{s.answerId}}" style="width: 400px;" class="mx-2" value='{{s.content}}'>
                                 Бал: <input type='text' id="a_mark_{{s.answerId}}" value="{{s.mark}}" style="width: 45px;">
                                 <button (click)="deleteAnswer(s.answerId)" class="btn btn-sm btn-danger mx-3">Удалить</button>
                             </div>

@@ -36,36 +36,33 @@
         </div>
         <div *ngIf = "questionsCreated">
             <div *ngFor="let item of sas | keyvalue; let i = index">
-                <form name="form_{{i}}">
+                <form name="form_{{i}}" [formGroup]="answerModel" autocomplete="off">
                     <p><b>{{i+1}}. {{item.key.content}}</b></p>
                     <div *ngFor="let s of item.value; let j = index;">
-                        <form [formGroup]="answerModel" autocomplete="off">
-                            <div class="col-12">
-                                <div class="row">
-                                    <span>Правильный?</span>
-                                    <div class="mx-1">
-                                        <div *ngIf="item.key.isSingle; else isMultiple">
-                                            <input type="radio" id="a_isCorrect_{{i}}:{{j}}" name="a_isCorrect"/>
-                                        </div>
-                                        <ng-template #isMultiple>
-                                            <input type="checkbox" id="a_isCorrect_{{i}}:{{j}}" name="a_isCorrect"/>
-                                        </ng-template>
+                        <div class="col-12">
+                            <div class="row">
+                                <span>Правильный?</span>
+                                <div class="mx-1">
+                                    <div *ngIf="item.key.isSingle; else isMultiple">
+                                        <input type="radio" id="a_isCorrect_{{i}}:{{j}}" name="a_isCorrect_{{i}}"/>
                                     </div>
-                                    <input type="text" class="mx-2" formControlName="Content" placeholder="Контент" id="a_content_{{i}}:{{j}}" name="a_content"/> 
-                                    <label class="text-danger" *ngIf="answerModel.get('Content').touched && answerModel.get('Content').errors?.required">
-                                        Это поле обязательно.
-                                    </label>
-                                    <input type="text" class="mx-2" formControlName="Mark" placeholder="Бал" id="a_mark_{{i}}:{{j}}" name="a_mark"/>
-                                    <label class="text-danger" *ngIf="answerModel.get('Mark').touched && answerModel.get('Mark').errors?.markRange">
-                                        Количество вопросов введено неверно.
-                                    </label>
-                                    <label class="text-danger" *ngIf="answerModel.get('Mark').touched && answerModel.get('Mark').errors?.required">
-                                        Это поле обязательно.
-                                    </label>        
+                                    <ng-template #isMultiple>
+                                        <input type="checkbox" id="a_isCorrect_{{i}}:{{j}}" name="a_isCorrect_{{i}}"/>
+                                    </ng-template>
                                 </div>
+                                <input type="text" class="mx-2" formControlName="Content" placeholder="Контент" id="a_content_{{i}}:{{j}}" name="a_content"/> 
+                                <label class="text-danger" *ngIf="answerModel.get('Content').touched && answerModel.get('Content').errors?.required">
+                                    Это поле обязательно.
+                                </label>
+                                <input type="text" class="mx-2" formControlName="Mark" placeholder="Бал" id="a_mark_{{i}}:{{j}}" name="a_mark"/>
+                                <label class="text-danger" *ngIf="answerModel.get('Mark').touched && answerModel.get('Mark').errors?.markRange">
+                                    Количество вопросов введено неверно.
+                                </label>
+                                <label class="text-danger" *ngIf="answerModel.get('Mark').touched && answerModel.get('Mark').errors?.required">
+                                    Это поле обязательно.
+                                </label>        
                             </div>
-                            
-                        </form>
+                        </div> 
                     </div>
                 </form>
                 <br />

@@ -171,11 +171,11 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
       var result  = confirm("Вы не закончили прохождение теста, вы уверены что хотите покинуть страницу? В результат теста запишется ваш текущий результат.");
       if(result == true){
         this.endTest1();
-        this.endTest2();
+        this.endTest2();          
         localStorage.removeItem(`time_${this.testId}`);
         clearInterval(this.interval);
       }
-      return result;
+      return result;        
     }
     else{
       localStorage.removeItem(`time_${this.testId}`);
@@ -219,7 +219,6 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
       this.endTest3();
     }
     else{
-      console.log("1");
       forkJoin(this.observables).subscribe((data: Answer[]) => {
         this.sum = (data || []).reduce((res, ans: Answer) => res + ans["mark"], 0);
         if(this.sum < 0){
@@ -236,7 +235,6 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
           this.endTest3();
         }
       });
-      console.log("2");
     }
   }
 
