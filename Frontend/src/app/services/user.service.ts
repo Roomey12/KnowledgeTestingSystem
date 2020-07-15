@@ -11,35 +11,9 @@ export class UserService {
 
     constructor(private fb: FormBuilder, private http: HttpClient) { }
     
-    // passwordModel = this.fb.group({
-    //     Passwords: this.fb.group({
-    //         OldPassword: ['', Validators.required],
-    //         Password: ['', [Validators.required, Validators.minLength(6)]],
-    //         ConfirmPassword: ['', Validators.required]
-    //         }, { validator: this.comparePasswords })
-    // });
-
-    // usernameModel = this.fb.group({
-    //     NewUsername: ['', Validators.required]
-    // });
-
     emailModel = this.fb.group({
         UserEmail: ['', [Validators.email]]
     });
-
-    // newEmailModel = this.fb.group({
-    //     UserEmail: ['', [Validators.email, Validators.required]]
-    // });
-
-    // comparePasswords(fb: FormGroup) {
-    //     let confirmPswrdCtrl = fb.get('ConfirmPassword');
-    //     if (confirmPswrdCtrl.errors == null || 'passwordMismatch' in confirmPswrdCtrl.errors) {
-    //       if (fb.get('Password').value != confirmPswrdCtrl.value)
-    //         confirmPswrdCtrl.setErrors({ passwordMismatch: true });
-    //       else
-    //         confirmPswrdCtrl.setErrors(null);
-    //     }
-    // }
       
     getUsers() {
         return this.http.get(this.userUrl);

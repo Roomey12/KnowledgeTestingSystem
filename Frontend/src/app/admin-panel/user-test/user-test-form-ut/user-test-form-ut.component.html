@@ -1,9 +1,6 @@
 <form [formGroup]="userTestService.userTestModel" autocomplete="off">
     <div class="form-group">
         <div class="input-group mb-2">
-            <div class="input-group-prepend">
-                <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
-            </div>
             <input type="text" class="form-control" formControlName="Username" id="Username" placeholder="Имя пользователя">
             <label class="text-danger" *ngIf="userTestService.userTestModel.get('Username').touched && userTestService.userTestModel.get('Username').errors?.required">
                 Это поле обязательное.
@@ -12,9 +9,6 @@
     </div>
     <div class="form-group">
         <div class="input-group mb-2">
-            <div class="input-group-prepend">
-                <div class="input-group-text"><i class="fa fa-envelope text-info"></i></div>
-            </div>
             <input type="text" class="form-control" formControlName="TestTitle" id="TestTitle" placeholder="Название теста">
             <label class="text-danger" *ngIf="userTestService.userTestModel.get('TestTitle').touched && userTestService.userTestModel.get('TestTitle').errors?.required">
                 Это поле обязательное.

@@ -3,9 +3,7 @@ import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserTestService } from 'src/app/services/usertest.service';
-import { FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { UserFormComponent } from '../user-form/user-form.component';
 
 @Component({
   selector: 'app-user-edit',
@@ -38,14 +36,30 @@ export class UserEditComponent implements OnInit {
     }
   }
 
-  saveUser() {
-    console.log(this.user.Email);
-    console.log(this.user.UserName);
-    if(this.user.Email != null || this.user.UserName != null){
+  onSubmit() {
+    var img = document.createElement("img");
+    img.src = this.user.ProfileImageUrl;
+    img.onerror = () => {
+      if(!this.user.ProfileImageUrl){
+        this.saveUser();
+      }
+      else{
+        this.toastr.error("Ссылка на картинку недействительна.", "Безуспешно.");;
+      }
+    }
+    img.onload = () => {
+      this.saveUser();
+    }
+  }
+
+  saveUser(){
+    if(this.user.Email != null || this.user.UserName != null || this.user.AboutMe != null || this.user.ProfileImageUrl != null){
       this.userService.putUser(this.user)
         .subscribe(data => { 
           this.userService.emailModel.reset();
           (document.getElementById('Username') as HTMLInputElement).value = "";
+          (document.getElementById('AboutMe') as HTMLInputElement).value = "";
+          (document.getElementById('ProfileImageUrl') as HTMLInputElement).value = "";
           this.toastr.success("Данные о пользователе были изменены.", "Успешно.")
         });
     }

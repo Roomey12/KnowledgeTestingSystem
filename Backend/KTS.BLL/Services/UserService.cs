@@ -85,6 +85,8 @@ namespace KTS.BLL.Services
             }
             user.Email = userDTO.Email;
             user.UserName = userDTO.Username;
+            user.AboutMe = userDTO.AboutMe;
+            user.ProfileImageUrl = userDTO.ProfileImageUrl;
             user.NormalizedEmail = userDTO.Email.ToUpper();
             user.NormalizedUserName = userDTO.Username.ToUpper();
             Database.Users.Update(user);
