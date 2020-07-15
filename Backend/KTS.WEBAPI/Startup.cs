@@ -74,6 +74,7 @@ namespace KTS.WEBAPI
             services.AddTransient<IUserTestService, UserTestService>();
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IRefreshTokenGenerator, RefreshTokenGenerator>();
+            services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<ITokenRefresher>(x =>
                             new TokenRefresher(key, x.GetService<IAuthService>(), x.GetService<IUnitOfWork>()));
             services.AddTransient<IAuthService>(x => new AuthService(x.GetService<IUnitOfWork>(), 

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { UserService } from 'src/app/services/user.service';
 import { ToastrService } from 'ngx-toastr';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-confirm-email',
@@ -19,7 +19,7 @@ export class ConfirmEmailComponent implements OnInit {
   forNewEmail: boolean;
   newEmail: string;
 
-  constructor(private toastr: ToastrService, private activatedRoute: ActivatedRoute, private userService: UserService, private authService: AuthService) {
+  constructor(private toastr: ToastrService, private activatedRoute: ActivatedRoute, private accountService: AccountService, private authService: AuthService) {
     this.activatedRoute.queryParams.subscribe(params => {
           this.userId = params['userId'];
           this.token = params['token'];
@@ -49,6 +49,6 @@ export class ConfirmEmailComponent implements OnInit {
       newEmail: this.newEmail,
       token: this.token
     }
-    this.userService.confirmNewEmail(body).subscribe(data => { this.newEmailConfirmed = true; });
+    this.accountService.confirmNewEmail(body).subscribe(data => { this.newEmailConfirmed = true; });
   }
 }

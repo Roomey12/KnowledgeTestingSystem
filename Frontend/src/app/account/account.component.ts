@@ -4,6 +4,7 @@ import { UserTestService } from '../services/usertest.service';
 import { UserService } from '../services/user.service';
 import { ChangePassword } from '../models/changePassword';
 import { ToastrService } from 'ngx-toastr';
+import { AccountService } from '../services/account.service';
 
 @Component({
   selector: 'app-account',
@@ -21,15 +22,15 @@ export class AccountComponent implements OnInit {
   pas2: string = "newpass";
   pas3: string = "confpass";
 
-  constructor(private userTestService: UserTestService, public userService: UserService, 
-              private toastr: ToastrService, activeRoute: ActivatedRoute) {
+  constructor(private userTestService: UserTestService, public accountService: AccountService, 
+              private toastr: ToastrService, private userService: UserService, activeRoute: ActivatedRoute) {
     this.userId = activeRoute.snapshot.params["id"];
   }
 
   ngOnInit() {
     if(!this.userId){
-      this.userService.usernameModel.reset();
-      this.userService.passwordModel.reset();
+      this.accountService.usernameModel.reset();
+      this.accountService.passwordModel.reset();
       this.loadUserProfile();
     }
     else{
@@ -38,7 +39,7 @@ export class AccountComponent implements OnInit {
   }
 
   loadUserProfile(){
-    this.userService.getUserProfile().subscribe(
+    this.accountService.getUserProfile().subscribe(
       res => {
         this.userDetails = res;
         this.loadUserTests();
@@ -57,23 +58,23 @@ export class AccountComponent implements OnInit {
   }
 
   showChangePassword(){
-    this.userService.passwordModel.reset(); 
+    this.accountService.passwordModel.reset(); 
   }
 
   showChangeUsername(){
-    this.userService.usernameModel.reset();
+    this.accountService.usernameModel.reset();
   }
 
   showChangeEmail(){
-    this.userService.newEmailModel.reset();
+    this.accountService.newEmailModel.reset();
   }
   
   changePassword(){
-    this.userService.changePassword(this.userDetails["id"]).subscribe(
+    this.accountService.changePassword(this.userDetails["id"]).subscribe(
       (res: any) => {
         console.log(res);
         if (res.succeeded) {
-          this.userService.passwordModel.reset();
+          this.accountService.passwordModel.reset();
           this.toastr.success('Пароль был изменен.', 'Успешно.');
         } 
         else{
@@ -100,9 +101,9 @@ export class AccountComponent implements OnInit {
   }
 
   changeEmail(){
-    this.userService.changeEmail(this.userDetails["email"]).subscribe(
+    this.accountService.changeEmail(this.userDetails["email"]).subscribe(
       data => {
-        this.userService.newEmailModel.reset();
+        this.accountService.newEmailModel.reset();
         this.toastr.success('Для продолжения, перейдите по ссылке, которая была отправлена на указаную почту.', 'Успешно.');
       },
       err => {
@@ -114,10 +115,10 @@ export class AccountComponent implements OnInit {
   }
 
   changeUsername(){
-    this.userService.changeUsername(this.userDetails.userName).subscribe(
+    this.accountService.changeUsername(this.userDetails.userName).subscribe(
       data => {
         this.loadUserProfile();
-        this.userService.usernameModel.reset();
+        this.accountService.usernameModel.reset();
         this.toastr.success('Имя пользователя было изменено.', 'Успешно.');
       },
       err => {
@@ -132,7 +133,7 @@ export class AccountComponent implements OnInit {
     );
   }
 
-  async changeProfileImage(){
+  async changeProfileImage(){ // mb delete async
     var profileImageUrl = (document.getElementById("profileImageUrl") as HTMLInputElement).value;
     var img = document.createElement("img");
     img.src = profileImageUrl;
@@ -140,7 +141,7 @@ export class AccountComponent implements OnInit {
       this.toastr.error("Ссылка на картинку недействительна.", "Безуспешно.");
     }
     img.onload = () => {
-      this.userService.changeProfileImage(this.userDetails.email, profileImageUrl).subscribe(
+      this.accountService.changeProfileImage(this.userDetails.email, profileImageUrl).subscribe(
         data => {
           this.loadUserProfile();
           (document.getElementById("profileImageUrl") as HTMLInputElement).value = "";
@@ -156,7 +157,7 @@ export class AccountComponent implements OnInit {
 
   changeAboutMe(){
     var aboutMe = (document.getElementById("aboutMe") as HTMLInputElement).value;
-    this.userService.changeAboutMe(this.userDetails.email, aboutMe).subscribe(
+    this.accountService.changeAboutMe(this.userDetails.email, aboutMe).subscribe(
       data => {
         this.loadUserProfile();
         (document.getElementById("aboutMe") as HTMLInputElement).value = "";

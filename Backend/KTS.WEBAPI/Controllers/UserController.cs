@@ -26,13 +26,8 @@ namespace KTS.WEBAPI.Controllers
 
         IMapper mapper = new MapperConfiguration(cfg =>
         {
-            cfg.CreateMap<ChangePasswordModel, ChangePasswordDTO>();
-            cfg.CreateMap<ChangeUsernameModel, ChangeUsernameDTO>();
-            cfg.CreateMap<ChangeEmailModel, ChangeEmailDTO>();
             cfg.CreateMap<UserDTO, UserModel>();
             cfg.CreateMap<UserModel, UserDTO>();
-            cfg.CreateMap<UserTestModel, UserTestDTO>();
-            cfg.CreateMap<Task<UserDTO>, Task<UserModel>>();
         }).CreateMapper();
 
         public UserController(UserManager<User> userManager, IUserService userService)
@@ -123,65 +118,6 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "User was successfully changed" });
         }
 
-        // GET: api/user/profile
-        [HttpGet(ApiRoutes.User.GetUserProfile)]
-        [Authorize]
-        public async Task<object> GetUserProfile()
-        {
-            string userId = User.Claims.First(c => c.Type == "UserID").Value;
-            var user = await _userManager.FindByIdAsync(userId);
-            return new { user.Id, user.Email, user.UserName, user.ProfileImageUrl, user.AboutMe };
-        }
-
-        // PUT: api/user/changePassword
-        [HttpPut(ApiRoutes.User.ChangePassword)]
-        [Authorize]
-        public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
-        {
-            IdentityResult result;
-            try
-            {
-               result = await _userService.ChangePassword(mapper.Map<ChangePasswordModel, ChangePasswordDTO>(model));
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500);
-            }
-            return Ok(result);
-        }
-
-        // PUT: api/user/changeUsername
-        [HttpPut(ApiRoutes.User.ChangeUsername)]
-        [Authorize]
-        public async Task<IActionResult> ChangeUsername(ChangeUsernameModel model)
-        {
-            try
-            {
-                await _userService.ChangeUsername(mapper.Map<ChangeUsernameModel, ChangeUsernameDTO>(model));
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500);
-            }
-            return Ok(new { Message = "Username was successfully changed" });
-        }
-
         // PUT: api/user/makeAdmin
         [HttpPut(ApiRoutes.User.MakeUserAdmin)]
         [Authorize(Roles = "admin")]
@@ -232,50 +168,6 @@ namespace KTS.WEBAPI.Controllers
             return Ok(result);
         }
 
-        // POST: api/user/changeEmail
-        [HttpPost(ApiRoutes.User.ChangeEmail)]
-        [Authorize]
-        public async Task<IActionResult> ChangeEmail(ChangeEmailModel model)
-        {
-            try
-            {
-                await _userService.ChangeEmail(mapper.Map<ChangeEmailModel, ChangeEmailDTO>(model));
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500);
-            }
-            return Ok(new { Message = "Link was sent to new email" });
-        }
-
-        // POST: api/user/confirmNewEmail
-        [HttpPost(ApiRoutes.User.ConfirmNewEmail)]
-        public async Task<IActionResult> ConfirmNewEmail(ChangeEmailModel model)
-        {
-            IdentityResult result;
-            try
-            {
-                result = await _userService.ConfirmNewEmail(mapper.Map<ChangeEmailModel, ChangeEmailDTO>(model));
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500);
-            }
-            return Ok(result);
-        }
-
         // GET: api/user/pagination?pageNumber=1&pageSize=40
         [HttpGet(ApiRoutes.User.GetUsersForPagination)]
         [Authorize(Roles = "admin")]
@@ -292,54 +184,6 @@ namespace KTS.WEBAPI.Controllers
                 return StatusCode(500);
             }
             return Ok(result);
-        }
-
-        // PUT: api/user/changeProfileImage
-        [HttpPut(ApiRoutes.User.ChangeProfileImage)]
-        [Authorize]
-        public async Task<IActionResult> ChangeProfileImage(UserModel model)
-        {
-            try
-            {
-                await _userService.ChangeProfileImage(mapper.Map<UserModel, UserDTO>(model));
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500);
-            }
-            return Ok(new { Message = "Profile image was successfully changed" });
-        }
-
-        // PUT: api/user/changeAboutMe
-        [HttpPut(ApiRoutes.User.ChangeAboutMe)]
-        [Authorize]
-        public async Task<IActionResult> ChangeAboutMe(UserModel model)
-        {
-            try
-            {
-                await _userService.ChangeAboutMe(mapper.Map<UserModel, UserDTO>(model));
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500);
-            }
-            return Ok(new { Message = "User's about me was successfully changed" });
         }
     }
 }

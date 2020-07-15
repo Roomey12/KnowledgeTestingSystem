@@ -9,7 +9,7 @@ namespace KTS.WEBAPI
     {
         public const string Base = "api/";
 
-        public static class Test //8
+        public static class Test // 8
         {
             public const string Root = "test/";
             public const string GetTests = Base + Root;
@@ -22,7 +22,7 @@ namespace KTS.WEBAPI
             public const string GetTestsByTitle = Base + Root + "title/{title}";
         }
 
-        public static class Answer //6
+        public static class Answer // 6
         {
             public const string Root = "answer/";
             public const string GetAnswerById = Base + Root + "{id}";
@@ -33,7 +33,7 @@ namespace KTS.WEBAPI
             public const string PutAnswer = Base + Root;
         }
 
-        public static class Auth //9
+        public static class Auth // 9
         {
             public const string Root = "auth/";
             public const string Register = Base + Root + "register";
@@ -58,23 +58,28 @@ namespace KTS.WEBAPI
             public const string PutQuestion = Base + Root;
         }
 
-        public static class User //13
+        public static class User // 8
         {
             public const string Root = "user/";
             public const string GetAllUsers = Base + Root;
             public const string GetUserById = Base + Root + "{id}";
             public const string DeleteUser = Base + Root + "{id}";
             public const string PutUser = Base + Root;
-            public const string GetUserProfile = Base + Root + "profile";
-            public const string ChangePassword = Base + Root + "changePassword";
-            public const string ChangeUsername = Base + Root + "changeUsername";
             public const string MakeUserAdmin = Base + Root + "makeAdmin";
             public const string MakeUserCustomer = Base + Root + "makeCustomer";
+            public const string GetUsersForPagination = Base + Root + "pagination";
+        }
+
+        public static class Account // 6
+        {
+            public const string Root = "account/";
+            public const string ChangePassword = Base + Root + "changePassword";
+            public const string ChangeUsername = Base + Root + "changeUsername";
             public const string ChangeEmail = Base + Root + "changeEmail";
             public const string ConfirmNewEmail = Base + Root + "confirmNewEmail";
-            public const string GetUsersForPagination = Base + Root + "pagination";
             public const string ChangeProfileImage = Base + Root + "changeProfileImage";
             public const string ChangeAboutMe = Base + Root + "changeAboutMe";
+            public const string GetUserProfile = Base + Root + "profile";
         }
 
         public static class UserTest // 9

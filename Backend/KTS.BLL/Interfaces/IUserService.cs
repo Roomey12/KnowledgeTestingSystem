@@ -16,14 +16,8 @@ namespace KTS.BLL.Interfaces
         UserDTO GetUserById(string id);
         void DeleteUser(string id);
         void UpdateUser(UserDTO userDTO);
-        Task<IdentityResult> ChangePassword(ChangePasswordDTO modelDTO);
-        Task ChangeUsername(ChangeUsernameDTO modelDTO);
         Task<IdentityResult> MakeUserAdmin(UserDTO userDTO);
         Task<IdentityResult> MakeUserCustomer(UserDTO userDTO);
-        Task ChangeEmail(ChangeEmailDTO modelDTO);
-        Task<IdentityResult> ConfirmNewEmail(ChangeEmailDTO modelDTO);
         IEnumerable<UserDTO> GetAllUsersForPagination(Pagination pagination);
-        Task ChangeProfileImage(UserDTO userDTO);
-        Task ChangeAboutMe(UserDTO userDTO);
     }
 }

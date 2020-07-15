@@ -53,20 +53,20 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form [formGroup]="userService.newEmailModel" autocomplete="off" (submit)="changeEmail()">
+                <form [formGroup]="accountService.newEmailModel" autocomplete="off" (submit)="changeEmail()">
                     <div class="form-group required">
                         <label>Новый Email</label>
                         <input class="form-control" formControlName="UserEmail">
-                        <label class="text-danger" *ngIf="userService.newEmailModel.get('UserEmail').touched && userService.newEmailModel.get('UserEmail').errors?.required">
+                        <label class="text-danger" *ngIf="accountService.newEmailModel.get('UserEmail').touched && accountService.newEmailModel.get('UserEmail').errors?.required">
                           Это поле обязательно.
                         </label>
-                        <label class="text-danger" *ngIf="userService.newEmailModel.get('UserEmail').touched && userService.newEmailModel.get('UserEmail').errors?.email">
+                        <label class="text-danger" *ngIf="accountService.newEmailModel.get('UserEmail').touched && accountService.newEmailModel.get('UserEmail').errors?.email">
                             Почта введена неверно.
                         </label>
                     </div>
                     <div class="form-row  text-center">
                         <div class="form-group col-12">
-                          <button type="submit" class="btn btn-lg btn-success" [disabled]="!userService.newEmailModel.valid">Изменить</button>
+                          <button type="submit" class="btn btn-lg btn-success" [disabled]="!accountService.newEmailModel.valid">Изменить</button>
                         </div>
                     </div>
                 </form>
@@ -85,17 +85,17 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form [formGroup]="userService.usernameModel" autocomplete="off" (submit)="changeUsername()">
+                <form [formGroup]="accountService.usernameModel" autocomplete="off" (submit)="changeUsername()">
                     <div class="form-group required">
                         <label>Новое имя пользователя</label>
                         <input class="form-control" formControlName="NewUsername">
-                        <label class="text-danger" *ngIf="userService.usernameModel.get('NewUsername').touched && userService.usernameModel.get('NewUsername').errors?.required">
+                        <label class="text-danger" *ngIf="accountService.usernameModel.get('NewUsername').touched && accountService.usernameModel.get('NewUsername').errors?.required">
                           Это поле обязательно.
                         </label>
                     </div>
                     <div class="form-row text-center">
                         <div class="form-group col-12">
-                          <button type="submit" class="btn btn-lg btn-success" [disabled]="!userService.usernameModel.valid">Изменить</button>
+                          <button type="submit" class="btn btn-lg btn-success" [disabled]="!accountService.usernameModel.valid">Изменить</button>
                         </div>
                     </div>
                 </form>
@@ -162,7 +162,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form [formGroup]="userService.passwordModel" autocomplete="off" (submit)="changePassword()">
+                <form [formGroup]="accountService.passwordModel" autocomplete="off" (submit)="changePassword()">
                     <div formGroupName="Passwords">
                         <div class="form-group required">
                             <label>Старый пароль</label><br>
@@ -170,7 +170,7 @@
                                 <input type="password" id="old-password" class="form-control" formControlName="OldPassword">
                                 <a href="#" id="old-passeye" class="password-control" (click)="show_hide_password(pas1)"></a>
                             </div>
-                            <label class="text-danger" *ngIf="userService.passwordModel.get('Passwords.OldPassword').touched && userService.passwordModel.get('Passwords.OldPassword').errors?.required">
+                            <label class="text-danger" *ngIf="accountService.passwordModel.get('Passwords.OldPassword').touched && accountService.passwordModel.get('Passwords.OldPassword').errors?.required">
                               Это поле обязательно.
                             </label>
                         </div>
@@ -180,10 +180,10 @@
                                 <input type="password" id="new-password" class="form-control" formControlName="Password">
                                 <a href="#" id="new-passeye" class="password-control" (click)="show_hide_password(pas2)"></a>
                             </div>                    
-                            <label class="text-danger" *ngIf="userService.passwordModel.get('Passwords.Password').touched && userService.passwordModel.get('Passwords.Password').errors?.required">
+                            <label class="text-danger" *ngIf="accountService.passwordModel.get('Passwords.Password').touched && accountService.passwordModel.get('Passwords.Password').errors?.required">
                                 Это поле обязательно.
                             </label>
-                            <label class="text-danger" *ngIf="userService.passwordModel.get('Passwords.Password').touched && userService.passwordModel.get('Passwords.Password').errors?.minlength">
+                            <label class="text-danger" *ngIf="accountService.passwordModel.get('Passwords.Password').touched && accountService.passwordModel.get('Passwords.Password').errors?.minlength">
                                 Пароль должен состоять минимум из 6 символов.
                             </label>
                         </div>
@@ -193,17 +193,17 @@
                                 <input type="password" id="conf-password" class="form-control" formControlName="ConfirmPassword">
                                 <a href="#" id="conf-passeye" class="password-control" (click)="show_hide_password(pas3)"></a>
                             </div>
-                            <label class="text-danger" *ngIf="userService.passwordModel.get('Passwords.ConfirmPassword').touched && userService.passwordModel.get('Passwords.ConfirmPassword').errors?.required">
+                            <label class="text-danger" *ngIf="accountService.passwordModel.get('Passwords.ConfirmPassword').touched && accountService.passwordModel.get('Passwords.ConfirmPassword').errors?.required">
                               Это поле обязательно.
                             </label>
-                            <label class="text-danger" *ngIf="userService.passwordModel.get('Passwords.ConfirmPassword').touched && userService.passwordModel.get('Passwords.ConfirmPassword').errors?.passwordMismatch">
+                            <label class="text-danger" *ngIf="accountService.passwordModel.get('Passwords.ConfirmPassword').touched && accountService.passwordModel.get('Passwords.ConfirmPassword').errors?.passwordMismatch">
                               Пароли не совпадают.
                             </label>
                         </div>
                     </div>
                     <div class="form-row text-center">
                         <div class="form-group col-12">
-                          <button type="submit" class="btn btn-lg btn-success" [disabled]="!userService.passwordModel.valid">Изменить</button>
+                          <button type="submit" class="btn btn-lg btn-success" [disabled]="!accountService.passwordModel.valid">Изменить</button>
                         </div>
                     </div>
                 </form>

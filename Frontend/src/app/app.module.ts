@@ -42,6 +42,7 @@ import { ConfirmEmailComponent } from './user/confirm-email/confirm-email.compon
 import { ForgotPasswordComponent } from './user/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './user/reset-password/reset-password.component';
 import { ExternalLoginComponent } from './user/external-login/external-login.component';
+import { AccountService } from './services/account.service';
 
 @NgModule({
   declarations: [
@@ -92,6 +93,7 @@ import { ExternalLoginComponent } from './user/external-login/external-login.com
     QuestionService,
     AnswerService,
     AuthService, 
+    AccountService,
     UserTestService,
     UserFormComponent,
     TestFormComponent,
