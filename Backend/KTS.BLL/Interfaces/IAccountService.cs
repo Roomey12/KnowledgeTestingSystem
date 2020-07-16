@@ -15,6 +15,5 @@ namespace KTS.BLL.Interfaces
         Task<IdentityResult> ConfirmNewEmail(ChangeEmailDTO modelDTO);
         Task ChangeProfileImage(UserDTO userDTO);
         Task ChangeAboutMe(UserDTO userDTO);
-        Task<object> GetUserProfile();
     }
 }

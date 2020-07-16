@@ -14,7 +14,6 @@ namespace KTS.DAL.Entities
         public int TestId { get; set; }
         public Test Test { get; set; }
 
-
         public static List<Question> ExistingQuestions = new List<Question>();
 
         public Question(int questionId, string content, int testId, bool isSingle)
@@ -25,7 +24,6 @@ namespace KTS.DAL.Entities
             IsSingle = isSingle;
             ExistingQuestions.Add(this);
         }
-
         public Question() { }
     }
 }

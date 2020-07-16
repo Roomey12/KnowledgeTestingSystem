@@ -38,6 +38,7 @@ namespace KTS.BLL.Tests
             var uow = new Mock<IUnitOfWork>();
             UserTestService uts = new UserTestService(uow.Object);
             uow.Setup(x => x.UserTests.Create(new UserTest()));
+            uow.Setup(x => x.Tests.Get(It.IsAny<string>())).Returns(new Test());
 
             uts.CreateUserTest(new UserTestDTO());
 
@@ -140,6 +141,7 @@ namespace KTS.BLL.Tests
             UserTestService uts = new UserTestService(uow.Object);
             uow.Setup(x => x.UserTests.Get(It.IsAny<string>())).Returns(new UserTest());
             uow.Setup(x => x.UserTests.Delete(It.IsAny<string>()));
+            uow.Setup(x => x.Tests.Get(It.IsAny<string>())).Returns(new Test());
 
             uts.DeleteUserTest(It.IsAny<string>());
 

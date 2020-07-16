@@ -242,14 +242,6 @@ namespace KTS.BLL.Services
             string Email = "";
             var identifier = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
             string picture = "";
-            if(provider == "Facebook")
-            {
-                picture = $"https://graph.facebook.com/{identifier}/picture";
-            }
-            else if(provider == "Google")
-            {
-                picture = $"http://picasaweb.google.com/data/entry/api/user/{identifier}?alt=json";
-            }
             string Name = info.Principal.Identity.Name;
             if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
             {
@@ -269,6 +261,14 @@ namespace KTS.BLL.Services
                     }
                 }
                 while (checkUser != null);
+                if (provider == "Facebook")
+                {
+                    picture = $"https://graph.facebook.com/{identifier}/picture";
+                }
+                else if (provider == "Google")
+                {
+                    picture = $"http://picasaweb.google.com/data/entry/api/user/{identifier}?alt=json";//tut norm?
+                }
                 var registerUser = new User
                 {
                     UserName = Name,
@@ -283,7 +283,6 @@ namespace KTS.BLL.Services
                     throw new ValidationException(registerResult.Errors.ToList()[0].Description + " " + roleResult.Errors.ToList()[0].Description);
                 }
             }
-            user = await Database.UserManager.FindByEmailAsync(Email);
             var role = await Database.UserManager.GetRolesAsync(user);
             IdentityOptions _options = new IdentityOptions();
             var tokenDescriptor = new SecurityTokenDescriptor

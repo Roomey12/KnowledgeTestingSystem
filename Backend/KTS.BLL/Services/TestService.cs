@@ -67,7 +67,7 @@ namespace KTS.BLL.Services
             {
                 var answers = mapper.Map<IEnumerable<Answer>, IEnumerable<AnswerDTO>>
                             (Database.Answers.Find(a => a.QuestionId == question.QuestionId));
-                questionAnswers.Add(Convert.ToString(question.QuestionId), answers);
+                questionAnswers.Add(question.QuestionId.ToString(), answers);
             }
             return questionAnswers;
         }

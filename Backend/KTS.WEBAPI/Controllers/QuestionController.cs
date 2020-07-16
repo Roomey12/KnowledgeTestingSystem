@@ -64,6 +64,10 @@ namespace KTS.WEBAPI.Controllers
                 questions = mapper.Map<IEnumerable<QuestionDTO>, IEnumerable<QuestionModel>>
                     (_questionService.GetQuestionsByTestId(id));
             }
+            catch(NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
             catch (Exception)
             {
                 return StatusCode(500);

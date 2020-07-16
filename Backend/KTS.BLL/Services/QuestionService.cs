@@ -51,6 +51,11 @@ namespace KTS.BLL.Services
         /// <returns>Questions which were found</returns>
         public IEnumerable<QuestionDTO> GetQuestionsByTestId(int testId)
         {
+            var test = Database.Tests.Get(testId.ToString());
+            if(test == null)
+            {
+                throw new NotFoundException("Test was not found", "Id");
+            }
             return mapper.Map<IEnumerable<Question>, IEnumerable<QuestionDTO>>
                 (Database.Questions.Find(q => q.TestId == testId));
         }
@@ -124,11 +129,6 @@ namespace KTS.BLL.Services
             if (question == null)
             {
                 throw new NotFoundException("Question was not found", "Id");
-            }
-            var test = Database.Tests.Get(questionDTO.TestId.ToString());
-            if(test == null)
-            {
-                throw new ValidationException("Test was not found", "Id");
             }
             question.TestId = questionDTO.TestId;
             question.Content = questionDTO.Content;

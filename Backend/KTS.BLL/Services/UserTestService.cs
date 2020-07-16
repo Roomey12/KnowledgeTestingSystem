@@ -138,7 +138,7 @@ namespace KTS.BLL.Services
             var result = from t in userTests
                     where t.UserId == userId
                     join a in tests on t.TestId equals a.TestId
-                    select new { Id = t.UserTestId, user.Username, Test = t.Test.Title, t.Mark, Time = t.Time };
+                    select new { Id = t.UserTestId, user.Username, Test = t.Test.Title, t.Mark, t.Time };
             return result;
         }
 

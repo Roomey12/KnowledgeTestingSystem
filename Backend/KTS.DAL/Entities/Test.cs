@@ -24,7 +24,6 @@ namespace KTS.DAL.Entities
             MaxTime = maxTime;
             ExistingTests.Add(this);
         }
-
         public Test() { }
     }
 }

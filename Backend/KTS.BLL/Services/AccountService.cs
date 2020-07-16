@@ -192,12 +192,5 @@ namespace KTS.BLL.Services
             Database.Users.Update(user);
             await Database.SaveAsync();
         }
-
-        public async Task<object> GetUserProfile()
-        {
-            string userId = ClaimsPrincipal.Current.Claims.First(c => c.Type == "UserID").Value;
-            var user = await Database.UserManager.FindByIdAsync(userId);
-            return new { user.Id, user.Email, user.UserName, user.ProfileImageUrl, user.AboutMe };
-        }
     }
 }

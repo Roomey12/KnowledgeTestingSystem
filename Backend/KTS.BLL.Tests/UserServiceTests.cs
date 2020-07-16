@@ -23,8 +23,7 @@ namespace KTS.BLL.Tests
         public void GetAllUsers_WithCorrectData_AllTestMustBeReceived()
         {
             var uow = new Mock<IUnitOfWork>();
-            var es = new Mock<Interfaces.IEmailService>();
-            UserService us = new UserService(uow.Object, es.Object);
+            UserService us = new UserService(uow.Object);
             uow.Setup(x => x.Users.GetAll()).Returns(new List<User>());
 
             var expected = JsonConvert.SerializeObject(new List<User>());
@@ -37,8 +36,7 @@ namespace KTS.BLL.Tests
         public void GetUserById_WithCorrectData_UserMustBeReceived()
         {
             var uow = new Mock<IUnitOfWork>();
-            var es = new Mock<Interfaces.IEmailService>();
-            UserService us = new UserService(uow.Object, es.Object);
+            UserService us = new UserService(uow.Object);
             uow.Setup(x => x.Users.Get(It.IsAny<string>())).Returns(new User());
 
             var expected = new User();
@@ -51,8 +49,7 @@ namespace KTS.BLL.Tests
         public void GetUserById_WithInCorrectData_NotFoundExceptionMustBeThrown()
         {
             var uow = new Mock<IUnitOfWork>();
-            var es = new Mock<Interfaces.IEmailService>();
-            UserService us = new UserService(uow.Object, es.Object);
+            UserService us = new UserService(uow.Object);
             uow.Setup(x => x.Users.Get(It.IsAny<string>())).Returns((User)null);
 
             Assert.Throws<NotFoundException>(() =>
@@ -65,8 +62,7 @@ namespace KTS.BLL.Tests
         public void DeleteUser_WithCorrectData_UserMustBeDeleted()
         {
             var uow = new Mock<IUnitOfWork>();
-            var es = new Mock<Interfaces.IEmailService>();
-            UserService us = new UserService(uow.Object, es.Object); 
+            UserService us = new UserService(uow.Object);
             uow.Setup(x => x.Users.Get(It.IsAny<string>())).Returns(new User());
 
             us.DeleteUser(It.IsAny<string>());
@@ -78,8 +74,7 @@ namespace KTS.BLL.Tests
         public void DeleteUser_WithNullData_NotFoundExceptionMustBeThrown()
         {
             var uow = new Mock<IUnitOfWork>();
-            var es = new Mock<Interfaces.IEmailService>();
-            UserService us = new UserService(uow.Object, es.Object); 
+            UserService us = new UserService(uow.Object);
             uow.Setup(x => x.Users.Get(It.IsAny<string>())).Returns((User)null);
 
             Assert.Throws<NotFoundException>(() =>
@@ -92,8 +87,7 @@ namespace KTS.BLL.Tests
         public void UpdateUser_WithCorrectData_UserMustBeUpdated()
         {
             var uow = new Mock<IUnitOfWork>();
-            var es = new Mock<Interfaces.IEmailService>();
-            UserService us = new UserService(uow.Object, es.Object); 
+            UserService us = new UserService(uow.Object);
             uow.Setup(x => x.Users.Get(It.IsAny<string>())).Returns(new User());
 
             us.UpdateUser(new UserDTO() { Email = "A@gmail.com", Username = "B" });
@@ -105,8 +99,7 @@ namespace KTS.BLL.Tests
         public void UpdateUser_WithNullData_ValidationExceptionMustBeThrown()
         {
             var uow = new Mock<IUnitOfWork>();
-            var es = new Mock<Interfaces.IEmailService>();
-            UserService us = new UserService(uow.Object, es.Object);
+            UserService us = new UserService(uow.Object);
             uow.Setup(x => x.Users.Get(It.IsAny<string>())).Returns((User)null);
 
             Assert.Throws<ValidationException>(() =>
@@ -119,8 +112,7 @@ namespace KTS.BLL.Tests
         public void UpdateUser_WithInCorrectData_NotFoundExceptionMustBeThrown()
         {
             var uow = new Mock<IUnitOfWork>();
-            var es = new Mock<Interfaces.IEmailService>();
-            UserService us = new UserService(uow.Object, es.Object);
+            UserService us = new UserService(uow.Object);
             uow.Setup(x => x.Users.Get(It.IsAny<string>())).Returns((User)null);
 
             Assert.Throws<NotFoundException>(() =>

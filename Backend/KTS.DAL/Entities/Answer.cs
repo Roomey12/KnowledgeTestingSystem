@@ -10,7 +10,6 @@ namespace KTS.DAL.Entities
         public string Content { get; set; }
         public bool IsCorrect { get; set; }
         public double Mark { get; set; }
-
         public int QuestionId { get; set; }
         public Question Question { get; set; }
 
