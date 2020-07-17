@@ -133,7 +133,7 @@ export class AccountComponent implements OnInit {
     );
   }
 
-  async changeProfileImage(){ // mb delete async
+  changeProfileImage(){
     var profileImageUrl = (document.getElementById("profileImageUrl") as HTMLInputElement).value;
     var img = document.createElement("img");
     img.src = profileImageUrl;
@@ -148,25 +148,29 @@ export class AccountComponent implements OnInit {
           this.toastr.success('Аватар был изменен', 'Успешно.');
         },
         err => {
-          this.toastr.success('Что-то пошло не так.','Безуспешно.');
-          console.log(err);
+          this.toastr.error('Что-то пошло не так.','Безуспешно.');
         }
       );
     }
   }
 
   changeAboutMe(){
-    var aboutMe = (document.getElementById("aboutMe") as HTMLInputElement).value;
-    this.accountService.changeAboutMe(this.userDetails.email, aboutMe).subscribe(
-      data => {
-        this.loadUserProfile();
-        (document.getElementById("aboutMe") as HTMLInputElement).value = "";
-        this.toastr.success('Информация `О себе была` изменена.', 'Успешно.');
-      },
-      err => {
-        this.toastr.success('Что-то пошло не так.','Безуспешно.');
-      }
-    );
+    let aboutMe = (document.getElementById("aboutMe") as HTMLInputElement).value;
+    if(aboutMe.length > 50){
+      this.toastr.error('Максимальная длина информации 50 символов.','Безуспешно.');
+    }
+    else{
+      this.accountService.changeAboutMe(this.userDetails.email, aboutMe).subscribe(
+        data => {
+          this.loadUserProfile();
+          (document.getElementById("aboutMe") as HTMLInputElement).value = "";
+          this.toastr.success('Информация `О себе была` изменена.', 'Успешно.');
+        },
+        err => {
+          this.toastr.error('Что-то пошло не так.','Безуспешно.');
+        }
+      );
+    }
   }
 
   show_hide_password(el){

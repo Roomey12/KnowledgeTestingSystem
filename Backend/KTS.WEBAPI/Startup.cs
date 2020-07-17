@@ -129,9 +129,8 @@ namespace KTS.WEBAPI
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors("MyPolicy");
             app.UseRouting();
-
+            app.UseCors("MyPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
 
