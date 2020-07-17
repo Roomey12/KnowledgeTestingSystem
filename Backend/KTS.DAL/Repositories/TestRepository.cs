@@ -77,7 +77,7 @@ namespace KTS.DAL.Repositories
         /// </summary>
         /// <param name="pagination">Settings for tests count.</param>
         /// <returns>Tests which were found</returns>
-        public IEnumerable<Test> GetAllForPagination(Pagination pagination)
+        public IEnumerable<Test> GetForPagination(Pagination pagination)
         {
             return _context.Tests
                 .OrderByDescending(on => on.PassedTimes)

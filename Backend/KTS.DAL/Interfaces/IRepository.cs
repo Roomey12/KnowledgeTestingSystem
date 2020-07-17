@@ -7,7 +7,7 @@ namespace KTS.DAL.Interfaces
 {
     public interface IRepository<T> where T : class
     {
-        IEnumerable<T> GetAllForPagination(Pagination pagination);
+        IEnumerable<T> GetForPagination(Pagination pagination);
         IEnumerable<T> GetAll();
         T Get(string id);
         IEnumerable<T> Find(Func<T, bool> predicate);

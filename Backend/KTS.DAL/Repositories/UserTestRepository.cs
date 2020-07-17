@@ -75,7 +75,7 @@ namespace KTS.DAL.Repositories
         /// </summary>
         /// <param name="pagination">Settings for userTests count.</param>
         /// <returns>UserTests which were found</returns>
-        public IEnumerable<UserTest> GetAllForPagination(Pagination pagination)
+        public IEnumerable<UserTest> GetForPagination(Pagination pagination)
         {
             return _context.UserTests.Include(p => p.Test).Include(u => u.User)
                 .Skip((pagination.PageNumber - 1) * pagination.PageSize)

@@ -11,7 +11,7 @@ namespace KTS.BLL.Interfaces
         TestDTO GetTestById(int id);
         IEnumerable<TestDTO> GetAllTests();
         IDictionary<string, IEnumerable<AnswerDTO>> GetQuestionsAndAnswersByTestId(int id);
-        IEnumerable<TestDTO> GetAllTestsForPagination(Pagination pagination);
+        IEnumerable<TestDTO> GetTestsForPagination(Pagination pagination);
         IEnumerable<TestDTO> GetTestsByTitle(string title);
         void CreateTest(TestDTO test);
         void DeleteTest(string id);

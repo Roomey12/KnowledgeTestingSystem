@@ -203,7 +203,7 @@ namespace KTS.WEBAPI.Controllers
             IEnumerable<object> result;
             try
             {
-                result = _userTestService.GetAllUserTestsForPagination(pagination);
+                result = _userTestService.GetUserTestsForPagination(pagination);
             }
             catch (Exception)
             {

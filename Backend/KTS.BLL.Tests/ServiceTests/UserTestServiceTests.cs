@@ -3,6 +3,7 @@ using KTS.BLL.DTO;
 using KTS.BLL.Infrastucture;
 using KTS.BLL.Interfaces;
 using KTS.BLL.Services;
+using KTS.DAL.Configuration;
 using KTS.DAL.Entities;
 using KTS.DAL.Interfaces;
 using Moq;
@@ -201,6 +202,21 @@ namespace KTS.BLL.Tests
             {
                 uts.UpdateUserTest(new UserTestDTO());
             });
+        }
+
+        [Fact]
+        public void GetUserTestsForPagination_WithCorrectData_TestMustBeReceived()
+        {
+            var uow = new Mock<IUnitOfWork>();
+            UserTestService uts = new UserTestService(uow.Object);
+            uow.Setup(x => x.UserTests.GetForPagination(new Pagination())).Returns(new List<UserTest>());
+            uow.Setup(x => x.Users.GetAll()).Returns(new List<User>());
+            uow.Setup(x => x.Tests.GetAll()).Returns(new List<Test>());
+
+            var expected = JsonConvert.SerializeObject(new List<Test>());
+            var actual = JsonConvert.SerializeObject(uts.GetUserTestsForPagination(new Pagination()));
+
+            Assert.Equal(expected, actual);
         }
     }
 }

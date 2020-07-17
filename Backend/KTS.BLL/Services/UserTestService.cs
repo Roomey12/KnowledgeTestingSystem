@@ -205,10 +205,10 @@ namespace KTS.BLL.Services
         /// </summary>
         /// <param name="pagination">Settings for userTests count.</param>
         /// <returns>UserTests which were found</returns>
-        public IEnumerable<object> GetAllUserTestsForPagination(Pagination pagination)
+        public IEnumerable<object> GetUserTestsForPagination(Pagination pagination)
         {
             var userTests =  mapper.Map<IEnumerable<UserTest>, IEnumerable<UserTestDTO>>
-                (Database.UserTests.GetAllForPagination(pagination));
+                (Database.UserTests.GetForPagination(pagination));
             var users = mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(Database.Users.GetAll());
             var tests = mapper.Map<IEnumerable<Test>, IEnumerable<TestDTO>>(Database.Tests.GetAll());
             var result = from u in users

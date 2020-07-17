@@ -76,7 +76,7 @@ namespace KTS.DAL.Repositories
         /// </summary>
         /// <param name="pagination">Settings for questions count.</param>
         /// <returns>Questions which were found</returns>
-        public IEnumerable<Question> GetAllForPagination(Pagination pagination)
+        public IEnumerable<Question> GetForPagination(Pagination pagination)
         {
             return _context.Questions.Include(p => p.Test)
                 .OrderBy(on => on.QuestionId)

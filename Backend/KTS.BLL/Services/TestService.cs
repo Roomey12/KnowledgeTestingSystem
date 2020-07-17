@@ -129,10 +129,10 @@ namespace KTS.BLL.Services
         /// </summary>
         /// <param name="pagination">Settings for tests count.</param>
         /// <returns>Tests which were found</returns>
-        public IEnumerable<TestDTO> GetAllTestsForPagination(Pagination pagination)
+        public IEnumerable<TestDTO> GetTestsForPagination(Pagination pagination)
         {
             return mapper.Map<IEnumerable<Test>, IEnumerable<TestDTO>>
-                (Database.Tests.GetAllForPagination(pagination));
+                (Database.Tests.GetForPagination(pagination));
         }
 
         /// <summary>

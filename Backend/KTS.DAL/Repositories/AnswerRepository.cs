@@ -74,7 +74,7 @@ namespace KTS.DAL.Repositories
         /// </summary>
         /// <param name="pagination">Settings for answers count.</param>
         /// <returns>Answers which were found</returns>
-        public IEnumerable<Answer> GetAllForPagination(Pagination pagination)
+        public IEnumerable<Answer> GetForPagination(Pagination pagination)
         {
             return _context.Answers.Include(p => p.Question)
                      .Skip((pagination.PageNumber - 1) * pagination.PageSize)

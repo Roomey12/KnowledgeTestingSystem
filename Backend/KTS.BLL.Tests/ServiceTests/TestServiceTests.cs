@@ -2,6 +2,7 @@
 using KTS.BLL.Infrastucture;
 using KTS.BLL.Interfaces;
 using KTS.BLL.Services;
+using KTS.DAL.Configuration;
 using KTS.DAL.Entities;
 using KTS.DAL.Interfaces;
 using Moq;
@@ -178,6 +179,34 @@ namespace KTS.BLL.Tests
 
             var expected = JsonConvert.SerializeObject(new List<Test>());
             var actual = JsonConvert.SerializeObject(ts.GetTestsByTitle("a"));
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void GetTestsByTitle_WithNullData_ValidationExceptionMustBeThrown()
+        {
+            var uow = new Mock<IUnitOfWork>();
+            var qs = new Mock<IQuestionService>();
+            TestService ts = new TestService(uow.Object, qs.Object);
+            uow.Setup(x => x.Tests.Find(It.IsAny<Func<Test, bool>>())).Returns((List<Test>)null);
+
+            Assert.Throws<ValidationException>(() =>
+            {
+                var actual = JsonConvert.SerializeObject(ts.GetTestsByTitle(null));
+            });
+        }
+
+        [Fact]
+        public void GetTestsForPagination_WithCorrectData_TestMustBeReceived()
+        {
+            var uow = new Mock<IUnitOfWork>();
+            var qs = new Mock<IQuestionService>();
+            TestService ts = new TestService(uow.Object, qs.Object);
+            uow.Setup(x => x.Tests.GetForPagination(new Pagination())).Returns(new List<Test>());
+
+            var expected = JsonConvert.SerializeObject(new List<Test>());
+            var actual = JsonConvert.SerializeObject(ts.GetTestsForPagination(new Pagination()));
 
             Assert.Equal(expected, actual);
         }

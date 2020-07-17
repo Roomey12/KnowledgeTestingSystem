@@ -17,6 +17,6 @@ namespace KTS.BLL.Interfaces
         void UpdateUserTest(UserTestDTO userTestDTO);
         object GetUserTestById(string id);
         void CreateUserTestByAdmin(UserTestDTO userTest);
-        IEnumerable<object> GetAllUserTestsForPagination(Pagination pagination);
+        IEnumerable<object> GetUserTestsForPagination(Pagination pagination);
     }
 }

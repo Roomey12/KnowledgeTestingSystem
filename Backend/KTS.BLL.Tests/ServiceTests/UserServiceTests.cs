@@ -1,6 +1,7 @@
 ﻿using KTS.BLL.DTO;
 using KTS.BLL.Infrastucture;
 using KTS.BLL.Services;
+using KTS.DAL.Configuration;
 using KTS.DAL.Entities;
 using KTS.DAL.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -119,6 +120,19 @@ namespace KTS.BLL.Tests
             {
                 us.UpdateUser(new UserDTO());
             });
+        }
+
+        [Fact]
+        public void GetUsersForPagination_WithCorrectData_TestMustBeReceived()
+        {
+            var uow = new Mock<IUnitOfWork>();
+            UserService us = new UserService(uow.Object);
+            uow.Setup(x => x.Users.GetForPagination(new Pagination())).Returns(new List<User>());
+
+            var expected = JsonConvert.SerializeObject(new List<Test>());
+            var actual = JsonConvert.SerializeObject(us.GetUsersForPagination(new Pagination()));
+
+            Assert.Equal(expected, actual);
         }
     }
 }

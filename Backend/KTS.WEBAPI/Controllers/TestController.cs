@@ -168,7 +168,7 @@ namespace KTS.WEBAPI.Controllers
             try
             {
                 result = mapper.Map<IEnumerable<TestDTO>, IEnumerable<TestModel>>
-                    (_testService.GetAllTestsForPagination(pagination));
+                    (_testService.GetTestsForPagination(pagination));
             }
             catch (Exception)
             {

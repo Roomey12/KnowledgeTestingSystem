@@ -76,7 +76,7 @@ namespace KTS.DAL.Repositories
         /// </summary>
         /// <param name="pagination">Settings for users count.</param>
         /// <returns>Users which were found</returns>
-        public IEnumerable<User> GetAllForPagination(Pagination pagination)
+        public IEnumerable<User> GetForPagination(Pagination pagination)
         {
             return _context.Users
                     .OrderBy(on => on.UserName)

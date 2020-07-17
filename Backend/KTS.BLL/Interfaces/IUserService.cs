@@ -18,6 +18,6 @@ namespace KTS.BLL.Interfaces
         void UpdateUser(UserDTO userDTO);
         Task<IdentityResult> MakeUserAdmin(UserDTO userDTO);
         Task<IdentityResult> MakeUserCustomer(UserDTO userDTO);
-        IEnumerable<UserDTO> GetAllUsersForPagination(Pagination pagination);
+        IEnumerable<UserDTO> GetUsersForPagination(Pagination pagination);
     }
 }

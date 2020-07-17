@@ -50,12 +50,27 @@ namespace KTS.BLL.Tests
         {
             var uow = new Mock<IUnitOfWork>();
             QuestionService qs = new QuestionService(uow.Object);
+            uow.Setup(x => x.Tests.Get(It.IsAny<string>())).Returns(new Test());
             uow.Setup(x => x.Questions.Find(It.IsAny<Func<Question, bool>>())).Returns(new List<Question>());
 
             var expected = JsonConvert.SerializeObject(new List<Question>());
             var actual = JsonConvert.SerializeObject(qs.GetQuestionsByTestId(It.IsAny<int>()));
 
             Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void GetQuestionsByTestId_WithInCorrectData_NotFoundExceptionMustBeThrown()
+        {
+            var uow = new Mock<IUnitOfWork>();
+            QuestionService qs = new QuestionService(uow.Object);
+            uow.Setup(x => x.Tests.Get(It.IsAny<string>())).Returns((Test)null);
+            uow.Setup(x => x.Questions.Find(It.IsAny<Func<Question, bool>>())).Returns((List<Question>)null);
+
+            Assert.Throws<NotFoundException>(() =>
+            {
+                var actual = JsonConvert.SerializeObject(qs.GetQuestionsByTestId(It.IsAny<int>()));
+            });
         }
 
         [Fact]
@@ -179,20 +194,6 @@ namespace KTS.BLL.Tests
             uow.Setup(x => x.Tests.Get(It.IsAny<string>())).Returns((Test)null);
 
             Assert.Throws<NotFoundException>(() =>
-            {
-                qs.UpdateQuestion(new QuestionDTO());
-            });
-        }
-
-        [Fact]
-        public void UpdateQuestion_WithInCorrectTestIdData_ValidationExceptionMustBeThrown()
-        {
-            var uow = new Mock<IUnitOfWork>();
-            QuestionService qs = new QuestionService(uow.Object);
-            uow.Setup(x => x.Questions.Get(It.IsAny<string>())).Returns(new Question());
-            uow.Setup(x => x.Tests.Get(It.IsAny<string>())).Returns((Test)null);
-
-            Assert.Throws<ValidationException>(() =>
             {
                 qs.UpdateQuestion(new QuestionDTO());
             });

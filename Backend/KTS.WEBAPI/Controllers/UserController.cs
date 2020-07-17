@@ -177,7 +177,7 @@ namespace KTS.WEBAPI.Controllers
             try
             {
                 result = mapper.Map<IEnumerable<UserDTO>, IEnumerable<UserModel>>
-                    (_userService.GetAllUsersForPagination(pagination));
+                    (_userService.GetUsersForPagination(pagination));
             }
             catch(Exception)
             {

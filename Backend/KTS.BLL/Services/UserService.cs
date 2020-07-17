@@ -146,10 +146,10 @@ namespace KTS.BLL.Services
         /// </summary>
         /// <param name="pagination">Settings for users count.</param>
         /// <returns>Users which were found</returns>
-        public IEnumerable<UserDTO> GetAllUsersForPagination(Pagination pagination)
+        public IEnumerable<UserDTO> GetUsersForPagination(Pagination pagination)
         {
             return mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>
-                (Database.Users.GetAllForPagination(pagination));
+                (Database.Users.GetForPagination(pagination));
         }
 
         public void Dispose()
