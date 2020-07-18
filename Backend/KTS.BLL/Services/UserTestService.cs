@@ -15,6 +15,13 @@ using System.Threading.Tasks;
 
 namespace KTS.BLL.Services
 {
+    /// <summary>
+    /// <c>UserTEstService</c> is a class.
+    /// Contains all methods for working with test results.
+    /// </summary>
+    /// <remarks>
+    /// This class can get, create, delete, edit test result.
+    /// </remarks>
     public class UserTestService : IUserTestService
     {
         IUnitOfWork Database { get; set; }

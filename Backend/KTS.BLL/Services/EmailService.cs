@@ -10,6 +10,13 @@ using System.Threading.Tasks;
 
 namespace KTS.BLL.Services
 {
+    /// <summary>
+    /// <c>EmailService</c> is a class.
+    /// Contains method for sending email.
+    /// </summary>
+    /// <remarks>
+    /// This class can send email.
+    /// </remarks>
     public class EmailService : IEmailService
     {
         private readonly EmailSettings _emailSettings;

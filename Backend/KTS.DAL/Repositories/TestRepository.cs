@@ -12,6 +12,10 @@ using System.Threading.Tasks;
 
 namespace KTS.DAL.Repositories
 {
+    /// <summary>
+    /// <c>TestRepository</c> is a class.
+    /// Contains methods for CRUD functional.
+    /// </summary>
     class TestRepository : IRepository<Test>
     {
         private ApplicationContext _context;
@@ -24,7 +28,7 @@ namespace KTS.DAL.Repositories
         /// <summary>
         /// This method creates test.
         /// </summary>
-        /// <param name="test">Test which should be created</param>
+        /// <param name="test">Test which should be created.</param>
         public void Create(Test test)
         {
             _context.Tests.Add(test);
@@ -33,7 +37,7 @@ namespace KTS.DAL.Repositories
         /// <summary>
         /// This method deletes test.
         /// </summary>
-        /// <param name="testId">Id of test which should be deleted</param>
+        /// <param name="testId">Id of test which should be deleted.</param>
         public void Delete(string testId)
         {
             Test test = _context.Tests.Find(Convert.ToInt32(testId));
@@ -46,8 +50,8 @@ namespace KTS.DAL.Repositories
         /// <summary>
         /// This method finds test by some condition.
         /// </summary>
-        /// <param name="predicate">Condition by which the search will be performed</param>
-        /// <returns>Tests which were found</returns>
+        /// <param name="predicate">Condition by which the search will be performed.</param>
+        /// <returns>Tests which were found.</returns>
         public IEnumerable<Test> Find(Func<Test, bool> predicate)
         {
             return _context.Tests.Where(predicate).ToList();
@@ -56,8 +60,8 @@ namespace KTS.DAL.Repositories
         /// <summary>
         /// This method finds test by its Id and returns it.
         /// </summary>
-        /// <param name="testId">Id of test which should be returned</param>
-        /// <returns>Test which was found</returns>
+        /// <param name="testId">Id of test which should be returned.</param>
+        /// <returns>Test which was found.</returns>
         public Test Get(string testId)
         {
             return _context.Tests.Find(Convert.ToInt32(testId));
@@ -66,7 +70,7 @@ namespace KTS.DAL.Repositories
         /// <summary>
         /// This method returns all tests.
         /// </summary>
-        /// <returns>Test which were found</returns>
+        /// <returns>Test which were found.</returns>
         public IEnumerable<Test> GetAll()
         {
             return _context.Tests.ToList();
@@ -76,7 +80,7 @@ namespace KTS.DAL.Repositories
         /// This method returns certain count of tests.
         /// </summary>
         /// <param name="pagination">Settings for tests count.</param>
-        /// <returns>Tests which were found</returns>
+        /// <returns>Tests which were found.</returns>
         public IEnumerable<Test> GetForPagination(Pagination pagination)
         {
             return _context.Tests
@@ -89,7 +93,7 @@ namespace KTS.DAL.Repositories
         /// <summary>
         /// This method updates test's data.
         /// </summary>
-        /// <param name="test">Test which should be updated</param>
+        /// <param name="test">Test which should be updated.</param>
         public void Update(Test test)
         {
             _context.Entry(test).State = EntityState.Modified;

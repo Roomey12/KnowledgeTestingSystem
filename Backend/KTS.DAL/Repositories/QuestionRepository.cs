@@ -10,6 +10,10 @@ using System.Text;
 
 namespace KTS.DAL.Repositories
 {
+    /// <summary>
+    /// <c>QuestionRepository</c> is a class.
+    /// Contains methods for CRUD functional.
+    /// </summary>
     class QuestionRepository : IRepository<Question>
     {
         private ApplicationContext _context;
@@ -22,7 +26,7 @@ namespace KTS.DAL.Repositories
         /// <summary>
         /// This method creates question.
         /// </summary>
-        /// <param name="question">Question which should be created</param>
+        /// <param name="question">Question which should be created.</param>
         public void Create(Question question)
         {
             _context.Questions.Add(question);
@@ -31,7 +35,7 @@ namespace KTS.DAL.Repositories
         /// <summary>
         /// This method deletes question.
         /// </summary>
-        /// <param name="questionId">Id of question which should be deleted</param>
+        /// <param name="questionId">Id of question which should be deleted.</param>
         public void Delete(string questionId)
         {
             Question question = _context.Questions.Find(Convert.ToInt32(questionId));
@@ -44,7 +48,7 @@ namespace KTS.DAL.Repositories
         /// <summary>
         /// This method finds question by some condition.
         /// </summary>
-        /// <param name="predicate">Condition by which the search will be performed</param>
+        /// <param name="predicate">Condition by which the search will be performed.</param>
         /// <returns>Questions which were found</returns>
         public IEnumerable<Question> Find(Func<Question, bool> predicate)
         {
@@ -54,7 +58,7 @@ namespace KTS.DAL.Repositories
         /// <summary>
         /// This method finds question by its Id and returns it.
         /// </summary>
-        /// <param name="questionId">Id of answer which should be returned</param>
+        /// <param name="questionId">Id of answer which should be returned.</param>
         /// <returns>Question which was found</returns>
         public Question Get(string questionId)
         {
@@ -64,7 +68,7 @@ namespace KTS.DAL.Repositories
         /// <summary>
         /// This method returns all questions.
         /// </summary>
-        /// <returns>Questions which were found</returns>
+        /// <returns>Questions which were found.</returns>
         public IEnumerable<Question> GetAll()
         {
             return _context.Questions.Include(p => p.Test).ToList();
@@ -75,7 +79,7 @@ namespace KTS.DAL.Repositories
         /// This method returns certain count of questions.
         /// </summary>
         /// <param name="pagination">Settings for questions count.</param>
-        /// <returns>Questions which were found</returns>
+        /// <returns>Questions which were found.</returns>
         public IEnumerable<Question> GetForPagination(Pagination pagination)
         {
             return _context.Questions.Include(p => p.Test)
@@ -88,7 +92,7 @@ namespace KTS.DAL.Repositories
         /// <summary>
         /// This method updates question's data.
         /// </summary>
-        /// <param name="question">Question which should be updated</param>
+        /// <param name="question">Question which should be updated.</param>
         public void Update(Question question)
         { 
             _context.Entry(question).State = EntityState.Modified;

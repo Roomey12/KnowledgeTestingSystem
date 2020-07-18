@@ -10,6 +10,13 @@ using System.Collections.Generic;
 
 namespace KTS.BLL.Services
 {
+    /// <summary>
+    /// <c>TestService</c> is a class.
+    /// Contains all methods for working with tests.
+    /// </summary>
+    /// <remarks>
+    /// This class can get, create, delete, edit test.
+    /// </remarks>
     public class TestService : ITestService
     {
         IUnitOfWork Database { get; set; }

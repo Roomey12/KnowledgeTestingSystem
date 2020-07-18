@@ -18,6 +18,14 @@ using IEmailService = KTS.BLL.Interfaces.IEmailService;
 
 namespace KTS.BLL.Services
 {
+    /// <summary>
+    /// <c>Authervice</c> is a class.
+    /// Contains all methods for authorization and authentication.
+    /// </summary>
+    /// <remarks>
+    /// This class can be used by user for registration, logining, 
+    /// logining via external services, resetting password.
+    /// </remarks>
     public class AuthService : IAuthService
     {
         private readonly ApplicationSettings _appSettings;

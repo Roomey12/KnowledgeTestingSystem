@@ -10,6 +10,10 @@ using System.Text;
 
 namespace KTS.DAL.Repositories
 {
+    /// <summary>
+    /// <c>UserRepository</c> is a class.
+    /// Contains methods for CRUD functional.
+    /// </summary>
     class UserRepository : IRepository<User>
     {
         private ApplicationContext _context;
@@ -22,7 +26,7 @@ namespace KTS.DAL.Repositories
         /// <summary>
         /// This method creates user.
         /// </summary>
-        /// <param name="user">User which should be created</param>
+        /// <param name="user">User which should be created.</param>
         public void Create(User user)
         {
             _context.Users.Add(user);
@@ -31,7 +35,7 @@ namespace KTS.DAL.Repositories
         /// <summary>
         /// This method deletes user.
         /// </summary>
-        /// <param name="userId">Id of user which should be deleted</param>
+        /// <param name="userId">Id of user which should be deleted.</param>
         public void Delete(string userId)
         {
             User user = _context.Users.Find(userId);
@@ -44,8 +48,8 @@ namespace KTS.DAL.Repositories
         /// <summary>
         /// This method finds user by some condition.
         /// </summary>
-        /// <param name="predicate">Condition by which the search will be performed</param>
-        /// <returns>Users which were found</returns>
+        /// <param name="predicate">Condition by which the search will be performed.</param>
+        /// <returns>Users which were found.</returns>
         public IEnumerable<User> Find(Func<User, bool> predicate)
         {
             return _context.Users.Where(predicate).ToList();
@@ -54,8 +58,8 @@ namespace KTS.DAL.Repositories
         /// <summary>
         /// This method finds user by its Id and returns it.
         /// </summary>
-        /// <param name="userId">Id of user which should be returned</param>
-        /// <returns>User which was found</returns>
+        /// <param name="userId">Id of user which should be returned.</param>
+        /// <returns>User which was found.</returns>
         public User Get(string userId)
         {
             return _context.Users.Find(userId);
@@ -64,7 +68,7 @@ namespace KTS.DAL.Repositories
         /// <summary>
         /// This method returns all users.
         /// </summary>
-        /// <returns>User which were found</returns>
+        /// <returns>User which were found.</returns>
         public IEnumerable<User> GetAll()
         {
             return  _context.Users.ToList();
@@ -75,7 +79,7 @@ namespace KTS.DAL.Repositories
         /// This method returns certain count of users.
         /// </summary>
         /// <param name="pagination">Settings for users count.</param>
-        /// <returns>Users which were found</returns>
+        /// <returns>Users which were found.</returns>
         public IEnumerable<User> GetForPagination(Pagination pagination)
         {
             return _context.Users
@@ -88,7 +92,7 @@ namespace KTS.DAL.Repositories
         /// <summary>
         /// This method updates user's data.
         /// </summary>
-        /// <param name="user">User which should be updated</param>
+        /// <param name="user">User which should be updated.</param>
         public void Update(User user)
         {
             _context.Entry(user).State = EntityState.Modified;

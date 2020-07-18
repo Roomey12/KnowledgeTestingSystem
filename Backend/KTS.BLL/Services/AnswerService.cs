@@ -11,6 +11,13 @@ using System.Text;
 
 namespace KTS.BLL.Services
 {
+    /// <summary>
+    /// <c>AnswerService</c> is a class.
+    /// Contains all methods for working with answers.
+    /// </summary>
+    /// <remarks>
+    /// This class can get, create, delete, edit answer.
+    /// </remarks>
     public class AnswerService : IAnswerService
     {
         IUnitOfWork Database { get; set; }

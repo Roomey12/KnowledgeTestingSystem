@@ -10,24 +10,41 @@ using System.Text;
 
 namespace KTS.DAL.EF
 {
+    /// <summary>
+    /// <c>ApplicationContext</c> is a class.
+    /// Represents settings for database.
+    /// </summary>
     public class ApplicationContext : IdentityDbContext<User>
     {
+        /// <summary>
+        /// Represents table for <see cref="Test"/> class.
+        /// </summary>
         public DbSet<Test> Tests { get; set; }
+
+        /// <summary>
+        /// Represents table for <see cref="Question"/> class.
+        /// </summary>
         public DbSet<Question> Questions { get; set; }
+
+        /// <summary>
+        /// Represents table for <see cref="Answer"/> class.
+        /// </summary>
         public DbSet<Answer> Answers { get; set; }
+
+        /// <summary>
+        /// Represents table for <see cref="UserTest"/> class.
+        /// </summary>
         public DbSet<UserTest> UserTests { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
-            : base(options)
-        {
-            //Database.EnsureCreated();
-        }
+            : base(options) { }
 
-        public ApplicationContext()
-        {
+        public ApplicationContext() { }
 
-        }
-
+        /// <summary>
+        /// Add settings for entities in database.
+        /// </summary>
+        /// <param name="modelBuilder">Builder which applies settings.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region Create tests
@@ -90,6 +107,10 @@ namespace KTS.DAL.EF
             base.OnModelCreating(modelBuilder);
         }
 
+        /// <summary>
+        /// Add settings for database.
+        /// </summary>
+        /// <param name="optionsBuilder">Builder which applies settings.</param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()

@@ -9,6 +9,10 @@ using System.Linq;
 
 namespace KTS.DAL.Repositories
 {
+    /// <summary>
+    /// <c>UserTestRepository</c> is a class.
+    /// Contains methods for CRUD functional.
+    /// </summary>
     class UserTestRepository : IRepository<UserTest>
     {
         private ApplicationContext _context;
@@ -21,7 +25,7 @@ namespace KTS.DAL.Repositories
         /// <summary>
         /// This method creates result of test.
         /// </summary>
-        /// <param name="userTest">Result of test which should be created</param>
+        /// <param name="userTest">Result of test which should be created.</param>
         public void Create(UserTest userTest)
         {
             _context.UserTests.Add(userTest);
@@ -30,7 +34,7 @@ namespace KTS.DAL.Repositories
         /// <summary>
         /// This method deletes result of test.
         /// </summary>
-        /// <param name="userTestId">Id of result of test which should be deleted</param>
+        /// <param name="userTestId">Id of result of test which should be deleted.</param>
         public void Delete(string userTestId)
         {
             UserTest userTest = _context.UserTests.Find(Convert.ToInt32(userTestId));
@@ -43,8 +47,8 @@ namespace KTS.DAL.Repositories
         /// <summary>
         /// This method finds results of tests by some condition.
         /// </summary>
-        /// <param name="predicate">Condition by which the search will be performed</param>
-        /// <returns>Results of tests which were found</returns>
+        /// <param name="predicate">Condition by which the search will be performed.</param>
+        /// <returns>Results of tests which were found.</returns>
         public IEnumerable<UserTest> Find(Func<UserTest, bool> predicate)
         {
             return _context.UserTests.Include(p => p.Test).Include(u => u.User).Where(predicate).ToList();
@@ -53,8 +57,8 @@ namespace KTS.DAL.Repositories
         /// <summary>
         /// This method finds result of test by its Id and returns it.
         /// </summary>
-        /// <param name="userTestId">Id of result of test which should be returned</param>
-        /// <returns>Result of test which was found</returns>
+        /// <param name="userTestId">Id of result of test which should be returned.</param>
+        /// <returns>Result of test which was found.</returns>
         public UserTest Get(string userTestId)
         {
             return _context.UserTests.Find(Convert.ToInt32(userTestId));
@@ -63,7 +67,7 @@ namespace KTS.DAL.Repositories
         /// <summary>
         /// This method returns all results of tests.
         /// </summary>
-        /// <returns>Results of tests which were found</returns>
+        /// <returns>Results of tests which were found.</returns>
         public IEnumerable<UserTest> GetAll()
         {
             return _context.UserTests.Include(p => p.Test).Include(u => u.User).ToList();
@@ -74,7 +78,7 @@ namespace KTS.DAL.Repositories
         /// This method returns certain count of userTests.
         /// </summary>
         /// <param name="pagination">Settings for userTests count.</param>
-        /// <returns>UserTests which were found</returns>
+        /// <returns>UserTests which were found.</returns>
         public IEnumerable<UserTest> GetForPagination(Pagination pagination)
         {
             return _context.UserTests.Include(p => p.Test).Include(u => u.User)
@@ -85,7 +89,7 @@ namespace KTS.DAL.Repositories
 
         /// This method updates result of test data.
         /// </summary>
-        /// <param name="user">Result of test which should be updated</param>
+        /// <param name="user">Result of test which should be updated.</param>
         public void Update(UserTest userTest)
         {
             _context.Entry(userTest).State = EntityState.Modified;

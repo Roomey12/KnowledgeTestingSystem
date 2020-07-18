@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 
 namespace KTS.DAL.Repositories
 {
+    /// <summary>
+    /// <UnitOfWork> is a class.
+    /// Is used for encapsulating logic of working with the database.
+    /// </summary>
     public class UnitOfWork : IUnitOfWork
     {
         private ApplicationContext _context;
@@ -28,6 +32,10 @@ namespace KTS.DAL.Repositories
             _signInManager = signInManager;
         }
 
+        /// <summary>
+        /// Returns <c>IRepository<Test></c> object.
+        /// </summary>
+        /// <returns><c>IRepository<Test></c> object.</returns>
         public IRepository<Test> Tests
         {
             get
@@ -36,11 +44,14 @@ namespace KTS.DAL.Repositories
                 {
                     _testRepository = new TestRepository(_context);
                 }
-
                 return _testRepository;
             }
         }
 
+        /// <summary>
+        /// Returns <c>IRepository<Question></c> object.
+        /// </summary>
+        /// <returns><c>IRepository<Question></c> object.</returns>
         public IRepository<Question> Questions
         {
             get
@@ -49,11 +60,14 @@ namespace KTS.DAL.Repositories
                 {
                     _questionRepository = new QuestionRepository(_context);
                 }
-
                 return _questionRepository;
             }
         }
 
+        /// <summary>
+        /// Returns <c>IRepository<Answer></c> object.
+        /// </summary>
+        /// <returns><c>IRepository<Answer></c> object.</returns>
         public IRepository<Answer> Answers
         {
             get
@@ -62,11 +76,14 @@ namespace KTS.DAL.Repositories
                 {
                     _answerRepository = new AnswerRepository(_context);
                 }
-
                 return _answerRepository;
             }
         }
 
+        /// <summary>
+        /// Returns <c>IRepository<UserTest></c> object.
+        /// </summary>
+        /// <returns><c>IRepository<UserTest></c> object.</returns>
         public IRepository<UserTest> UserTests
         {
             get
@@ -75,11 +92,14 @@ namespace KTS.DAL.Repositories
                 {
                     _userTestRepository = new UserTestRepository(_context);
                 }
-
                 return _userTestRepository;
             }
         }
 
+        /// <summary>
+        /// Returns <c>IRepository<User></c> object.
+        /// </summary>
+        /// <returns><c>IRepository<User></c> object.</returns>
         public IRepository<User> Users
         {
             get
@@ -88,11 +108,14 @@ namespace KTS.DAL.Repositories
                 {
                     _userRepository = new UserRepository(_context);
                 }
-
                 return _userRepository;
             }
         }
 
+        /// <summary>
+        /// Returns <c>UserManager<User></c> object.
+        /// </summary>
+        /// <returns><c>UserManager<User></c> object.</returns>
         public UserManager<User> UserManager
         {
             get
@@ -101,6 +124,10 @@ namespace KTS.DAL.Repositories
             }
         }
 
+        /// <summary>
+        /// Returns <c>SignInManager<User></c> object.
+        /// </summary>
+        /// <returns><c>SignInManager<User></c> object.</returns>
         public SignInManager<User> SignInManager
         {
             get
@@ -109,11 +136,18 @@ namespace KTS.DAL.Repositories
             }
         }
 
+        /// <summary>
+        /// Saves changes to the database. 
+        /// </summary>
         public void Save()
         {
             _context.SaveChanges();
         }
 
+
+        /// <summary>
+        /// Asynchronously saves changes to the database. 
+        /// </summary>
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
@@ -121,6 +155,10 @@ namespace KTS.DAL.Repositories
 
         private bool disposed = false;
 
+        /// <summary>
+        /// Clean up resources.
+        /// </summary>
+        /// <param name="disposing">Indicate whether resources need to be cleaned up/</param>
         public virtual void Dispose(bool disposing)
         {
             if (!this.disposed)
@@ -133,6 +171,9 @@ namespace KTS.DAL.Repositories
             }
         }
 
+        /// <summary>
+        /// Clean up resources and remove object.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);

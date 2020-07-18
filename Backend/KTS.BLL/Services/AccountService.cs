@@ -14,6 +14,13 @@ using System.Threading.Tasks;
 
 namespace KTS.BLL.Services
 {
+    /// <summary>
+    /// <c>AccountService</c> is a class.
+    /// Contains all methods for user to edit his account information.
+    /// </summary>
+    /// <remarks>
+    /// This class can change user's email, username, profile image, 'about me'.
+    /// </remarks>
     public class AccountService : IAccountService
     {
         IUnitOfWork Database { get; set; }

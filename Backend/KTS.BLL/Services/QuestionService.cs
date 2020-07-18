@@ -12,6 +12,13 @@ using System.Threading.Tasks;
 
 namespace KTS.BLL.Services
 {
+    /// <summary>
+    /// <c>QuestionService</c> is a class.
+    /// Contains all methods for working with questions.
+    /// </summary>
+    /// <remarks>
+    /// This class can get, create, delete, edit question.
+    /// </remarks>
     public class QuestionService : IQuestionService
     {
         IUnitOfWork Database { get; set; }

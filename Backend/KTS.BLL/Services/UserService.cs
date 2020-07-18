@@ -14,6 +14,13 @@ using System.Threading.Tasks;
 
 namespace KTS.BLL.Services
 {
+    /// <summary>
+    /// <c>UserService</c> is a class.
+    /// Contains all methods for working with users.
+    /// </summary>
+    /// <remarks>
+    /// This class can get, create, delete, edit user.
+    /// </remarks>
     public class UserService : IUserService
     {
         IUnitOfWork Database { get; set; }
