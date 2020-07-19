@@ -14,9 +14,6 @@ namespace KTS.BLL.Services
     /// <c>EmailService</c> is a class.
     /// Contains method for sending email.
     /// </summary>
-    /// <remarks>
-    /// This class can send email.
-    /// </remarks>
     public class EmailService : IEmailService
     {
         private readonly EmailSettings _emailSettings;
@@ -28,9 +25,9 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method is used to send email.
         /// </summary>
-        /// <param name="email">Email to which letter will be sent</param>
-        /// <param name="subject">Subject of letter</param>
-        /// <param name="message">Message of letter</param>
+        /// <param name="email">Email to which letter will be sent.</param>
+        /// <param name="subject">Subject of letter.</param>
+        /// <param name="message">Message of letter.</param>
         public async Task SendEmailAsync(string email, string subject, string message)
         {
             var emailMessage = new MimeMessage();

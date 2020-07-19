@@ -13,6 +13,10 @@ using System.Threading.Tasks;
 
 namespace KTS.BLL.Infrastucture
 {
+    /// <summary>
+    /// <c>TokenRefresher</c> is a class.
+    /// Contains method for refreshing token.
+    /// </summary>
     public class TokenRefresher : ITokenRefresher
     {
         private readonly byte[] _key;
@@ -31,6 +35,11 @@ namespace KTS.BLL.Infrastucture
             Database = uow;
         }
 
+        /// <summary>
+        /// Refreshes refresh token.
+        /// </summary>
+        /// <param name="authenticationResponse">JWT and refresh token which should be refreshed.</param>
+        /// <returns>JWT and refreshed refresh token.</returns>
         public async Task<AuthenticationResponse> Refresh(AuthenticationResponse authenticationResponse)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

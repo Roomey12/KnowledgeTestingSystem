@@ -37,8 +37,8 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method finds answer by its Id and returns it.
         /// </summary>
-        /// <param name="id">Id of answer which should be returned</param>
-        /// <returns>Answer which was found</returns>
+        /// <param name="id">Id of answer which should be returned.</param>
+        /// <returns>Answer which was found.</returns>
         public AnswerDTO GetAnswerById(int id)
         {
             var answer = mapper.Map<Answer, AnswerDTO>(Database.Answers.Get(id.ToString()));
@@ -52,14 +52,14 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method returns answers which relate to the question which Id was passed.
         /// </summary>
-        /// <param name="questionId">Id of question for which answers should be found</param>
-        /// <returns>Answers which were found</returns>
+        /// <param name="questionId">Id of question for which answers should be found.</param>
+        /// <returns>Answers which were found.</returns>
         public IEnumerable<AnswerDTO> GetAnswersByQuestionId(int questionId)
         {
             var question = Database.Questions.Get(questionId.ToString());
             if (question == null)
             {
-                throw new NotFoundException("Question was not found");
+                throw new NotFoundException("Question was not found", "Id");
             }
             var answers = mapper.Map<IEnumerable<Answer>, IEnumerable<AnswerDTO>>(Database.Answers.Find(x => x.QuestionId == questionId));
             return answers;
@@ -68,7 +68,7 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method creates answer for new question.
         /// </summary>
-        /// <param name="answer">Answer which should be created</param>
+        /// <param name="answer">Answer which should be created.</param>
         public void CreateAnswerForNewQuestion(AnswerDTO answer)
         {
             if (answer == null)
@@ -88,7 +88,7 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method creates answer for old question.
         /// </summary>
-        /// <param name="answer">Answer which should be created</param>
+        /// <param name="answer">Answer which should be created.</param>
         public void CreateAnswerForOldQuestion(AnswerDTO answer)
         {
             if (answer == null)
@@ -107,7 +107,7 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method deletes answer.
         /// </summary>
-        /// <param name="id">Id of answer which should be deleted</param>
+        /// <param name="id">Id of answer which should be deleted.</param>
         public void DeleteAnswer(string id)
         {
             var answer = Database.Answers.Get(id);
@@ -127,7 +127,7 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method updates answer's data.
         /// </summary>
-        /// <param name="answerDTO">Answer which should be updated</param>
+        /// <param name="answerDTO">Answer which should be updated.</param>
         public void UpdateAnswer(AnswerDTO answerDTO)
         {
             if (answerDTO == null)

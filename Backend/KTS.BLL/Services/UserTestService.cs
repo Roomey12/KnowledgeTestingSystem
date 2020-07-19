@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace KTS.BLL.Services
 {
     /// <summary>
-    /// <c>UserTEstService</c> is a class.
+    /// <c>UserTestService</c> is a class.
     /// Contains all methods for working with test results.
     /// </summary>
     /// <remarks>
@@ -59,7 +59,7 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method creates result of passing test.
         /// </summary>
-        /// <param name="userTest">Result of passing test which should be created</param>
+        /// <param name="userTest">Result of passing test which should be created.</param>
         public void CreateUserTestByAdmin(UserTestDTO userTest)
         {
             if (userTest == null)
@@ -96,7 +96,7 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method returns all results of passing tests.
         /// </summary>
-        /// <returns>Results of passing tests which were found</returns>
+        /// <returns>Results of passing tests which were found.</returns>
         public IEnumerable<object> GetAllUserTests()
         {
             var userTests = mapper.Map<IEnumerable<UserTest>, IEnumerable<UserTestDTO>>(Database.UserTests.GetAll());
@@ -113,7 +113,7 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method returns certain count of best results of passing tests.
         /// </summary>
-        /// <returns>Results of passing tests which were found</returns>
+        /// <returns>Results of passing tests which were found.</returns>
         public IEnumerable<object> GetTopUserTests(int count)
         {
             var userTests = mapper.Map<IEnumerable<UserTest>, IEnumerable<UserTestDTO>>(Database.UserTests.GetAll());
@@ -131,8 +131,8 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method returns results of passing tests for certain user.
         /// </summary>
-        /// <param name="userId">Id of user for whom results of passing tests should be returned</param>
-        /// <returns>Results of passing tests which were found</returns>
+        /// <param name="userId">Id of user for whom results of passing tests should be returned.</param>
+        /// <returns>Results of passing tests which were found.</returns>
         public object GetUserTestsByUserId(string userId)
         {
             var user = mapper.Map<User, UserDTO>(Database.Users.Get(userId));
@@ -152,8 +152,8 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method returns certain result of passing test.
         /// </summary>
-        /// <param name="id">Id of result of passing test which should be returned</param>
-        /// <returns>Result of passing test which was found</returns>
+        /// <param name="id">Id of result of passing test which should be returned.</param>
+        /// <returns>Result of passing test which was found.</returns>
         public object GetUserTestById(string id)
         {
             var userTest = Database.UserTests.Get(id);
@@ -171,7 +171,7 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method deletes certain result of passing test.
         /// </summary>
-        /// <param name="id">Id of result of passing test which should be deleted</param>
+        /// <param name="id">Id of result of passing test which should be deleted.</param>
         public void DeleteUserTest(string id)
         {
             var userTest = mapper.Map<UserTest, UserTestDTO>(Database.UserTests.Get(id));
@@ -189,7 +189,7 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method updates data of certain result of passing test.
         /// </summary>
-        /// <param name="userTestDTO">Result of passing test which should be updated</param>
+        /// <param name="userTestDTO">Result of passing test which should be updated.</param>
         public void UpdateUserTest(UserTestDTO userTestDTO)
         {
             if(userTestDTO == null)
@@ -211,7 +211,7 @@ namespace KTS.BLL.Services
         /// This method returns certain count of userTests.
         /// </summary>
         /// <param name="pagination">Settings for userTests count.</param>
-        /// <returns>UserTests which were found</returns>
+        /// <returns>UserTests which were found.</returns>
         public IEnumerable<object> GetUserTestsForPagination(Pagination pagination)
         {
             var userTests =  mapper.Map<IEnumerable<UserTest>, IEnumerable<UserTestDTO>>

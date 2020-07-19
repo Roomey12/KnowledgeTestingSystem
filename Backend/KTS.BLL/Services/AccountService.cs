@@ -43,7 +43,7 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method is used for changing user's password.
         /// </summary>
-        /// <param name="modelDTO">ChangePasswordDTO object</param>
+        /// <param name="modelDTO"><see cref="ChangePasswordDTO"/> object.</param>
         /// <returns>Result of changing password.</returns>
         public async Task<IdentityResult> ChangePassword(ChangePasswordDTO modelDTO)
         {
@@ -72,7 +72,7 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method is used for changing user's name.
         /// </summary>
-        /// <param name="modelDTO">ChangeUsernameDTO object</param>
+        /// <param name="modelDTO"><see cref="ChangeUsernameDTO"/> object.</param>
         /// <returns>Result of changing username.</returns>
         public async Task ChangeUsername(ChangeUsernameDTO modelDTO)
         {
@@ -103,7 +103,7 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method is used for changing user's email.
         /// </summary>
-        /// <param name="modelDTO">ChangeEmailDTO object</param>
+        /// <param name="modelDTO"><see cref="ChangeEmailDTO"/> object.</param>
         public async Task ChangeEmail(ChangeEmailDTO modelDTO)
         {
             if (modelDTO == null)
@@ -132,7 +132,7 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method is used for confirming new email.
         /// </summary>
-        /// <param name="modelDTO">ChangeEmailDTO object</param>
+        /// <param name="modelDTO"><see cref="ChangeEmailDTO"/> object.</param>
         /// <returns>Result of confirming new email.</returns>
         public async Task<IdentityResult> ConfirmNewEmail(ChangeEmailDTO modelDTO)
         {
@@ -163,7 +163,7 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method is used for changing user's profile image.
         /// </summary>
-        /// <param name="userDTO">User whose profile image should be changed</param>
+        /// <param name="userDTO">User whose profile image should be changed.</param>
         public async Task ChangeProfileImage(UserDTO userDTO)
         {
             if (userDTO == null)
@@ -183,7 +183,7 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method is used for changing user's about me information.
         /// </summary>
-        /// <param name="userDTO">User whose about me information should be changed</param>
+        /// <param name="userDTO">User whose about me information should be changed.</param>
         public async Task ChangeAboutMe(UserDTO userDTO)
         {
             if (userDTO == null)

@@ -2,13 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KTS.WEBAPI.Controllers;
 
 namespace KTS.WEBAPI
 {
+    /// <summary>
+    /// <c>ApiRoutes</c> is a static class.
+    /// Represents all api routes.
+    /// </summary>
     public static class ApiRoutes
     {
         public const string Base = "api/";
 
+        /// <summary>
+        /// <c>Test</c> is a static class.
+        /// Represents api routes for <see cref="TestController"/>.
+        /// </summary>
         public static class Test // 8
         {
             public const string Root = "test/";
@@ -22,6 +31,10 @@ namespace KTS.WEBAPI
             public const string GetTestsByTitle = Base + Root + "title/{title}";
         }
 
+        /// <summary>
+        /// <c>Answer</c> is a static class.
+        /// Represents api routes for <see cref="AnswerController"/>
+        /// </summary>
         public static class Answer // 6
         {
             public const string Root = "answer/";
@@ -33,6 +46,10 @@ namespace KTS.WEBAPI
             public const string PutAnswer = Base + Root;
         }
 
+        /// <summary>
+        /// <c>Auth</c> is a static class.
+        /// Represents api routes for <see cref="AuthController"/>
+        /// </summary>
         public static class Auth // 9
         {
             public const string Root = "auth/";
@@ -47,6 +64,10 @@ namespace KTS.WEBAPI
             public const string ExternalLoginCallback = Base + Root + "externalLoginCallback/{provider}";
         }
 
+        /// <summary>
+        /// <c>Question</c> is a static class.
+        /// Represents api routes for <see cref="QuestionController"/>
+        /// </summary>
         public static class Question // 6
         {
             public const string Root = "question/";
@@ -58,6 +79,10 @@ namespace KTS.WEBAPI
             public const string PutQuestion = Base + Root;
         }
 
+        /// <summary>
+        /// <c>User</c> is a static class.
+        /// Represents api routes for <see cref="UserController"/>
+        /// </summary>
         public static class User // 8
         {
             public const string Root = "user/";
@@ -70,6 +95,10 @@ namespace KTS.WEBAPI
             public const string GetUsersForPagination = Base + Root + "pagination";
         }
 
+        /// <summary>
+        /// <c>Account</c> is a static class.
+        /// Represents api routes for <see cref="AccountController"/>
+        /// </summary>
         public static class Account // 6
         {
             public const string Root = "account/";
@@ -82,6 +111,10 @@ namespace KTS.WEBAPI
             public const string GetUserProfile = Base + Root + "profile";
         }
 
+        /// <summary>
+        /// <c>UserTest</c> is a static class.
+        /// Represents api routes for <see cref="UserTestController"/>
+        /// </summary>
         public static class UserTest // 9
         {
             public const string Root = "userTest/";

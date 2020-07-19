@@ -19,7 +19,7 @@ using IEmailService = KTS.BLL.Interfaces.IEmailService;
 namespace KTS.BLL.Services
 {
     /// <summary>
-    /// <c>Authervice</c> is a class.
+    /// <c>AuthService</c> is a class.
     /// Contains all methods for authorization and authentication.
     /// </summary>
     /// <remarks>
@@ -47,8 +47,8 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method is used to register a user.
         /// </summary>
-        /// <param name="modelDTO">RegistrationDTO object</param>
-        /// <returns>Result of registration</returns>
+        /// <param name="modelDTO"><see cref="RegistrationDTO"/> object.</param>
+        /// <returns>Result of registration.</returns>
         public async Task<IdentityResult> Register(RegistrationDTO modelDTO)
         {
             if (modelDTO == null)
@@ -56,8 +56,8 @@ namespace KTS.BLL.Services
                 throw new ValidationException("Model can not be null");
             }
             modelDTO.Role = "customer";
-            modelDTO.ImageProfileUrl = "https://i03.fotocdn.net/s118/60ff0fe19bf91339/user_l/2688937826.jpg";
-            User user = new User { Email = modelDTO.Email, UserName = modelDTO.UserName, ProfileImageUrl = modelDTO.ImageProfileUrl };
+            modelDTO.ProfileImageUrl = "https://i03.fotocdn.net/s118/60ff0fe19bf91339/user_l/2688937826.jpg";
+            User user = new User { Email = modelDTO.Email, UserName = modelDTO.UserName, ProfileImageUrl = modelDTO.ProfileImageUrl };
             IdentityResult result = await Database.UserManager.CreateAsync(user, modelDTO.Password);
             await Database.UserManager.AddToRoleAsync(user, modelDTO.Role);
             if (result.Succeeded)
@@ -74,36 +74,10 @@ namespace KTS.BLL.Services
         }
 
         /// <summary>
-        /// This method is used to authenticate with new refresh token.
-        /// </summary>
-        /// <param name="userId">Id of user who should be authenticated</param>
-        /// <param name="claims">User's claims</param>
-        /// <returns>JWT and refresh token</returns>
-        public async Task<AuthenticationResponse> Authenticate(string userId, Claim[] claims)
-        {
-            var key = Encoding.ASCII.GetBytes(_tokenKey);
-            var jwtSecurityToken = new JwtSecurityToken(
-                    claims: claims,
-                    expires: DateTime.UtcNow.AddHours(1),
-                    signingCredentials: new SigningCredentials(
-                        new SymmetricSecurityKey(key),
-                        SecurityAlgorithms.HmacSha256Signature)
-                );
-            var token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-            var refreshToken = _refreshTokenGenerator.GenerateToken();
-            var user = await Database.UserManager.FindByIdAsync(userId);
-            user.RefreshToken = refreshToken;
-            Database.Users.Update(user);
-            await Database.SaveAsync();
-
-            return new AuthenticationResponse() { JwtToken = token, RefreshToken = refreshToken };
-        }
-
-        /// <summary>
         /// This method is used to authorize user.
         /// </summary>
-        /// <param name="modelDTO">LoginDTO object</param>
-        /// <returns>JSON Web Token</returns>
+        /// <param name="modelDTO"><see cref="LoginDTO"/> object.</param>
+        /// <returns>JSON Web Token.</returns>
         public async Task<AuthenticationResponse> Login(LoginDTO modelDTO)
         {
             var user = await Database.UserManager.FindByNameAsync(modelDTO.UserName);
@@ -146,9 +120,9 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method is used to confirm email.
         /// </summary>
-        /// <param name="userId">Id of user whose email email is confirming</param>
-        /// <param name="token">User's JSON Web Token</param>
-        /// <returns>Result of email confirming</returns>
+        /// <param name="userId">Id of user whose email email is confirming.</param>
+        /// <param name="token">User's JSON Web Token.</param>
+        /// <returns>Result of email confirming.</returns>
         public async Task<IdentityResult> ConfirmEmail(string userId, string token)
         {
             var tokenDecodedBytes = WebEncoders.Base64UrlDecode(token);
@@ -169,7 +143,7 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method is used to send information about resetting password to user email.
         /// </summary>
-        /// <param name="email">Email to which letter will be sent</param>
+        /// <param name="email">Email to which letter will be sent.</param>
         public async Task ForgotPassword(string email)
         {
             var user = await Database.UserManager.FindByEmailAsync(email);
@@ -193,8 +167,8 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method is used to reset user password.
         /// </summary>
-        /// <param name="modelDTO">ResetPasswordDTO object</param>
-        /// <returns>Result of password resetting</returns>
+        /// <param name="modelDTO"><see cref="ResetPasswordDTO"/> object.</param>
+        /// <returns>Result of password resetting.</returns>
         public async Task<IdentityResult> ResetPassword(ResetPasswordDTO modelDTO)
         {
             if(modelDTO == null)
@@ -215,7 +189,7 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method is used to authorize user via google.
         /// </summary>
-        /// <returns>Result with settings of authorizing</returns>
+        /// <returns>Result with settings of authorizing.</returns>
         public ChallengeResult LoginViaGoogle()
         {
             var provider = "Google";
@@ -227,7 +201,7 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method is used to authorize user via facebook.
         /// </summary>
-        /// <returns>Result with settings of authorizing</returns>
+        /// <returns>Result with settings of authorizing.</returns>
         public ChallengeResult LoginViaFacebook()
         {
             var provider = "Facebook";
@@ -309,6 +283,32 @@ namespace KTS.BLL.Services
             var securityToken = tokenHandler.CreateToken(tokenDescriptor);
             var token = tokenHandler.WriteToken(securityToken);
             return token;
+        }
+
+        /// <summary>
+        /// This method is used to authenticate with new refresh token.
+        /// </summary>
+        /// <param name="userId">Id of user who should be authenticated.</param>
+        /// <param name="claims">User's claims.</param>
+        /// <returns>JWT and refresh token.</returns>
+        public async Task<AuthenticationResponse> Authenticate(string userId, Claim[] claims)
+        {
+            var key = Encoding.ASCII.GetBytes(_tokenKey);
+            var jwtSecurityToken = new JwtSecurityToken(
+                    claims: claims,
+                    expires: DateTime.UtcNow.AddHours(1),
+                    signingCredentials: new SigningCredentials(
+                        new SymmetricSecurityKey(key),
+                        SecurityAlgorithms.HmacSha256Signature)
+                );
+            var token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+            var refreshToken = _refreshTokenGenerator.GenerateToken();
+            var user = await Database.UserManager.FindByIdAsync(userId);
+            user.RefreshToken = refreshToken;
+            Database.Users.Update(user);
+            await Database.SaveAsync();
+
+            return new AuthenticationResponse() { JwtToken = token, RefreshToken = refreshToken };
         }
     }
 }

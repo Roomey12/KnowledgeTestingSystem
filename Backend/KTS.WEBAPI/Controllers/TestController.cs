@@ -16,7 +16,6 @@ using System.Threading.Tasks;
 
 namespace KTS.WEBAPI.Controllers
 {
-    //[Route("api/[controller]")]
     [ApiController]
     public class TestController : ControllerBase
     {

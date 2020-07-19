@@ -54,8 +54,8 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method returns questions which relate to the test which Id was passed.
         /// </summary>
-        /// <param name="testId">Id of test for which questions should be found</param>
-        /// <returns>Questions which were found</returns>
+        /// <param name="testId">Id of test for which questions should be found.</param>
+        /// <returns>Questions which were found.</returns>
         public IEnumerable<QuestionDTO> GetQuestionsByTestId(int testId)
         {
             var test = Database.Tests.Get(testId.ToString());
@@ -70,7 +70,7 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method creates question for new test.
         /// </summary>
-        /// <param name="question">Question which should be created</param>
+        /// <param name="question">Question which should be created.</param>
         public void CreateQuestionForNewTest(QuestionDTO question)
         {
             if (question == null)
@@ -86,7 +86,7 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method creates question for old test.
         /// </summary>
-        /// <param name="question">Question which should be created</param>
+        /// <param name="question">Question which should be created.</param>
         public void CreateQuestionForOldTest(QuestionDTO question)
         {
             if (question == null)
@@ -101,7 +101,7 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method deletes question.
         /// </summary>
-        /// <param name="id">Id of question which should be deleted</param>
+        /// <param name="id">Id of question which should be deleted.</param>
         public void DeleteQuestion(string id)
         {
             var question = Database.Questions.Get(id);
@@ -125,7 +125,7 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method updates question's data.
         /// </summary>
-        /// <param name="questionDTO">Question which should be updated</param>
+        /// <param name="questionDTO">Question which should be updated.</param>
         public void UpdateQuestion(QuestionDTO questionDTO)
         {
             if (questionDTO == null)

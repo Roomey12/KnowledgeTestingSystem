@@ -24,7 +24,7 @@ namespace KTS.DAL.Entities
 
         /// <summary>
         /// Gets or sets <c>IsSingle</c> value.
-        /// Represents does the <c>Question</c> have single <see cref="Answer"/>.
+        /// Represents does the <c>Question</c> have one correct <see cref="Answer"/>.
         /// </summary>
         public bool IsSingle { get; set; }
 

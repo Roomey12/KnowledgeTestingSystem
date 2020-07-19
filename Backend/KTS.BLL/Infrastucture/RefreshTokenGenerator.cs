@@ -6,8 +6,16 @@ using System.Text;
 
 namespace KTS.BLL.Infrastucture
 {
+    /// <summary>
+    /// <c>RefreshTokenGenerator</c> is a class.
+    /// Contains method for generating refresh token.
+    /// </summary>
     public class RefreshTokenGenerator : IRefreshTokenGenerator
     {
+        /// <summary>
+        /// Generates refresh token.
+        /// </summary>
+        /// <returns>Refresh token</returns>
         public string GenerateToken()
         {
             var randomNumber = new byte[32];

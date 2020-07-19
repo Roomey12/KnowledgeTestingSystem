@@ -11,19 +11,19 @@ namespace KTS.DAL.Entities
     public class User : IdentityUser
     {
         /// <summary>
-        /// Gets or sets <c>ProfileImageUrl</c>.
+        /// Gets or sets <c>ProfileImageUrl</c> value.
         /// Represents profile image url for <c>User</c>.
         /// </summary>
         public string ProfileImageUrl { get; set; }
 
         /// <summary>
-        /// Gets or sets <c>RefreshToken</c>.
+        /// Gets or sets <c>RefreshToken</c> value.
         /// Represents refresh token for <c>User</c>.
         /// </summary>
         public string RefreshToken { get; set; }
 
         /// <summary>
-        /// Gets or sets <c>AboutMe</c>.
+        /// Gets or sets <c>AboutMe</c> value.
         /// Represents about me of <c>User</c>.
         /// </summary>
         public string AboutMe { get; set; }
