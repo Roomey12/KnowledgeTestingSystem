@@ -23,16 +23,16 @@ namespace KTS.BLL.Interfaces
         /// <summary>
         /// This method is used to register a user.
         /// </summary>
-        /// <param name="modelDTO"><see cref="RegistrationDTO"/> object.</param>
+        /// <param name="userDTO">User who is registrating.</param>
         /// <returns>Result of registration.</returns>
-        Task<IdentityResult> Register(RegistrationDTO modelDTO);
+        Task<IdentityResult> Register(UserDTO userDTO);
 
         /// <summary>
-        /// This method is used to authorize user.
+        /// This method is used to authenticate user.
         /// </summary>
-        /// <param name="modelDTO"><see cref="LoginDTO"/> object.</param>
+        /// <param name="userDTO">User who is authenticating.</param>
         /// <returns>JSON Web Token.</returns>
-        Task<AuthenticationResponse> Login(LoginDTO modelDTO);
+        Task<AuthenticationResponse> Login(UserDTO userDTO);
 
         /// <summary>
         /// This method is used to confirm email.
@@ -58,19 +58,20 @@ namespace KTS.BLL.Interfaces
         /// <summary>
         /// This method is used to authorize user via google.
         /// </summary>
-        /// <returns>Result with settings of authorizing.</returns>
+        /// <returns>Result with settings of authorization.</returns>
         ChallengeResult LoginViaGoogle();
 
         /// <summary>
         /// This method is used to authorize user via facebook.
         /// </summary>
-        /// <returns>Result with settings of authorizing.</returns>
+        /// <returns>Result with settings of authorization.</returns>
         ChallengeResult LoginViaFacebook();
 
         /// <summary>
         /// This method is callback for external authorizing.
         /// </summary>
-        /// <returns>JWT or result of registation.</returns>
+        /// <param name="provider">Provider for external authorization.</param>
+        /// <returns>JSON Web Token.</returns>
         Task<string> ExternalLoginCallBack(string provider);
 
         /// <summary>

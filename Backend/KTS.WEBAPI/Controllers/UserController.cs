@@ -17,7 +17,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KTS.WEBAPI.Controllers
 {
-    //[Route("api/[controller]")]
+    /// <summary>
+    /// <c>UserController</c> is a class.
+    /// Contains http all methods for working with users.
+    /// </summary>
+    /// <remarks>
+    /// This class can get, create, delete, edit user.
+    /// </remarks>
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -36,7 +42,11 @@ namespace KTS.WEBAPI.Controllers
             _userService = userService;
         }
 
-        // GET: api/user
+        /// <summary>
+        /// This method returns all users.
+        /// <para>GET: api/user</para>
+        /// </summary>
+        /// <returns>Users which were found.</returns>
         [HttpGet(ApiRoutes.User.GetAllUsers)]
         [Authorize(Roles = "admin")]
         public IActionResult GetAllUsers()
@@ -53,7 +63,12 @@ namespace KTS.WEBAPI.Controllers
             return Ok(users);
         }
 
-        // GET: api/user/5
+        /// <summary>
+        /// This method finds user by his Id and returns him.
+        /// <para>GET: api/user/5</para>
+        /// </summary>
+        /// <param name="id">Id of user who should be returned.</param>
+        /// <returns>User who was found.</returns>
         [HttpGet(ApiRoutes.User.GetUserById)]
         [AllowAnonymous]
         public IActionResult GetUserById(string id)
@@ -74,7 +89,11 @@ namespace KTS.WEBAPI.Controllers
             return Ok(user);
         }
 
-        // DELETE: api/user/5
+        /// <summary>
+        /// This method deletes user.
+        /// <para>DELETE: api/user/5</para>
+        /// </summary>
+        /// <param name="id">User who should be deleted.</param>
         [HttpDelete(ApiRoutes.User.DeleteUser)]
         [Authorize(Roles = "admin")]
         public IActionResult DeleteUser(string id)
@@ -94,7 +113,11 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "User was successfully deleted" });
         }
 
-        // PUT: api/user
+        /// <summary>
+        /// This method updates user's data.
+        /// <para>PUT: api/user</para>
+        /// </summary>
+        /// <param name="model">User who should be updated.</param>
         [HttpPut(ApiRoutes.User.PutUser)]
         [Authorize(Roles = "admin")]
         public IActionResult PutUser(UserModel model)
@@ -118,7 +141,12 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "User was successfully changed" });
         }
 
-        // PUT: api/user/makeAdmin
+        /// <summary>
+        /// This method is used for making user an admin.
+        /// <para>PUT: api/user/makeAdmin</para>
+        /// </summary>
+        /// <param name="model">User which should be assigned as an administrator.</param>
+        /// <returns>Result of changing user role.</returns>
         [HttpPut(ApiRoutes.User.MakeUserAdmin)]
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> MakeUserAdmin(UserModel model)
@@ -143,7 +171,12 @@ namespace KTS.WEBAPI.Controllers
             return Ok(result);
         }
 
-        // PUT: api/user/makeCustomer
+        /// <summary>
+        /// This method is used for making user a customer.
+        /// <para>PUT: api/user/makeCustomer</para>
+        /// </summary>
+        /// <param name="model">User which should be assigned as an customer.</param>
+        /// <returns>Result of changing user role.</returns>
         [HttpPut(ApiRoutes.User.MakeUserCustomer)]
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> MakeUserCustomer(UserModel model)
@@ -168,7 +201,12 @@ namespace KTS.WEBAPI.Controllers
             return Ok(result);
         }
 
-        // GET: api/user/pagination?pageNumber=1&pageSize=40
+        /// <summary>
+        /// This method returns certain count of users.
+        /// <para>GET: api/user/pagination?pageNumber=1&pageSize=40</para>
+        /// </summary>
+        /// <param name="pagination">Settings for users count.</param>
+        /// <returns>Users which were found.</returns>
         [HttpGet(ApiRoutes.User.GetUsersForPagination)]
         [Authorize(Roles = "admin")]
         public IActionResult GetUsersForPagination([FromQuery]Pagination pagination)

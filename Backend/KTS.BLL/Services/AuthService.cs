@@ -47,19 +47,19 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method is used to register a user.
         /// </summary>
-        /// <param name="modelDTO"><see cref="RegistrationDTO"/> object.</param>
+        /// <param name="userDTO">User who is registrating.</param>
         /// <returns>Result of registration.</returns>
-        public async Task<IdentityResult> Register(RegistrationDTO modelDTO)
+        public async Task<IdentityResult> Register(UserDTO userDTO)
         {
-            if (modelDTO == null)
+            if (userDTO == null)
             {
                 throw new ValidationException("Model can not be null");
             }
-            modelDTO.Role = "customer";
-            modelDTO.ProfileImageUrl = "https://i03.fotocdn.net/s118/60ff0fe19bf91339/user_l/2688937826.jpg";
-            User user = new User { Email = modelDTO.Email, UserName = modelDTO.UserName, ProfileImageUrl = modelDTO.ProfileImageUrl };
-            IdentityResult result = await Database.UserManager.CreateAsync(user, modelDTO.Password);
-            await Database.UserManager.AddToRoleAsync(user, modelDTO.Role);
+            userDTO.Role = "customer";
+            userDTO.ProfileImageUrl = "https://i03.fotocdn.net/s118/60ff0fe19bf91339/user_l/2688937826.jpg";
+            User user = new User { Email = userDTO.Email, UserName = userDTO.Username, ProfileImageUrl = userDTO.ProfileImageUrl };
+            IdentityResult result = await Database.UserManager.CreateAsync(user, userDTO.Password);
+            await Database.UserManager.AddToRoleAsync(user, userDTO.Role);
             if (result.Succeeded)
             {
                 var token = await Database.UserManager.GenerateEmailConfirmationTokenAsync(user);
@@ -67,21 +67,21 @@ namespace KTS.BLL.Services
                 var tokenEncoded = WebEncoders.Base64UrlEncode(tokenGeneratedBytes);
                 var clientUrl = _appSettings.Client_URL;
                 var callbackUrl = $@"{clientUrl}/user/confirm-email/?userId={user.Id}&token={tokenEncoded}";
-                await _emailService.SendEmailAsync(modelDTO.Email, "Подтвердите Ваш аккаунт",
+                await _emailService.SendEmailAsync(userDTO.Email, "Подтвердите Ваш аккаунт",
                                 $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>клик</a>.");
             }
             return result;
         }
 
         /// <summary>
-        /// This method is used to authorize user.
+        /// This method is used to authenticate user.
         /// </summary>
-        /// <param name="modelDTO"><see cref="LoginDTO"/> object.</param>
+        /// <param name="userDTO">User who is authenticating.</param>
         /// <returns>JSON Web Token.</returns>
-        public async Task<AuthenticationResponse> Login(LoginDTO modelDTO)
+        public async Task<AuthenticationResponse> Login(UserDTO userDTO)
         {
-            var user = await Database.UserManager.FindByNameAsync(modelDTO.UserName);
-            if (user != null && await Database.UserManager.CheckPasswordAsync(user, modelDTO.Password))
+            var user = await Database.UserManager.FindByNameAsync(userDTO.Username);
+            if (user != null && await Database.UserManager.CheckPasswordAsync(user, userDTO.Password))
             {
                 if (!await Database.UserManager.IsEmailConfirmedAsync(user))
                 {
@@ -189,7 +189,7 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method is used to authorize user via google.
         /// </summary>
-        /// <returns>Result with settings of authorizing.</returns>
+        /// <returns>Result with settings of authorization.</returns>
         public ChallengeResult LoginViaGoogle()
         {
             var provider = "Google";
@@ -201,7 +201,7 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method is used to authorize user via facebook.
         /// </summary>
-        /// <returns>Result with settings of authorizing.</returns>
+        /// <returns>Result with settings of authorization.</returns>
         public ChallengeResult LoginViaFacebook()
         {
             var provider = "Facebook";
@@ -213,7 +213,8 @@ namespace KTS.BLL.Services
         /// <summary>
         /// This method is callback for external authorizing.
         /// </summary>
-        /// <returns>JWT or result of registation.</returns>
+        /// <param name="provider">Provider for external authorization.</param>
+        /// <returns>JSON Web Token.</returns>
         public async Task<string> ExternalLoginCallBack(string provider)
         {
             var info = await Database.SignInManager.GetExternalLoginInfoAsync();

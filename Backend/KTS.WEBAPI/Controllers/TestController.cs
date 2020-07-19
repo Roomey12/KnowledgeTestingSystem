@@ -16,6 +16,13 @@ using System.Threading.Tasks;
 
 namespace KTS.WEBAPI.Controllers
 {
+    /// <summary>
+    /// <c>TestController</c> is a class.
+    /// Contains all http methods for working with tests.
+    /// </summary>
+    /// <remarks>
+    /// This class can get, create, delete, edit test.
+    /// </remarks>
     [ApiController]
     public class TestController : ControllerBase
     {
@@ -34,10 +41,14 @@ namespace KTS.WEBAPI.Controllers
             _testService = testService;
         }
 
-        // GET: api/test
+        /// <summary>
+        /// This method returns all tests.
+        /// <para>GET: api/test</para>
+        /// </summary>
+        /// <returns>Tests which were found.</returns>
         [HttpGet(ApiRoutes.Test.GetTests)]
         [AllowAnonymous]
-        public IActionResult GetTests()
+        public IActionResult GetAllTests()
         {
             IEnumerable<TestModel> tests;
             try
@@ -51,7 +62,12 @@ namespace KTS.WEBAPI.Controllers
             return Ok(tests);
         }
 
-        // GET: api/test/5/start
+        /// <summary>
+        /// This method returns questions for test which Id was passed and answers for this questions.
+        /// <para>GET: api/test/5/start</para>
+        /// </summary>
+        /// <param name="id">Id of test for which questions and answers should be found.</param>
+        /// <returns>Questions and answers which were found.</returns>
         [HttpGet(ApiRoutes.Test.GetQuestionsAndAnswersByTestId)]
         [Authorize]
         public IActionResult GetQuestionsAndAnswersByTestId(int id)
@@ -73,7 +89,12 @@ namespace KTS.WEBAPI.Controllers
             return Ok(result);
         }
 
-        // GET: api/test/5
+        /// <summary>
+        /// This method finds test by its Id and returns it.
+        /// <para>GET: api/test/5</para>
+        /// </summary>
+        /// <param name="id">Id of test which should be returned.</param>
+        /// <returns>Test which was found.</returns>
         [HttpGet(ApiRoutes.Test.GetTest)]
         [AllowAnonymous]
         public IActionResult GetTest(int id)
@@ -94,7 +115,11 @@ namespace KTS.WEBAPI.Controllers
             return Ok(test);
         }
 
-        // POST: api/test
+        /// <summary>
+        /// This method creates test.
+        /// <para>POST: api/test</para>
+        /// </summary>
+        /// <param name="test">Test which should be created.</param>
         [HttpPost(ApiRoutes.Test.PostTest)]
         [Authorize(Roles = "admin")]
         public IActionResult PostTest(TestModel test)
@@ -114,7 +139,11 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "Test was successfully created!" });
         }
 
-        // DELETE: api/test/5
+        /// <summary>
+        /// This method deletes test.
+        /// <para>DELETE: api/test/5</para>
+        /// </summary>
+        /// <param name="id">Id of test which should be deleted.</param>
         [HttpDelete(ApiRoutes.Test.DeleteTest)]
         [Authorize(Roles = "admin")]
         public IActionResult DeleteTest(string id)
@@ -134,7 +163,11 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "Test was successfully deleted!" });
         }
 
-        // PUT: api/test
+        /// <summary>
+        /// This method updates test's data.
+        /// <para>PUT: api/test</para>
+        /// </summary>
+        /// <param name="test">Test which should be updated.</param>
         [HttpPut(ApiRoutes.Test.PutTest)]
         [Authorize(Roles = "admin")]
         public IActionResult PutTest(TestModel test)
@@ -158,7 +191,12 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "Test was successfully changed!" });
         }
 
-        // GET: api/test/pagination?pageNumber=1&pageSize=40
+        /// <summary>
+        /// This method returns certain count of tests.
+        /// <para>GET: api/test/pagination?pageNumber=1&pageSize=40</para>
+        /// </summary>
+        /// <param name="pagination">Settings for tests count.</param>
+        /// <returns>Tests which were found</returns>
         [HttpGet(ApiRoutes.Test.GetTestsForPagination)]
         [AllowAnonymous]
         public IActionResult GetTestsForPagination([FromQuery]Pagination pagination)
@@ -176,7 +214,12 @@ namespace KTS.WEBAPI.Controllers
             return Ok(result);
         }
 
-        // PUT: api/test/title/{title}
+        /// <summary>
+        /// This method returns tests by part of their title.
+        /// <para>PUT: api/test/title/{title}</para>
+        /// </summary>
+        /// <param name="title">Part of tests title.</param>
+        /// <returns>Tests which were found.</returns>
         [HttpGet(ApiRoutes.Test.GetTestsByTitle)]
         [AllowAnonymous]
         public IActionResult GetTestsByTitle(string title)

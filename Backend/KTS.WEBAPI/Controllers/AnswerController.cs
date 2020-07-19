@@ -12,7 +12,13 @@ using System.Threading.Tasks;
 
 namespace KTS.WEBAPI.Controllers
 {
-    //[Route("api/[controller]")]
+    /// <summary>
+    /// <c>AnswerController</c> is a class.
+    /// Contains all http methods for working with answers.
+    /// </summary>
+    /// <remarks>
+    /// This class can get, create, delete, edit answer.
+    /// </remarks>
     [ApiController]
     public class AnswerController : ControllerBase
     {
@@ -29,7 +35,12 @@ namespace KTS.WEBAPI.Controllers
             _answerService = answerService;
         }
 
-        // GET: api/answer/5
+        /// <summary>
+        /// This method finds answer by its Id and returns it.
+        /// <para>GET: api/answer/5</para>
+        /// </summary>
+        /// <param name="id">Id of answer which should be returned.</param>
+        /// <returns>Answer which was found.</returns>
         [HttpGet(ApiRoutes.Answer.GetAnswerById)]
         [Authorize]
         public IActionResult GetAnswerById(int id)
@@ -50,7 +61,12 @@ namespace KTS.WEBAPI.Controllers
             return Ok(answer);
         }
 
-        // GET: api/answer/question/5
+        /// <summary>
+        /// This method returns answers which relate to the question which Id was passed.
+        /// <para>GET: api/answer/question/5</para>
+        /// </summary>
+        /// <param name="id">Id of question for which answers should be found.</param>
+        /// <returns>Answers which were found.</returns>
         [HttpGet(ApiRoutes.Answer.GetAnswersByQuestionId)]
         [Authorize]
         public IActionResult GetAnswersByQuestionId(int id)
@@ -72,7 +88,11 @@ namespace KTS.WEBAPI.Controllers
             return Ok(answers);
         }
 
-        // POST: api/answer/newQuestion
+        /// <summary>
+        /// This method creates answer for new question.
+        /// <para>POST: api/answer/newQuestion</para>
+        /// </summary>
+        /// <param name="answer">Answer which should be created.</param>
         [HttpPost(ApiRoutes.Answer.PostAnswerForNewQuestion)]
         [Authorize(Roles = "admin")]
         public IActionResult PostAnswerForNewQuestion(AnswerModel answer)
@@ -92,7 +112,11 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "Answer was successfully created!" });
         }
 
-        // POST: api/answer/oldQuestion
+        /// <summary>
+        /// This method creates answer for old question.
+        /// <para>POST: api/answer/oldQuestion</para>
+        /// </summary>
+        /// <param name="answer">Answer which should be created.</param>
         [HttpPost(ApiRoutes.Answer.PostAnswerForOldQuestion)]
         [Authorize(Roles = "admin")]
         public IActionResult PostAnswerForOldQuestion(AnswerModel answer)
@@ -112,7 +136,11 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "Answer was successfully created!" });
         }
 
-        // DELETE: api/answer/5
+        /// <summary>
+        /// This method deletes answer.
+        /// <para>DELETE: api/answer/5</para>
+        /// </summary>
+        /// <param name="id">Id of answer which should be deleted.</param>
         [HttpDelete(ApiRoutes.Answer.DeleteAnswer)]
         [Authorize(Roles = "admin")]
         public IActionResult DeleteAnswer(string id)
@@ -132,7 +160,11 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "Answer was successfully deleted!" });
         }
 
-        // PUT: api/answer/
+        /// <summary>
+        /// This method updates answer's data.
+        /// <para>PUT: api/answer</para>
+        /// </summary>
+        /// <param name="answer">Answer which should be updated.</param>
         [HttpPut(ApiRoutes.Answer.PutAnswer)]
         [Authorize(Roles = "admin")]
         public IActionResult PutAnswer(AnswerModel answer)

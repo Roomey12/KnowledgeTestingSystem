@@ -14,7 +14,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KTS.WEBAPI.Controllers
 {
-    //[Route("api/[controller]")]
+    /// <summary>
+    /// <c>UserTestController</c> is a class.
+    /// Contains all http methods for working with test results.
+    /// </summary>
+    /// <remarks>
+    /// This class can get, create, delete, edit test result.
+    /// </remarks>
     [ApiController]
     public class UserTestController : ControllerBase
     {
@@ -31,7 +37,11 @@ namespace KTS.WEBAPI.Controllers
             _userTestService = userTestService;
         }
 
-        // POST: api/userTest
+        /// <summary>
+        /// This method creates result of passing test.
+        /// <para>POST: api/userTest</para>
+        /// </summary>
+        /// <param name="userTest">Result of passing test which should be created</param>
         [HttpPost(ApiRoutes.UserTest.PostUserTest)]
         [Authorize]
         public IActionResult PostUserTest(UserTestModel userTest)
@@ -51,7 +61,11 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "Result of test was successfully created!" });
         }
 
-        // POST: api/userTest/admin
+        /// <summary>
+        /// This method creates result of passing test.
+        /// <para>POST: api/userTest/admin</para>
+        /// </summary>
+        /// <param name="userTest">Result of passing test which should be created.</param>
         [HttpPost(ApiRoutes.UserTest.PostUserTestByAdmin)]
         [Authorize(Roles = "admin")]
         public IActionResult PostUserTestByAdmin(UserTestModel userTest)
@@ -75,7 +89,11 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "Result of test was successfully created!" });
         }
 
-        // GET: api/userTest
+        /// <summary>
+        /// This method returns all results of passing tests.
+        /// <para>GET: api/userTest</para>
+        /// </summary>
+        /// <returns>Results of passing tests which were found.</returns>
         [HttpGet(ApiRoutes.UserTest.GetAllUserTests)]
         [Authorize(Roles = "admin")]
         public IActionResult GetAllUserTests()
@@ -92,7 +110,11 @@ namespace KTS.WEBAPI.Controllers
             return Ok(result);
         }
 
-        // GET: api/userTest/top/10
+        /// <summary>
+        /// This method returns certain count of best results of passing tests.
+        /// <para>GET: api/userTest/top/10</para>
+        /// </summary>
+        /// <returns>Results of passing tests which were found.</returns>
         [HttpGet(ApiRoutes.UserTest.GetTopUserTests)]
         [AllowAnonymous]
         public IActionResult GetTopUserTests(int count)
@@ -109,7 +131,12 @@ namespace KTS.WEBAPI.Controllers
             return Ok(result);
         }
 
-        // GET: api/userTest/5
+        /// <summary>
+        /// This method returns certain result of passing test.
+        /// <para>GET: api/userTest/5</para>
+        /// </summary>
+        /// <param name="id">Id of result of passing test which should be returned.</param>
+        /// <returns>Result of passing test which was found.</returns>
         [HttpGet(ApiRoutes.UserTest.GetUserTestById)]
         [Authorize(Roles = "admin")]
         public IActionResult GetUserTestById(string id)
@@ -130,7 +157,12 @@ namespace KTS.WEBAPI.Controllers
             return Ok(userTest);
         }
 
-        // GET: api/userTest/user/5
+        /// <summary>
+        /// This method returns results of passing tests for certain user.
+        /// <para>GET: api/userTest/user/5</para>
+        /// </summary>
+        /// <param name="id">Id of user for whom results of passing tests should be returned.</param>
+        /// <returns>Results of passing tests which were found.</returns>
         [HttpGet(ApiRoutes.UserTest.GetUserTestByUserId)]
         [AllowAnonymous]
         public IActionResult GetUserTestByUserId(string id)
@@ -151,7 +183,11 @@ namespace KTS.WEBAPI.Controllers
             return Ok(userTest);
         }
 
-        // DELETE: api/userTest/5
+        /// <summary>
+        /// This method deletes certain result of passing test.
+        /// <para>DELETE: api/userTest/5</para>
+        /// </summary>
+        /// <param name="id">Id of result of passing test which should be deleted.</param>
         [HttpDelete(ApiRoutes.UserTest.DeleteUserTest)]
         [Authorize (Roles ="admin")]
         public IActionResult DeleteUserTest(string id)
@@ -171,7 +207,11 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "UserTest was successfully deleted!" });
         }
 
-        // PUT: api/userTest
+        /// <summary>
+        /// This method updates data of certain result of passing test.
+        /// <para>PUT: api/userTest</para>
+        /// </summary>
+        /// <param name="userTest">Result of passing test which should be updated.</param>
         [HttpPut(ApiRoutes.UserTest.PutUserTest)]
         [Authorize(Roles = "admin")]
         public IActionResult PutUserTest(UserTestModel userTest)
@@ -195,7 +235,12 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "UserTest was successfully changed!" });
         }
 
-        // GET: api/userTest/pagination?pageNumber=1&pageSize=40
+        /// <summary>
+        /// This method returns certain count of userTests.
+        /// <para>GET: api/userTest/pagination?pageNumber=1&pageSize=40</para>
+        /// </summary>
+        /// <param name="pagination">Settings for userTests count.</param>
+        /// <returns>UserTests which were found.</returns>
         [HttpGet(ApiRoutes.UserTest.GetUsersForPagination)]
         [Authorize(Roles = "admin")]
         public IActionResult GetUsersForPagination([FromQuery]Pagination pagination)

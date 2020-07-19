@@ -15,7 +15,13 @@ using System.Threading.Tasks;
 
 namespace KTS.WEBAPI.Controllers
 {
-    //[Route("api/[controller]")]
+    /// <summary>
+    /// <c>QuestionController</c> is a class.
+    /// Contains all http methods for working with questions.
+    /// </summary>
+    /// <remarks>
+    /// This class can get, create, delete, edit question.
+    /// </remarks>
     [ApiController]
     public class QuestionController : ControllerBase
     {
@@ -32,7 +38,12 @@ namespace KTS.WEBAPI.Controllers
             _questionService = questionService;
         }
 
-        // GET: api/question/5
+        /// <summary>
+        /// This method finds and returns question by its id.
+        /// <para>GET: api/question/5</para>
+        /// </summary>
+        /// <param name="id">Id of question which should be returned</param>
+        /// <returns>Question which was found</returns>
         [HttpGet(ApiRoutes.Question.GetQuestionById)]
         [Authorize]
         public IActionResult GetQuestionById(int id)
@@ -53,7 +64,12 @@ namespace KTS.WEBAPI.Controllers
             return Ok(question);
         }
 
-        // GET: api/question/test/5/
+        /// <summary>
+        /// This method returns questions which relate to the test which Id was passed.
+        /// <para>GET: api/question/test/5</para>
+        /// </summary>
+        /// <param name="id">Id of test for which questions should be found.</param>
+        /// <returns>Questions which were found.</returns>
         [HttpGet(ApiRoutes.Question.GetQuestionsByTestId)]
         [Authorize]
         public IActionResult GetQuestionsByTestId(int id)
@@ -75,7 +91,11 @@ namespace KTS.WEBAPI.Controllers
             return Ok(questions);
         }
 
-        // POST: api/question/newTest
+        /// <summary>
+        /// This method creates question for new test.
+        /// <para>POST: api/question/newTest</para>
+        /// </summary>
+        /// <param name="question">Question which should be created.</param>
         [HttpPost(ApiRoutes.Question.PostQuestionForNewTest)]
         [Authorize(Roles = "admin")]
         public IActionResult PostQuestionForNewTest(QuestionModel question)
@@ -95,7 +115,11 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "Question was successfully created!" });
         }
 
-        // POST: api/question/oldTest
+        /// <summary>
+        /// This method creates question for old test.
+        /// <para>POST: api/question/oldTest</para>
+        /// </summary>
+        /// <param name="question">Question which should be created.</param>
         [HttpPost(ApiRoutes.Question.PostQuestionForOldTest)]
         [Authorize(Roles = "admin")]
         public IActionResult PostQuestionForOldTest(QuestionModel question)
@@ -115,7 +139,11 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "Question was successfully created!" });
         }
 
-        // DELETE: api/question/1
+        /// <summary>
+        /// This method deletes question.
+        /// <para>DELETE: api/question/1</para>
+        /// </summary>
+        /// <param name="id">Id of question which should be deleted.</param>
         [HttpDelete(ApiRoutes.Question.DeleteQuestion)]
         [Authorize(Roles = "admin")]
         public IActionResult DeleteQuestion(string id)
@@ -135,7 +163,11 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "Question was successfully deleted!" });
         }
 
-        // PUT: api/question
+        /// <summary>
+        /// This method updates question's data.
+        /// <para>PUT: api/question</para>
+        /// </summary>
+        /// <param name="question">Question which should be updated.</param>
         [HttpPut(ApiRoutes.Question.PutQuestion)]
         [Authorize(Roles = "admin")]
         public IActionResult PutQuestion(QuestionModel question)

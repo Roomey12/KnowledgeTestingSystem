@@ -13,7 +13,14 @@ using System.Threading.Tasks;
 
 namespace KTS.WEBAPI.Controllers
 {
-    //[Route("api/[controller]")]
+    /// <summary>
+    /// <c>AuthController</c> is a class.
+    /// Contains all http methods for authorization and authentication.
+    /// </summary>
+    /// <remarks>
+    /// This class can be used by user for registration, logining, 
+    /// logining via external services, resetting password.
+    /// </remarks>
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -22,9 +29,9 @@ namespace KTS.WEBAPI.Controllers
 
         IMapper mapper = new MapperConfiguration(cfg =>
         {
-            cfg.CreateMap<LoginModel, LoginDTO>();
-            cfg.CreateMap<RegistrationModel, RegistrationDTO>();
+            cfg.CreateMap<LoginModel, UserDTO>();
             cfg.CreateMap<ResetPasswordModel, ResetPasswordDTO>();
+            cfg.CreateMap<RegistrationModel, UserDTO>();
         }).CreateMapper();
 
         public AuthController(IAuthService authService, ITokenRefresher tokenRefresher)
@@ -33,7 +40,12 @@ namespace KTS.WEBAPI.Controllers
             _tokenRefresher = tokenRefresher;
         }
 
-        // POST: api/auth/register
+        /// <summary>
+        /// This method is used to register a user.
+        /// <para>POST: api/auth/register</para>
+        /// </summary>
+        /// <param name="model"><see cref="RegistrationModel"/> object.</param>
+        /// <returns>Result of registration.</returns>
         [HttpPost(ApiRoutes.Auth.Register)]
         [AllowAnonymous]
         public async Task<IActionResult> Register(RegistrationModel model)
@@ -41,7 +53,7 @@ namespace KTS.WEBAPI.Controllers
             IdentityResult result;
             try
             {
-                result = await _authService.Register(mapper.Map<RegistrationModel, RegistrationDTO>(model));
+                result = await _authService.Register(mapper.Map<RegistrationModel, UserDTO>(model));
             }
             catch (ValidationException ex)
             {
@@ -54,7 +66,12 @@ namespace KTS.WEBAPI.Controllers
             return Ok(result);
         }
 
-        // POST: api/auth/login
+        /// <summary>
+        /// This method is used to authenticate user.
+        /// <para>POST: api/auth/login</para>
+        /// </summary>
+        /// <param name="model"><see cref="LoginModel"/> object.</param>
+        /// <returns>JSON Web Token.</returns>
         [HttpPost(ApiRoutes.Auth.Login)]
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginModel model)
@@ -62,7 +79,7 @@ namespace KTS.WEBAPI.Controllers
             AuthenticationResponse token;
             try
             {
-                token = await _authService.Login(mapper.Map<LoginModel, LoginDTO>(model));
+                token = await _authService.Login(mapper.Map<LoginModel, UserDTO>(model));
             }
             catch(ValidationException ex)
             {
@@ -75,6 +92,12 @@ namespace KTS.WEBAPI.Controllers
             return Ok(token);
         }
 
+        /// <summary>
+        /// Refreshes refresh token.
+        /// <para>POST: api/auth/refresh</para>
+        /// </summary>
+        /// <param name="authenticationResponse">JWT and refresh token which should be refreshed.</param>
+        /// <returns>JWT and refreshed refresh token.</returns>
         [HttpPost(ApiRoutes.Auth.Refresh)]
         [AllowAnonymous]
         public async Task<IActionResult> Refresh(AuthenticationResponse authenticationResponse)
@@ -95,7 +118,13 @@ namespace KTS.WEBAPI.Controllers
             return Ok(token);
         }
 
-        // POST: api/auth/confirmEmail/abc5
+        /// <summary>
+        /// This method is used to confirm email.
+        /// <para>POST: api/auth/confirmEmail/abc5</para>
+        /// </summary>
+        /// <param name="userId">Id of user whose email email is confirming.</param>
+        /// <param name="token">User's JSON Web Token.</param>
+        /// <returns>Result of email confirming.</returns>
         [HttpPost(ApiRoutes.Auth.ConfirmEmail)]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, [FromBody]string token)
@@ -116,7 +145,11 @@ namespace KTS.WEBAPI.Controllers
             return Ok(result);
         }
 
-        // POST: api/auth/forgotPassword
+        /// <summary>
+        /// This method is used to send information about resetting password to user email.
+        /// <para>POST: api/auth/forgotPassword</para>
+        /// </summary>
+        /// <param name="email">Email to which letter will be sent.</param>
         [HttpPost(ApiRoutes.Auth.ForgotPassword)]
         [AllowAnonymous]
         public async Task<IActionResult> ForgotPassword([FromBody]string email)
@@ -140,7 +173,12 @@ namespace KTS.WEBAPI.Controllers
             return Ok();
         }
 
-        // POST: api/auth/resetPassword
+        /// <summary>
+        /// This method is used to reset user password.
+        /// <para>POST: api/auth/resetPassword</para>
+        /// </summary>
+        /// <param name="model"><see cref="ResetPasswordDTO"/> object.</param>
+        /// <returns>Result of password resetting.</returns>
         [HttpPost(ApiRoutes.Auth.ResetPassword)]
         [AllowAnonymous]
         public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordModel model)
@@ -165,7 +203,11 @@ namespace KTS.WEBAPI.Controllers
             return Ok(result);
         }
 
-        // GET: api/auth/GoogleLogin
+        /// <summary>
+        /// This method is used to authorize user via google.
+        /// <para>GET: api/auth/GoogleLogin</para>
+        /// </summary>
+        /// <returns>Result with settings of authorization.</returns>
         [HttpGet(ApiRoutes.Auth.GoogleLogin)]
         [AllowAnonymous]
         public IActionResult GoogleLogin()
@@ -182,7 +224,11 @@ namespace KTS.WEBAPI.Controllers
             return result;
         }
 
-        // GET: api/auth/FacebookLogin
+        /// <summary>
+        /// This method is used to authorize user via facebook.
+        /// <para>GET: api/auth/FacebookLogin</para>
+        /// </summary>
+        /// <returns>Result with settings of authorization.</returns>
         [HttpGet(ApiRoutes.Auth.FacebookLogin)]
         [AllowAnonymous]
         public IActionResult FacebookLogin()
@@ -199,17 +245,22 @@ namespace KTS.WEBAPI.Controllers
             return result;
         }
 
-        // GET: api/auth/ExternalLoginCallback/provider
+        /// <summary>
+        /// This method is callback for external authorizing.
+        /// <para>GET: api/auth/ExternalLoginCallback/provider</para>
+        /// </summary>
+        /// <param name="provider">Provider for external authorization.</param>
+        /// <returns>JSON Web Token.</returns>
         [HttpGet(ApiRoutes.Auth.ExternalLoginCallback)]
         [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginCallBack(string provider)
         {
             string token;
-            string final;
+            string link;
             try
             {
                 token = await _authService.ExternalLoginCallBack(provider);
-                final = $@"http://localhost:4200/user/external-login/?token={token}";
+                link = $@"http://localhost:4200/user/external-login/?token={token}";
             }
             catch(ValidationException ex)
             {
@@ -219,8 +270,7 @@ namespace KTS.WEBAPI.Controllers
             {
                 return StatusCode(500);
             }
-            return Redirect(final);
-            //return Ok(token);
+            return Redirect(link);
         }
     }
 }

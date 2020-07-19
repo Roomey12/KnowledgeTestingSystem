@@ -14,6 +14,13 @@ using System.Threading.Tasks;
 
 namespace KTS.WEBAPI.Controllers
 {
+    /// <summary>
+    /// <c>AccountController</c> is a class.
+    /// Contains all http methods for user to edit his account information.
+    /// </summary>
+    /// <remarks>
+    /// This class can change user's email, username, profile image, 'about me'.
+    /// </remarks>
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -35,7 +42,12 @@ namespace KTS.WEBAPI.Controllers
             _userService = userService;
         }
 
-        // PUT: api/account/changePassword
+        /// <summary>
+        /// This method is used for changing user's password.
+        /// <para>PUT: api/account/changePassword</para>
+        /// </summary>
+        /// <param name="model"><see cref="ChangePasswordModel"/> object.</param>
+        /// <returns>Result of changing password.</returns>
         [HttpPut(ApiRoutes.Account.ChangePassword)]
         [Authorize]
         public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
@@ -60,7 +72,12 @@ namespace KTS.WEBAPI.Controllers
             return Ok(result);
         }
 
-        // PUT: api/account/changeUsername
+        /// <summary>
+        /// This method is used for changing user's name.
+        /// <para>PUT: api/account/changeUsername</para>
+        /// </summary>
+        /// <param name="model"><see cref="ChangeUsernameModel"/> object.</param>
+        /// <returns>Result of changing username.</returns>
         [HttpPut(ApiRoutes.Account.ChangeUsername)]
         [Authorize]
         public async Task<IActionResult> ChangeUsername(ChangeUsernameModel model)
@@ -84,7 +101,11 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "Username was successfully changed" });
         }
 
-        // POST: api/account/changeEmail
+        /// <summary>
+        /// This method is used for changing user's email.
+        /// <para>POST: api/account/changeEmail</para>
+        /// </summary>
+        /// <param name="model"><see cref="ChangeEmailModel"/> object.</param>
         [HttpPost(ApiRoutes.Account.ChangeEmail)]
         [Authorize]
         public async Task<IActionResult> ChangeEmail(ChangeEmailModel model)
@@ -108,7 +129,12 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "Link was sent to new email" });
         }
 
-        // POST: api/account/confirmNewEmail
+        /// <summary>
+        /// This method is used for confirming new email.
+        /// <para>POST: api/account/confirmNewEmail</para>
+        /// </summary>
+        /// <param name="model"><see cref="ChangeEmailModel"/> object.</param>
+        /// <returns>Result of confirming new email.</returns>
         [HttpPost(ApiRoutes.Account.ConfirmNewEmail)]
         public async Task<IActionResult> ConfirmNewEmail(ChangeEmailModel model)
         {
@@ -128,7 +154,11 @@ namespace KTS.WEBAPI.Controllers
             return Ok(result);
         }
 
-        // PUT: api/account/changeProfileImage
+        /// <summary>
+        /// This method is used for changing user's profile image.
+        /// <para>PUT: api/account/changeProfileImage</para>
+        /// </summary>
+        /// <param name="model">User whose profile image should be changed.</param>
         [HttpPut(ApiRoutes.Account.ChangeProfileImage)]
         [Authorize]
         public async Task<IActionResult> ChangeProfileImage(UserModel model)
@@ -152,7 +182,11 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "Profile image was successfully changed" });
         }
 
-        // PUT: api/account/changeAboutMe
+        /// <summary>
+        /// This method is used for changing user's about me information.
+        /// <para>PUT: api/account/changeAboutMe</para>
+        /// </summary>
+        /// <param name="model">User whose about me information should be changed.</param>
         [HttpPut(ApiRoutes.Account.ChangeAboutMe)]
         [Authorize]
         public async Task<IActionResult> ChangeAboutMe(UserModel model)
@@ -176,7 +210,11 @@ namespace KTS.WEBAPI.Controllers
             return Ok(new { Message = "User's about me was successfully changed" });
         }
 
-        // GET: api/user/profile
+        /// <summary>
+        /// This method is used for getting current user by claims.
+        /// <para>GET: api/user/profile</para>
+        /// </summary>
+        /// <returns>Current user.</returns>
         [HttpGet(ApiRoutes.Account.GetUserProfile)]
         [Authorize]
         public IActionResult GetUserProfile()

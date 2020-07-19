@@ -37,7 +37,7 @@ namespace KTS.BLL.DTO
 
         /// <summary>
         /// Gets or sets <c>TestId</c> value.
-        /// Defines id of <see cref="TestDTO"/> to which <c>Question</c> is related.
+        /// Defines id of <see cref="TestDTO"/> to which <c>QuestionDTO</c> is related.
         /// </summary>
         public int TestId { get; set; }
         //public TestDTO Test { get; set; }

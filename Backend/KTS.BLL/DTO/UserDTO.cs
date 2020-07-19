@@ -54,5 +54,7 @@ namespace KTS.BLL.DTO
         /// Represents about me of <c>UserDTO</c>.
         /// </summary>
         public string AboutMe { get; set; }
+
+        public string Password { get; set; }
     }
 }
