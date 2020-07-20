@@ -266,9 +266,9 @@ namespace KTS.WEBAPI.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            catch(Exception)
+            catch(Exception ex)
             {
-                return StatusCode(500);
+                return BadRequest(ex.Message);
             }
             return Redirect(link);
         }

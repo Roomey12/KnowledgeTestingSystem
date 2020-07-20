@@ -201,6 +201,16 @@ namespace KTS.BLL.Services
             {
                 throw new NotFoundException("UserTest was not found", "Id");
             }
+            var test = Database.Tests.Get(userTest.TestId.ToString());
+            var date = new DateTime();
+            DateTime userTestTime = new DateTime
+                (date.Year, date.Month, date.Day, date.Hour, userTestDTO.Time.Minute, userTestDTO.Time.Second);
+            DateTime testTime = new DateTime
+                (date.Year, date.Month, date.Day, date.Hour, test.MaxTime.Minute, test.MaxTime.Second);
+            if (userTestTime > testTime)
+            {
+                throw new ValidationException("Test result`s time can not be higher than test`s maximum time");
+            }
             userTest.Mark = userTestDTO.Mark;
             userTest.Time = userTestDTO.Time;
             Database.UserTests.Update(userTest);

@@ -248,9 +248,9 @@ namespace KTS.BLL.Services
                 {
                     picture = $"https://graph.facebook.com/{identifier}/picture";
                 }
-                else if (provider == "Google")
+                else
                 {
-                    picture = $"http://picasaweb.google.com/data/entry/api/user/{identifier}?alt=json";//tut norm?
+                    picture = "https://i03.fotocdn.net/s118/60ff0fe19bf91339/user_l/2688937826.jpg";
                 }
                 var registerUser = new User
                 {
@@ -266,6 +266,7 @@ namespace KTS.BLL.Services
                     throw new ValidationException(registerResult.Errors.ToList()[0].Description + " " + roleResult.Errors.ToList()[0].Description);
                 }
             }
+            user = await Database.UserManager.FindByEmailAsync(Email);
             var role = await Database.UserManager.GetRolesAsync(user);
             IdentityOptions _options = new IdentityOptions();
             var tokenDescriptor = new SecurityTokenDescriptor

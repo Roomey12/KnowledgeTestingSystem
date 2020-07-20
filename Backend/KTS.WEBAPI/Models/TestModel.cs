@@ -42,5 +42,17 @@ namespace KTS.WEBAPI.Models
         /// Represents maximum time for passing <c>TestModel</c>.
         /// </summary>
         public DateTime MaxTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets <c>QuestionCount</c> value.
+        /// Represents how many question <c>TestModel</c> has.
+        /// </summary>
+        public int QuestionsCount { get; set; }
+
+        /// <summary>
+        /// Gets or sets <c>PassedTimes</c> value.
+        /// Represents how many times <c>TestModel</c> was passed.
+        /// </summary>
+        public int PassedTimes { get; set; }
     }
 }

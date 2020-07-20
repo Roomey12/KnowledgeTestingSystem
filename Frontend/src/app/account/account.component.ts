@@ -115,7 +115,7 @@ export class AccountComponent implements OnInit {
   }
 
   changeUsername(){
-    this.accountService.changeUsername(this.userDetails.userName).subscribe(
+    this.accountService.changeUsername(this.userDetails.username).subscribe(
       data => {
         this.loadUserProfile();
         this.accountService.usernameModel.reset();

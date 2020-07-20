@@ -11,6 +11,7 @@ import { UserService } from '../services/user.service';
 import { QuestionService } from '../services/question.service';
 import { AnswerService } from '../services/answer.service';
 import { UserTestService } from '../services/usertest.service';
+import { AccountService } from '../services/account.service';
 
 @Component({
   selector: 'app-test-start',
@@ -42,7 +43,7 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
 
 
   constructor(private testService: TestService, 
-              private userService: UserService, 
+              private accountService: AccountService, 
               private questionService: QuestionService,
               private answerService: AnswerService,
               private userTestService: UserTestService,
@@ -55,7 +56,7 @@ export class TestStartComponent implements OnInit, ComponentCanDeactivate {
         this.getTest();
         this.loadTestInfoGet();
         this.fillLocalstorageTime();
-        this.userService.getUserProfile().subscribe(
+        this.accountService.getUserProfile().subscribe(
           res => {
             this.userDetails = res;
           },

@@ -18,6 +18,7 @@ export class UserTestCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userTestService.userTestModel.reset();
     this.userTest = new TestResult();
   }
 
@@ -44,8 +45,6 @@ export class UserTestCreateComponent implements OnInit {
         this.router.navigateByUrl("/admin-panel")
       },
       err => {
-        console.log(err.error);
-        console.log(err);
         if(err.error == "User was not found"){
           this.toastr.error("Пользователь с таким именем не был найден.", "Результат теста не был создан.")
         }

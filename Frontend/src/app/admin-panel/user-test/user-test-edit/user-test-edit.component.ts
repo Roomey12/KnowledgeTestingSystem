@@ -54,9 +54,14 @@ export class UserTestEditComponent implements OnInit {
         this.userTestService.userTestModel.reset();
         this.toastr.success("Данные о результате теста были изменены.","Успешно.");
         this.loadUserTest();
+      },
+      err => {
+        if(err.error == "Test result`s time can not be higher than test`s maximum time"){
+          this.toastr.error("Время прохождения теста не может быть больше чем максимально допустимое время теста.", "Результат теста не был создан.")
+        }
       });
     }
-    else{
+    else{ 
       this.toastr.error("Введите данные для результата теста.", "Безуспешно.");
     }
   }
