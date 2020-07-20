@@ -142,66 +142,6 @@ namespace KTS.WEBAPI.Controllers
         }
 
         /// <summary>
-        /// This method is used for making user an admin.
-        /// <para>PUT: api/user/makeAdmin</para>
-        /// </summary>
-        /// <param name="model">User which should be assigned as an administrator.</param>
-        /// <returns>Result of changing user role.</returns>
-        [HttpPut(ApiRoutes.User.MakeUserAdmin)]
-        [Authorize(Roles = "admin")]
-        public async Task<IActionResult> MakeUserAdmin(UserModel model)
-        {
-            IdentityResult result;
-            try
-            {
-                result = await _userService.MakeUserAdmin(mapper.Map<UserModel, UserDTO>(model));
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500);
-            }
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// This method is used for making user a customer.
-        /// <para>PUT: api/user/makeCustomer</para>
-        /// </summary>
-        /// <param name="model">User which should be assigned as an customer.</param>
-        /// <returns>Result of changing user role.</returns>
-        [HttpPut(ApiRoutes.User.MakeUserCustomer)]
-        [Authorize(Roles = "admin")]
-        public async Task<IActionResult> MakeUserCustomer(UserModel model)
-        {
-            IdentityResult result;
-            try
-            {
-                result = await _userService.MakeUserCustomer(mapper.Map<UserModel, UserDTO>(model));
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500);
-            }
-            return Ok(result);
-        }
-
-        /// <summary>
         /// This method returns certain count of users.
         /// <para>GET: api/user/pagination?pageNumber=1&pageSize=40</para>
         /// </summary>
@@ -218,6 +158,36 @@ namespace KTS.WEBAPI.Controllers
                     (_userService.GetUsersForPagination(pagination));
             }
             catch(Exception)
+            {
+                return StatusCode(500);
+            }
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// This method is used for changing user's role.
+        /// <para>PUT: api/user/changeRike</para>
+        /// </summary>
+        /// <param name="model">User which role should be changed and new role.</param>
+        /// <returns>Result of changing user's role.</returns>
+        [HttpPut(ApiRoutes.User.ChangeRole)]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> ChangeUserRole(UserModel model)
+        {
+            IdentityResult result;
+            try
+            {
+                result = await _userService.ChangeUserRole(mapper.Map<UserModel, UserDTO>(model));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception)
             {
                 return StatusCode(500);
             }

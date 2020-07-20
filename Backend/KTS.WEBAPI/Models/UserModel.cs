@@ -42,5 +42,11 @@ namespace KTS.WEBAPI.Models
         /// Represents about me of <c>UserModel</c>.
         /// </summary>
         public string AboutMe { get; set; }
+
+        /// <summary>
+        /// Gets or sets <c>Role</c> value.
+        /// Represents role for <c>UserModel</c>.
+        /// </summary>
+        public string Role { get; set; }
     }
 }

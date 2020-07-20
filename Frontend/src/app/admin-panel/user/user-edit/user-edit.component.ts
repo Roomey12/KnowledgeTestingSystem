@@ -84,7 +84,8 @@ export class UserEditComponent implements OnInit {
   } 
 
   makeUserAdmin(){
-    this.userService.makeUserAdmin(this.user)
+    this.user.Role = "admin";
+    this.userService.changeUserRole(this.user)
       .subscribe((res: any) => {
         if (res.succeeded) {
           this.toastr.success('Пользователь назначен администратором.', 'Успешно.');
@@ -104,11 +105,12 @@ export class UserEditComponent implements OnInit {
       },
       err => {
         this.toastr.error('Что-то пошло не так.', 'Безуспешно.');
-      }
-  )}
+      })
+  }
 
   makeUserCustomer(){
-    this.userService.makeUserCustomer(this.user)
+    this.user.Role = "customer";
+    this.userService.changeUserRole(this.user)
       .subscribe((res: any) => {
         if (res.succeeded) {
           this.toastr.success('Пользователь назначен клиентом.', 'Успешно.');
@@ -127,7 +129,7 @@ export class UserEditComponent implements OnInit {
         }
       },
       err => {
+        console.log(err);
         this.toastr.error('Что-то пошло не так.', 'Безуспешно.');
-      }
-  )}
+      })}
 }

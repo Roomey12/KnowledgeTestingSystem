@@ -83,15 +83,14 @@ namespace KTS.WEBAPI
         /// <c>User</c> is a static class.
         /// Represents api routes for <see cref="UserController"/>
         /// </summary>
-        public static class User // 8
+        public static class User // 6
         {
             public const string Root = "user/";
             public const string GetAllUsers = Base + Root;
             public const string GetUserById = Base + Root + "{id}";
             public const string DeleteUser = Base + Root + "{id}";
             public const string PutUser = Base + Root;
-            public const string MakeUserAdmin = Base + Root + "makeAdmin";
-            public const string MakeUserCustomer = Base + Root + "makeCustomer";
+            public const string ChangeRole = Base + Root + "changeRole";
             public const string GetUsersForPagination = Base + Root + "pagination";
         }
 

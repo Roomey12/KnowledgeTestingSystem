@@ -45,24 +45,17 @@ namespace KTS.BLL.Interfaces
         void UpdateUser(UserDTO userDTO);
 
         /// <summary>
-        /// This method is used for making user an admin.
-        /// </summary>
-        /// <param name="userDTO">User which should be assigned as an administrator.</param>
-        /// <returns>Result of changing user role.</returns>
-        Task<IdentityResult> MakeUserAdmin(UserDTO userDTO);
-
-        /// <summary>
-        /// This method is used for making user a customer.
-        /// </summary>
-        /// <param name="userDTO">User which should be assigned as an customer.</param>
-        /// <returns>Result of changing user role.</returns>
-        Task<IdentityResult> MakeUserCustomer(UserDTO userDTO);
-
-        /// <summary>
         /// This method returns certain count of users.
         /// </summary>
         /// <param name="pagination">Settings for users count.</param>
         /// <returns>Users which were found.</returns>
         IEnumerable<UserDTO> GetUsersForPagination(Pagination pagination);
+
+        /// <summary>
+        /// This method is used for changing user's role.
+        /// </summary>
+        /// <param name="userDTO">User which role should be changed and new role.</param>
+        /// <returns>Result of changing user's role.</returns>
+        Task<IdentityResult> ChangeUserRole(UserDTO userDTO);
     }
 }

@@ -101,54 +101,6 @@ namespace KTS.BLL.Services
         }
 
         /// <summary>
-        /// This method is used for making user an admin.
-        /// </summary>
-        /// <param name="userDTO">User which should be assigned as an administrator.</param>
-        /// <returns>Result of changing user role.</returns>
-        public async Task<IdentityResult> MakeUserAdmin(UserDTO userDTO)
-        {
-            if(userDTO == null)
-            {
-                throw new ValidationException("User can not be null");
-            }
-            var user = Database.Users.Get(userDTO.Id);
-            if(user == null)
-            {
-                throw new NotFoundException("User was not found", "Id");
-            }
-            if(await Database.UserManager.IsInRoleAsync(user, "customer"))
-            {
-                await Database.UserManager.RemoveFromRoleAsync(user, "customer");
-            }
-            userDTO.Role = "admin";
-            return await Database.UserManager.AddToRoleAsync(user, userDTO.Role);
-        }
-
-        /// <summary>
-        /// This method is used for making user a customer.
-        /// </summary>
-        /// <param name="userDTO">User which should be assigned as an customer.</param>
-        /// <returns>Result of changing user role.</returns>
-        public async Task<IdentityResult> MakeUserCustomer(UserDTO userDTO)
-        {
-            if (userDTO == null)
-            {
-                throw new ValidationException("User can not be null");
-            }
-            var user = Database.Users.Get(userDTO.Id);
-            if (user == null)
-            {
-                throw new NotFoundException("User was not found", "Id");
-            }
-            userDTO.Role = "customer";
-            if (await Database.UserManager.IsInRoleAsync(user, "admin"))
-            {
-                await Database.UserManager.RemoveFromRoleAsync(user, "admin");
-            }
-            return await Database.UserManager.AddToRoleAsync(user, userDTO.Role);
-        }
-
-        /// <summary>
         /// This method returns certain count of users.
         /// </summary>
         /// <param name="pagination">Settings for users count.</param>
@@ -159,9 +111,37 @@ namespace KTS.BLL.Services
                 (Database.Users.GetForPagination(pagination));
         }
 
+        /// <summary>
+        /// This method is used for changing user's role.
+        /// </summary>
+        /// <param name="userDTO">User which role should be changed and new role.</param>
+        /// <returns>Result of changing user's role.</returns>
+        public async Task<IdentityResult> ChangeUserRole(UserDTO userDTO)
+        {
+            if (userDTO == null)
+            {
+                throw new ValidationException("User can not be null");
+            }
+            var user = Database.Users.Get(userDTO.Id);
+            if (user == null)
+            {
+                throw new NotFoundException("User was not found", "Id");
+            }
+            var roles = await Database.UserManager.GetRolesAsync(user);
+            foreach (var role in roles)
+            {
+                if (!roles.Contains(userDTO.Role))
+                {
+                    await Database.UserManager.RemoveFromRoleAsync(user, role);
+                }
+            }
+            return await Database.UserManager.AddToRoleAsync(user, userDTO.Role);
+        }
+
         public void Dispose()
         {
             Database.Dispose();
         }
+
     }
 }

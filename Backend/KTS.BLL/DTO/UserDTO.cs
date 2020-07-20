@@ -55,6 +55,10 @@ namespace KTS.BLL.DTO
         /// </summary>
         public string AboutMe { get; set; }
 
+        /// <summary>
+        /// Gets or sets <c>Password</c> value.
+        /// Represents password for <c>UserDTO</c>.
+        /// </summary>
         public string Password { get; set; }
     }
 }
