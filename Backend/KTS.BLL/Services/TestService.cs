@@ -7,6 +7,7 @@ using KTS.DAL.Entities;
 using KTS.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace KTS.BLL.Services
 {
@@ -153,6 +154,9 @@ namespace KTS.BLL.Services
             {
                 throw new ValidationException("Title can not be null");
             }
+            var tests = Database.Tests.GetAll();
+            var y = tests.Any(x => x.Title != null);
+            var z = tests.Where(x => x.TestId == 123).SingleOrDefault();
             return mapper.Map<IEnumerable<Test>, IEnumerable<TestDTO>>
                 (Database.Tests.Find(x => x.Title.ToLower().Contains(title.ToLower())));
         }
