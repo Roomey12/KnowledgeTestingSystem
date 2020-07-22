@@ -5,9 +5,14 @@ using KTS.BLL.Interfaces;
 using KTS.DAL.Configuration;
 using KTS.DAL.Entities;
 using KTS.DAL.Interfaces;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace KTS.BLL.Services
 {
@@ -22,6 +27,7 @@ namespace KTS.BLL.Services
     {
         IUnitOfWork Database { get; set; }
         IQuestionService _questionService;
+        IDistributedCache _distributedCache;
 
         IMapper mapper = new MapperConfiguration(cfg =>
         {
@@ -31,10 +37,11 @@ namespace KTS.BLL.Services
             cfg.CreateMap<Answer, AnswerDTO>();
         }).CreateMapper();
 
-        public TestService(IUnitOfWork uow, IQuestionService questionService)
+        public TestService(IUnitOfWork uow, IQuestionService questionService, IDistributedCache distributedCache)
         {
             Database = uow;
             _questionService = questionService;
+            _distributedCache = distributedCache;
         }
 
         /// <summary>
@@ -154,11 +161,26 @@ namespace KTS.BLL.Services
             {
                 throw new ValidationException("Title can not be null");
             }
-            var tests = Database.Tests.GetAll();
-            var y = tests.Any(x => x.Title != null);
-            var z = tests.Where(x => x.TestId == 123).SingleOrDefault();
-            return mapper.Map<IEnumerable<Test>, IEnumerable<TestDTO>>
-                (Database.Tests.Find(x => x.Title.ToLower().Contains(title.ToLower())));
+            IEnumerable<TestDTO> tests;
+            string serializedTests;
+            var encodedTests = _distributedCache.Get(title);
+            if(encodedTests != null)
+            {
+                serializedTests = Encoding.UTF8.GetString(encodedTests);
+                tests = JsonConvert.DeserializeObject<IEnumerable<TestDTO>>(serializedTests);
+            }
+            else
+            {
+                tests = mapper.Map<IEnumerable<Test>, IEnumerable<TestDTO>>
+                    (Database.Tests.Find(x => x.Title.ToLower().Contains(title.ToLower())));
+                serializedTests = JsonConvert.SerializeObject(tests);
+                encodedTests = Encoding.UTF8.GetBytes(serializedTests);
+                var options = new DistributedCacheEntryOptions()
+                               .SetSlidingExpiration(TimeSpan.FromMinutes(5))
+                               .SetAbsoluteExpiration(DateTime.Now.AddHours(6));
+                _distributedCache.Set(title, encodedTests, options);
+            }
+            return tests;
         }
     }
 }
