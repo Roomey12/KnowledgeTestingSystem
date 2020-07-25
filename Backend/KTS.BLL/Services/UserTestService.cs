@@ -7,6 +7,8 @@ using KTS.DAL.Entities;
 using KTS.DAL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +27,8 @@ namespace KTS.BLL.Services
     public class UserTestService : IUserTestService
     {
         IUnitOfWork Database { get; set; }
+        IDistributedCache _distributedCache;
+
 
         IMapper mapper = new MapperConfiguration(cfg =>
         {
@@ -34,9 +38,10 @@ namespace KTS.BLL.Services
             cfg.CreateMap<UserTestDTO, UserTest>();
         }).CreateMapper();
 
-        public UserTestService(IUnitOfWork uow)
+        public UserTestService(IUnitOfWork uow, IDistributedCache distributedCache)
         {
             Database = uow;
+            _distributedCache = distributedCache;
         }
 
         /// <summary>
@@ -116,15 +121,33 @@ namespace KTS.BLL.Services
         /// <returns>Results of passing tests which were found.</returns>
         public IEnumerable<object> GetTopUserTests(int count)
         {
-            var userTests = mapper.Map<IEnumerable<UserTest>, IEnumerable<UserTestDTO>>(Database.UserTests.GetAll());
-            var users = mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(Database.Users.GetAll());
-            var tests = mapper.Map<IEnumerable<Test>, IEnumerable<TestDTO>>(Database.Tests.GetAll());
-            var date = DateTime.Now;
-            var result = (from u in users
-                         join t in userTests on u.Id equals t.UserId
-                         join a in tests on t.TestId equals a.TestId
-                         orderby t.Mark descending, new DateTime(date.Year, date.Month, date.Day, date.Hour, t.Time.Minute, t.Time.Second)
-                         select new { UserId = u.Id, u.Username, t.TestId, Test = t.Test.Title, t.Mark, t.Time }).Take(count);
+            IEnumerable<object> result;
+            string serializedResult;
+            var encodedResult = _distributedCache.Get(count.ToString());
+            if(encodedResult != null)
+            {
+                serializedResult = Encoding.UTF8.GetString(encodedResult);
+                result = JsonConvert.DeserializeObject<IEnumerable<object>>(serializedResult);
+            }
+            else
+            {
+                var userTests = mapper.Map<IEnumerable<UserTest>, IEnumerable<UserTestDTO>>(Database.UserTests.GetAll());
+                var users = mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(Database.Users.GetAll());
+                var tests = mapper.Map<IEnumerable<Test>, IEnumerable<TestDTO>>(Database.Tests.GetAll());
+                var date = DateTime.Now;
+                result = (from u in users
+                              join t in userTests on u.Id equals t.UserId
+                              join a in tests on t.TestId equals a.TestId
+                              orderby t.Mark descending, new DateTime(date.Year, date.Month, date.Day, date.Hour, t.Time.Minute, t.Time.Second)
+                              select new { UserId = u.Id, u.Username, t.TestId, Test = t.Test.Title, t.Mark, t.Time }).Take(count);
+
+                serializedResult = JsonConvert.SerializeObject(result);
+                encodedResult = Encoding.UTF8.GetBytes(serializedResult);
+                var options = new DistributedCacheEntryOptions()
+                       .SetSlidingExpiration(TimeSpan.FromMinutes(5))
+                       .SetAbsoluteExpiration(DateTime.Now.AddHours(6));
+                _distributedCache.Set(count.ToString(), encodedResult, options);
+            }
             return result;
         }
 
