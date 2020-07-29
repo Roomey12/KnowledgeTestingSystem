@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "connectionString": "Server=db;Database=master;User=sa;Password=SuperSAS2000;"
+  }
+}

@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Text;
 
 namespace KTS.DAL.EF
@@ -113,9 +115,11 @@ namespace KTS.DAL.EF
         /// <param name="optionsBuilder">Builder which applies settings.</param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            var isAppSettingsFileExist = File.Exists(Path.GetFullPath(@"..\KTS.DAL\Configuration\appsettings.json"));
+            string path = isAppSettingsFileExist ? "appsettings.json" : "dockerSettings.json";
             IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(@"C:\Users\roomey\Desktop\c#\KnowledgeTestingSystem\Backend\KTS.DAL\Configuration")
-                .AddJsonFile("appsettings.json")
+                .SetBasePath(Path.GetFullPath(@"..\KTS.DAL\Configuration"))
+                .AddJsonFile(path)
                 .Build();
             optionsBuilder.UseSqlServer(configuration.GetConnectionString("connectionString"));
         }

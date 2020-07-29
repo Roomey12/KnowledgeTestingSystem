@@ -21,5 +21,6 @@
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
+KTS.DAL\Configuration\appsettings.json
 LICENSE
 README.md
