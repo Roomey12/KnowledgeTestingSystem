@@ -8,7 +8,7 @@ namespace KTS.WEBAPI.Models
 {
     /// <summary>
     /// <c>LoginModel</c> is a class.
-    /// Represents model for <see cref="LoginDTO"/>.
+    /// Represents model for <see cref="UserDTO"/>.
     /// </summary>
     public class LoginModel
     {

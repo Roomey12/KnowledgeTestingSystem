@@ -1,0 +1,828 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>KTS.WEBAPI</name>
+    </assembly>
+    <members>
+        <member name="T:KTS.WEBAPI.ApiRoutes">
+            <summary>
+            <c>ApiRoutes</c> is a static class.
+            Represents all api routes.
+            </summary>
+        </member>
+        <member name="T:KTS.WEBAPI.ApiRoutes.Test">
+            <summary>
+            <c>Test</c> is a static class.
+            Represents api routes for <see cref="T:KTS.WEBAPI.Controllers.TestController"/>.
+            </summary>
+        </member>
+        <member name="T:KTS.WEBAPI.ApiRoutes.Answer">
+            <summary>
+            <c>Answer</c> is a static class.
+            Represents api routes for <see cref="T:KTS.WEBAPI.Controllers.AnswerController"/>
+            </summary>
+        </member>
+        <member name="T:KTS.WEBAPI.ApiRoutes.Auth">
+            <summary>
+            <c>Auth</c> is a static class.
+            Represents api routes for <see cref="T:KTS.WEBAPI.Controllers.AuthController"/>
+            </summary>
+        </member>
+        <member name="T:KTS.WEBAPI.ApiRoutes.Question">
+            <summary>
+            <c>Question</c> is a static class.
+            Represents api routes for <see cref="T:KTS.WEBAPI.Controllers.QuestionController"/>
+            </summary>
+        </member>
+        <member name="T:KTS.WEBAPI.ApiRoutes.User">
+            <summary>
+            <c>User</c> is a static class.
+            Represents api routes for <see cref="T:KTS.WEBAPI.Controllers.UserController"/>
+            </summary>
+        </member>
+        <member name="T:KTS.WEBAPI.ApiRoutes.Account">
+            <summary>
+            <c>Account</c> is a static class.
+            Represents api routes for <see cref="T:KTS.WEBAPI.Controllers.AccountController"/>
+            </summary>
+        </member>
+        <member name="T:KTS.WEBAPI.ApiRoutes.UserTest">
+            <summary>
+            <c>UserTest</c> is a static class.
+            Represents api routes for <see cref="T:KTS.WEBAPI.Controllers.UserTestController"/>
+            </summary>
+        </member>
+        <member name="T:KTS.WEBAPI.Controllers.AccountController">
+            <summary>
+            <c>AccountController</c> is a class.
+            Contains all http methods for user to edit his account information.
+            </summary>
+            <remarks>
+            This class can change user's email, username, profile image, 'about me'.
+            </remarks>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.AccountController.ChangePassword(KTS.WEBAPI.Models.ChangePasswordModel)">
+            <summary>
+            This method is used for changing user's password.
+            <para>PUT: api/account/changePassword</para>
+            </summary>
+            <param name="model"><see cref="T:KTS.WEBAPI.Models.ChangePasswordModel"/> object.</param>
+            <returns>Result of changing password.</returns>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.AccountController.ChangeUsername(KTS.WEBAPI.Models.ChangeUsernameModel)">
+            <summary>
+            This method is used for changing user's name.
+            <para>PUT: api/account/changeUsername</para>
+            </summary>
+            <param name="model"><see cref="T:KTS.WEBAPI.Models.ChangeUsernameModel"/> object.</param>
+            <returns>Result of changing username.</returns>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.AccountController.ChangeEmail(KTS.WEBAPI.Models.ChangeEmailModel)">
+            <summary>
+            This method is used for changing user's email.
+            <para>POST: api/account/changeEmail</para>
+            </summary>
+            <param name="model"><see cref="T:KTS.WEBAPI.Models.ChangeEmailModel"/> object.</param>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.AccountController.ConfirmNewEmail(KTS.WEBAPI.Models.ChangeEmailModel)">
+            <summary>
+            This method is used for confirming new email.
+            <para>POST: api/account/confirmNewEmail</para>
+            </summary>
+            <param name="model"><see cref="T:KTS.WEBAPI.Models.ChangeEmailModel"/> object.</param>
+            <returns>Result of confirming new email.</returns>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.AccountController.ChangeProfileImage(KTS.WEBAPI.Models.UserModel)">
+            <summary>
+            This method is used for changing user's profile image.
+            <para>PUT: api/account/changeProfileImage</para>
+            </summary>
+            <param name="model">User whose profile image should be changed.</param>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.AccountController.ChangeAboutMe(KTS.WEBAPI.Models.UserModel)">
+            <summary>
+            This method is used for changing user's about me information.
+            <para>PUT: api/account/changeAboutMe</para>
+            </summary>
+            <param name="model">User whose about me information should be changed.</param>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.AccountController.GetUserProfile">
+            <summary>
+            This method is used for getting current user by claims.
+            <para>GET: api/user/profile</para>
+            </summary>
+            <returns>Current user.</returns>
+        </member>
+        <member name="T:KTS.WEBAPI.Controllers.AnswerController">
+            <summary>
+            <c>AnswerController</c> is a class.
+            Contains all http methods for working with answers.
+            </summary>
+            <remarks>
+            This class can get, create, delete, edit answer.
+            </remarks>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.AnswerController.GetAnswerById(System.Int32)">
+            <summary>
+            This method finds answer by its Id and returns it.
+            <para>GET: api/answer/5</para>
+            </summary>
+            <param name="id">Id of answer which should be returned.</param>
+            <returns>Answer which was found.</returns>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.AnswerController.GetAnswersByQuestionId(System.Int32)">
+            <summary>
+            This method returns answers which relate to the question which Id was passed.
+            <para>GET: api/answer/question/5</para>
+            </summary>
+            <param name="id">Id of question for which answers should be found.</param>
+            <returns>Answers which were found.</returns>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.AnswerController.PostAnswerForNewQuestion(KTS.WEBAPI.Models.AnswerModel)">
+            <summary>
+            This method creates answer for new question.
+            <para>POST: api/answer/newQuestion</para>
+            </summary>
+            <param name="answer">Answer which should be created.</param>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.AnswerController.PostAnswerForOldQuestion(KTS.WEBAPI.Models.AnswerModel)">
+            <summary>
+            This method creates answer for old question.
+            <para>POST: api/answer/oldQuestion</para>
+            </summary>
+            <param name="answer">Answer which should be created.</param>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.AnswerController.DeleteAnswer(System.String)">
+            <summary>
+            This method deletes answer.
+            <para>DELETE: api/answer/5</para>
+            </summary>
+            <param name="id">Id of answer which should be deleted.</param>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.AnswerController.PutAnswer(KTS.WEBAPI.Models.AnswerModel)">
+            <summary>
+            This method updates answer's data.
+            <para>PUT: api/answer</para>
+            </summary>
+            <param name="answer">Answer which should be updated.</param>
+        </member>
+        <member name="T:KTS.WEBAPI.Controllers.AuthController">
+            <summary>
+            <c>AuthController</c> is a class.
+            Contains all http methods for authorization and authentication.
+            </summary>
+            <remarks>
+            This class can be used by user for registration, logining, 
+            logining via external services, resetting password.
+            </remarks>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.AuthController.Register(KTS.WEBAPI.Models.RegistrationModel)">
+            <summary>
+            This method is used to register a user.
+            <para>POST: api/auth/register</para>
+            </summary>
+            <param name="model"><see cref="T:KTS.WEBAPI.Models.RegistrationModel"/> object.</param>
+            <returns>Result of registration.</returns>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.AuthController.Login(KTS.WEBAPI.Models.LoginModel)">
+            <summary>
+            This method is used to authenticate user.
+            <para>POST: api/auth/login</para>
+            </summary>
+            <param name="model"><see cref="T:KTS.WEBAPI.Models.LoginModel"/> object.</param>
+            <returns>JSON Web Token.</returns>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.AuthController.Refresh(KTS.BLL.Infrastucture.AuthenticationResponse)">
+            <summary>
+            Refreshes refresh token.
+            <para>POST: api/auth/refresh</para>
+            </summary>
+            <param name="authenticationResponse">JWT and refresh token which should be refreshed.</param>
+            <returns>JWT and refreshed refresh token.</returns>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.AuthController.ConfirmEmail(System.String,System.String)">
+            <summary>
+            This method is used to confirm email.
+            <para>POST: api/auth/confirmEmail/abc5</para>
+            </summary>
+            <param name="userId">Id of user whose email email is confirming.</param>
+            <param name="token">User's JSON Web Token.</param>
+            <returns>Result of email confirming.</returns>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.AuthController.ForgotPassword(System.String)">
+            <summary>
+            This method is used to send information about resetting password to user email.
+            <para>POST: api/auth/forgotPassword</para>
+            </summary>
+            <param name="email">Email to which letter will be sent.</param>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.AuthController.ResetPassword(KTS.WEBAPI.Models.ResetPasswordModel)">
+            <summary>
+            This method is used to reset user password.
+            <para>POST: api/auth/resetPassword</para>
+            </summary>
+            <param name="model"><see cref="T:KTS.BLL.DTO.ResetPasswordDTO"/> object.</param>
+            <returns>Result of password resetting.</returns>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.AuthController.GoogleLogin">
+            <summary>
+            This method is used to authorize user via google.
+            <para>GET: api/auth/GoogleLogin</para>
+            </summary>
+            <returns>Result with settings of authorization.</returns>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.AuthController.FacebookLogin">
+            <summary>
+            This method is used to authorize user via facebook.
+            <para>GET: api/auth/FacebookLogin</para>
+            </summary>
+            <returns>Result with settings of authorization.</returns>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.AuthController.ExternalLoginCallBack(System.String)">
+            <summary>
+            This method is callback for external authorizing.
+            <para>GET: api/auth/ExternalLoginCallback/provider</para>
+            </summary>
+            <param name="provider">Provider for external authorization.</param>
+            <returns>JSON Web Token.</returns>
+        </member>
+        <member name="T:KTS.WEBAPI.Controllers.QuestionController">
+            <summary>
+            <c>QuestionController</c> is a class.
+            Contains all http methods for working with questions.
+            </summary>
+            <remarks>
+            This class can get, create, delete, edit question.
+            </remarks>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.QuestionController.GetQuestionById(System.Int32)">
+            <summary>
+            This method finds and returns question by its id.
+            <para>GET: api/question/5</para>
+            </summary>
+            <param name="id">Id of question which should be returned</param>
+            <returns>Question which was found</returns>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.QuestionController.GetQuestionsByTestId(System.Int32)">
+            <summary>
+            This method returns questions which relate to the test which Id was passed.
+            <para>GET: api/question/test/5</para>
+            </summary>
+            <param name="id">Id of test for which questions should be found.</param>
+            <returns>Questions which were found.</returns>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.QuestionController.PostQuestionForNewTest(KTS.WEBAPI.Models.QuestionModel)">
+            <summary>
+            This method creates question for new test.
+            <para>POST: api/question/newTest</para>
+            </summary>
+            <param name="question">Question which should be created.</param>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.QuestionController.PostQuestionForOldTest(KTS.WEBAPI.Models.QuestionModel)">
+            <summary>
+            This method creates question for old test.
+            <para>POST: api/question/oldTest</para>
+            </summary>
+            <param name="question">Question which should be created.</param>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.QuestionController.DeleteQuestion(System.String)">
+            <summary>
+            This method deletes question.
+            <para>DELETE: api/question/1</para>
+            </summary>
+            <param name="id">Id of question which should be deleted.</param>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.QuestionController.PutQuestion(KTS.WEBAPI.Models.QuestionModel)">
+            <summary>
+            This method updates question's data.
+            <para>PUT: api/question</para>
+            </summary>
+            <param name="question">Question which should be updated.</param>
+        </member>
+        <member name="T:KTS.WEBAPI.Controllers.TestController">
+            <summary>
+            <c>TestController</c> is a class.
+            Contains all http methods for working with tests.
+            </summary>
+            <remarks>
+            This class can get, create, delete, edit test.
+            </remarks>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.TestController.GetAllTests">
+            <summary>
+            This method returns all tests.
+            <para>GET: api/test</para>
+            </summary>
+            <returns>Tests which were found.</returns>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.TestController.GetQuestionsAndAnswersByTestId(System.Int32)">
+            <summary>
+            This method returns questions for test which Id was passed and answers for this questions.
+            <para>GET: api/test/5/start</para>
+            </summary>
+            <param name="id">Id of test for which questions and answers should be found.</param>
+            <returns>Questions and answers which were found.</returns>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.TestController.GetTest(System.Int32)">
+            <summary>
+            This method finds test by its Id and returns it.
+            <para>GET: api/test/5</para>
+            </summary>
+            <param name="id">Id of test which should be returned.</param>
+            <returns>Test which was found.</returns>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.TestController.PostTest(KTS.WEBAPI.Models.TestModel)">
+            <summary>
+            This method creates test.
+            <para>POST: api/test</para>
+            </summary>
+            <param name="test">Test which should be created.</param>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.TestController.DeleteTest(System.String)">
+            <summary>
+            This method deletes test.
+            <para>DELETE: api/test/5</para>
+            </summary>
+            <param name="id">Id of test which should be deleted.</param>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.TestController.PutTest(KTS.WEBAPI.Models.TestModel)">
+            <summary>
+            This method updates test's data.
+            <para>PUT: api/test</para>
+            </summary>
+            <param name="test">Test which should be updated.</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:KTS.WEBAPI.Controllers.TestController.GetTestsForPagination(KTS.DAL.Configuration.Pagination)" -->
+        <member name="M:KTS.WEBAPI.Controllers.TestController.GetTestsByTitle(System.String)">
+            <summary>
+            This method returns tests by part of their title.
+            <para>PUT: api/test/title/{title}</para>
+            </summary>
+            <param name="title">Part of tests title.</param>
+            <returns>Tests which were found.</returns>
+        </member>
+        <member name="T:KTS.WEBAPI.Controllers.UserController">
+            <summary>
+            <c>UserController</c> is a class.
+            Contains http all methods for working with users.
+            </summary>
+            <remarks>
+            This class can get, create, delete, edit user.
+            </remarks>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.UserController.GetAllUsers">
+            <summary>
+            This method returns all users.
+            <para>GET: api/user</para>
+            </summary>
+            <returns>Users which were found.</returns>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.UserController.GetUserById(System.String)">
+            <summary>
+            This method finds user by his Id and returns him.
+            <para>GET: api/user/5</para>
+            </summary>
+            <param name="id">Id of user who should be returned.</param>
+            <returns>User who was found.</returns>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.UserController.DeleteUser(System.String)">
+            <summary>
+            This method deletes user.
+            <para>DELETE: api/user/5</para>
+            </summary>
+            <param name="id">User who should be deleted.</param>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.UserController.PutUser(KTS.WEBAPI.Models.UserModel)">
+            <summary>
+            This method updates user's data.
+            <para>PUT: api/user</para>
+            </summary>
+            <param name="model">User who should be updated.</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:KTS.WEBAPI.Controllers.UserController.GetUsersForPagination(KTS.DAL.Configuration.Pagination)" -->
+        <member name="M:KTS.WEBAPI.Controllers.UserController.ChangeUserRole(KTS.WEBAPI.Models.UserModel)">
+            <summary>
+            This method is used for changing user's role.
+            <para>PUT: api/user/changeRike</para>
+            </summary>
+            <param name="model">User which role should be changed and new role.</param>
+            <returns>Result of changing user's role.</returns>
+        </member>
+        <member name="T:KTS.WEBAPI.Controllers.UserTestController">
+            <summary>
+            <c>UserTestController</c> is a class.
+            Contains all http methods for working with test results.
+            </summary>
+            <remarks>
+            This class can get, create, delete, edit test result.
+            </remarks>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.UserTestController.PostUserTest(KTS.WEBAPI.Models.UserTestModel)">
+            <summary>
+            This method creates result of passing test.
+            <para>POST: api/userTest</para>
+            </summary>
+            <param name="userTest">Result of passing test which should be created</param>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.UserTestController.PostUserTestByAdmin(KTS.WEBAPI.Models.UserTestModel)">
+            <summary>
+            This method creates result of passing test.
+            <para>POST: api/userTest/admin</para>
+            </summary>
+            <param name="userTest">Result of passing test which should be created.</param>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.UserTestController.GetAllUserTests">
+            <summary>
+            This method returns all results of passing tests.
+            <para>GET: api/userTest</para>
+            </summary>
+            <returns>Results of passing tests which were found.</returns>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.UserTestController.GetTopUserTests(System.Int32)">
+            <summary>
+            This method returns certain count of best results of passing tests.
+            <para>GET: api/userTest/top/10</para>
+            </summary>
+            <returns>Results of passing tests which were found.</returns>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.UserTestController.GetUserTestById(System.String)">
+            <summary>
+            This method returns certain result of passing test.
+            <para>GET: api/userTest/5</para>
+            </summary>
+            <param name="id">Id of result of passing test which should be returned.</param>
+            <returns>Result of passing test which was found.</returns>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.UserTestController.GetUserTestByUserId(System.String)">
+            <summary>
+            This method returns results of passing tests for certain user.
+            <para>GET: api/userTest/user/5</para>
+            </summary>
+            <param name="id">Id of user for whom results of passing tests should be returned.</param>
+            <returns>Results of passing tests which were found.</returns>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.UserTestController.DeleteUserTest(System.String)">
+            <summary>
+            This method deletes certain result of passing test.
+            <para>DELETE: api/userTest/5</para>
+            </summary>
+            <param name="id">Id of result of passing test which should be deleted.</param>
+        </member>
+        <member name="M:KTS.WEBAPI.Controllers.UserTestController.PutUserTest(KTS.WEBAPI.Models.UserTestModel)">
+            <summary>
+            This method updates data of certain result of passing test.
+            <para>PUT: api/userTest</para>
+            </summary>
+            <param name="userTest">Result of passing test which should be updated.</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:KTS.WEBAPI.Controllers.UserTestController.GetUsersForPagination(KTS.DAL.Configuration.Pagination)" -->
+        <member name="T:KTS.WEBAPI.Models.AnswerModel">
+            <summary>
+            <c>AnswerModel</c> is a class.
+            Represents model for <see cref="T:KTS.BLL.DTO.AnswerDTO"/>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.AnswerModel.AnswerId">
+            <summary>
+            Gets or sets <c>AnswerId</c> value.
+            Represents identificator for <c>Answer</c>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.AnswerModel.Content">
+            <summary>
+            Gets or sets <c>Content</c> value.
+            Represents content of <c>AnswerModel</c>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.AnswerModel.IsCorrect">
+            <summary>
+            Gets or sets <c>IsCorrect</c> value.
+            Represents is <c>AnswerModel</c> correct or not.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.AnswerModel.Mark">
+            <summary>
+            Gets or sets <c>Mark</c> value.
+            Represents mark for <c>AnswerModel</c>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.AnswerModel.QuestionId">
+            <summary>
+            Gets or sets <c>QuestionId</c> value.
+            Defines id of <see cref="T:KTS.WEBAPI.Models.QuestionModel"/> to which <c>AnswerModel</c> is related.
+            </summary>
+        </member>
+        <member name="T:KTS.WEBAPI.Models.ChangeEmailModel">
+            <summary>
+            <c>ChangeEmailModel</c> is a class.
+            Represents model for <see cref="T:KTS.BLL.DTO.ChangeEmailDTO"/>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.ChangeEmailModel.UserId">
+            <summary>
+            Gets or sets <c>UserId</c> value.
+            Represents id of <see cref="T:KTS.WEBAPI.Models.UserModel"/> whose email should be changed.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.ChangeEmailModel.OldEmail">
+            <summary>
+            Gets or sets <c>OldEmail</c> value.
+            Represents old email of <see cref="T:KTS.WEBAPI.Models.UserModel"/>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.ChangeEmailModel.NewEmail">
+            <summary>
+            Gets or sets <c>NewEmail</c> value.
+            Represents new email of <see cref="T:KTS.WEBAPI.Models.UserModel"/>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.ChangeEmailModel.Token">
+            <summary>
+            Gets or sets <c>Token</c> value.
+            Represents email confirmation token.
+            </summary>
+        </member>
+        <member name="T:KTS.WEBAPI.Models.ChangePasswordModel">
+            <summary>
+            <c>ChangePasswordModel</c> is a class.
+            Represents model for <see cref="T:KTS.BLL.DTO.ChangePasswordDTO"/>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.ChangePasswordModel.UserId">
+            <summary>
+            Gets or sets <c>UserId</c> value.
+            Represents id of <see cref="T:KTS.WEBAPI.Models.UserModel"/> whose password should be changed.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.ChangePasswordModel.OldPassword">
+            <summary>
+            Gets or sets <c>OldPassword</c> value.
+            Represents old password for <see cref="T:KTS.WEBAPI.Models.UserModel"/>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.ChangePasswordModel.NewPassword">
+            <summary>
+            Gets or sets <c>NewPassword</c> value.
+            Represents new password for <see cref="T:KTS.WEBAPI.Models.UserModel"/>.
+            </summary>
+        </member>
+        <member name="T:KTS.WEBAPI.Models.ChangeUsernameModel">
+            <summary>
+            <c>ChangeUsernameModel</c> is a class.
+            Represents model for <see cref="T:KTS.BLL.DTO.ChangeUsernameDTO"/>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.ChangeUsernameModel.OldUsername">
+            <summary>
+            Gets or sets <c>OldUsername</c> value.
+            Represents old username for <see cref="T:KTS.WEBAPI.Models.UserModel"/>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.ChangeUsernameModel.NewUsername">
+            <summary>
+            Gets or sets <c>NewUsername</c> value.
+            Represents new username for <see cref="T:KTS.WEBAPI.Models.UserModel"/>.
+            </summary>
+        </member>
+        <member name="T:KTS.WEBAPI.Models.LoginModel">
+            <summary>
+            <c>LoginModel</c> is a class.
+            Represents model for <see cref="T:KTS.BLL.DTO.UserDTO"/>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.LoginModel.UserName">
+            <summary>
+            Gets or sets <c>Username</c> value.
+            Represents username of <see cref="T:KTS.WEBAPI.Models.UserModel"/> who is authenticating.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.LoginModel.Password">
+            <summary>
+            Gets or sets <c>Password</c> value.
+            Represents password of <see cref="T:KTS.WEBAPI.Models.UserModel"/> who is authenticating.
+            </summary>
+        </member>
+        <member name="T:KTS.WEBAPI.Models.QuestionModel">
+            <summary>
+            <c>QuestionModel</c> is a class.
+            Represents model for <see cref="T:KTS.BLL.DTO.QuestionDTO"/>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.QuestionModel.QuestionId">
+            <summary>
+            Gets or sets <c>QuestionId</c> value.
+            Represents identificator for <c>QuestionModel</c>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.QuestionModel.Content">
+            <summary>
+            Gets or sets <c>Content</c> value.
+            Represents content of <c>QuestionModel</c>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.QuestionModel.IsSingle">
+            <summary>
+            Gets or sets <c>IsSingle</c> value.
+            Represents does the <c>QuestionModel</c> have one correct <see cref="T:KTS.WEBAPI.Models.AnswerModel"/>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.QuestionModel.AnswerDescription">
+            <summary>
+            Gets or sets <c>AnswerDescription</c> value.
+            Represents description of correct answer for <c>QuestionModel</c>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.QuestionModel.TestId">
+            <summary>
+            Gets or sets <c>TestId</c> value.
+            Defines id of <see cref="T:KTS.BLL.DTO.TestDTO"/> to which <c>QuestionModel</c> is related.
+            </summary>
+        </member>
+        <member name="T:KTS.WEBAPI.Models.RegistrationModel">
+            <summary>
+            <c>RegistrationModel</c> is a class.
+            Represents model for <see cref="T:KTS.BLL.DTO.UserDTO"/>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.RegistrationModel.UserName">
+            <summary>
+            Gets or sets <c>Username</c> value.
+            Represents username of <see cref="T:KTS.WEBAPI.Models.UserModel"/> who is registering.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.RegistrationModel.Email">
+            <summary>
+            Gets or sets <c>Email</c> value.
+            Represents email of <see cref="T:KTS.WEBAPI.Models.UserModel"/> who is registering.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.RegistrationModel.Password">
+            <summary>
+            Gets or sets <c>Password</c> value.
+            Represents password of <see cref="T:KTS.WEBAPI.Models.UserModel"/> who is registering.
+            </summary>
+        </member>
+        <member name="T:KTS.WEBAPI.Models.ResetPasswordModel">
+            <summary>
+            <c>ResetPasswordModel</c> is a class.
+            Represents model for <see cref="T:KTS.BLL.DTO.ResetPasswordDTO"/>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.ResetPasswordModel.UserId">
+            <summary>
+            Gets or sets <c>UserId</c> value.
+            Represents id of <see cref="T:KTS.WEBAPI.Models.UserModel"/> whose password should be resetted.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.ResetPasswordModel.Password">
+            <summary>
+            Gets or sets <c>Password</c> value.
+            Represents new password for <see cref="T:KTS.WEBAPI.Models.UserModel"/>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.ResetPasswordModel.Token">
+            <summary>
+            Gets or sets <c>Token</c> value.
+            Represents token for reseting password.
+            </summary>
+        </member>
+        <member name="T:KTS.WEBAPI.Models.TestModel">
+            <summary>
+            <c>TestModel</c> is a class.
+            Represents model for <see cref="T:KTS.BLL.DTO.TestDTO"/>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.TestModel.TestId">
+            <summary>
+            Gets or sets <c>TestId</c> value.
+            Represents identificator for <c>TestModel</c>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.TestModel.Title">
+            <summary>
+            Gets or sets <c>Title</c> value.
+            Represents title of <c>TestModel</c>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.TestModel.MaxScore">
+            <summary>
+            Gets or sets <c>MaxScore</c> value.
+            Represents maximum score of <c>TestModel</c>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.TestModel.Description">
+            <summary>
+            Gets or sets <c>Description</c> value.
+            Represents description of <c>TestModel</c>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.TestModel.MaxTime">
+            <summary>
+            Gets or sets <c>MaxTime</c> value.
+            Represents maximum time for passing <c>TestModel</c>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.TestModel.QuestionsCount">
+            <summary>
+            Gets or sets <c>QuestionCount</c> value.
+            Represents how many question <c>TestModel</c> has.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.TestModel.PassedTimes">
+            <summary>
+            Gets or sets <c>PassedTimes</c> value.
+            Represents how many times <c>TestModel</c> was passed.
+            </summary>
+        </member>
+        <member name="T:KTS.WEBAPI.Models.UserModel">
+            <summary>
+            <c>UserModel</c> is a class.
+            Represents model for <see cref="T:KTS.BLL.DTO.UserDTO"/>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.UserModel.Id">
+            <summary>
+            Gets or sets <c>Id</c> value.
+            Represents identificator for <c>UserModel</c>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.UserModel.Email">
+            <summary>
+            Gets or sets <c>Email</c> value.
+            Represents email for <c>UserModel</c>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.UserModel.Username">
+            <summary>
+            Gets or sets <c>Username</c> value.
+            Represents username for <c>UserModedl</c>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.UserModel.ProfileImageUrl">
+            <summary>
+            Gets or sets <c>ProfileImageUrl</c> value.
+            Represents profile image url for <c>UserModel</c>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.UserModel.AboutMe">
+            <summary>
+            Gets or sets <c>AboutMe</c> value.
+            Represents about me of <c>UserModel</c>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.UserModel.Role">
+            <summary>
+            Gets or sets <c>Role</c> value.
+            Represents role for <c>UserModel</c>.
+            </summary>
+        </member>
+        <member name="T:KTS.WEBAPI.Models.UserTestModel">
+            <summary>
+            <c>UserTestModel</c> is a class.
+            Represents model for <see cref="T:KTS.BLL.DTO.UserTestDTO"/>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.UserTestModel.UserTestId">
+            <summary>
+            Gets or sets <c>UserTestId</c> value.
+            Represents identificator for <c>UserTestModel</c>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.UserTestModel.UserId">
+            <summary>
+            Gets or sets <c>UserId</c> value.
+            Defines id of <see cref="T:KTS.WEBAPI.Models.UserModel"/> who has passed <see cref="T:KTS.WEBAPI.Models.TestModel"/>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.UserTestModel.TestId">
+            <summary>
+            Gets or sets <c>TestId</c> value.
+            Defines id of <see cref="T:KTS.WEBAPI.Models.TestModel"/> which was passed.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.UserTestModel.Mark">
+            <summary>
+            Gets or sets <c>Mark</c> value.
+            Represents mark which <see cref="T:KTS.WEBAPI.Models.UserModel"/> gain for passing <see cref="T:KTS.WEBAPI.Models.TestModel"/>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.UserTestModel.Time">
+            <summary>
+            Gets or sets <c>Time</c> value.
+            Represents time for which <see cref="T:KTS.WEBAPI.Models.UserModel"/> has passed the <see cref="T:KTS.WEBAPI.Models.TestModel"/>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.UserTestModel.Username">
+            <summary>
+            Gets or sets <c>Username</c> value.
+            Represents username of <see cref="T:KTS.WEBAPI.Models.UserModel"/>.
+            </summary>
+        </member>
+        <member name="P:KTS.WEBAPI.Models.UserTestModel.TestTitle">
+            <summary>
+            Gets or sets <c>TestTitle</c> value.
+            Represents test title of <see cref="T:KTS.WEBAPI.Models.TestModel"/>.
+            </summary>
+        </member>
+    </members>
+</doc>
