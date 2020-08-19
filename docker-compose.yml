@@ -9,6 +9,10 @@ services:
     ports:
       - "1433:1433"
   back_kts:
-    build: .
+    build: ./Backend
     ports:
       - "8080:80"
+  front_kts:
+    build: ./Frontend
+    ports:
+      - "9000:80"

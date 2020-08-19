@@ -6,6 +6,7 @@ using KTS.BLL.DTO;
 using KTS.BLL.Infrastucture;
 using KTS.BLL.Interfaces;
 using KTS.BLL.Services;
+using KTS.DAL.Configuration;
 using KTS.DAL.EF;
 using KTS.DAL.Entities;
 using KTS.DAL.Interfaces;
@@ -82,6 +83,7 @@ namespace KTS.WEBAPI
                       {
                           builder
                           .WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString())
+                          .WithOrigins(Configuration["ApplicationSettings:Client_Docker_URL"].ToString())
                           .AllowAnyHeader()
                           .AllowAnyMethod();
                       });
@@ -150,6 +152,8 @@ namespace KTS.WEBAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            PrepDB.PrepPopulation(app);
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

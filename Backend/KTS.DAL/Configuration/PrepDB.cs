@@ -1,54 +1,29 @@
-﻿using KTS.DAL.Configuration;
+﻿using KTS.DAL.EF;
 using KTS.DAL.Entities;
-using KTS.DAL.Repositories;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
+using System.Linq;
 using System.Text;
 
-namespace KTS.DAL.EF
+namespace KTS.DAL.Configuration
 {
-    /// <summary>
-    /// <c>ApplicationContext</c> is a class.
-    /// Represents settings for database.
-    /// </summary>
-    public class ApplicationContext : IdentityDbContext<User>
+    public static class PrepDB
     {
-        /// <summary>
-        /// Represents table for <see cref="Test"/> class.
-        /// </summary>
-        public DbSet<Test> Tests { get; set; }
-
-        /// <summary>
-        /// Represents table for <see cref="Question"/> class.
-        /// </summary>
-        public DbSet<Question> Questions { get; set; }
-
-        /// <summary>
-        /// Represents table for <see cref="Answer"/> class.
-        /// </summary>
-        public DbSet<Answer> Answers { get; set; }
-
-        /// <summary>
-        /// Represents table for <see cref="UserTest"/> class.
-        /// </summary>
-        public DbSet<UserTest> UserTests { get; set; }
-
-        public ApplicationContext(DbContextOptions<ApplicationContext> options)
-            : base(options) { }
-
-        public ApplicationContext() { }
-
-        /// <summary>
-        /// Add settings for entities in database.
-        /// </summary>
-        /// <param name="modelBuilder">Builder which applies settings.</param>
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public static void PrepPopulation(IApplicationBuilder app)
         {
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                SeedData(serviceScope.ServiceProvider.GetService<ApplicationContext>());
+            }
+        }
+
+        public static void SeedData(ApplicationContext context)
+        {
+            Console.WriteLine("Applying Migrations...");
+            context.Database.Migrate();
             #region Create tests
             Test test1 = new Test(1, "ООП", "Простой тест по Объектно-Ориентированому Программированию", new DateTime(2020, 03, 20, 0, 3, 0));
             Test test2 = new Test(2, "C# Легкий", "Простой тест по языку программирования C#", new DateTime(2020, 03, 20, 0, 2, 30));
@@ -103,33 +78,18 @@ namespace KTS.DAL.EF
             Answer a2t2q3 = new Answer(27, "Нет", false, 0, 8);
             #endregion
 
-            modelBuilder.ApplyConfiguration(new TestConfiguration());
-            modelBuilder.ApplyConfiguration(new QuestionConfiguration());
-            modelBuilder.ApplyConfiguration(new AnswerConfiguration());
-            base.OnModelCreating(modelBuilder);
-        }
-
-        /// <summary>
-        /// Add settings for database.
-        /// </summary>
-        /// <param name="optionsBuilder">Builder which applies settings.</param>
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            var isAppSettingsFileExist = File.Exists(Path.GetFullPath(@"..\KTS.DAL\Configuration\appsettings.json"));
-            string connectionString;
-            if (isAppSettingsFileExist)
+            if (!context.Tests.Any())
             {
-                IConfigurationRoot configuration = new ConfigurationBuilder()
-                     .SetBasePath(Path.GetFullPath(@"..\KTS.DAL\Configuration"))
-                     .AddJsonFile("appsettings.json")
-                     .Build();
-                connectionString = configuration.GetConnectionString("connectionString");
+                Console.WriteLine("Adding data - seeding...");
+                context.Tests.AddRange(Test.ExistingTests);
+                context.Questions.AddRange(Question.ExistingQuestions);
+                context.Answers.AddRange(Answer.ExistingAnswers);
+                context.SaveChanges();
             }
             else
             {
-                connectionString = "Server=db_kts,1433;Initial Catalog=KTS;User ID=SA;Password=StrongPassword1;";
+                Console.WriteLine("Already have data - not seeding");
             }
-            optionsBuilder.UseSqlServer(connectionString);
         }
     }
 }
