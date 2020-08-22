@@ -1,7 +1,7 @@
 version: '3'
 services:
   db_kts:
-    image: microsoft/mssql-server-linux:latest
+    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: "StrongPassword1"
@@ -16,3 +16,7 @@ services:
     build: ./Frontend
     ports:
       - "9000:80"
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"

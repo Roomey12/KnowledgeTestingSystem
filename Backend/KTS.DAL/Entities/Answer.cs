@@ -56,6 +56,16 @@ namespace KTS.DAL.Entities
             QuestionId = questionId;
             ExistingAnswers.Add(this);
         }
+
+        public Answer(string content, bool isCorrect, double mark, int questionId)
+        {
+            Content = content;
+            IsCorrect = isCorrect;
+            Mark = mark;
+            QuestionId = questionId;
+            ExistingAnswers.Add(this);
+        }
+
         public Answer() { }
     }
 }

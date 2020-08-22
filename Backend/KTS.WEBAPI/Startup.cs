@@ -1,4 +1,4 @@
-using System;
+    using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -41,7 +41,7 @@ namespace KTS.WEBAPI
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
             services.AddControllers().AddNewtonsoftJson(options =>
                      options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-            services.AddDbContext<ApplicationContext>();
+            services.AddDbContext<ApplicationContext>(ServiceLifetime.Transient);
             string symChar = " !@#$%^&*()_+=-:{}[]/\\|/'0123456789";
             string ruChar = "¸éöóêåíãøùçõúôûâàïðîëäæýÿ÷ñìèòüáþ¿º";
             string enChar = "qwertyuiopasdfghjklzxcvbnm";
@@ -121,7 +121,7 @@ namespace KTS.WEBAPI
             services.AddMemoryCache();
             services.AddStackExchangeRedisCache(options =>
             {
-                options.Configuration = "localhost:6379";
+                options.Configuration = "redis:6379";
             });
 
             // Swagger
@@ -153,7 +153,7 @@ namespace KTS.WEBAPI
                 app.UseDeveloperExceptionPage();
             }
 
-            PrepDB.PrepPopulation(app);
+            SampleData.Initialize(app);
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

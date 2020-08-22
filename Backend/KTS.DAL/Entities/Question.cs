@@ -57,6 +57,15 @@ namespace KTS.DAL.Entities
             IsSingle = isSingle;
             ExistingQuestions.Add(this);
         }
+
+        public Question(string content, int testId, bool isSingle)
+        {
+            Content = content;
+            TestId = testId;
+            IsSingle = isSingle;
+            ExistingQuestions.Add(this);
+        }
+
         public Question() { }
     }
 }

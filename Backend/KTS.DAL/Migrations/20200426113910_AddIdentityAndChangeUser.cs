@@ -253,34 +253,6 @@ namespace KTS.DAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.UpdateData(
-                table: "Questions",
-                keyColumn: "QuestionId",
-                keyValue: 2,
-                column: "Content",
-                value: "Метод определения объектов, при котором производные объекты наследуют свойства от своих потомков?");
-
-            migrationBuilder.UpdateData(
-                table: "Questions",
-                keyColumn: "QuestionId",
-                keyValue: 3,
-                column: "Content",
-                value: "Совокупность объектов, характеризующаяся общностью методов и свойств?");
-
-            migrationBuilder.UpdateData(
-                table: "Questions",
-                keyColumn: "QuestionId",
-                keyValue: 4,
-                column: "Content",
-                value: "Действие, которое может выполнить объект?");
-
-            migrationBuilder.UpdateData(
-                table: "Questions",
-                keyColumn: "QuestionId",
-                keyValue: 5,
-                column: "Content",
-                value: "Свойство, при котором объекты содержат описание атрибутов и действий одновременно?");
-
             migrationBuilder.CreateIndex(
                 name: "IX_UserTests_UserId1",
                 table: "UserTests",
@@ -470,39 +442,6 @@ namespace KTS.DAL.Migrations
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Users",
                 table: "Users",
-                column: "UserId");
-
-            migrationBuilder.UpdateData(
-                table: "Questions",
-                keyColumn: "QuestionId",
-                keyValue: 2,
-                column: "Content",
-                value: "Метод определения объектов, при котором производные объекты наследуют свойства от своих потомков&");
-
-            migrationBuilder.UpdateData(
-                table: "Questions",
-                keyColumn: "QuestionId",
-                keyValue: 3,
-                column: "Content",
-                value: "Совокупность объектов, характеризующаяся общностью методов и свойств&");
-
-            migrationBuilder.UpdateData(
-                table: "Questions",
-                keyColumn: "QuestionId",
-                keyValue: 4,
-                column: "Content",
-                value: "Действие, которое может выполнить объект&");
-
-            migrationBuilder.UpdateData(
-                table: "Questions",
-                keyColumn: "QuestionId",
-                keyValue: 5,
-                column: "Content",
-                value: "Свойство, при котором объекты содержат описание атрибутов и действий одновременно&");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserTests_UserId",
-                table: "UserTests",
                 column: "UserId");
 
             migrationBuilder.AddForeignKey(

@@ -61,6 +61,14 @@ namespace KTS.DAL.Entities
             MaxTime = maxTime;
             ExistingTests.Add(this);
         }
+
+        public Test(string title, string desc, DateTime maxTime)
+        {
+            Title = title;
+            Description = desc;
+            MaxTime = maxTime;
+            ExistingTests.Add(this);
+        }
         public Test() { }
     }
 }

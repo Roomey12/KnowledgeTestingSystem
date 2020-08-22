@@ -50,6 +50,7 @@ export class HomeComponent implements OnInit {
   }
   
   loadUserTests(){
+    console.log("a");
     this.userTestService.getTopUserTests(10)
       .subscribe((data: object[]) =>{
          this.userTests = data;

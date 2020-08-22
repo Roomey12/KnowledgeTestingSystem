@@ -1,5 +1,0 @@
-{
-  "ConnectionStrings": {
-    "connectionString": "Server=localhost,1433;Initial Catalog=KTS;User ID=SA;Password=StrongPassword1;"
-  }
-}
