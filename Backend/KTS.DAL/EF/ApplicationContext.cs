@@ -61,7 +61,8 @@ namespace KTS.DAL.EF
             }
             else
             {
-                connectionString = "Server=db_kts,1433;Initial Catalog=KTS;User ID=SA;Password=StrongPassword1;MultipleActiveResultSets=True;";
+                connectionString = "Server=kts.c8dvcyvi9edz.us-east-2.rds.amazonaws.com;Database=kts;User Id=admin;Password=StrongPassword1;Trusted_Connection=False;";
+                //"Server=db_kts,1433;Initial Catalog=KTS;User ID=SA;Password=StrongPassword1;MultipleActiveResultSets=True;"
             }
             optionsBuilder.UseSqlServer(connectionString);
         }

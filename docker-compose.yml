@@ -1,13 +1,5 @@
 version: '3'
 services:
-  db_kts:
-    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
-    environment:
-      ACCEPT_EULA: "Y"
-      SA_PASSWORD: "StrongPassword1"
-      MSSQL_PID: Express
-    ports:
-      - "1433:1433"
   back_kts:
     build: ./Backend
     ports:
