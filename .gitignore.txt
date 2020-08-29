@@ -1,6 +1,2 @@
 Frontend\node_modules
-Backend\KTS.DAL\Configuration\appsettings.json
-/Backend/KTS.WEBAPI/appsettings.json
 **/appsettings.json
-appsettings.json
-/appsettings.json

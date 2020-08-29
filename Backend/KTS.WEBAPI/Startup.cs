@@ -84,6 +84,7 @@ namespace KTS.WEBAPI
                           builder
                           .WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString())
                           .WithOrigins(Configuration["ApplicationSettings:Client_Docker_URL"].ToString())
+                          .WithOrigins(Configuration["ApplicationSettings:Client_AWS_URL"].ToString())
                           .AllowAnyHeader()
                           .AllowAnyMethod();
                       });

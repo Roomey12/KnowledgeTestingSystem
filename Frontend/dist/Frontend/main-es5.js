@@ -11895,9 +11895,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
     var environment = {
       production: false,
-      apiUrl: 'http://localhost:8080/api/' //https://localhost:44340/api/
-
-    }; //'http://localhost:8080/api/'
+      apiUrl: 'http://ec2-3-21-231-5.us-east-2.compute.amazonaws.com:8080/api/'
+    }; // http://localhost:8080/api/ docker
+    // https://localhost:44340/api/ local
+    // http://ec2-3-21-231-5.us-east-2.compute.amazonaws.com:8080/api/ aws
 
     /*
      * For easier debugging in development mode, you can import the following file
