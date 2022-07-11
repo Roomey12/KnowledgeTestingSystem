@@ -1,3 +1,5 @@
+11/07/2022 - After 2 years of finishing this project I realized how many mistakes it contations. Do not pay attention to them, thnx
+
 # KnowledgeTestingSystem
 Technologies used in development:
 
